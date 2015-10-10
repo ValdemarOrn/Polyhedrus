@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\AudioLib">
+      <UniqueIdentifier>{d3ba0124-c1cb-4f9f-a3ae-a1bbfaee1224}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Fft">
+      <UniqueIdentifier>{8bab6923-9242-4640-b57a-20b7fcca31b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Wavetables">
+      <UniqueIdentifier>{83853aad-24a8-4904-a498-31ccd36f30f8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Wavetable.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Default.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Oscillator.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Synth.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioLib\ValueTables.h">
+      <Filter>Source Files\AudioLib</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioLib\Utils.h">
+      <Filter>Source Files\AudioLib</Filter>
+    </ClInclude>
+    <ClInclude Include="Voice.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Wavetables\Pwm.h">
+      <Filter>Source Files\Wavetables</Filter>
+    </ClInclude>
+    <ClInclude Include="Fft\BitReverse.h">
+      <Filter>Source Files\Fft</Filter>
+    </ClInclude>
+    <ClInclude Include="Fft\Complex.h">
+      <Filter>Source Files\Fft</Filter>
+    </ClInclude>
+    <ClInclude Include="Fft\FastFFT.h">
+      <Filter>Source Files\Fft</Filter>
+    </ClInclude>
+    <ClInclude Include="Fft\TwiddleFactors.h">
+      <Filter>Source Files\Fft</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Synth.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioLib\ValueTables.cpp">
+      <Filter>Source Files\AudioLib</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioLib\Utils.cpp">
+      <Filter>Source Files\AudioLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Voice.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Oscillator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Exports.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Wavetable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Fft\BitReverse.cpp">
+      <Filter>Source Files\Fft</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
