@@ -47,6 +47,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -72,6 +73,10 @@
     <ProjectReference Include="..\..\..\Libraries\LowProfile.Common\LowProfile.Visuals\LowProfile.Visuals.csproj">
       <Project>{4cd32a63-494f-4769-a07d-802f1e9945a7}</Project>
       <Name>LowProfile.Visuals</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\AudioLib\AudioLib\AudioLib.csproj">
+      <Project>{4905489d-6f81-4129-8780-744ced5b3269}</Project>
+      <Name>AudioLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\FFT\LowProfile.Fourier\LowProfile.Fourier.csproj">
       <Project>{937ccecf-3bf1-4ed2-b3a9-89157d8b0664}</Project>

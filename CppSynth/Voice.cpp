@@ -29,7 +29,7 @@ void Voice::SetNote(int note)
 {
 	Note = note;
 	osc1.Note = note;
-} 
+}
 
 void Voice::SetPitchWheel(float pitchbend)
 {

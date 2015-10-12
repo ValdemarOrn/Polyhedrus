@@ -47,7 +47,10 @@ namespace Leiftur.Plugin
         [DllImport(@"Leiftur.Native.dll", CallingConvention = CallingConvention.Cdecl, SetLastError = false, ThrowOnUnmappableChar = false)]
         extern static WavetableNative* GetWavetable(IntPtr instance, int tableIndex);
 
-        private static object createLock = new object();
+		[DllImport(@"Leiftur.Native.dll", CallingConvention = CallingConvention.Cdecl, SetLastError = false, ThrowOnUnmappableChar = false)]
+		public extern static void RunTests();
+		
+		private static object createLock = new object();
 		private IntPtr instance;
 
 		public LeifturNative(int samplerate)

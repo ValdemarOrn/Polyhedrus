@@ -82,5 +82,8 @@
     <ClCompile Include="Fft\BitReverse.cpp">
       <Filter>Source Files\Fft</Filter>
     </ClCompile>
+    <ClCompile Include="UnitTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

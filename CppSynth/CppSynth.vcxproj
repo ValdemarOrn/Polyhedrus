@@ -39,6 +39,7 @@
     <ClCompile Include="Fft\BitReverse.cpp" />
     <ClCompile Include="Oscillator.cpp" />
     <ClCompile Include="Synth.cpp" />
+    <ClCompile Include="UnitTests.cpp" />
     <ClCompile Include="Voice.cpp" />
     <ClCompile Include="Wavetable.cpp" />
   </ItemGroup>

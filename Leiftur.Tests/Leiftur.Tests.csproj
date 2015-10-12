@@ -68,9 +68,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Libraries\LowProfile.Common\LowProfile.Core\LowProfile.Core.csproj">
+      <Project>{6f6a3fb4-5e5f-4076-b91a-f8c7fe84e37c}</Project>
+      <Name>LowProfile.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Libraries\LowProfile.Common\LowProfile.Visuals\LowProfile.Visuals.csproj">
       <Project>{4cd32a63-494f-4769-a07d-802f1e9945a7}</Project>
       <Name>LowProfile.Visuals</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\AudioLib\AudioLib\AudioLib.csproj">
+      <Project>{4905489d-6f81-4129-8780-744ced5b3269}</Project>
+      <Name>AudioLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\Leiftur.Plugin\Leiftur.Plugin.csproj">
       <Project>{99c70666-72ed-4004-8119-7bca1d18fc52}</Project>

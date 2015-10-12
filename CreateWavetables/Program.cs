@@ -10,6 +10,7 @@ using LowProfile.Fourier.Double;
 using System.IO;
 using System.Threading;
 using System.Globalization;
+using System.Drawing;
 
 namespace CreateWavetables
 {
@@ -18,7 +19,11 @@ namespace CreateWavetables
 		[STAThread]
 		static void Main(string[] args)
 		{
-			Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+
+			//ReadKomplexerWaves();
+			ReadSq80Waves();
+            return;
 			var pulseWavetable = Pwm.CreateTable(2048, 64);
 
 			var converted = ConvertTable(pulseWavetable, ArduinoPartials.NoteToPartials);
@@ -26,17 +31,55 @@ namespace CreateWavetables
 			converted.Normalize();
 			
 			converted.WriteCppFile(TableInfo.DataMode.Float, @"C:\Src\_Tree\Audio\Leiftur\CppSynth\Wavetables\Pwm.cpp");
-
-			/*var pm = new PlotModel();
-			pm.AddLine(converted.RenderedTable[8][0]);
-			pm.AddLine(converted.RenderedTable[8][5]);
-			pm.AddLine(converted.RenderedTable[8][10]);
-			pm.AddLine(converted.RenderedTable[8][15]);
-			pm.Show();*/
-
 		}
 
-		private static TableInfo ConvertTable(float[][] wavetable, Dictionary<int, int> noteToPartials)
+        private static void ReadKomplexerWaves()
+        {
+            var file = @"E:\KOMPLEXER-Wavetables\kROM0.wt";
+            var data = File.ReadAllBytes(file);
+			
+			int w = 0;
+			foreach (var bytes in data.Chunk(64 * 4).Skip(15))
+			{
+				var partials = AudioLib.BufferConverter.ToFloat(bytes.ToArray()).Select(x => (double)(x)).ToArray();
+				var wave1 = MakeWave(partials);
+				var pm = new PlotModel();
+				pm.AddLine(wave1);
+				pm.Show();
+			}
+		}
+
+		private static void ReadSq80Waves()
+		{
+			var file = @"E:\WaveData\esq1wavlo.bin";
+			var data = File.ReadAllBytes(file);
+
+			var waves = AudioLib.BufferConverter.ToSbyte(data).Select(x => (double)x / 128.0).ToArray();
+			var pm = new PlotModel();
+			pm.AddLine(waves);
+			//pm.Show();
+			var stereo = new[] { waves, waves };
+			var dat = AudioLib.WaveFiles.WriteWaveFile(stereo, AudioLib.WaveFiles.WaveFormat.IEEEFloat32, 48000);
+			File.WriteAllBytes(@"e:\sample.wav", dat);
+		}
+
+        private static double[] MakeWave(double[] partials)
+        {
+            var wave = new double[2048];
+            for (int n = 0; n < partials.Length; n++)
+            {
+                var g = partials[n];
+
+                for (int i = 0; i < wave.Length; i++)
+                {
+                    wave[i] += Math.Sin((n + 1) * (i / (double)wave.Length * 2 * Math.PI + Math.PI * 1.0)) * g;
+                }
+            }
+
+            return wave;
+        }
+
+        private static TableInfo ConvertTable(float[][] wavetable, Dictionary<int, int> noteToPartials)
 		{
 			var partials = noteToPartials.Select(x => x.Value).Distinct().OrderByDescending(x => x).ToList();
 			var transform = new Transform(wavetable.First().Length);
