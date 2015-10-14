@@ -6,32 +6,32 @@
 
 extern "C"
 {
-	_declspec(dllexport) Synth* Create()
+	_declspec(dllexport) Leiftur::Synth* Create()
 	{
 		AudioLib::ValueTables::Init();
 		AudioLib::Utils::Initialize();
 		FastFFT<float>::Setup();
-		Wavetable::Setup();
+		Leiftur::Wavetable::Setup();
 
-		return new Synth();
+		return new Leiftur::Synth();
 	}
 
-	_declspec(dllexport) void Initialize(Synth* instance, int samplerate, int udpListenPort, int udpSendPort)
+	_declspec(dllexport) void Initialize(Leiftur::Synth* instance, int samplerate, int udpListenPort, int udpSendPort)
 	{
 		instance->Initialize(samplerate, udpListenPort, udpSendPort);
 	}
 
-	_declspec(dllexport) void SetParameter(Synth* instance, int parameter, double value)
+	_declspec(dllexport) void SetParameter(Leiftur::Synth* instance, int parameter, double value)
 	{
 		instance->SetParameter(parameter, value);
 	}
 
-	_declspec(dllexport) void ProcessMidi(Synth* instance, uint8_t* message)
+	_declspec(dllexport) void ProcessMidi(Leiftur::Synth* instance, uint8_t* message)
 	{
 		instance->ProcessMidi(message);
 	}
 
-	_declspec(dllexport) void ProcessAudio(Synth* instance, double** buffer, int bufferSize)
+	_declspec(dllexport) void ProcessAudio(Leiftur::Synth* instance, double** buffer, int bufferSize)
 	{
 		float l[1024];
 		float r[1024];
@@ -53,13 +53,13 @@ extern "C"
 		}
 	}
 
-	_declspec(dllexport) void Delete(Synth* instance)
+	_declspec(dllexport) void Delete(Leiftur::Synth* instance)
 	{
 		delete instance;
 	}
 
-	_declspec(dllexport) Wavetable* GetWavetable(Synth* instance, int tableIndex)
+	_declspec(dllexport) Leiftur::Wavetable* GetWavetable(Leiftur::Synth* instance, int tableIndex)
 	{
-		return Wavetable::Wavetables[tableIndex];
+		return Leiftur::Wavetable::Wavetables[tableIndex];
 	}
 }

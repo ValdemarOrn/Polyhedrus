@@ -1,22 +1,32 @@
+#ifndef LEIFTUR_WAVETABLES_PWM
+#define LEIFTUR_WAVETABLES_PWM
 
-class Pwm
+namespace Leiftur
 {
-public:
-	static inline float* CreateTable(int sampleCount, int numTables)
+	namespace Wavetables
 	{
-		auto table = new float[numTables * sampleCount];
-
-		for (int t = 0; t < numTables; t++)
+		class Pwm
 		{
-			auto wave = &table[t * sampleCount];
-			auto dutyCycle = 0.5 + 0.5 * t / (double)numTables;
-
-			for (int i = 0; i < sampleCount; i++)
+		public:
+			static inline float* CreateTable(int sampleCount, int numTables)
 			{
-				wave[i] = i / (double)sampleCount < dutyCycle ? -1 : 1;
-			}
-		}
+				auto table = new float[numTables * sampleCount];
 
-		return table;
+				for (int t = 0; t < numTables; t++)
+				{
+					auto wave = &table[t * sampleCount];
+					auto dutyCycle = 0.5 + 0.5 * t / (double)numTables;
+
+					for (int i = 0; i < sampleCount; i++)
+					{
+						wave[i] = i / (double)sampleCount < dutyCycle ? -1 : 1;
+					}
+				}
+
+				return table;
+			}
+		};
 	}
-};
+}
+
+#endif

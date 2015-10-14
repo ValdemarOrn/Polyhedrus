@@ -1,32 +1,46 @@
+#ifndef LEIFTUR_SYNTH
+#define LEIFTUR_SYNTH
+
+#include <thread>
+
 #include "Default.h"
 #include "Voice.h"
 #include "Osc/UdpTranceiver.h"
 
-const int MaxVoiceCount = 1;
-
-class Synth
+namespace Leiftur
 {
-public:
-	Voice Voices[MaxVoiceCount];
-	int Samplerate;
+	const int MaxVoiceCount = 1;
 
-private:
-	UdpTranceiver* udpTranceiver;
+	class Synth
+	{
+	public:
+		Voice Voices[MaxVoiceCount];
+		int Samplerate;
 
-public:
-	Synth();
-	~Synth();
+	private:
+		UdpTranceiver* udpTranceiver;
+		std::thread messageListenerThread;
 
-	void Initialize(int samplerate, int udpListenPort, int udpSendPort);
+	public:
+		Synth();
+		~Synth();
 
-	void SetParameter(int parameter, double value);
-	void ProcessMidi(uint8_t* message);
-	void ProcessAudio(float** buffer, int bufferSize);
+		void Initialize(int samplerate, int udpListenPort, int udpSendPort);
 
-private:
-	void NoteOn(char note, char velocity);
-	void NoteOff(char note);
-	void MidiCC(uint8_t byte1, uint8_t byte2);
-	void MidiProgram(uint8_t program);
-	void PitchWheel(int pitchbend);
-};
+		void SetParameter(int parameter, double value);
+		void ProcessMidi(uint8_t* message);
+		void ProcessAudio(float** buffer, int bufferSize);
+
+	private:
+
+		void MessageListener();
+
+		void NoteOn(char note, char velocity);
+		void NoteOff(char note);
+		void MidiCC(uint8_t byte1, uint8_t byte2);
+		void MidiProgram(uint8_t program);
+		void PitchWheel(int pitchbend);
+	};
+}
+
+#endif
