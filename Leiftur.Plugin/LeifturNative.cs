@@ -30,7 +30,7 @@ namespace Leiftur.Plugin
 		extern static IntPtr Create();
 
 		[DllImport(@"Leiftur.Native.dll", CallingConvention = CallingConvention.Cdecl, SetLastError = false, ThrowOnUnmappableChar = false)]
-		extern static void Initialize(IntPtr instance, int samplerate);
+		extern static void Initialize(IntPtr instance, int samplerate, int udpListenPort, int udpSendPort);
 
 		[DllImport(@"Leiftur.Native.dll", CallingConvention = CallingConvention.Cdecl, SetLastError = false, ThrowOnUnmappableChar = false)]
 		extern static void SetParameter(IntPtr instance, int parameter, double value);
@@ -53,12 +53,12 @@ namespace Leiftur.Plugin
 		private static object createLock = new object();
 		private IntPtr instance;
 
-		public LeifturNative(int samplerate)
+		public LeifturNative(int samplerate, int udpPort, int udpSendPort)
 		{
 			lock (createLock)
 			{
 				instance = Create();
-				Initialize(instance, samplerate);
+				Initialize(instance, samplerate, udpPort, udpSendPort);
 			}
 		}
 
@@ -73,9 +73,9 @@ namespace Leiftur.Plugin
 			GC.SuppressFinalize(this);
 		}
 
-		public void Initialize(int samplerate)
+		public void Initialize(int samplerate, int udpPort, int udpSendPort)
 		{
-			Initialize(instance, samplerate);
+			Initialize(instance, samplerate, udpPort, udpSendPort);
 		}
 
 		public void SetParameter(int parameter, double value)

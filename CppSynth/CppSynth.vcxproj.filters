@@ -18,6 +18,12 @@
     <Filter Include="Source Files\Wavetables">
       <UniqueIdentifier>{83853aad-24a8-4904-a498-31ccd36f30f8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Osc">
+      <UniqueIdentifier>{9e2c75b4-aab5-4937-a721-2bb249a1ce58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UnitTests">
+      <UniqueIdentifier>{dc0ae39f-0483-4904-b30f-93083c8d55d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Wavetable.h">
@@ -56,6 +62,16 @@
     <ClInclude Include="Fft\TwiddleFactors.h">
       <Filter>Source Files\Fft</Filter>
     </ClInclude>
+    <ClInclude Include="Osc\OscMessage.h">
+      <Filter>Source Files\Osc</Filter>
+    </ClInclude>
+    <ClInclude Include="Osc\UdpTranceiver.h">
+      <Filter>Source Files\Osc</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitTests.h" />
+    <ClInclude Include="UnitTests\OscTests.h">
+      <Filter>Source Files\UnitTests</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Synth.cpp">
@@ -82,8 +98,17 @@
     <ClCompile Include="Fft\BitReverse.cpp">
       <Filter>Source Files\Fft</Filter>
     </ClCompile>
-    <ClCompile Include="UnitTests.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Osc\OscMessage.cpp">
+      <Filter>Source Files\Osc</Filter>
+    </ClCompile>
+    <ClCompile Include="Osc\UdpTranceiver.cpp">
+      <Filter>Source Files\Osc</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitTests\UnitTests.cpp">
+      <Filter>Source Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitTests\OscTests.cpp">
+      <Filter>Source Files\UnitTests</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

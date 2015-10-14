@@ -1,10 +1,43 @@
 #include <stdio.h>
 #include <math.h>
-#include "Synth.h"
 #include <cmath>
+#include <iostream>
 
-void Synth::Initialize(int samplerate)
+#include "Synth.h"
+#include "Osc/OscMessage.h"
+
+Synth::Synth()
 {
+	udpTranceiver = 0;
+}
+
+Synth::~Synth()
+{
+	delete udpTranceiver;
+	udpTranceiver = 0;
+}
+
+void Synth::Initialize(int samplerate, int udpListenPort, int udpSendPort)
+{
+	if (udpListenPort != 0)
+	{
+		delete udpTranceiver;
+		udpTranceiver = new UdpTranceiver(udpListenPort, udpSendPort);
+
+		while (true)
+		{
+			auto data = udpTranceiver->Receive();
+			auto oscMsgs = OscMessage::ParseBundle(data);
+			auto oscMsg = oscMsgs[0];
+
+			if (oscMsg.TypeTags[0] == 'f')
+			{
+				float val = oscMsg.GetFloat(0);
+				std::cout << oscMsg.Address << ": " << val << std::endl;
+			}
+		}
+	}
+
 	this->Samplerate = samplerate;
 	for (size_t i = 0; i < MaxVoiceCount; i++)
 	{

@@ -16,9 +16,9 @@ extern "C"
 		return new Synth();
 	}
 
-	_declspec(dllexport) void Initialize(Synth* instance, int samplerate)
+	_declspec(dllexport) void Initialize(Synth* instance, int samplerate, int udpListenPort, int udpSendPort)
 	{
-		instance->Initialize(samplerate);
+		instance->Initialize(samplerate, udpListenPort, udpSendPort);
 	}
 
 	_declspec(dllexport) void SetParameter(Synth* instance, int parameter, double value)

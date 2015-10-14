@@ -1,5 +1,6 @@
 #include "Default.h"
 #include "Voice.h"
+#include "Osc/UdpTranceiver.h"
 
 const int MaxVoiceCount = 1;
 
@@ -9,8 +10,14 @@ public:
 	Voice Voices[MaxVoiceCount];
 	int Samplerate;
 
+private:
+	UdpTranceiver* udpTranceiver;
+
 public:
-	void Initialize(int samplerate);
+	Synth();
+	~Synth();
+
+	void Initialize(int samplerate, int udpListenPort, int udpSendPort);
 
 	void SetParameter(int parameter, double value);
 	void ProcessMidi(uint8_t* message);

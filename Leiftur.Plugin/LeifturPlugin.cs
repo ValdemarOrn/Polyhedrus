@@ -35,7 +35,7 @@ namespace Leiftur.Plugin
 		public LeifturPlugin()
 		{
 			AllocConsole();
-			controller = new LeifturNative(48000);
+			controller = new LeifturNative(48000, 12003, 12004);
 			
 			Samplerate = 48000;
 			devInfo = new DeviceInfo();
@@ -147,7 +147,7 @@ namespace Leiftur.Plugin
 			if (samplerate != Samplerate)
 			{
 				Samplerate = samplerate;
-				controller.Initialize((int)samplerate);
+				controller.Initialize((int)samplerate, 0, 0);
 			}
 		}
 	}

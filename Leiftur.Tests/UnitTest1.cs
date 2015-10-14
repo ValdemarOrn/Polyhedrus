@@ -16,7 +16,7 @@ namespace Leiftur.Tests
         [TestMethod]
         public void TestMethod1()
         {
-			var t = new LeifturNative(48000);
+			var t = new LeifturNative(48000, 12003, 12004);
 			var data = t.GetWavetable(0);
 
 			var pm = new PlotModel();
@@ -28,6 +28,7 @@ namespace Leiftur.Tests
 		public void RunCppTests()
 		{
 			LeifturNative.RunTests();
+			Assert.IsTrue(true);
 		}
     }
 }

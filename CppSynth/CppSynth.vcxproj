@@ -27,7 +27,11 @@
     <ClInclude Include="Fft\FastFFT.h" />
     <ClInclude Include="Fft\TwiddleFactors.h" />
     <ClInclude Include="Oscillator.h" />
+    <ClInclude Include="Osc\OscMessage.h" />
+    <ClInclude Include="Osc\UdpTranceiver.h" />
     <ClInclude Include="Synth.h" />
+    <ClInclude Include="UnitTests.h" />
+    <ClInclude Include="UnitTests\OscTests.h" />
     <ClInclude Include="Voice.h" />
     <ClInclude Include="Wavetable.h" />
     <ClInclude Include="Wavetables\Pwm.h" />
@@ -38,8 +42,11 @@
     <ClCompile Include="Exports.cpp" />
     <ClCompile Include="Fft\BitReverse.cpp" />
     <ClCompile Include="Oscillator.cpp" />
+    <ClCompile Include="Osc\OscMessage.cpp" />
+    <ClCompile Include="Osc\UdpTranceiver.cpp" />
     <ClCompile Include="Synth.cpp" />
-    <ClCompile Include="UnitTests.cpp" />
+    <ClCompile Include="UnitTests\OscTests.cpp" />
+    <ClCompile Include="UnitTests\UnitTests.cpp" />
     <ClCompile Include="Voice.cpp" />
     <ClCompile Include="Wavetable.cpp" />
   </ItemGroup>
@@ -113,9 +120,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\dev\boost_1_59_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\dev\boost_1_59_0\bin.v2\libs;C:\dev\boost_1_59_0\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>copy $(TargetDir)$(TargetFileName) $(SolutionDir)Leiftur.Plugin\bin\$(Configuration)\$(TargetFileName)
