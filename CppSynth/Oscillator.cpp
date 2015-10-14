@@ -28,8 +28,10 @@ namespace Leiftur
 		auto pitch = Note + PitchBend * 2;
 		auto partialIndex = Wavetable::WavetableIndex[(int)pitch];
 		waveMix = WaveIndex - (int)WaveIndex;
-		waveA = wavetable->GetTable(partialIndex, WaveIndex);
-		waveB = wavetable->GetTable(partialIndex, WaveIndex + (WaveIndex < wavetable->Count - 1));
+		
+		bool useNextWave = (WaveIndex < wavetable->Count - 1);
+		waveA = wavetable->GetTable(partialIndex, WaveIndex * wavetable->Count);
+		waveB = wavetable->GetTable(partialIndex, WaveIndex * wavetable->Count + useNextWave);
 
 		float freq = AudioLib::Utils::Note2Freq(pitch);
 		float samplesPerCycle = samplerate / freq;
@@ -43,7 +45,7 @@ namespace Leiftur
 			if (updateCounter == 0)
 			{
 				Update();
-				updateCounter = 8;
+				updateCounter = MOD_UPDATE_RATE;
 			}
 
 			buffer[i] = waveA[iterator >> shiftValue] * (1 - waveMix) + waveB[iterator >> shiftValue] * waveMix;

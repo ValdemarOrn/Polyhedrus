@@ -18,6 +18,7 @@ namespace Leiftur
 		int Samplerate;
 
 	private:
+		volatile bool isClosing;
 		UdpTranceiver* udpTranceiver;
 		std::thread messageListenerThread;
 

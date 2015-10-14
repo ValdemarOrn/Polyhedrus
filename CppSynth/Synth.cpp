@@ -2,19 +2,28 @@
 #include <math.h>
 #include <cmath>
 #include <iostream>
+#include <chrono>
 
 #include "Synth.h"
 #include "Osc/OscMessage.h"
+
+using namespace std;
 
 namespace Leiftur
 {
 	Synth::Synth()
 	{
+		isClosing = false;
 		udpTranceiver = 0;
 	}
 
 	Synth::~Synth()
 	{
+		isClosing = true;
+		
+		if (messageListenerThread.joinable())
+			messageListenerThread.join();
+
 		delete udpTranceiver;
 		udpTranceiver = 0;
 	}
@@ -25,7 +34,7 @@ namespace Leiftur
 		{
 			delete udpTranceiver;
 			udpTranceiver = new UdpTranceiver(udpListenPort, udpSendPort);
-			messageListenerThread = std::thread(&Synth::MessageListener, this);
+			messageListenerThread = thread(&Synth::MessageListener, this);
 		}
 
 		this->Samplerate = samplerate;
@@ -79,17 +88,25 @@ namespace Leiftur
 
 	void Synth::MessageListener()
 	{
-		while (true)
+		auto sleepTime = chrono::milliseconds(1);
+
+		while (!isClosing)
 		{
 			auto data = udpTranceiver->Receive();
-			auto oscMsgs = OscMessage::ParseBundle(data);
-			auto oscMsg = oscMsgs[0];
 
-			if (oscMsg.TypeTags[0] == 'f')
+			if (data.size() > 0)
 			{
-				float val = oscMsg.GetFloat(0);
-				std::cout << oscMsg.Address << ": " << val << std::endl;
+				auto oscMsgs = OscMessage::ParseBundle(data);
+				auto oscMsg = oscMsgs[0];
+
+				if (oscMsg.TypeTags[0] == 'f')
+				{
+					float val = oscMsg.GetFloat(0);
+					std::cout << oscMsg.Address << ": " << val << std::endl;
+				}
 			}
+
+			this_thread::sleep_for(sleepTime);
 		}
 	}
 

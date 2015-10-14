@@ -35,6 +35,10 @@ namespace Leiftur
 	{
 		udp::endpoint remote_endpoint;
 		boost::system::error_code error;
+		int available = receiveSocket->available();
+		if (available == 0)
+			return std::vector<uint8_t>();
+
 		int byteCount = receiveSocket->receive_from(boost::asio::buffer(recveiveBuffer), remote_endpoint, 0, error);
 
 		std::vector<uint8_t> output;
