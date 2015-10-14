@@ -29,6 +29,7 @@
     <ClInclude Include="Oscillator.h" />
     <ClInclude Include="Osc\OscMessage.h" />
     <ClInclude Include="Osc\UdpTranceiver.h" />
+    <ClInclude Include="Parameters.h" />
     <ClInclude Include="Synth.h" />
     <ClInclude Include="UnitTests.h" />
     <ClInclude Include="UnitTests\OscTests.h" />
@@ -44,6 +45,7 @@
     <ClCompile Include="Oscillator.cpp" />
     <ClCompile Include="Osc\OscMessage.cpp" />
     <ClCompile Include="Osc\UdpTranceiver.cpp" />
+    <ClCompile Include="Parameters.cpp" />
     <ClCompile Include="Synth.cpp" />
     <ClCompile Include="UnitTests\OscTests.cpp" />
     <ClCompile Include="UnitTests\UnitTests.cpp" />

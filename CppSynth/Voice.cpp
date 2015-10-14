@@ -17,7 +17,7 @@ namespace Leiftur
 		osc1.Initialize(samplerate);
 	}
 
-	void Voice::SetParameter(int parameter, double value)
+	void Voice::SetParameter(Module module, int parameter, double value)
 	{
 		osc1.WaveIndex = value * 15.99999;
 	}

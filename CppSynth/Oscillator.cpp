@@ -30,8 +30,8 @@ namespace Leiftur
 		waveMix = WaveIndex - (int)WaveIndex;
 		
 		bool useNextWave = (WaveIndex < wavetable->Count - 1);
-		waveA = wavetable->GetTable(partialIndex, WaveIndex * wavetable->Count);
-		waveB = wavetable->GetTable(partialIndex, WaveIndex * wavetable->Count + useNextWave);
+		waveA = wavetable->GetTable(partialIndex, WaveIndex);
+		waveB = wavetable->GetTable(partialIndex, WaveIndex + useNextWave);
 
 		float freq = AudioLib::Utils::Note2Freq(pitch);
 		float samplesPerCycle = samplerate / freq;

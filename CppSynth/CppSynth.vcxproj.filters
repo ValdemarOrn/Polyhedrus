@@ -72,6 +72,9 @@
     <ClInclude Include="UnitTests\OscTests.h">
       <Filter>Source Files\UnitTests</Filter>
     </ClInclude>
+    <ClInclude Include="Parameters.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Synth.cpp">
@@ -109,6 +112,9 @@
     </ClCompile>
     <ClCompile Include="UnitTests\OscTests.cpp">
       <Filter>Source Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="Parameters.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

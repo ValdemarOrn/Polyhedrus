@@ -46,9 +46,25 @@ namespace Leiftur
 
 	void Synth::SetParameter(int parameter, double value)
 	{
+		Module module = (Module)((parameter & 0xFF00) >> 16);
+		int param = parameter = 0x00FF;
+
 		for (size_t i = 0; i < MaxVoiceCount; i++)
 		{
-			Voices[i].SetParameter(parameter, value);
+			Voices[i].SetParameter(module, parameter, value);
+		}
+	}
+
+	void Synth::SetParameter(std::string address, double value)
+	{
+		Module module;
+		int parameter;
+
+		Parameters::ParseAddress(address, &module, &parameter);
+
+		for (size_t i = 0; i < MaxVoiceCount; i++)
+		{
+			Voices[i].SetParameter(module, parameter, value);
 		}
 	}
 
@@ -98,11 +114,11 @@ namespace Leiftur
 			{
 				auto oscMsgs = OscMessage::ParseBundle(data);
 				auto oscMsg = oscMsgs[0];
-
 				if (oscMsg.TypeTags[0] == 'f')
 				{
 					float val = oscMsg.GetFloat(0);
 					std::cout << oscMsg.Address << ": " << val << std::endl;
+					SetParameter(oscMsg.Address, val);
 				}
 			}
 
@@ -124,7 +140,7 @@ namespace Leiftur
 
 	void Synth::MidiCC(uint8_t byte1, uint8_t byte2)
 	{
-		Voices[0].SetParameter(0, byte2 / 127.0);
+		Voices[0].SetParameter(Module::Arp, 0, byte2 / 127.0);
 	}
 
 	void Synth::MidiProgram(uint8_t program)

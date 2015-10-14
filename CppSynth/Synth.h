@@ -2,10 +2,12 @@
 #define LEIFTUR_SYNTH
 
 #include <thread>
+#include <string>
 
 #include "Default.h"
 #include "Voice.h"
 #include "Osc/UdpTranceiver.h"
+#include "Parameters.h"
 
 namespace Leiftur
 {
@@ -29,6 +31,7 @@ namespace Leiftur
 		void Initialize(int samplerate, int udpListenPort, int udpSendPort);
 
 		void SetParameter(int parameter, double value);
+		void SetParameter(std::string address, double value);
 		void ProcessMidi(uint8_t* message);
 		void ProcessAudio(float** buffer, int bufferSize);
 
