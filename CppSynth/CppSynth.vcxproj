@@ -26,6 +26,8 @@
     <ClInclude Include="Fft\Complex.h" />
     <ClInclude Include="Fft\FastFFT.h" />
     <ClInclude Include="Fft\TwiddleFactors.h" />
+    <ClInclude Include="FilterCascade.h" />
+    <ClInclude Include="FilterMain.h" />
     <ClInclude Include="Oscillator.h" />
     <ClInclude Include="Osc\OscMessage.h" />
     <ClInclude Include="Osc\UdpTranceiver.h" />
@@ -36,12 +38,15 @@
     <ClInclude Include="Voice.h" />
     <ClInclude Include="Wavetable.h" />
     <ClInclude Include="Wavetables\Pwm.h" />
+    <ClInclude Include="Wavetables\Sawtooth.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AudioLib\Utils.cpp" />
     <ClCompile Include="AudioLib\ValueTables.cpp" />
     <ClCompile Include="Exports.cpp" />
     <ClCompile Include="Fft\BitReverse.cpp" />
+    <ClCompile Include="FilterCascade.cpp" />
+    <ClCompile Include="FilterMain.cpp" />
     <ClCompile Include="Oscillator.cpp" />
     <ClCompile Include="Osc\OscMessage.cpp" />
     <ClCompile Include="Osc\UdpTranceiver.cpp" />

@@ -75,6 +75,15 @@
     <ClInclude Include="Parameters.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Wavetables\Sawtooth.h">
+      <Filter>Source Files\Wavetables</Filter>
+    </ClInclude>
+    <ClInclude Include="FilterCascade.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FilterMain.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Synth.cpp">
@@ -114,6 +123,12 @@
       <Filter>Source Files\UnitTests</Filter>
     </ClCompile>
     <ClCompile Include="Parameters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FilterCascade.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FilterMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

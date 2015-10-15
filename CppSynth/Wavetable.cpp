@@ -1,5 +1,6 @@
 #include "Wavetable.h"
 #include "Wavetables/Pwm.h"
+#include "Wavetables/Sawtooth.h"
 #include "Fft/FastFFT.h"
 #include "Fft/Complex.h"
 
@@ -90,8 +91,13 @@ namespace Leiftur
 		auto sampleCount = 2048;
 		auto numTables = 16;
 
+		auto saw = Wavetables::Sawtooth::CreateTable(sampleCount, numTables);
+		auto wavetable = ConvertTable(saw, sampleCount, numTables);
+		Normalize(wavetable);
+		Wavetable::Wavetables.push_back(wavetable);
+
 		auto pwm = Wavetables::Pwm::CreateTable(sampleCount, numTables);
-		auto wavetable = ConvertTable(pwm, sampleCount, numTables);
+		wavetable = ConvertTable(pwm, sampleCount, numTables);
 		Normalize(wavetable);
 		Wavetable::Wavetables.push_back(wavetable);
 	}

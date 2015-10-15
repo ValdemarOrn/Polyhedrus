@@ -10,9 +10,14 @@ namespace Leiftur
 	{
 	public:
 		int Note;
+		int Octave;
+		int Semi;
+		int Cent;
 		float PitchBend;
 		float PitchMod;
-		float WaveIndex;
+
+		float Phase;
+		float Shape;
 
 	private:
 		Wavetable* wavetable;
@@ -28,10 +33,12 @@ namespace Leiftur
 	public:
 		Oscillator();
 		void Initialize(int samplerate);
-		void SetWavetable(int table);
-		void Update();
+		void SetWaveform(int table);
+		void Reset();
 		void GetSamples(float* buffer, int count);
 
+	private:
+		void Update();
 	};
 }
 

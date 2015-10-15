@@ -37,7 +37,7 @@ namespace Leiftur
 		Octave = 3,
 		Semi = 4,
 		Cent = 5,
-		Wave = 6,
+		Waveform = 6,
 		Shape = 7,
 		Pan = 8,
 		Volume = 9

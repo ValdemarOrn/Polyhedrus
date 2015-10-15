@@ -47,7 +47,7 @@ namespace Leiftur
 			if (parameterString == "Octave") return (int)OscParameters::Octave;
 			if (parameterString == "Semi") return (int)OscParameters::Semi;
 			if (parameterString == "Cent") return (int)OscParameters::Cent;
-			if (parameterString == "Wave") return (int)OscParameters::Wave;
+			if (parameterString == "Waveform") return (int)OscParameters::Waveform;
 			if (parameterString == "Shape") return (int)OscParameters::Shape;
 			if (parameterString == "Pan") return (int)OscParameters::Pan;
 			if (parameterString == "Volume") return (int)OscParameters::Volume;

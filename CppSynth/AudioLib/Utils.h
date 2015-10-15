@@ -28,6 +28,17 @@ namespace AudioLib
 				buffer[i] *= gain;
 			}
 		}
+
+		static inline float TanhPoly(float x)
+		{
+			float sign = (x >= 0) ? 1.0 : -1.0;
+
+			x = x * sign;
+			float xSquare = x * x;
+			float xCube = xSquare * x;
+			float result = 1.0f - 1.0 / (1 + x + xSquare + xCube);
+			return result * sign;
+		}
 	}
 }
 

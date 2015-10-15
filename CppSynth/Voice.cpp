@@ -19,7 +19,7 @@ namespace Leiftur
 
 	void Voice::SetParameter(Module module, int parameter, double value)
 	{
-		osc1.WaveIndex = value * 15.99999;
+		osc1.Shape = value * 15.99999;
 	}
 
 	void Voice::SetGate(float gate)
