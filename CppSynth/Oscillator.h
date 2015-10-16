@@ -22,6 +22,7 @@ namespace Leiftur
 	private:
 		Wavetable* wavetable;
 		int samplerate;
+		int modulationUpdateRate;
 		uint32_t increment;
 		uint32_t iterator;
 		int updateCounter;
@@ -32,7 +33,7 @@ namespace Leiftur
 
 	public:
 		Oscillator();
-		void Initialize(int samplerate);
+		void Initialize(int samplerate, int modulationUpdateRate);
 		void SetWaveform(int table);
 		void Reset();
 		void GetSamples(float* buffer, int count);

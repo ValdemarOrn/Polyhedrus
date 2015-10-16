@@ -23,8 +23,11 @@ namespace Leiftur
 					{
 						auto phaseA = i / (double)sampleCount;
 						auto phaseB = i / (double)sampleCount + t / (double)numTables;
-						auto wa = 2.0 - 2.0 * std::fmod(phaseA, 1.0);
-						auto wb = 2.0 - 2.0 * std::fmod(phaseB, 1.0);
+						if (phaseB >= 1.0) 
+							phaseB -= 1.0;
+
+						auto wa = 1.0 - 2.0 * phaseA;
+						auto wb = 1.0 - 2.0 * phaseB;
 
 						wave[i] = wa + wb;
 					}

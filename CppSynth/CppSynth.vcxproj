@@ -19,14 +19,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AudioLib\Biquad.h" />
     <ClInclude Include="AudioLib\Utils.h" />
     <ClInclude Include="AudioLib\ValueTables.h" />
     <ClInclude Include="Default.h" />
+    <ClInclude Include="Envelope.h" />
     <ClInclude Include="Fft\BitReverse.h" />
     <ClInclude Include="Fft\Complex.h" />
     <ClInclude Include="Fft\FastFFT.h" />
     <ClInclude Include="Fft\TwiddleFactors.h" />
     <ClInclude Include="FilterCascade.h" />
+    <ClInclude Include="FilterHp.h" />
     <ClInclude Include="FilterMain.h" />
     <ClInclude Include="Oscillator.h" />
     <ClInclude Include="Osc\OscMessage.h" />
@@ -35,17 +38,21 @@
     <ClInclude Include="Synth.h" />
     <ClInclude Include="UnitTests.h" />
     <ClInclude Include="UnitTests\OscTests.h" />
+    <ClInclude Include="Vca.h" />
     <ClInclude Include="Voice.h" />
     <ClInclude Include="Wavetable.h" />
     <ClInclude Include="Wavetables\Pwm.h" />
     <ClInclude Include="Wavetables\Sawtooth.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AudioLib\Biquad.cpp" />
     <ClCompile Include="AudioLib\Utils.cpp" />
     <ClCompile Include="AudioLib\ValueTables.cpp" />
+    <ClCompile Include="Envelope.cpp" />
     <ClCompile Include="Exports.cpp" />
     <ClCompile Include="Fft\BitReverse.cpp" />
     <ClCompile Include="FilterCascade.cpp" />
+    <ClCompile Include="FilterHp.cpp" />
     <ClCompile Include="FilterMain.cpp" />
     <ClCompile Include="Oscillator.cpp" />
     <ClCompile Include="Osc\OscMessage.cpp" />
@@ -54,6 +61,7 @@
     <ClCompile Include="Synth.cpp" />
     <ClCompile Include="UnitTests\OscTests.cpp" />
     <ClCompile Include="UnitTests\UnitTests.cpp" />
+    <ClCompile Include="Vca.cpp" />
     <ClCompile Include="Voice.cpp" />
     <ClCompile Include="Wavetable.cpp" />
   </ItemGroup>

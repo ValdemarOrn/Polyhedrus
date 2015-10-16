@@ -27,7 +27,7 @@ namespace Leiftur
 		if (moduleString == "Osc3") return Module::Osc3;
 		if (moduleString == "Mixer") return Module::Mixer;
 		if (moduleString == "FilterHp") return Module::FilterHp;
-		if (moduleString == "FilterLp") return Module::FilterLp;
+		if (moduleString == "FilterMain") return Module::FilterMain;
 		if (moduleString == "EnvAmp") return Module::EnvAmp;
 		if (moduleString == "EnvFilter") return Module::EnvFilter;
 		if (moduleString == "EnvMod") return Module::EnvMod;
@@ -69,14 +69,14 @@ namespace Leiftur
 			if (parameterString == "Keytrack") return (int)FilterHpParameters::Keytrack;
 			if (parameterString == "Env") return (int)FilterHpParameters::Env;
 		}
-		else if (module == Module::FilterLp)
+		else if (module == Module::FilterMain)
 		{
-			if (parameterString == "Drive") return (int)FilterLpParameters::Drive;
-			if (parameterString == "Cutoff") return (int)FilterLpParameters::Cutoff;
-			if (parameterString == "Resonance") return (int)FilterLpParameters::Resonance;
-			if (parameterString == "Keytrack") return (int)FilterLpParameters::Keytrack;
-			if (parameterString == "Env") return (int)FilterLpParameters::Env;
-			if (parameterString == "Type") return (int)FilterLpParameters::Type;
+			if (parameterString == "Drive") return (int)FilterMainParameters::Drive;
+			if (parameterString == "Cutoff") return (int)FilterMainParameters::Cutoff;
+			if (parameterString == "Resonance") return (int)FilterMainParameters::Resonance;
+			if (parameterString == "Keytrack") return (int)FilterMainParameters::Keytrack;
+			if (parameterString == "Env") return (int)FilterMainParameters::Env;
+			if (parameterString == "Type") return (int)FilterMainParameters::Type;
 		}
 		else if (module == Module::EnvAmp || module == Module::EnvFilter || module == Module::EnvMod)
 		{

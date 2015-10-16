@@ -1,23 +1,21 @@
-#ifndef LEIFTUR_FILTER_MAIN
-#define LEIFTUR_FILTER_MAIN
-
-#include "FilterCascade.h"
-#include "Parameters.h"
+#ifndef LEIFTUR_VCA
+#define LEIFTUR_VCA
 
 namespace Leiftur
 {
-	class FilterMain
+	class Vca
 	{
+	public:
+		float ControlVoltage;
 	private:
+		float* buffer;
 		int samplerate;
 		int modulationUpdateRate;
-		FilterCascade cascadeFilter;
 
 	public:
-		FilterMain();
-		~FilterMain();
+		Vca();
+		~Vca();
 		void Initialize(int samplerate, int bufferSize, int modulationUpdateRate);
-		void SetParameter(FilterMainParameters parameter, double value);
 		void Process(float* input, int len);
 		float* GetOutput();
 	private:

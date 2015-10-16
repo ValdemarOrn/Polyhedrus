@@ -8,6 +8,7 @@ namespace Leiftur
 	public:
 		const int Oversample = 4;
 
+		float Drive;
 		float Cutoff;
 		float Reso;
 		float CutoffMod;
@@ -20,6 +21,8 @@ namespace Leiftur
 
 	private:
 		float* buffer;
+		float gain;
+		float oversampledInput;
 
 		float p;
 		float x;
@@ -31,15 +34,19 @@ namespace Leiftur
 
 		float fsinv;
 		int samplerate;
+		int updateCounter;
+		int modulationUpdateRate;
 
 	public:
-		FilterCascade(int samplerate, int bufferSize);
+		FilterCascade();
 		~FilterCascade();
 
-		float ProcessSample(float input);
+		void Initialize(int samplerate, int bufferSize, int modulationUpdateRate);
 		void Process(float* input, int len);
+		float* GetOutput();
 
 	private:
+		float ProcessSample(float input);
 		void Update();
 	};
 }

@@ -19,8 +19,9 @@ namespace Leiftur
 		SetWaveform(0);
 	}
 
-	void Oscillator::Initialize(int samplerate)
+	void Oscillator::Initialize(int samplerate, int modulationUpdateRate)
 	{
+		this->modulationUpdateRate = modulationUpdateRate;
 		this->samplerate = samplerate;
 	}
 
@@ -43,7 +44,7 @@ namespace Leiftur
 			if (updateCounter == 0)
 			{
 				Update();
-				updateCounter = MOD_UPDATE_RATE;
+				updateCounter = modulationUpdateRate;
 			}
 
 			buffer[i] = waveA[iterator >> shiftValue] * (1 - waveMix) + waveB[iterator >> shiftValue] * waveMix;
@@ -55,7 +56,7 @@ namespace Leiftur
 
 	void Oscillator::Update()
 	{
-		float waveIndex = Shape;
+		float waveIndex = Shape * wavetable->Count;
 
 		auto pitch = Note + 12 * Octave + Semi + 0.01 * Cent + 24 * PitchMod + PitchBend * 2;
 		auto partialIndex = Wavetable::WavetableIndex[(int)pitch];

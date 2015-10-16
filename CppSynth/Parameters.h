@@ -15,7 +15,7 @@ namespace Leiftur
 		Mixer = 10,
 
 		FilterHp = 20,
-		FilterLp = 21,
+		FilterMain = 21,
 
 		EnvAmp = 70,
 		EnvFilter = 71,
@@ -62,7 +62,7 @@ namespace Leiftur
 		Env = 4,
 	};
 
-	enum class FilterLpParameters
+	enum class FilterMainParameters
 	{
 		Drive = 1,
 		Cutoff = 2,

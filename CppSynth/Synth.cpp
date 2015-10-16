@@ -40,7 +40,7 @@ namespace Leiftur
 		this->Samplerate = samplerate;
 		for (size_t i = 0; i < MaxVoiceCount; i++)
 		{
-			Voices[i].Initialize(samplerate);
+			Voices[i].Initialize(samplerate, ModulationUpdateRate, BufferSize);
 		}
 	}
 

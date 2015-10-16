@@ -2,16 +2,13 @@
 #include "AudioLib/ValueTables.h"
 #include "AudioLib/Utils.h"
 
-Leiftur::FilterCascade::FilterCascade(int samplerate, int bufferSize)
+Leiftur::FilterCascade::FilterCascade()
 {
-	buffer = new float[bufferSize];
-
-	this->samplerate = samplerate;
-	fsinv = 1.0 / (Oversample * samplerate);
-
-	Cutoff = 1;
-	VD = 1;
-	Update();
+	Drive = 0.0;
+	Cutoff = 1.0;
+	Reso = 0.0;
+	CutoffMod = 0.0;
+	buffer = 0;
 }
 
 Leiftur::FilterCascade::~FilterCascade()
@@ -19,12 +16,53 @@ Leiftur::FilterCascade::~FilterCascade()
 	delete buffer;
 }
 
+void Leiftur::FilterCascade::Initialize(int samplerate, int bufferSize, int modulationUpdateRate)
+{
+	buffer = new float[bufferSize];
+	this->modulationUpdateRate = modulationUpdateRate;
+	this->samplerate = samplerate;
+	fsinv = 1.0 / (Oversample * samplerate);
+
+	Cutoff = 1;
+	VD = 1;
+	updateCounter = 0;
+	oversampledInput = 0;
+	Update();
+}
+
+void Leiftur::FilterCascade::Process(float * input, int len)
+{
+	for (size_t i = 0; i < len; i++)
+	{
+		if (updateCounter <= 0)
+		{
+			Update();
+			updateCounter = modulationUpdateRate;
+		}
+
+		float value = ProcessSample(input[i]);
+		buffer[i] = value;
+		updateCounter--;
+	}
+}
+
+float * Leiftur::FilterCascade::GetOutput()
+{
+	return buffer;
+}
+
 float Leiftur::FilterCascade::ProcessSample(float input)
 {
+	float mx = 1.0 / Oversample;
+	float sum = 0.0;
+
 	for (int i = 0; i < Oversample; i++)
 	{
-		float fb = Reso * 5 * (feedback - 0.5 * input);
-		float val = input - fb;
+		float in = mx * i * input + (Oversample - i) * mx * oversampledInput;
+		in = AudioLib::Utils::TanhPoly(in * gain);
+
+		float fb = Reso * 4 * (feedback - 0.5 * in);
+		float val = in - fb;
 		x = val;
 
 		// 4 cascaded low pass stages
@@ -38,24 +76,22 @@ float Leiftur::FilterCascade::ProcessSample(float input)
 		val = d;
 
 		feedback = AudioLib::Utils::TanhPoly(val);
+		//auto sample = (VX * x + VA * a + VB * b + VC * c + VD * d) * (1 - Reso * 0.5);
+		//sum += sample;
 	}
 
+	oversampledInput = input;
+	//return sum * mx;
 	auto sample = (VX * x + VA * a + VB * b + VC * c + VD * d) * (1 - Reso * 0.5);
 	return sample;
 }
 
-void Leiftur::FilterCascade::Process(float * input, int len)
-{
-	for (size_t i = 0; i < len; i++)
-	{
-		float value = ProcessSample(input[i]);
-	}
-}
-
 void Leiftur::FilterCascade::Update()
 {
-	if (Reso > 1)
-		Reso = 1;
+	gain = (0.5 + 4.5 * Drive * Drive);
+
+	if (Reso > 0.999)
+		Reso = 0.999;
 	else if (Reso < 0)
 		Reso = 0;
 

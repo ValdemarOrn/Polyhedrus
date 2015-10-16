@@ -84,6 +84,18 @@
     <ClInclude Include="FilterMain.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="AudioLib\Biquad.h">
+      <Filter>Source Files\AudioLib</Filter>
+    </ClInclude>
+    <ClInclude Include="FilterHp.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Envelope.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vca.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Synth.cpp">
@@ -129,6 +141,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FilterMain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioLib\Biquad.cpp">
+      <Filter>Source Files\AudioLib</Filter>
+    </ClCompile>
+    <ClCompile Include="FilterHp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Envelope.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Vca.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

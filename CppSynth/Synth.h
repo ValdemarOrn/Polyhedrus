@@ -12,6 +12,8 @@
 namespace Leiftur
 {
 	const int MaxVoiceCount = 1;
+	const int ModulationUpdateRate = 8;
+	const int BufferSize = 64;
 
 	class Synth
 	{
