@@ -81,6 +81,10 @@ namespace Leiftur
 		{
 			NoteOn(message[1], message[2]);
 		}
+		else if (msgType == 0xA0)
+		{
+			SetKeyPressure(message[1], message[2] / 127.0);
+		}
 		else if (msgType == 0xB0)
 		{
 			MidiCC(message[1], message[2]);
@@ -89,10 +93,15 @@ namespace Leiftur
 		{
 			MidiProgram(message[1]);
 		}
+		else if (msgType == 0xD0)
+		{
+			SetChannelPressure(message[1] / 127.0);
+		}
 		else if (msgType == 0xE0)
 		{
 			int pitch = (message[1] | (message[2] << 7)) - 0x2000;
-			PitchWheel(pitch);
+			float fPitch = pitch / 8192.0;
+			PitchWheel(fPitch);
 		}
 	}
 
@@ -140,16 +149,42 @@ namespace Leiftur
 
 	void Synth::MidiCC(uint8_t byte1, uint8_t byte2)
 	{
-		Voices[0].SetParameter(Module::Arp, 0, byte2 / 127.0);
+		if (byte1 == 1)
+		{
+			for (size_t i = 0; i < MaxVoiceCount; i++)
+				Voices[i].SetModWheel(byte2 / 127.0);
+		}
 	}
 
 	void Synth::MidiProgram(uint8_t program)
 	{
 	}
 
-	void Synth::PitchWheel(int pitchbend)
+	void Synth::PitchWheel(float pitchbend)
 	{
-		Voices[0].SetPitchWheel(pitchbend / 8192.0);
+		for (size_t i = 0; i < MaxVoiceCount; i++)
+			Voices[i].SetPitchWheel(pitchbend);
+	}
+
+	void Synth::SetModWheel(float value)
+	{
+		for (size_t i = 0; i < MaxVoiceCount; i++)
+			Voices[i].SetModWheel(value);
+	}
+
+	void Synth::SetKeyPressure(int note, float pressure)
+	{
+		for (size_t i = 0; i < MaxVoiceCount; i++)
+		{
+			if (Voices[i].Note == note)
+				Voices[i].SetKeyPressure(pressure);
+		}
+	}
+
+	void Synth::SetChannelPressure(float pressure)
+	{
+		for (size_t i = 0; i < MaxVoiceCount; i++)
+			Voices[i].SetModWheel(pressure);
 	}
 
 }

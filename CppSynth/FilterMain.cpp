@@ -28,7 +28,7 @@ namespace Leiftur
 			cascadeFilter.Drive = value;
 			break;
 		case FilterMainParameters::Resonance:
-			cascadeFilter.Reso = value;
+			cascadeFilter.Resonance = value;
 			break;
 		case FilterMainParameters::Type:
 			// Todo

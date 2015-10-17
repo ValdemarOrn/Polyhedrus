@@ -52,24 +52,25 @@ enum class ModDest
 	MixerFm13 = 43,
 	MixerFm23 = 44,
 	MixerNoise = 45,
+	MixerOutput = 46,
 
-	CharacterBottom = 50,
-	CharacterTop = 51,
-	CharacterDecimate = 52,
-	CharacterReduce = 53,
-	CharacterClip = 54,
+	//CharacterBottom = 50,
+	//CharacterTop = 51,
+	//CharacterDecimate = 52,
+	//CharacterReduce = 53,
+	//CharacterClip = 54,
 
 	FilterHpCutoff = 60,
 
 	FilterMainCutoff = 70,
 	FilterMainDrive = 71,
-	FilterMainReso = 72,
+	FilterMainResonance = 72,
 
 	//EnvAmp = 80
 	//EnvFilter = 90
 	//EnvMod = 100
 
-	Lfo1Phase = 110,
+	/*Lfo1Phase = 110,
 	Lfo1Freq = 111,
 	Lfo1Attack = 112,
 	Lfo1Decay = 113,
@@ -82,7 +83,7 @@ enum class ModDest
 	Lfo2Sustain = 124,
 
 	ArpGate = 130,
-	ArpTempo = 131,
+	ArpTempo = 131,*/
 
 	Count = 132
 

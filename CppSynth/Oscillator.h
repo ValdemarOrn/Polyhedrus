@@ -13,11 +13,11 @@ namespace Leiftur
 		int Octave;
 		int Semi;
 		int Cent;
-		float PitchBend;
 		float PitchMod;
 
 		float Phase;
 		float Shape;
+		float ShapeMod;
 
 	private:
 		float* buffer;

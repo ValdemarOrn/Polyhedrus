@@ -29,6 +29,33 @@ namespace AudioLib
 			}
 		}
 
+		static inline float Limit(float input, float min, float max)
+		{
+			int above = (input > min);
+			int notAbove = above != 1;
+			input = above * input + notAbove * min;
+
+			int below = (input < max);
+			int notBelow = below != 1;
+			input = below * input + notBelow * max;
+
+			return input;
+		}
+
+		static inline float LimitMin(float input, float min)
+		{
+			int above = (input > min);
+			int notAbove = above != 1;
+			return above * input + notAbove * min;
+		}
+
+		static inline float LimitMax(float input, float max)
+		{
+			int below = (input < max);
+			int notBelow = below != 1;
+			return below * input + notBelow * max;
+		}
+
 		static inline float TanhPoly(float x)
 		{
 			float sign = (x >= 0) ? 1.0 : -1.0;

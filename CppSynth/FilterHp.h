@@ -12,6 +12,7 @@ namespace Leiftur
 		float Cutoff;
 		float Resonance;
 		float CutoffMod;
+		float ResonanceMod;
 
 	private:
 		float* buffer;

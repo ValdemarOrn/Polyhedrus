@@ -45,7 +45,10 @@ namespace Leiftur
 		void NoteOff(char note);
 		void MidiCC(uint8_t byte1, uint8_t byte2);
 		void MidiProgram(uint8_t program);
-		void PitchWheel(int pitchbend);
+		void PitchWheel(float pitchbend);
+		void SetModWheel(float value);
+		void SetKeyPressure(int note, float pressure);
+		void SetChannelPressure(float pressure);
 	};
 }
 

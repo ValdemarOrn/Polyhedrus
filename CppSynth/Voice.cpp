@@ -47,12 +47,20 @@ namespace Leiftur
 
 	void Voice::SetGate(float velocity)
 	{
-		velocity = velocity;
-		ampEnv.Gate = velocity > 0;
-		filterEnv.Gate = velocity > 0;
-		modEnv.Gate = velocity > 0;
-		modMatrix.ModSourceValues[(int)ModSource::Velocity] = velocity;
-		modMatrix.ModSourceValues[(int)ModSource::Gate] = velocity > 0;
+		gate = velocity > 0;
+		ampEnv.Gate = gate;
+		filterEnv.Gate = gate;
+		modEnv.Gate = gate;
+		modMatrix.ModSourceValues[(int)ModSource::Gate] = gate;
+
+		if (gate)
+		{
+			this->velocity = velocity;
+			ampEnv.Velocity = velocity;
+			filterEnv.Velocity = velocity;
+			modEnv.Velocity = velocity;
+			modMatrix.ModSourceValues[(int)ModSource::Velocity] = velocity;
+		}
 	}
 
 	void Voice::SetNote(int note)
@@ -65,7 +73,6 @@ namespace Leiftur
 
 	void Voice::SetPitchWheel(float pitchbend)
 	{
-		osc1.PitchBend = pitchbend;
 		modMatrix.ModSourceValues[(int)ModSource::Pitchbend] = pitchbend;
 	}
 
@@ -91,16 +98,56 @@ namespace Leiftur
 
 		while (i < totalBufferSize)
 		{
+			ProcessModulation();
+
 			osc1.Process(bufferSize);
 			hpFilter.Process(osc1.GetOutput(), bufferSize);
 			mainFilter.Process(hpFilter.GetOutput(), bufferSize);
 
 			ampEnv.Process(bufferSize);
-			vcaOutput.ControlVoltage = ampEnv.Output;
+			vcaOutput.ControlVoltage = ampEnv.GetOutput();
 			vcaOutput.Process(mainFilter.GetOutput(), bufferSize);
 
 			AudioLib::Utils::Copy(vcaOutput.GetOutput(), &outputBuffer[i], bufferSize);
 			i += modulationUpdateRate;
 		}
+	}
+	void Voice::ProcessModulation()
+	{
+		modMatrix.ModSourceValues[(int)ModSource::EnvAmp] = ampEnv.Process(modulationUpdateRate);
+		modMatrix.ModSourceValues[(int)ModSource::EnvFilter] = filterEnv.Process(modulationUpdateRate);
+		modMatrix.ModSourceValues[(int)ModSource::EnvMod] = modEnv.Process(modulationUpdateRate);
+
+		modMatrix.Process();
+
+		osc1.PitchMod = modMatrix.ModDestinationValues[(int)ModDest::Osc1Pitch];
+		osc1.ShapeMod = modMatrix.ModDestinationValues[(int)ModDest::Osc1Shape];
+		mixer.Osc1PanMod = modMatrix.ModDestinationValues[(int)ModDest::Osc1Pan];
+		mixer.Osc1VolumeMod = modMatrix.ModDestinationValues[(int)ModDest::Osc1Volume];
+
+		osc2.PitchMod = modMatrix.ModDestinationValues[(int)ModDest::Osc2Pitch];
+		osc2.ShapeMod = modMatrix.ModDestinationValues[(int)ModDest::Osc2Shape];
+		mixer.Osc2PanMod = modMatrix.ModDestinationValues[(int)ModDest::Osc2Pan];
+		mixer.Osc2VolumeMod = modMatrix.ModDestinationValues[(int)ModDest::Osc2Volume];
+
+		osc3.PitchMod = modMatrix.ModDestinationValues[(int)ModDest::Osc3Pitch];
+		osc3.ShapeMod = modMatrix.ModDestinationValues[(int)ModDest::Osc3Shape];
+		mixer.Osc3PanMod = modMatrix.ModDestinationValues[(int)ModDest::Osc3Pan];
+		mixer.Osc3VolumeMod = modMatrix.ModDestinationValues[(int)ModDest::Osc3Volume];
+
+		mixer.MixerAm12Mod = modMatrix.ModDestinationValues[(int)ModDest::MixerAm12];
+		mixer.MixerAm23Mod = modMatrix.ModDestinationValues[(int)ModDest::MixerAm23];
+		mixer.MixerFm12Mod = modMatrix.ModDestinationValues[(int)ModDest::MixerFm12];
+		mixer.MixerFm13Mod = modMatrix.ModDestinationValues[(int)ModDest::MixerFm13];
+		mixer.MixerFm23Mod = modMatrix.ModDestinationValues[(int)ModDest::MixerFm23];
+		mixer.MixerNoiseMod = modMatrix.ModDestinationValues[(int)ModDest::MixerNoise];
+		mixer.MixerOutputMod = modMatrix.ModDestinationValues[(int)ModDest::MixerOutput];
+
+		//hpFilter.CutoffMod = modMatrix.ModDestinationValues[(int)ModDest::FilterHpCutoff];
+
+		//mainFilter.SetCutoffMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainCutoff]);
+		//mainFilter.SetDriveMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainDrive]);
+		//mainFilter.SetResonanceMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainResonance]);
+		
 	}
 }

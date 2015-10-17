@@ -8,6 +8,7 @@
 #include "Vca.h"
 #include "Envelope.h"
 #include "ModMatrix.h"
+#include "MixerSettings.h"
 
 namespace Leiftur
 {
@@ -18,6 +19,7 @@ namespace Leiftur
 
 	private:
 		ModMatrix modMatrix;
+		MixerSettings mixer;
 
 		Oscillator osc1;
 		Oscillator osc2;
@@ -37,6 +39,7 @@ namespace Leiftur
 
 		int samplerate;
 		int modulationUpdateRate;
+		bool gate;
 		float velocity;
 
 	public:
@@ -51,6 +54,8 @@ namespace Leiftur
 		void SetKeyPressure(float value);
 		void SetChannelPressure(float value);
 		void Process(float* buffer, int bufferSize);
+	private:
+		void ProcessModulation();
 	};
 }
 

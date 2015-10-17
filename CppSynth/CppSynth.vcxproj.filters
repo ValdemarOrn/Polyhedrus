@@ -102,6 +102,9 @@
     <ClInclude Include="ModSourceDest.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="MixerSettings.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Synth.cpp">

@@ -13,11 +13,11 @@ namespace Leiftur
 		Semi = 0;
 		Cent = 0;
 		PitchMod = 0;
-		PitchBend = 0;
 		updateCounter = 0;
 		iterator = 0;
 		Phase = 1.0;
 		Shape = 0.0;
+		ShapeMod = 0;
 		SetWaveform(0);
 	}
 
@@ -69,9 +69,9 @@ namespace Leiftur
 
 	void Oscillator::Update()
 	{
-		float waveIndex = Shape * wavetable->Count;
+		float waveIndex = (Shape + ShapeMod) * wavetable->Count;
 
-		auto pitch = Note + 12 * Octave + Semi + 0.01 * Cent + 24 * PitchMod + PitchBend * 2;
+		auto pitch = Note + 12 * Octave + Semi + 0.01 * Cent + 24 * PitchMod;
 		auto partialIndex = Wavetable::WavetableIndex[(int)pitch];
 		waveMix = waveIndex - (int)waveIndex;
 

@@ -1,5 +1,6 @@
 #include "FilterHp.h"
 #include "AudioLib/ValueTables.h"
+#include "AudioLib/Utils.h"
 
 namespace Leiftur
 {
@@ -68,6 +69,8 @@ namespace Leiftur
 	void FilterHp::Update()
 	{
 		float value = Cutoff + CutoffMod;
+		value = AudioLib::Utils::Limit(value, 0.0, 1.0);
+
 		biquad.Frequency = 10 + AudioLib::ValueTables::Get(value, AudioLib::ValueTables::Response3Dec) * 19000;
 		biquad.Update();
 	}

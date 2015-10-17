@@ -31,6 +31,7 @@
     <ClInclude Include="FilterCascade.h" />
     <ClInclude Include="FilterHp.h" />
     <ClInclude Include="FilterMain.h" />
+    <ClInclude Include="MixerSettings.h" />
     <ClInclude Include="ModMatrix.h" />
     <ClInclude Include="ModSourceDest.h" />
     <ClInclude Include="Oscillator.h" />

@@ -9,7 +9,9 @@ namespace Leiftur
 
 	Envelope::Envelope()
 	{
-		Output = 0.0;
+		output = 0.0;
+		Velocity = 1.0;
+		VelocityAmount = 0.0;
 		Gate = false;
 		section = SectionPostRelease;
 		iterator = 0.0;
@@ -66,12 +68,12 @@ namespace Leiftur
 		if (Gate && section >= SectionRelease)
 		{
 			section = SectionAttack;
-			iterator = sqrt(Output);
+			iterator = sqrt(output);
 		}
 		else if (!Gate && section < SectionRelease)
 		{
 			section = SectionRelease;
-			iterator = sqrt(Output);
+			iterator = sqrt(output);
 		}
 
 		switch (section)
@@ -79,7 +81,7 @@ namespace Leiftur
 		case SectionAttack:
 			iterator += attackInc * samples;
 			iterator = (iterator < 1.0) ? iterator : 1.0;
-			Output = iterator * iterator;
+			output = iterator * iterator;
 			if (iterator >= 1.0)
 			{
 				iterator = 0.0;
@@ -89,7 +91,7 @@ namespace Leiftur
 		case SectionHold:
 			iterator += holdInc * samples;
 			iterator = (iterator < 1.0) ? iterator : 1.0;
-			Output = 1.0;
+			output = 1.0;
 			if (iterator >= 1.0)
 			{
 				iterator = 1.0;
@@ -99,7 +101,7 @@ namespace Leiftur
 		case SectionDecay:
 			iterator -= decayInc * samples;
 			iterator = (iterator > 0.0) ? iterator : 0.0;
-			Output = sustain + (iterator * iterator) * (1.0 - sustain);
+			output = sustain + (iterator * iterator) * (1.0 - sustain);
 			if (iterator <= 0.0)
 			{
 				iterator = 0.0;
@@ -107,12 +109,12 @@ namespace Leiftur
 			}
 			break;
 		case SectionSustain:
-			Output = sustain;
+			output = sustain;
 			break;
 		case SectionRelease:
 			iterator -= releaseInc * samples;
 			iterator = (iterator > 0.0) ? iterator : 0.0;
-			Output = iterator * iterator;
+			output = iterator * iterator;
 			if (iterator <= 0.0)
 			{
 				iterator = 0.0;
@@ -121,11 +123,11 @@ namespace Leiftur
 			break;
 		case SectionPostRelease:
 			iterator = 0;
-			Output = 0.0;
+			output = 0.0;
 			break;
 		}
 
-		return Output;
+		return GetOutput();
 	}
 
 	void Envelope::Reset()

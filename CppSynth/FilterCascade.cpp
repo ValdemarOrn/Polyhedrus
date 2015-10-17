@@ -1,14 +1,18 @@
 #include "FilterCascade.h"
 #include "AudioLib/ValueTables.h"
 #include "AudioLib/Utils.h"
+#include <cmath>
 
 Leiftur::FilterCascade::FilterCascade()
 {
 	Drive = 0.0;
 	Cutoff = 1.0;
-	Reso = 0.0;
+	Resonance = 0.0;
+	ResonanceMod = 0.0;
 	CutoffMod = 0.0;
+	DriveMod = 0.0;
 	buffer = 0;
+	driveTotal = 0.0;
 }
 
 Leiftur::FilterCascade::~FilterCascade()
@@ -55,13 +59,14 @@ float Leiftur::FilterCascade::ProcessSample(float input)
 {
 	float mx = 1.0 / Oversample;
 	float sum = 0.0;
+	float gInv = gain < 1.0 ? 1.0 / gain : 1.0 / std::sqrt(gain);
 
 	for (int i = 0; i < Oversample; i++)
 	{
 		float in = mx * i * input + (Oversample - i) * mx * oversampledInput;
 		in = AudioLib::Utils::TanhPoly(in * gain);
 
-		float fb = Reso * 4 * (feedback - 0.5 * in);
+		float fb = totalResonance * 5 * (feedback - 0.5 * in);
 		float val = in - fb;
 		x = val;
 
@@ -76,31 +81,25 @@ float Leiftur::FilterCascade::ProcessSample(float input)
 		val = d;
 
 		feedback = AudioLib::Utils::TanhPoly(val);
-		//auto sample = (VX * x + VA * a + VB * b + VC * c + VD * d) * (1 - Reso * 0.5);
-		//sum += sample;
 	}
 
 	oversampledInput = input;
-	//return sum * mx;
-	auto sample = (VX * x + VA * a + VB * b + VC * c + VD * d) * (1 - Reso * 0.5);
-	return sample;
+	auto sample = (VX * x + VA * a + VB * b + VC * c + VD * d) * (1 - totalResonance * 0.5);
+	return sample * gInv;
 }
 
 void Leiftur::FilterCascade::Update()
 {
-	gain = (0.5 + 4.5 * Drive * Drive);
+	driveTotal = Drive + DriveMod;
+	driveTotal = AudioLib::Utils::Limit(driveTotal, 0.0, 1.0);
 
-	if (Reso > 0.999)
-		Reso = 0.999;
-	else if (Reso < 0)
-		Reso = 0;
+	gain = (0.05 + 4.5 * driveTotal * driveTotal);
 
+	totalResonance = Resonance + ResonanceMod;
+	totalResonance = AudioLib::Utils::Limit(totalResonance, 0.0, 0.999);
+	
 	auto value = Cutoff + CutoffMod;
-
-	if (value > 1)
-		value = 1;
-	else if (value < 0)
-		value = 0;
+	value = AudioLib::Utils::Limit(value, 0.0, 1.0);
 
 	auto cutoff = 10 + AudioLib::ValueTables::Get(value, AudioLib::ValueTables::Response3Dec) * 21000;
 	// Todo: get a proper lokup table to tune the filter

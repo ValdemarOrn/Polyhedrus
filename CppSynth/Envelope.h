@@ -17,8 +17,9 @@ namespace Leiftur
 		static const float MaxTimeSeconds; // defined in body
 
 		bool Gate;
-		float Output;
-
+		float Velocity;
+		float VelocityAmount;
+		
 	private:
 		int samplerate;
 		int section;
@@ -28,6 +29,7 @@ namespace Leiftur
 		float decayInc;
 		float sustain;
 		float releaseInc;
+		float output;
 
 	public:
 		Envelope();
@@ -35,6 +37,7 @@ namespace Leiftur
 		void Initialize(int samplerate);
 		void SetParameter(EnvParameters parameter, double value);
 		float Process(int samples);
+		inline float GetOutput() { return output * (1 - VelocityAmount + Velocity * VelocityAmount); }
 		void Reset();
 
 	};

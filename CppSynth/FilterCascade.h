@@ -10,8 +10,10 @@ namespace Leiftur
 
 		float Drive;
 		float Cutoff;
-		float Reso;
+		float Resonance;
 		float CutoffMod;
+		float ResonanceMod;
+		float DriveMod;
 
 		float VA;
 		float VB;
@@ -22,6 +24,8 @@ namespace Leiftur
 	private:
 		float* buffer;
 		float gain;
+		float driveTotal;
+		float totalResonance;
 		float oversampledInput;
 
 		float p;
