@@ -35,39 +35,38 @@ namespace Leiftur.Tests
 		[TestMethod]
 		public void TestMethodSlop()
 		{
-			var data = new double[4800];
-			var dataF = new double[4800];
+			var data = new double[48000];
+			var dataF = new double[48000];
+			var random = new Random(0);
 
 			double sum = 0.0;
+			double filter = 0.0;
 			var fs = 4800;
 			Func<double, double> fcToAlpha = fc => (2 * Math.PI * fc / fs) / (2 * Math.PI * fc / fs + 1);
 			var freq = 1.0;
-			var scaler = freq < 1.0 ? 1.0 / freq : 1.0;
-			var samples = (int)(fs / freq);
-			var incs = new double[6];
-			var weights = new double[] { 1.0, 0.5, 0.25, 0.125, 0.625, 0.03125 };
-			var random = new Random();
-			var filter = 0.0;
+			var samplesPerPoint = (int)(fs / (freq * 10));
 
-			var aHp = fcToAlpha(0.1);
-			var aLp = fcToAlpha(0.2);
+			var aHp = fcToAlpha(freq * 0.5);
+			var aLp = fcToAlpha(freq * 0.2);
 
+			var scale = 1.0 / samplesPerPoint;
+			var sample = 0.0;
+			var n = 0;
 			for (int i = 0; i < data.Length; i++)
 			{
-				for (int n = 0; n < incs.Length; n++)
+				if (n <= 0)
 				{
-                    var limit = (int)(samples * weights[n]);
-
-					if (i % limit == 0)
-						incs[n] = (2 * random.NextDouble() - 1);
-
-					sum += incs[n] * weights[n];
+					sample = (2 * random.NextDouble() - 1) * scale;
+					n = samplesPerPoint;
 				}
 
+				sum += sample;
 				filter = filter * (1 - aLp) + aLp * sum;
-				data[i] = sum * scaler;
-				dataF[i] = filter * scaler;
+				data[i] = sum;
+				dataF[i] = filter;
 				sum *= (1 - aHp);
+
+				n--;
 			}
 
 			var pm = new PlotModel();
