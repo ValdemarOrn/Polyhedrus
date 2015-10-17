@@ -20,6 +20,7 @@ namespace Leiftur
 		float Shape;
 
 	private:
+		float* buffer;
 		Wavetable* wavetable;
 		int samplerate;
 		int modulationUpdateRate;
@@ -33,10 +34,12 @@ namespace Leiftur
 
 	public:
 		Oscillator();
-		void Initialize(int samplerate, int modulationUpdateRate);
+		~Oscillator();
+		void Initialize(int samplerate, int bufferSize, int modulationUpdateRate);
 		void SetWaveform(int table);
 		void Reset();
-		void GetSamples(float* buffer, int count);
+		void Process(int count);
+		float* GetOutput();
 
 	private:
 		void Update();

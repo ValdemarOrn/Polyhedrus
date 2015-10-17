@@ -6,6 +6,8 @@ namespace Leiftur
 {
 	Oscillator::Oscillator()
 	{
+		buffer = 0;
+
 		Note = 60;
 		Octave = 0;
 		Semi = 0;
@@ -19,8 +21,14 @@ namespace Leiftur
 		SetWaveform(0);
 	}
 
-	void Oscillator::Initialize(int samplerate, int modulationUpdateRate)
+	Oscillator::~Oscillator()
 	{
+		delete buffer;
+	}
+
+	void Oscillator::Initialize(int samplerate, int bufferSize, int modulationUpdateRate)
+	{
+		this->buffer = new float[bufferSize];
 		this->modulationUpdateRate = modulationUpdateRate;
 		this->samplerate = samplerate;
 	}
@@ -37,7 +45,7 @@ namespace Leiftur
 			iterator = (int)(UINT32_MAX * Phase);
 	}
 
-	void Oscillator::GetSamples(float * buffer, int count)
+	void Oscillator::Process(int count)
 	{
 		for (int i = 0; i < count; i++)
 		{
@@ -52,6 +60,11 @@ namespace Leiftur
 
 			updateCounter--;
 		}
+	}
+
+	float* Oscillator::GetOutput()
+	{
+		return buffer;
 	}
 
 	void Oscillator::Update()

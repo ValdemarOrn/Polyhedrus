@@ -103,5 +103,6 @@ void Leiftur::FilterCascade::Update()
 		value = 0;
 
 	auto cutoff = 10 + AudioLib::ValueTables::Get(value, AudioLib::ValueTables::Response3Dec) * 21000;
+	// Todo: get a proper lokup table to tune the filter
 	p = (1 - 2 * cutoff * fsinv) * (1 - 2 * cutoff * fsinv);
 }

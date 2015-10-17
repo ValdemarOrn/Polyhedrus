@@ -31,6 +31,8 @@
     <ClInclude Include="FilterCascade.h" />
     <ClInclude Include="FilterHp.h" />
     <ClInclude Include="FilterMain.h" />
+    <ClInclude Include="ModMatrix.h" />
+    <ClInclude Include="ModSourceDest.h" />
     <ClInclude Include="Oscillator.h" />
     <ClInclude Include="Osc\OscMessage.h" />
     <ClInclude Include="Osc\UdpTranceiver.h" />
@@ -54,6 +56,7 @@
     <ClCompile Include="FilterCascade.cpp" />
     <ClCompile Include="FilterHp.cpp" />
     <ClCompile Include="FilterMain.cpp" />
+    <ClCompile Include="ModMatrix.cpp" />
     <ClCompile Include="Oscillator.cpp" />
     <ClCompile Include="Osc\OscMessage.cpp" />
     <ClCompile Include="Osc\UdpTranceiver.cpp" />

@@ -13,12 +13,24 @@ namespace Leiftur
 
 	void Voice::Initialize(int samplerate, int modulationUpdateRate, int bufferSize)
 	{
-		this->Samplerate = samplerate;
-		osc1.Initialize(samplerate, modulationUpdateRate);
+		this->samplerate = samplerate;
+		this->modulationUpdateRate = modulationUpdateRate;
+
+		osc1.Initialize(samplerate, modulationUpdateRate, bufferSize);
+		osc2.Initialize(samplerate, modulationUpdateRate, bufferSize);
+		osc3.Initialize(samplerate, modulationUpdateRate, bufferSize);
+
 		hpFilter.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		mainFilter.Initialize(samplerate, bufferSize, modulationUpdateRate);
-		vca.Initialize(samplerate, bufferSize, modulationUpdateRate);
+
+		vcaOsc1.Initialize(samplerate, bufferSize, modulationUpdateRate);
+		vcaOsc2.Initialize(samplerate, bufferSize, modulationUpdateRate);
+		vcaOsc3.Initialize(samplerate, bufferSize, modulationUpdateRate);
+		vcaOutput.Initialize(samplerate, bufferSize, modulationUpdateRate);
+
 		ampEnv.Initialize(samplerate);
+		filterEnv.Initialize(samplerate);
+		modEnv.Initialize(samplerate);
 	}
 
 	void Voice::SetParameter(Module module, int parameter, double value)
@@ -33,34 +45,62 @@ namespace Leiftur
 			ampEnv.SetParameter((EnvParameters)parameter, value);
 	}
 
-	void Voice::SetGate(float gate)
+	void Voice::SetGate(float velocity)
 	{
-		Velocity = gate;
+		velocity = velocity;
+		ampEnv.Gate = velocity > 0;
+		filterEnv.Gate = velocity > 0;
+		modEnv.Gate = velocity > 0;
+		modMatrix.ModSourceValues[(int)ModSource::Velocity] = velocity;
+		modMatrix.ModSourceValues[(int)ModSource::Gate] = velocity > 0;
 	}
 
 	void Voice::SetNote(int note)
 	{
-		Note = note;
+		this->Note = note;
 		osc1.Note = note;
+		modMatrix.ModSourceValues[(int)ModSource::KeyTrack] = (note - 60) / 12.0;
+		modMatrix.ModSourceValues[(int)ModSource::KeyTrackUnipolar] = note / 12.0;
 	}
 
 	void Voice::SetPitchWheel(float pitchbend)
 	{
 		osc1.PitchBend = pitchbend;
+		modMatrix.ModSourceValues[(int)ModSource::Pitchbend] = pitchbend;
 	}
 
-	void Voice::Process(float * buffer, int bufferSize)
+	void Voice::SetModWheel(float value)
 	{
-		osc1.GetSamples(buffer, bufferSize);
-		hpFilter.Process(buffer, bufferSize);
-		mainFilter.Process(hpFilter.GetOutput(), bufferSize);
+		modMatrix.ModSourceValues[(int)ModSource::ModWheel] = value;
+	}
 
-		ampEnv.Gate = Velocity > 0;
-		ampEnv.Process(bufferSize);
-		vca.ControlVoltage = ampEnv.Output;
-		vca.Process(mainFilter.GetOutput(), bufferSize);
+	void Voice::SetKeyPressure(float value)
+	{
+		modMatrix.ModSourceValues[(int)ModSource::KeyPressure] = value;
+	}
 
-		AudioLib::Utils::Copy(vca.GetOutput(), buffer, bufferSize);
-		
+	void Voice::SetChannelPressure(float value)
+	{
+		modMatrix.ModSourceValues[(int)ModSource::ChannelPressure] = value;
+	}
+
+	void Voice::Process(float * outputBuffer, int totalBufferSize)
+	{
+		int i = 0;
+		int bufferSize = modulationUpdateRate;
+
+		while (i < totalBufferSize)
+		{
+			osc1.Process(bufferSize);
+			hpFilter.Process(osc1.GetOutput(), bufferSize);
+			mainFilter.Process(hpFilter.GetOutput(), bufferSize);
+
+			ampEnv.Process(bufferSize);
+			vcaOutput.ControlVoltage = ampEnv.Output;
+			vcaOutput.Process(mainFilter.GetOutput(), bufferSize);
+
+			AudioLib::Utils::Copy(vcaOutput.GetOutput(), &outputBuffer[i], bufferSize);
+			i += modulationUpdateRate;
+		}
 	}
 }

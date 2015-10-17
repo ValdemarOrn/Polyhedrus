@@ -96,6 +96,12 @@
     <ClInclude Include="Vca.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="ModMatrix.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ModSourceDest.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Synth.cpp">
@@ -153,6 +159,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Vca.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ModMatrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
