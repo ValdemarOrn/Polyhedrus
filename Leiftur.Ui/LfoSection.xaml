@@ -1,11 +1,12 @@
-﻿<UserControl x:Class="Leiftur.Ui.MixerSection"
+﻿<UserControl x:Class="Leiftur.Ui.LfoSection"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Leiftur.Ui"
+             xmlns:wpfUi="clr-namespace:AudioLib.WpfUi;assembly=AudioLib"
              mc:Ignorable="d" 
-             d:DesignHeight="150" d:DesignWidth="250">
+             d:DesignHeight="130" d:DesignWidth="400">
     <UserControl.Resources>
         <ResourceDictionary Source="Styles.xaml" />
     </UserControl.Resources>
@@ -17,31 +18,30 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Grid.Column="0">AM 1-2</Label>
-        <Label Grid.Row="0" Grid.Column="1">AM 2-3</Label>
-        <Label Grid.Row="0" Grid.Column="2">FM 1-2</Label>
-        <Label Grid.Row="0" Grid.Column="3">FM 1-3</Label>
-        <Label Grid.Row="0" Grid.Column="4">FM 2-3</Label>
+        <Label Grid.Row="0" Grid.Column="0">Phase</Label>
+        <Label Grid.Row="0" Grid.Column="1">Frequency</Label>
+        <Label Grid.Row="0" Grid.Column="2">Shape</Label>
+        <Label Grid.Row="0" Grid.Column="3">Attack</Label>
+        <Label Grid.Row="0" Grid.Column="4">Decay</Label>
+        <Label Grid.Row="0" Grid.Column="5">Sustain</Label>
+        <Label Grid.Row="0" Grid.Column="6">Release</Label>
+        <Label Grid.Row="0" Grid.Column="7">Sync</Label>
 
         <local:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" />
         <local:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" />
         <local:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" />
         <local:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="3" />
         <local:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="4" />
-
-        <Label Grid.Row="2" Grid.Column="0">Noise</Label>
-        <Label Grid.Row="2" Grid.Column="1">Color</Label>
-        <Label Grid.Row="2" Grid.Column="2">Output</Label>
-
-        <local:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="0" />
-        <local:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1" />
-        <local:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="2" />
+        <local:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="5" />
+        <wpfUi:FlatToggleButton Grid.Row="1" Grid.Column="6"></wpfUi:FlatToggleButton>
+        <wpfUi:FlatToggleButton Grid.Row="1" Grid.Column="7"></wpfUi:FlatToggleButton>
     </Grid>
 </UserControl>

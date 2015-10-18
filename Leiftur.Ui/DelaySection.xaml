@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="Leiftur.Ui.DelaySection"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Leiftur.Ui"
+             xmlns:wpfUi="clr-namespace:AudioLib.WpfUi;assembly=AudioLib"
+             mc:Ignorable="d" 
+             d:DesignHeight="120" d:DesignWidth="392">
+    <UserControl.Resources>
+        <ResourceDictionary Source="Styles.xaml" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="0">Delay L</Label>
+        <Label Grid.Row="0" Grid.Column="1">Feedb L</Label>
+        <Label Grid.Row="0" Grid.Column="2">LowPass</Label>
+        <Label Grid.Row="0" Grid.Column="3">Mod Rate</Label>
+        <Label Grid.Row="0" Grid.Column="4">Saturate</Label>
+        
+
+        <local:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" />
+        <local:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" />
+        <local:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" />
+        <local:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="3" />
+        <local:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="4" />
+        
+        <Label Grid.Row="2" Grid.Column="0">Delay R</Label>
+        <Label Grid.Row="2" Grid.Column="1">Feedb R</Label>
+        <Label Grid.Row="2" Grid.Column="2">HighPass</Label>
+        <Label Grid.Row="2" Grid.Column="3">Mod Amt</Label>
+        <Label Grid.Row="2" Grid.Column="4">Diffuse</Label>
+
+        <local:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="0" />
+        <local:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1" />
+        <local:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="2" />
+        <local:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="3" />
+        <local:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="4" />
+
+        <Grid Grid.Column="5" Grid.ColumnSpan="1" Grid.RowSpan="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="1" Grid.Column="0">Crossfeed</Label>
+            <Label Grid.Row="1" Grid.Column="1">Wet</Label>
+            <Label Grid.Row="1" Grid.Column="2">Sync</Label>
+            <local:ModKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" />
+            <local:ModKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" />
+            <wpfUi:FlatToggleButton Grid.Row="2" Grid.Column="2" />
+        </Grid>
+    </Grid>
+</UserControl>

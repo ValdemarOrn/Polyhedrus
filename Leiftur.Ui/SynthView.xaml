@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Leiftur.Ui"
              xmlns:wpfUi="clr-namespace:AudioLib.WpfUi;assembly=AudioLib"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="1000">
+             d:DesignHeight="470" d:DesignWidth="1244">
     <UserControl.Resources>
         <ResourceDictionary Source="Styles.xaml" />
     </UserControl.Resources>
@@ -14,22 +14,29 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="15" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="15" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="15" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="15" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="15" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="5" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="15" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="15" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
 
-        <Grid Grid.Row="1" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Left">
+        <Grid Grid.Row="1" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -40,22 +47,81 @@
             <Label Grid.Row="2" Style="{StaticResource MarkerLabel}">Osc 3</Label>
         </Grid>
 
-        <Grid Grid.Row="2" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Left">
+        <Grid Grid.Row="3" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Style="{StaticResource MarkerLabel}">Mixer</Label>
         </Grid>
 
-        <Grid Grid.Row="3" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Left">
+        <Grid Grid.Row="5" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Style="{StaticResource MarkerLabel}">Voices</Label>
         </Grid>
 
-        <local:OscSection Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="220" Height="160" />
-        <local:MixerSection Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="220" Height="130" />
-        <local:VoicesSection Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="220" Height="130" />
+        <Grid Grid.Row="1" Grid.Column="11" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="57" />
+                <RowDefinition Height="57" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Style="{StaticResource MarkerLabel}">Filter Env</Label>
+            <Label Grid.Row="1" Style="{StaticResource MarkerLabel}">Amp Env</Label>
+            <Label Grid.Row="2" Style="{StaticResource MarkerLabel}">Mod Env</Label>
+        </Grid>
+
+        <Grid Grid.Row="3" Grid.Column="11" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Style="{StaticResource MarkerLabel}">LFO 1</Label>
+            <Label Grid.Row="1" Style="{StaticResource MarkerLabel}">LFO 2</Label>
+            <Label Grid.Row="2" Style="{StaticResource MarkerLabel}">Arpeggio</Label>
+        </Grid>
+        
+        <Grid Grid.Row="5" Grid.Column="11" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Style="{StaticResource MarkerLabel}">Delay</Label>
+            <Label Grid.Row="1" Style="{StaticResource MarkerLabel}">Chorus</Label>
+        </Grid>
+
+        <local:OscSection Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="245" Height="171" />
+        <local:MixerSection Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="245" Height="114" />
+        <local:VoicesSection Grid.Row="5" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="245" Height="114" />
+
+        <local:CharacterSection Grid.Row="1" Grid.Column="3" VerticalAlignment="Top" HorizontalAlignment="Left" Width="150" Height="114" />
+        <local:FilterHpSection Grid.Row="1" Grid.Column="5" VerticalAlignment="Top" HorizontalAlignment="Left" Width="98" Height="114" />
+        <local:FilterMainSection Grid.Row="1" Grid.Column="7" VerticalAlignment="Top" HorizontalAlignment="Left" Width="150" Height="114" />
+
+        <StackPanel Grid.Row="1" Grid.Column="9">
+            <local:EnvelopeSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="392" Height="57" />
+            <local:EnvelopeSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="392" Height="57" />
+            <local:EnvelopeSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="392" Height="57" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Grid.Column="9">
+            <local:LfoSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="392" Height="57" />
+            <local:ArpeggiatorSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="392" Height="57" />
+        </StackPanel>
+
+        <local:DelaySection Grid.Row="5" Grid.Column="9" VerticalAlignment="Top" HorizontalAlignment="Left" Width="392" Height="114" />
+
+        <StackPanel Grid.Column="3" Grid.ColumnSpan="5" Grid.Row="1" Grid.RowSpan="2" Margin="0,120,0,0">
+            <Label Style="{StaticResource FancyLabel}">Factory Soundset</Label>
+            <Label Style="{StaticResource FancyLabel}">A Fire Upon The Deep</Label>
+        </StackPanel>
+        <Border Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="5" Grid.RowSpan="3" CornerRadius="3" Background="#10000000">
+            
+        </Border>
     </Grid>
 </UserControl>

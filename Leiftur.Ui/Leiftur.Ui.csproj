@@ -55,6 +55,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ArpeggiatorSection.xaml.cs">
+      <DependentUpon>ArpeggiatorSection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CharacterSection.xaml.cs">
+      <DependentUpon>CharacterSection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DelaySection.xaml.cs">
+      <DependentUpon>DelaySection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EnvelopeSection.xaml.cs">
+      <DependentUpon>EnvelopeSection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FilterHpSection.xaml.cs">
+      <DependentUpon>FilterHpSection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FilterMainSection.xaml.cs">
+      <DependentUpon>FilterMainSection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LfoSection.xaml.cs">
+      <DependentUpon>LfoSection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MixerSection.xaml.cs">
       <DependentUpon>MixerSection.xaml</DependentUpon>
     </Compile>
@@ -71,6 +92,34 @@
     <Compile Include="VoicesSection.xaml.cs">
       <DependentUpon>VoicesSection.xaml</DependentUpon>
     </Compile>
+    <Page Include="ArpeggiatorSection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CharacterSection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DelaySection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EnvelopeSection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FilterHpSection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FilterMainSection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LfoSection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
