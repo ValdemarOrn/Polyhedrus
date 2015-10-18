@@ -37,6 +37,9 @@ namespace Leiftur
 		Envelope filterEnv;
 		Envelope modEnv;
 
+		float* oscMixL;
+		float* oscMixR;
+
 		int samplerate;
 		int modulationUpdateRate;
 		bool gate;
@@ -56,6 +59,13 @@ namespace Leiftur
 		void Process(float* buffer, int bufferSize);
 	private:
 		void ProcessModulation();
+		void MixOscillators(int bufferSize);
+
+		void SetOscParameter(Module module, OscParameters parameter, double value);
+		void SetMixerParameter(Module module, MixerParameters parameter, double value);
+		void SetFilterHpParameter(Module module, FilterHpParameters parameter, double value);
+		void SetFilterMainParameter(Module module, FilterMainParameters parameter, double value);
+		void SetEnvParameter(Module module, EnvParameters parameter, double value);
 	};
 }
 

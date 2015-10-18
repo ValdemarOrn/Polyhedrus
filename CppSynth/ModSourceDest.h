@@ -24,7 +24,10 @@ enum class ModSource
 	KeyPressure = 41,
 	ChannelPressure = 42,
 
-	Count = 43
+	VoiceIndex = 50,
+	UnisonIndex = 51,
+
+	Count = 52
 };
 
 enum class ModDest

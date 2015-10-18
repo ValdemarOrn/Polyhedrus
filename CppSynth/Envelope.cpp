@@ -60,6 +60,9 @@ namespace Leiftur
 		case EnvParameters::Release:
 			releaseInc = transform(value);
 			break;
+		case EnvParameters::Velocity:
+			VelocityAmount = Velocity;
+			break;
 		}
 	}
 

@@ -8,6 +8,7 @@
 #include "Voice.h"
 #include "Osc/UdpTranceiver.h"
 #include "Parameters.h"
+#include <map>
 
 namespace Leiftur
 {
@@ -22,6 +23,7 @@ namespace Leiftur
 		int Samplerate;
 
 	private:
+		std::map<int, double> parameters;
 		volatile bool isClosing;
 		UdpTranceiver* udpTranceiver;
 		std::thread messageListenerThread;
@@ -40,6 +42,8 @@ namespace Leiftur
 	private:
 
 		void MessageListener();
+		void SetParameterInner(Module module, int parameter, double value, bool isTranslated);
+		//double TranslateValue(Module module, int parameter, double value);
 
 		void NoteOn(char note, char velocity);
 		void NoteOff(char note);

@@ -31,14 +31,14 @@ namespace Leiftur
 
 		float ModSourceValues[(unsigned int)ModSource::Count];
 		float ModDestinationValues[(unsigned int)ModDest::Count];
-	private:
 		ModRoute FixedRoutes[FixedRouteCount];
 		ModRoute Matrix[MatrixCount];
+	
 	public:
 		ModMatrix();
 		~ModMatrix();
-
 		void Process();
+
 	private:
 		void CreateFixedRoutes();
 		void ApplyRoute(ModRoute* route);

@@ -69,7 +69,7 @@ float Leiftur::FilterCascade::ProcessSample(float input)
 		float in = mx * (i * input + (Oversample - i) * oversampledInput); // linear interpolation
 		in = AudioLib::Utils::TanhPoly(in);
 
-		float fb = totalResonance * 4 * (feedback - 0.5 * in);
+		float fb = totalResonance * 5 * (feedback - 0.5 * in);
 		float val = in - fb;
 		x = val;
 

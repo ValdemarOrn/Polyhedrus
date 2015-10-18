@@ -22,21 +22,23 @@ namespace Leiftur
 		float Osc2PanMod;
 		float Osc3PanMod;
 
-		float MixerAm12;
-		float MixerAm23;
-		float MixerFm12;
-		float MixerFm13;
-		float MixerFm23;
-		float MixerNoise;
-		float MixerOutput;
+		float Am12;
+		float Am23;
+		float Fm12;
+		float Fm13;
+		float Fm23;
+		float Noise;
+		float Output;
 
-		float MixerAm12Mod;
-		float MixerAm23Mod;
-		float MixerFm12Mod;
-		float MixerFm13Mod;
-		float MixerFm23Mod;
-		float MixerNoiseMod;
-		float MixerOutputMod;
+		float Am12Mod;
+		float Am23Mod;
+		float Fm12Mod;
+		float Fm13Mod;
+		float Fm23Mod;
+		float NoiseMod;
+		float OutputMod;
+
+		int Color;
 	};
 }
 

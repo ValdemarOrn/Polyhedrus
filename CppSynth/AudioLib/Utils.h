@@ -66,6 +66,12 @@ namespace AudioLib
 			float result = 1.0f - 1.0 / (1 + x + xSquare + xCube);
 			return result * sign;
 		}
+
+		static inline void GainAndSum(float* dest, float* source, float gain, int len)
+		{
+			for (size_t i = 0; i < len; i++)
+				dest[i] += source[i] * gain;
+		}
 	}
 }
 

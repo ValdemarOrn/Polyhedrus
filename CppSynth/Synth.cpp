@@ -11,6 +11,8 @@ using namespace std;
 
 namespace Leiftur
 {
+	// ------------------- Interface Methods ----------------------
+
 	Synth::Synth()
 	{
 		isClosing = false;
@@ -46,26 +48,21 @@ namespace Leiftur
 
 	void Synth::SetParameter(int parameter, double value)
 	{
+		// Parameter values is interpreseted as
+		// mmmmmmmmmmmmmmmmxxxxxxxxpppppppp
+		// Upper 16 bits = module
+		// Lower 8 bits = parameter
 		Module module = (Module)((parameter & 0xFF00) >> 16);
 		int param = parameter = 0x00FF;
-
-		for (size_t i = 0; i < MaxVoiceCount; i++)
-		{
-			Voices[i].SetParameter(module, parameter, value);
-		}
+		SetParameterInner(module, param, value, false);
 	}
 
 	void Synth::SetParameter(std::string address, double value)
 	{
 		Module module;
 		int parameter;
-
 		Parameters::ParseAddress(address, &module, &parameter);
-
-		for (size_t i = 0; i < MaxVoiceCount; i++)
-		{
-			Voices[i].SetParameter(module, parameter, value);
-		}
+		SetParameterInner(module, parameter, value, false);
 	}
 
 	void Synth::ProcessMidi(uint8_t* message)
@@ -110,6 +107,7 @@ namespace Leiftur
 		Voices[0].Process(buffer[0], bufferSize);
 	}
 
+	// ------------------- Inner Methods ----------------------
 
 	void Synth::MessageListener()
 	{
@@ -132,6 +130,18 @@ namespace Leiftur
 			}
 
 			this_thread::sleep_for(sleepTime);
+		}
+	}
+
+	void Synth::SetParameterInner(Module module, int parameter, double value, bool isTranslated)
+	{
+		//double translatedValue = isTranslated ? value : TranslateValue(module, parameter, value);
+		int idx = (((int)module) << 16) | parameter;
+		parameters[idx] = value;
+
+		for (size_t i = 0; i < MaxVoiceCount; i++)
+		{
+			Voices[i].SetParameter(module, parameter, value);
 		}
 	}
 
