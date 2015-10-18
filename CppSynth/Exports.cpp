@@ -1,7 +1,9 @@
 
 #include "Synth.h"
 #include "AudioLib/Utils.h"
+#include "AudioLib/Noise.h"
 #include "AudioLib/ValueTables.h"
+#include "AudioLib/FastSin.h"
 #include "Fft/FastFFT.h"
 
 extern "C"
@@ -10,6 +12,8 @@ extern "C"
 	{
 		AudioLib::ValueTables::Init();
 		AudioLib::Utils::Initialize();
+		AudioLib::Noise::Initialize();
+		AudioLib::FastSin::Init();
 		FastFFT<float>::Setup();
 		Leiftur::Wavetable::Setup();
 

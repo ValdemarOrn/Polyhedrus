@@ -37,7 +37,7 @@ namespace Leiftur
 		auto transform = [=](float input) 
 		{ 
 			float sampleLength = ValueTables::Get(input, ValueTables::Response4Dec) * MaxTimeSeconds * samplerate;
-			return 1.0 / sampleLength;
+			return 1.0 / (sampleLength + 1);
 		};
 
 		switch (parameter)

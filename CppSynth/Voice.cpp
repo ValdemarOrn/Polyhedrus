@@ -143,8 +143,6 @@ namespace Leiftur
 			mainFilterR.Process(hpFilterR.GetOutput(), bufferSize);
 
 			ampEnv.Process(bufferSize);
-			vcaOutputL.ControlVoltage = ampEnv.GetOutput();
-			vcaOutputR.ControlVoltage = ampEnv.GetOutput();
 			vcaOutputL.Process(mainFilterL.GetOutput(), bufferSize);
 			vcaOutputR.Process(mainFilterR.GetOutput(), bufferSize);
 
@@ -190,7 +188,8 @@ namespace Leiftur
 		mixer.NoiseMod = modMatrix.ModDestinationValues[(int)ModDest::MixerNoise];
 		mixer.OutputMod = modMatrix.ModDestinationValues[(int)ModDest::MixerOutput];
 
-		//hpFilter.CutoffMod = modMatrix.ModDestinationValues[(int)ModDest::FilterHpCutoff];
+		hpFilterL.CutoffMod = modMatrix.ModDestinationValues[(int)ModDest::FilterHpCutoff];
+		hpFilterR.CutoffMod = modMatrix.ModDestinationValues[(int)ModDest::FilterHpCutoff];
 
 		mainFilterL.SetCutoffMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainCutoff]);
 		mainFilterR.SetCutoffMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainCutoff]);
@@ -198,8 +197,12 @@ namespace Leiftur
 		mainFilterR.SetDriveMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainDrive]);
 		mainFilterL.SetResonanceMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainResonance]);
 		mainFilterR.SetResonanceMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainResonance]);
-		
+
+		// Non-matrix Modulation parameters - The destinations are not available via the matrix; assign directly instead
+		vcaOutputL.ControlVoltage = modMatrix.ModSourceValues[(int)ModSource::EnvAmp];
+		vcaOutputR.ControlVoltage = modMatrix.ModSourceValues[(int)ModSource::EnvAmp];
 	}
+
 	void Voice::MixOscillators(int bufferSize)
 	{
 		float osc1Vol = LimitMin(mixer.Osc1Volume + mixer.Osc1VolumeMod, 0.0);

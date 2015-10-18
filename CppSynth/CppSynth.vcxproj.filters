@@ -105,6 +105,15 @@
     <ClInclude Include="MixerSettings.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Lfo.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioLib\Noise.h">
+      <Filter>Source Files\AudioLib</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioLib\FastSin.h">
+      <Filter>Source Files\AudioLib</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Synth.cpp">
@@ -172,6 +181,15 @@
     </ClCompile>
     <ClCompile Include="SynthParameters.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Lfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioLib\Noise.cpp">
+      <Filter>Source Files\AudioLib</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioLib\FastSin.cpp">
+      <Filter>Source Files\AudioLib</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

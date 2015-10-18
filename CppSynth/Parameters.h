@@ -91,8 +91,9 @@ namespace Leiftur
 		Shape = 3,
 		Attack = 4,
 		Decay = 5,
-		Bipolar = 6,
-		Sync = 7,
+		Sustain = 6,
+		Release = 7,
+		Sync = 8,
 	};
 
 	enum class ArpParameters

@@ -81,6 +81,6 @@ namespace Leiftur
 
 		float freq = AudioLib::Utils::Note2Freq(pitch);
 		float samplesPerCycle = samplerate / freq;
-		increment = (int)((1.0f / samplesPerCycle) * UINT32_MAX);
+		increment = (uint32_t)((1.0f / samplesPerCycle) * UINT32_MAX);
 	}
 }

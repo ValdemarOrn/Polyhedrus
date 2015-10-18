@@ -103,7 +103,7 @@ namespace Leiftur
 		if (parameter == FilterHpParameters::Env)
 			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterHpEnv].Amount = value;
 		else if (parameter == FilterHpParameters::Keytrack)
-			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterHpKeytrack].Amount = value;
+			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterHpKeytrack].Amount = -1.0f + value * 2.0;
 		else
 		{
 			hpFilterL.SetParameter(parameter, value);
@@ -114,9 +114,9 @@ namespace Leiftur
 	void Voice::SetFilterMainParameter(Module module, FilterMainParameters parameter, double value)
 	{
 		if (parameter == FilterMainParameters::Env)
-			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterMainEnv].Amount = value;
+			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterMainEnv].Amount = 10 * value;
 		else if (parameter == FilterMainParameters::Keytrack)
-			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterMainKeytrack].Amount = value;
+			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterMainKeytrack].Amount = -1.0f + value * 2.0;
 		else
 		{
 			mainFilterL.SetParameter(parameter, value);

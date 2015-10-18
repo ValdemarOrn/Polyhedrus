@@ -20,6 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioLib\Biquad.h" />
+    <ClInclude Include="AudioLib\FastSin.h" />
+    <ClInclude Include="AudioLib\Noise.h" />
     <ClInclude Include="AudioLib\Utils.h" />
     <ClInclude Include="AudioLib\ValueTables.h" />
     <ClInclude Include="Default.h" />
@@ -31,6 +33,7 @@
     <ClInclude Include="FilterCascade.h" />
     <ClInclude Include="FilterHp.h" />
     <ClInclude Include="FilterMain.h" />
+    <ClInclude Include="Lfo.h" />
     <ClInclude Include="MixerSettings.h" />
     <ClInclude Include="ModMatrix.h" />
     <ClInclude Include="ModSourceDest.h" />
@@ -49,6 +52,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AudioLib\Biquad.cpp" />
+    <ClCompile Include="AudioLib\FastSin.cpp" />
+    <ClCompile Include="AudioLib\Noise.cpp" />
     <ClCompile Include="AudioLib\Utils.cpp" />
     <ClCompile Include="AudioLib\ValueTables.cpp" />
     <ClCompile Include="Envelope.cpp" />
@@ -57,6 +62,7 @@
     <ClCompile Include="FilterCascade.cpp" />
     <ClCompile Include="FilterHp.cpp" />
     <ClCompile Include="FilterMain.cpp" />
+    <ClCompile Include="Lfo.cpp" />
     <ClCompile Include="ModMatrix.cpp" />
     <ClCompile Include="Oscillator.cpp" />
     <ClCompile Include="Osc\OscMessage.cpp" />

@@ -96,7 +96,8 @@ namespace Leiftur
 			if (parameterString == "Shape") return (int)LfoParameters::Shape;
 			if (parameterString == "Attack") return (int)LfoParameters::Attack;
 			if (parameterString == "Decay") return (int)LfoParameters::Decay;
-			if (parameterString == "Bipolar") return (int)LfoParameters::Bipolar;
+			if (parameterString == "Sustain") return (int)LfoParameters::Sustain;
+			if (parameterString == "Release") return (int)LfoParameters::Release;
 			if (parameterString == "Sync") return (int)LfoParameters::Sync;
 		}
 		else if (module == Module::Arp)
