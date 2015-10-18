@@ -36,15 +36,18 @@ void Leiftur::FilterCascade::Initialize(int samplerate, int bufferSize, int modu
 
 void Leiftur::FilterCascade::Process(float * input, int len)
 {
+	float gInv = sqrt(1.0 / gain);
+
 	for (size_t i = 0; i < len; i++)
 	{
 		if (updateCounter <= 0)
 		{
 			Update();
+			gInv = sqrt(1.0 / gain);
 			updateCounter = modulationUpdateRate;
 		}
 
-		float value = ProcessSample(input[i]);
+		float value = ProcessSample(input[i]) * gInv;
 		buffer[i] = value;
 		updateCounter--;
 	}
@@ -57,16 +60,16 @@ float * Leiftur::FilterCascade::GetOutput()
 
 float Leiftur::FilterCascade::ProcessSample(float input)
 {
+	input *= gain;
 	float mx = 1.0 / Oversample;
 	float sum = 0.0;
-	float gInv = gain < 1.0 ? 1.0 / gain : 1.0 / std::sqrt(gain);
 
 	for (int i = 0; i < Oversample; i++)
 	{
-		float in = mx * i * input + (Oversample - i) * mx * oversampledInput;
-		in = AudioLib::Utils::TanhPoly(in * gain);
+		float in = mx * (i * input + (Oversample - i) * oversampledInput); // linear interpolation
+		in = AudioLib::Utils::TanhPoly(in);
 
-		float fb = totalResonance * 5 * (feedback - 0.5 * in);
+		float fb = totalResonance * 4 * (feedback - 0.5 * in);
 		float val = in - fb;
 		x = val;
 
@@ -85,7 +88,7 @@ float Leiftur::FilterCascade::ProcessSample(float input)
 
 	oversampledInput = input;
 	auto sample = (VX * x + VA * a + VB * b + VC * c + VD * d) * (1 - totalResonance * 0.5);
-	return sample * gInv;
+	return sample;
 }
 
 void Leiftur::FilterCascade::Update()
@@ -93,7 +96,7 @@ void Leiftur::FilterCascade::Update()
 	driveTotal = Drive + DriveMod;
 	driveTotal = AudioLib::Utils::Limit(driveTotal, 0.0, 1.0);
 
-	gain = (0.05 + 4.5 * driveTotal * driveTotal);
+	gain = (0.1 + 1.0 * driveTotal * driveTotal);
 
 	totalResonance = Resonance + ResonanceMod;
 	totalResonance = AudioLib::Utils::Limit(totalResonance, 0.0, 0.999);
