@@ -52,6 +52,7 @@ namespace Leiftur
 		Fm23 = 5,
 		Noise = 6,
 		Color = 7,
+		Output = 8,
 	};
 
 	enum class FilterHpParameters
@@ -80,6 +81,7 @@ namespace Leiftur
 		Sustain = 4,
 		Release = 5,
 		Velocity = 6,
+		Retrigger = 7,
 	};
 
 	enum class LfoParameters

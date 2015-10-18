@@ -5,6 +5,11 @@ namespace Leiftur
 {
 	class FilterCascade
 	{
+	private:
+		static const int CVtoAlphaSize = 10000;
+		static float CVtoAlpha[CVtoAlphaSize];
+		static void ComputeCVtoAlpha(int samplerate);
+
 	public:
 		const int Oversample = 4;
 

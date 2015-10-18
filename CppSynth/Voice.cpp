@@ -192,9 +192,12 @@ namespace Leiftur
 
 		//hpFilter.CutoffMod = modMatrix.ModDestinationValues[(int)ModDest::FilterHpCutoff];
 
-		//mainFilter.SetCutoffMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainCutoff]);
-		//mainFilter.SetDriveMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainDrive]);
-		//mainFilter.SetResonanceMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainResonance]);
+		mainFilterL.SetCutoffMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainCutoff]);
+		mainFilterR.SetCutoffMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainCutoff]);
+		mainFilterL.SetDriveMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainDrive]);
+		mainFilterR.SetDriveMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainDrive]);
+		mainFilterL.SetResonanceMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainResonance]);
+		mainFilterR.SetResonanceMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainResonance]);
 		
 	}
 	void Voice::MixOscillators(int bufferSize)

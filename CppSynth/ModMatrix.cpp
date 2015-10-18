@@ -44,11 +44,11 @@ namespace Leiftur
 		FixedRoutes[FixedRouteOsc3Pitchbend].Destination = ModDest::Osc3Pitch;
 
 		FixedRoutes[FixedRouteFilterHpKeytrack].Source = ModSource::KeyTrack;
-		FixedRoutes[FixedRouteFilterHpKeytrack].Amount = 0.1; // Todo: Tune filters
+		FixedRoutes[FixedRouteFilterHpKeytrack].Amount = 1.0;
 		FixedRoutes[FixedRouteFilterHpKeytrack].Destination = ModDest::FilterHpCutoff;
 
 		FixedRoutes[FixedRouteFilterMainKeytrack].Source = ModSource::KeyTrack;
-		FixedRoutes[FixedRouteFilterMainKeytrack].Amount = 0.1; // Todo: Tune filters
+		FixedRoutes[FixedRouteFilterMainKeytrack].Amount = 1.0;
 		FixedRoutes[FixedRouteFilterMainKeytrack].Destination = ModDest::FilterMainCutoff;
 
 		FixedRoutes[FixedRouteFilterHpEnv].Source = ModSource::EnvFilter;

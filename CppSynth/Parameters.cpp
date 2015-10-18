@@ -61,6 +61,7 @@ namespace Leiftur
 			if (parameterString == "Fm23") return (int)MixerParameters::Fm23;
 			if (parameterString == "Noise") return (int)MixerParameters::Noise;
 			if (parameterString == "Color") return (int)MixerParameters::Color;
+			if (parameterString == "Output") return (int)MixerParameters::Output;
 		}
 		else if (module == Module::FilterHp)
 		{
@@ -86,6 +87,7 @@ namespace Leiftur
 			if (parameterString == "Sustain") return (int)EnvParameters::Sustain;
 			if (parameterString == "Release") return (int)EnvParameters::Release;
 			if (parameterString == "Velocity") return (int)EnvParameters::Velocity;
+			if (parameterString == "Retrigger") return (int)EnvParameters::Retrigger;
 		}
 		else if (module == Module::Lfo1 || module == Module::Lfo2)
 		{
@@ -111,6 +113,8 @@ namespace Leiftur
 			if (parameterString == "Detune") return (int)VoiceParameters::Detune;
 			if (parameterString == "Spread") return (int)VoiceParameters::Spread;
 			if (parameterString == "Glide") return (int)VoiceParameters::Glide;
+			if (parameterString == "Bend") return (int)VoiceParameters::Bend;
+			if (parameterString == "Master") return (int)VoiceParameters::Master;
 			if (parameterString == "Polyphony") return (int)VoiceParameters::Polyphony;
 			if (parameterString == "Unison") return (int)VoiceParameters::Unison;
 			if (parameterString == "VoiceMode") return (int)VoiceParameters::VoiceMode;
