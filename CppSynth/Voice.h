@@ -25,13 +25,16 @@ namespace Leiftur
 		Oscillator osc2;
 		Oscillator osc3;
 
-		FilterHp hpFilter;
-		FilterMain mainFilter;
+		FilterHp hpFilterL;
+		FilterHp hpFilterR;
+		FilterMain mainFilterL;
+		FilterMain mainFilterR;
 		
 		Vca vcaOsc1;
 		Vca vcaOsc2;
 		Vca vcaOsc3;
-		Vca vcaOutput;
+		Vca vcaOutputL;
+		Vca vcaOutputR;
 
 		Envelope ampEnv;
 		Envelope filterEnv;
@@ -56,7 +59,7 @@ namespace Leiftur
 		void SetModWheel(float value);
 		void SetKeyPressure(float value);
 		void SetChannelPressure(float value);
-		void Process(float* buffer, int bufferSize);
+		void Process(float** buffer, int bufferSize);
 	private:
 		void ProcessModulation();
 		void MixOscillators(int bufferSize);

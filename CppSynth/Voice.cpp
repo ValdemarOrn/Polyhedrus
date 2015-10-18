@@ -29,13 +29,16 @@ namespace Leiftur
 		osc2.Initialize(samplerate, modulationUpdateRate, bufferSize);
 		osc3.Initialize(samplerate, modulationUpdateRate, bufferSize);
 
-		hpFilter.Initialize(samplerate, bufferSize, modulationUpdateRate);
-		mainFilter.Initialize(samplerate, bufferSize, modulationUpdateRate);
+		hpFilterL.Initialize(samplerate, bufferSize, modulationUpdateRate);
+		hpFilterR.Initialize(samplerate, bufferSize, modulationUpdateRate);
+		mainFilterL.Initialize(samplerate, bufferSize, modulationUpdateRate);
+		mainFilterR.Initialize(samplerate, bufferSize, modulationUpdateRate);
 
 		vcaOsc1.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		vcaOsc2.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		vcaOsc3.Initialize(samplerate, bufferSize, modulationUpdateRate);
-		vcaOutput.Initialize(samplerate, bufferSize, modulationUpdateRate);
+		vcaOutputL.Initialize(samplerate, bufferSize, modulationUpdateRate);
+		vcaOutputR.Initialize(samplerate, bufferSize, modulationUpdateRate);
 
 		ampEnv.Initialize(samplerate);
 		filterEnv.Initialize(samplerate);
@@ -104,7 +107,7 @@ namespace Leiftur
 		modMatrix.ModSourceValues[(int)ModSource::ChannelPressure] = value;
 	}
 
-	void Voice::Process(float * outputBuffer, int totalBufferSize)
+	void Voice::Process(float** outputBuffer, int totalBufferSize)
 	{
 		int i = 0;
 		int bufferSize = modulationUpdateRate;
@@ -119,14 +122,19 @@ namespace Leiftur
 
 			MixOscillators(bufferSize);
 
-			hpFilter.Process(osc1.GetOutput(), bufferSize);
-			mainFilter.Process(hpFilter.GetOutput(), bufferSize);
+			hpFilterL.Process(oscMixL, bufferSize);
+			hpFilterR.Process(oscMixR, bufferSize);
+			mainFilterL.Process(hpFilterL.GetOutput(), bufferSize);
+			mainFilterR.Process(hpFilterR.GetOutput(), bufferSize);
 
 			ampEnv.Process(bufferSize);
-			vcaOutput.ControlVoltage = ampEnv.GetOutput();
-			vcaOutput.Process(mainFilter.GetOutput(), bufferSize);
+			vcaOutputL.ControlVoltage = ampEnv.GetOutput();
+			vcaOutputR.ControlVoltage = ampEnv.GetOutput();
+			vcaOutputL.Process(mainFilterL.GetOutput(), bufferSize);
+			vcaOutputR.Process(mainFilterR.GetOutput(), bufferSize);
 
-			AudioLib::Utils::Copy(vcaOutput.GetOutput(), &outputBuffer[i], bufferSize);
+			AudioLib::Utils::Copy(vcaOutputL.GetOutput(), &outputBuffer[0][i], bufferSize);
+			AudioLib::Utils::Copy(vcaOutputR.GetOutput(), &outputBuffer[1][i], bufferSize);
 			i += modulationUpdateRate;
 		}
 	}
@@ -178,14 +186,14 @@ namespace Leiftur
 		float osc2Pan = mixer.Osc2Pan + mixer.Osc2PanMod;
 		float osc3Pan = mixer.Osc3Pan + mixer.Osc3PanMod;
 
-		float osc1VolL = osc1Vol * Limit(-osc1Pan * 2, 0.0, 1.0);
-		float osc1VolR = osc1Vol * Limit(osc1Pan * 2, 0.0, 1.0);
+		float osc1VolL = osc1Vol * Limit(-osc1Pan + 1, 0.0, 1.0);
+		float osc1VolR = osc1Vol * Limit(osc1Pan + 1, 0.0, 1.0);
 
-		float osc2VolL = osc2Vol * Limit(-osc2Pan * 2, 0.0, 1.0);
-		float osc2VolR = osc2Vol * Limit(osc2Pan * 2, 0.0, 1.0);
+		float osc2VolL = osc2Vol * Limit(-osc2Pan + 1, 0.0, 1.0);
+		float osc2VolR = osc2Vol * Limit(osc2Pan + 1, 0.0, 1.0);
 
-		float osc3VolL = osc3Vol * Limit(-osc3Pan * 2, 0.0, 1.0);
-		float osc3VolR = osc3Vol * Limit(osc3Pan * 2, 0.0, 1.0);
+		float osc3VolL = osc3Vol * Limit(-osc3Pan + 1, 0.0, 1.0);
+		float osc3VolR = osc3Vol * Limit(osc3Pan + 1, 0.0, 1.0);
 
 		ZeroBuffer(oscMixL, bufferSize);
 		ZeroBuffer(oscMixR, bufferSize);

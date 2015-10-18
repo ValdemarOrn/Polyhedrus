@@ -35,7 +35,7 @@ namespace Leiftur
 
 	void Oscillator::SetWaveform(int table)
 	{
-		wavetable = Wavetable::Wavetables[0];
+		wavetable = Wavetable::Wavetables[table];
 		shiftValue = (32 - (int)(log2(wavetable->SampleSize) + 0.01)); // how many bits of the iterator are used to address the table
 	}
 

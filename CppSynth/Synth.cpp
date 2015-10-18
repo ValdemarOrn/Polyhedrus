@@ -104,7 +104,7 @@ namespace Leiftur
 
 	void Synth::ProcessAudio(float** buffer, int bufferSize)
 	{
-		Voices[0].Process(buffer[0], bufferSize);
+		Voices[0].Process(buffer, bufferSize);
 	}
 
 	// ------------------- Inner Methods ----------------------

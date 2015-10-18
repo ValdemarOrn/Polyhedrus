@@ -49,7 +49,7 @@ extern "C"
 		for (size_t i = 0; i < bufferSize; i++)
 		{
 			buffer[0][i] = l[i];
-			buffer[1][i] = l[i];
+			buffer[1][i] = r[i];
 		}
 	}
 
