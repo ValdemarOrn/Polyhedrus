@@ -38,6 +38,7 @@ namespace Leiftur
 		void SetParameter(EnvParameters parameter, double value);
 		float Process(int samples);
 		inline float GetOutput() { return output * (1 - VelocityAmount + Velocity * VelocityAmount); }
+		void Silence();
 		void Reset();
 
 	};

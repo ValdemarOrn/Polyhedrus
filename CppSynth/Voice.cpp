@@ -9,18 +9,26 @@ namespace Leiftur
 	{
 		oscMixL = 0;
 		oscMixR = 0;
+		outputL = 0;
+		outputR = 0;
 	}
 
 	Voice::~Voice()
 	{
 		delete oscMixL;
 		delete oscMixR;
+		delete outputL;
+		delete outputR;
 	}
 
 	void Voice::Initialize(int samplerate, int modulationUpdateRate, int bufferSize)
 	{
 		oscMixL = new float[bufferSize];
 		oscMixR = new float[bufferSize];
+		outputL = new float[bufferSize];
+		outputR = new float[bufferSize];
+		output[0] = outputL;
+		output[1] = outputR;
 
 		this->samplerate = samplerate;
 		this->modulationUpdateRate = modulationUpdateRate;
@@ -61,13 +69,13 @@ namespace Leiftur
 
 	void Voice::SetGate(float velocity)
 	{
-		gate = velocity > 0;
-		ampEnv.Gate = gate;
-		filterEnv.Gate = gate;
-		modEnv.Gate = gate;
-		modMatrix.ModSourceValues[(int)ModSource::Gate] = gate;
+		Gate = velocity > 0;
+		ampEnv.Gate = Gate;
+		filterEnv.Gate = Gate;
+		modEnv.Gate = Gate;
+		modMatrix.ModSourceValues[(int)ModSource::Gate] = Gate;
 
-		if (gate)
+		if (Gate)
 		{
 			this->velocity = velocity;
 			ampEnv.Velocity = velocity;
@@ -75,6 +83,13 @@ namespace Leiftur
 			modEnv.Velocity = velocity;
 			modMatrix.ModSourceValues[(int)ModSource::Velocity] = velocity;
 		}
+	}
+
+	void Voice::TurnOff()
+	{
+		ampEnv.Silence();
+		filterEnv.Silence();
+		modEnv.Silence();
 	}
 
 	void Voice::SetNote(int note)
@@ -107,7 +122,7 @@ namespace Leiftur
 		modMatrix.ModSourceValues[(int)ModSource::ChannelPressure] = value;
 	}
 
-	void Voice::Process(float** outputBuffer, int totalBufferSize)
+	void Voice::Process(int totalBufferSize)
 	{
 		int i = 0;
 		int bufferSize = modulationUpdateRate;
@@ -133,10 +148,15 @@ namespace Leiftur
 			vcaOutputL.Process(mainFilterL.GetOutput(), bufferSize);
 			vcaOutputR.Process(mainFilterR.GetOutput(), bufferSize);
 
-			AudioLib::Utils::Copy(vcaOutputL.GetOutput(), &outputBuffer[0][i], bufferSize);
-			AudioLib::Utils::Copy(vcaOutputR.GetOutput(), &outputBuffer[1][i], bufferSize);
+			AudioLib::Utils::Copy(vcaOutputL.GetOutput(), &outputL[i], bufferSize);
+			AudioLib::Utils::Copy(vcaOutputR.GetOutput(), &outputR[i], bufferSize);
 			i += modulationUpdateRate;
 		}
+	}
+
+	float** Voice::GetOutput()
+	{
+		return output;
 	}
 
 	void Voice::ProcessModulation()

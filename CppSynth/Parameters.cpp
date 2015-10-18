@@ -108,11 +108,12 @@ namespace Leiftur
 		}
 		else if (module == Module::Voices)
 		{
-			if (parameterString == "Polyphony") return (int)VoiceParameters::Polyphony;
-			if (parameterString == "Unison") return (int)VoiceParameters::Unison;
 			if (parameterString == "Detune") return (int)VoiceParameters::Detune;
 			if (parameterString == "Spread") return (int)VoiceParameters::Spread;
 			if (parameterString == "Glide") return (int)VoiceParameters::Glide;
+			if (parameterString == "Polyphony") return (int)VoiceParameters::Polyphony;
+			if (parameterString == "Unison") return (int)VoiceParameters::Unison;
+			if (parameterString == "VoiceMode") return (int)VoiceParameters::VoiceMode;
 		}
 		else if (module == Module::ModMatrix)
 		{

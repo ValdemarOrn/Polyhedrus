@@ -12,9 +12,17 @@
 
 namespace Leiftur
 {
-	const int MaxVoiceCount = 1;
+	const int MaxVoiceCount = 32;
 	const int ModulationUpdateRate = 8;
 	const int BufferSize = 64;
+
+	enum class VoiceMode
+	{
+		MonoHighest = 0,
+		MonoLowest = 1,
+		MonoNewest = 2,
+		PolyRoundRobin = 3,
+	};
 
 	class Synth
 	{
@@ -27,6 +35,14 @@ namespace Leiftur
 		volatile bool isClosing;
 		UdpTranceiver* udpTranceiver;
 		std::thread messageListenerThread;
+		VoiceMode voiceMode;
+		int polyphony;
+		int unison;
+		int nextVoiceIndex;
+		int noteCounters[128];
+		int noteCounter;
+		float lastVelocity;
+		float masterVol;
 
 	public:
 		Synth();
@@ -45,7 +61,7 @@ namespace Leiftur
 		void SetParameterInner(Module module, int parameter, double value, bool isTranslated);
 		//double TranslateValue(Module module, int parameter, double value);
 
-		void NoteOn(char note, char velocity);
+		void NoteOn(char note, float velocity);
 		void NoteOff(char note);
 		void MidiCC(uint8_t byte1, uint8_t byte2);
 		void MidiProgram(uint8_t program);
@@ -53,6 +69,10 @@ namespace Leiftur
 		void SetModWheel(float value);
 		void SetKeyPressure(int note, float pressure);
 		void SetChannelPressure(float pressure);
+
+		void SetGlobalVoiceParameter(VoiceParameters parameter, double value);
+		void UpdateVoiceStates();
+		int FindNextMonoNote();
 	};
 }
 

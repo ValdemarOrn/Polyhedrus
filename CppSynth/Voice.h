@@ -16,6 +16,7 @@ namespace Leiftur
 	{
 	public:
 		int Note;
+		bool Gate;
 
 	private:
 		ModMatrix modMatrix;
@@ -43,9 +44,12 @@ namespace Leiftur
 		float* oscMixL;
 		float* oscMixR;
 
+		float* outputL;
+		float* outputR;
+		float* output[2];
+
 		int samplerate;
 		int modulationUpdateRate;
-		bool gate;
 		float velocity;
 
 	public:
@@ -54,12 +58,14 @@ namespace Leiftur
 		void Initialize(int samplerate, int modulationUpdateRate, int bufferSize);
 		void SetParameter(Module module, int parameter, double value);
 		void SetGate(float velocity);
+		void TurnOff();
 		void SetNote(int note);
 		void SetPitchWheel(float pitchbend);
 		void SetModWheel(float value);
 		void SetKeyPressure(float value);
 		void SetChannelPressure(float value);
-		void Process(float** buffer, int bufferSize);
+		void Process(int bufferSize);
+		float** GetOutput();
 	private:
 		void ProcessModulation();
 		void MixOscillators(int bufferSize);

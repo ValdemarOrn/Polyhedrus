@@ -71,16 +71,16 @@ namespace Leiftur
 	{
 		float waveIndex = (Shape + ShapeMod) * wavetable->Count;
 
-		auto pitch = Note + 12 * Octave + Semi + 0.01 * Cent + 24 * PitchMod;
-		auto partialIndex = Wavetable::WavetableIndex[(int)pitch];
+		float pitch = Note + 12.0f * Octave + Semi + 0.01f * Cent + 24.0f * PitchMod;
+		int partialIndex = Wavetable::WavetableIndex[(int)pitch];
 		waveMix = waveIndex - (int)waveIndex;
 
 		bool useNextWave = (waveIndex < wavetable->Count - 1);
-		waveA = wavetable->GetTable(partialIndex, waveIndex);
-		waveB = wavetable->GetTable(partialIndex, waveIndex + useNextWave);
+		waveA = wavetable->GetTable(partialIndex, (int)waveIndex);
+		waveB = wavetable->GetTable(partialIndex, (int)waveIndex + useNextWave);
 
 		float freq = AudioLib::Utils::Note2Freq(pitch);
 		float samplesPerCycle = samplerate / freq;
-		increment = (1.0 / samplesPerCycle) * UINT32_MAX;
+		increment = (int)((1.0f / samplesPerCycle) * UINT32_MAX);
 	}
 }

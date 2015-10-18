@@ -58,18 +58,18 @@ namespace AudioLib
 
 		static inline float TanhPoly(float x)
 		{
-			float sign = (x >= 0) ? 1.0 : -1.0;
+			float sign = (x >= 0) ? 1.0f : -1.0f;
 
 			x = x * sign;
 			float xSquare = x * x;
 			float xCube = xSquare * x;
-			float result = 1.0f - 1.0 / (1 + x + xSquare + xCube);
+			float result = 1.0f - 1.0f / (1.0f + x + xSquare + xCube);
 			return result * sign;
 		}
 
 		static inline void GainAndSum(float* dest, float* source, float gain, int len)
 		{
-			for (size_t i = 0; i < len; i++)
+			for (int i = 0; i < len; i++)
 				dest[i] += source[i] * gain;
 		}
 	}

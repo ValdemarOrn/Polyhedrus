@@ -133,6 +133,12 @@ namespace Leiftur
 		return GetOutput();
 	}
 
+	void Envelope::Silence()
+	{
+		iterator = 0;
+		section = SectionPostRelease;
+	}
+
 	void Envelope::Reset()
 	{
 		iterator = 0;

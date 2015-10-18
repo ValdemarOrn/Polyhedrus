@@ -35,10 +35,10 @@ extern "C"
 	{
 		float l[1024];
 		float r[1024];
-		for (size_t i = 0; i < bufferSize; i++)
+		for (int i = 0; i < bufferSize; i++)
 		{
-			l[i] = buffer[0][i];
-			r[i] = buffer[1][i];
+			l[i] = (float)buffer[0][i];
+			r[i] = (float)buffer[1][i];
 		}
 
 		float* lr[2];
@@ -46,7 +46,7 @@ extern "C"
 		lr[1] = r;
 		instance->ProcessAudio(lr, bufferSize);
 
-		for (size_t i = 0; i < bufferSize; i++)
+		for (int i = 0; i < bufferSize; i++)
 		{
 			buffer[0][i] = l[i];
 			buffer[1][i] = r[i];

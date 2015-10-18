@@ -60,7 +60,7 @@ namespace Leiftur
 		FixedRoutes[FixedRouteFilterMainEnv].Destination = ModDest::FilterMainCutoff;
 	}
 
-	void inline ModMatrix::ApplyRoute(ModRoute * route)
+	__inline_always void ModMatrix::ApplyRoute(ModRoute * route)
 	{
 		auto source = ModSourceValues[(int)route->Source];
 		auto viaSource = ModSourceValues[(int)route->ViaSource];

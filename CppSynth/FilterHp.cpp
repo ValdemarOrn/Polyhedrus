@@ -9,7 +9,7 @@ namespace Leiftur
 		Cutoff = 0.0;
 		Resonance = 0.0;
 		CutoffMod = 0.0;
-		updateCounter = 0.0;
+		updateCounter = 0;
 		buffer = 0;
 	}
 
@@ -36,10 +36,10 @@ namespace Leiftur
 		switch (parameter)
 		{
 		case FilterHpParameters::Cutoff:
-			Cutoff = value;
+			Cutoff = (float)value;
 			break;
 		case FilterHpParameters::Resonance:
-			Resonance = value;
+			Resonance = (float)value;
 			biquad.SetQ(0.5 + value * 10);
 			break;
 		}
@@ -47,7 +47,7 @@ namespace Leiftur
 
 	void FilterHp::Process(float * input, int len)
 	{
-		for (size_t i = 0; i < len; i++)
+		for (int i = 0; i < len; i++)
 		{
 			if (updateCounter <= 0)
 			{
@@ -55,7 +55,7 @@ namespace Leiftur
 				updateCounter = modulationUpdateRate;
 			}
 
-			float value = biquad.Process(input[i]);
+			float value = (float)biquad.Process(input[i]);
 			buffer[i] = value;
 			updateCounter--;
 		}

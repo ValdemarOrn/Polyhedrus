@@ -105,11 +105,14 @@ namespace Leiftur
 
 	enum class VoiceParameters
 	{
-		Polyphony = 1,
-		Unison = 2,
-		Detune = 3,
-		Spread = 4,
-		Glide = 5,
+		Detune = 1,
+		Spread = 2,
+		Glide = 3,
+		Bend = 4,
+		Master = 5,
+		Polyphony = 6,
+		Unison = 7,
+		VoiceMode = 8,
 	};
 
 	enum class ModMatrixParameters
