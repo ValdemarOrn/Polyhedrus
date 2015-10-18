@@ -16,17 +16,13 @@ using System.Windows.Shapes;
 namespace Leiftur.Ui
 {
 	/// <summary>
-	/// Interaction logic for SynthView.xaml
+	/// Interaction logic for MatrixSection.xaml
 	/// </summary>
-	public partial class SynthView : UserControl
+	public partial class MatrixSection : UserControl
 	{
-		private readonly SynthViewModel Vm;
-
-		public SynthView()
+		public MatrixSection()
 		{
 			InitializeComponent();
-			this.Vm = new SynthViewModel();
-			this.DataContext = Vm;
 		}
 	}
 }

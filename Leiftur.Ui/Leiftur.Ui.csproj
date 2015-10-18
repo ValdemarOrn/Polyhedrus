@@ -76,12 +76,16 @@
     <Compile Include="LfoSection.xaml.cs">
       <DependentUpon>LfoSection.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MatrixSection.xaml.cs">
+      <DependentUpon>MatrixSection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MixerSection.xaml.cs">
       <DependentUpon>MixerSection.xaml</DependentUpon>
     </Compile>
     <Compile Include="ModKnob.xaml.cs">
       <DependentUpon>ModKnob.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ModRoute.cs" />
     <Compile Include="OscSection.xaml.cs">
       <DependentUpon>OscSection.xaml</DependentUpon>
     </Compile>
@@ -132,6 +136,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MatrixSection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MixerSection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

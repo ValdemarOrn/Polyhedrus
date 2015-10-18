@@ -9,6 +9,17 @@ namespace Leiftur.Ui
 {
 	public class SynthViewModel : ViewModelBase
 	{
+		private ModRoute[] modRoutes;
 
+		public SynthViewModel()
+		{
+			ModRoutes = Enumerable.Range(0, 12).Select(x => new ModRoute()).ToArray();
+		}
+
+		public ModRoute[] ModRoutes
+		{
+			get { return modRoutes; }
+			set { modRoutes = value; }
+		}
 	}
 }
