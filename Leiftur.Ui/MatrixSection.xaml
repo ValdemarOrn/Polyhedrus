@@ -13,11 +13,11 @@
     <StackPanel>
 
         <StackPanel Orientation="Horizontal">
-            <Label Width="93" Style="{StaticResource MatrixLabel}" FontWeight="Normal">Mod Source</Label>
-            <Label Width="95" Style="{StaticResource MatrixLabel}" FontWeight="Normal">Destination</Label>
-            <Label Width="93" Style="{StaticResource MatrixLabel}" FontWeight="Normal">Via Source</Label>
-            <Label Width="65" Style="{StaticResource MatrixLabel}" FontWeight="Normal" HorizontalContentAlignment="Right">Via Amount</Label>
-            <Label Width="65" Style="{StaticResource MatrixLabel}" FontWeight="Normal" HorizontalContentAlignment="Right">Amount</Label>
+            <Label Width="93" Style="{StaticResource MatrixLabel}" FontWeight="Normal" HorizontalContentAlignment="Center">Mod Source</Label>
+            <Label Width="95" Style="{StaticResource MatrixLabel}" FontWeight="Normal" HorizontalContentAlignment="Center">Destination</Label>
+            <Label Width="93" Style="{StaticResource MatrixLabel}" FontWeight="Normal" HorizontalContentAlignment="Center">Via Source</Label>
+            <Label Width="65" Style="{StaticResource MatrixLabel}" FontWeight="Normal" HorizontalContentAlignment="Center">Via Amount</Label>
+            <Label Width="65" Style="{StaticResource MatrixLabel}" FontWeight="Normal" HorizontalContentAlignment="Center">Amount</Label>
         </StackPanel>
 
         <ItemsControl ItemsSource="{Binding ModRoutes}" Grid.Row="3" Grid.RowSpan="10">
