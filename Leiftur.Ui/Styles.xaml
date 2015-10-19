@@ -43,6 +43,11 @@
                 <DropShadowEffect ShadowDepth="0" Direction="0" Color="#555" Opacity="0.5" BlurRadius="12"/>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="CornflowerBlue"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style TargetType="Label" x:Key="MarkerLabel">
@@ -51,8 +56,24 @@
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Margin" Value="10,2" />
-        <Setter Property="Padding" Value="0" />
+        <Setter Property="Margin" Value="2,0" />
+        <Setter Property="Padding" Value="6,2" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="CornflowerBlue"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="Button" x:Key="MarkerButton">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Label Style="{StaticResource MarkerLabel}" 
+                           Content="{Binding Path=Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style TargetType="local:ModKnob">
@@ -76,6 +97,11 @@
                 <Setter Property="VerticalContentAlignment" Value="Center" />
                 <Setter Property="Margin" Value="0" />
                 <Setter Property="Padding" Value="0" />
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Foreground" Value="CornflowerBlue"/>
+                    </Trigger>
+                </Style.Triggers>
             </Style>
         </Style.Resources>
     </Style>
@@ -96,6 +122,11 @@
                 <Setter Property="VerticalContentAlignment" Value="Center" />
                 <Setter Property="Margin" Value="0" />
                 <Setter Property="Padding" Value="0" />
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Foreground" Value="CornflowerBlue"/>
+                    </Trigger>
+                </Style.Triggers>
             </Style>
         </Style.Resources>
     </Style>
@@ -109,6 +140,11 @@
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="Margin" Value="5,10,5,10" />
         <Setter Property="Fill" Value="#ddd" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="CornflowerBlue"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style TargetType="wpfUi:FlatToggleButton">
@@ -120,6 +156,11 @@
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="Background" Value="#10000000" />
         <Setter Property="Margin" Value="5,10,5,10" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="CornflowerBlue"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style TargetType="wpfUi:Spinner" x:Key="MatrixSpinner">

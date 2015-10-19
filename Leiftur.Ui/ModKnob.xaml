@@ -33,16 +33,16 @@
 					</Ellipse.Fill>
 				</Ellipse>
 				<Ellipse Margin="9" Fill="#FF333333"></Ellipse>
-				<Canvas>
-					<!--<Path x:Name="IndicatorLine" Fill="Blue" Opacity="0.8" Stroke="White" StrokeThickness="10" Stretch="None" Data="M01,40 L20,40"/>-->
+                <Canvas>
+                    <!--<Path x:Name="IndicatorLine" Fill="Blue" Opacity="0.8" Stroke="White" StrokeThickness="10" Stretch="None" Data="M01,40 L20,40"/>-->
 					<Path x:Name="IndicatorLine" Fill="Blue" Opacity="0.8" Stroke="White" StrokeThickness="10" Stretch="None" Data="{Binding ElementName=Main, Path=IndicatorLineData}"/>
 				</Canvas>
 			</Grid>
-			
-			<Canvas>
-				<!--<Path x:Name="ModLine" Stroke="#ffFF2A00" StrokeThickness="10" Stretch="None" Data="M5,60 A 55,55 90 0 1 60,5"></Path>-->
-				<Path x:Name="ModLine" Stroke="#ffFF2A00" StrokeThickness="10" Stretch="None" Data="{Binding ElementName=Main, Path=ModLineData}"></Path>
-			</Canvas>
+
+            <Canvas>
+                <!--<Path x:Name="ModLine" Stroke="#ffFF2A00" StrokeThickness="10" Stretch="None" Data="M5,60 A 55,55 90 0 1 60,5"></Path>-->
+                <Path x:Name="ModLine" Stroke="#ffFF2A00" StrokeThickness="10" Stretch="None" Data="{Binding ElementName=Main, Path=ModLineData}" />
+            </Canvas>
 		</Grid>
 		
 	</Viewbox>

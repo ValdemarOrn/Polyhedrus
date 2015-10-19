@@ -41,9 +41,9 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Style="{StaticResource MarkerLabel}">Osc 1</Label>
-                <Label Grid.Column="1" Style="{StaticResource MarkerLabel}">Osc 2</Label>
-                <Label Grid.Column="2" Style="{StaticResource MarkerLabel}">Osc 3</Label>
+                <Button Grid.Column="0" Style="{StaticResource MarkerButton}">Osc 1</Button>
+                <Button Grid.Column="1" Style="{StaticResource MarkerButton}">Osc 2</Button>
+                <Button Grid.Column="2" Style="{StaticResource MarkerButton}">Osc 3</Button>
                 <Rectangle Style="{StaticResource SectionLine}" />
             </Grid>
 
@@ -54,7 +54,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Style="{StaticResource MarkerLabel}">Mixer</Label>
+                <Button Grid.Column="0" Style="{StaticResource MarkerButton}">Mixer</Button>
                 <Rectangle Style="{StaticResource SectionLine}" />
             </Grid>
 
@@ -65,7 +65,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Style="{StaticResource MarkerLabel}">Voices</Label>
+                <Button Grid.Column="0" Style="{StaticResource MarkerButton}">Voices</Button>
                 <Rectangle Style="{StaticResource SectionLine}" />
             </Grid>
 
@@ -77,7 +77,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Style="{StaticResource MarkerLabel}">Character</Label>
+            <Button Grid.Column="0" Style="{StaticResource MarkerButton}">Character</Button>
             <Rectangle Style="{StaticResource SectionLine}" />
         </Grid>
 
@@ -88,7 +88,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Style="{StaticResource MarkerLabel}">HP Filter</Label>
+            <Button Grid.Column="0" Style="{StaticResource MarkerButton}">HP Filter</Button>
             <Rectangle Style="{StaticResource SectionLine}" />
         </Grid>
 
@@ -99,7 +99,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Style="{StaticResource MarkerLabel}">Filter</Label>
+            <Button Grid.Column="0" Style="{StaticResource MarkerButton}">Filter</Button>
             <Rectangle Style="{StaticResource SectionLine}" />
         </Grid>
 
@@ -114,9 +114,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Style="{StaticResource MarkerLabel}">Filter Env</Label>
-                <Label Grid.Column="1" Style="{StaticResource MarkerLabel}">Amp Env</Label>
-                <Label Grid.Column="2" Style="{StaticResource MarkerLabel}">Mod Env</Label>
+                <Button Grid.Column="0" Style="{StaticResource MarkerButton}">Envelopes</Button>
                 <Rectangle Style="{StaticResource SectionLine}" />
             </Grid>
 
@@ -131,9 +129,9 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Style="{StaticResource MarkerLabel}">LFO 1</Label>
-                <Label Grid.Column="1" Style="{StaticResource MarkerLabel}">LFO 2</Label>
-                <Label Grid.Column="2" Style="{StaticResource MarkerLabel}">Arpeggio</Label>
+                <Button Grid.Column="0" Style="{StaticResource MarkerButton}">LFO 1</Button>
+                <Button Grid.Column="1" Style="{StaticResource MarkerButton}">LFO 1</Button>
+                <Button Grid.Column="2" Style="{StaticResource MarkerButton}">Arpeggiator</Button>
                 <Rectangle Style="{StaticResource SectionLine}" />
             </Grid>
             
@@ -147,8 +145,8 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Style="{StaticResource MarkerLabel}">Delay</Label>
-                <Label Grid.Column="1" Style="{StaticResource MarkerLabel}">Chorus</Label>
+                <Button Grid.Column="0" Style="{StaticResource MarkerButton}">Delay</Button>
+                <Button Grid.Column="1" Style="{StaticResource MarkerButton}">Chorus</Button>
                 <Rectangle Style="{StaticResource SectionLine}" />
             </Grid>
             
