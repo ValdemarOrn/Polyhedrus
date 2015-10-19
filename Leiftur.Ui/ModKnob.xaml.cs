@@ -165,9 +165,9 @@ namespace Leiftur.Ui
 			if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
 				dx *= 0.2;
 
-			if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+			/*if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
 				ChangeModValue(dx);
-			else
+			else*/
 				ChangeValue(dx);
 		}
 

@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A0E4E192-61B1-4136-A6C3-B165AB230F03}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Leiftur.Ui</RootNamespace>
     <AssemblyName>Leiftur.Ui</AssemblyName>
@@ -33,6 +33,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -79,6 +82,7 @@
     <Compile Include="MatrixSection.xaml.cs">
       <DependentUpon>MatrixSection.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Messaging\OscTranceiver.cs" />
     <Compile Include="MixerSection.xaml.cs">
       <DependentUpon>MixerSection.xaml</DependentUpon>
     </Compile>
@@ -86,6 +90,7 @@
       <DependentUpon>ModKnob.xaml</DependentUpon>
     </Compile>
     <Compile Include="ModRoute.cs" />
+    <Compile Include="OscAddress.cs" />
     <Compile Include="OscSection.xaml.cs">
       <DependentUpon>OscSection.xaml</DependentUpon>
     </Compile>
@@ -200,6 +205,10 @@
     <ProjectReference Include="..\..\AudioLib\AudioLib\AudioLib.csproj">
       <Project>{4905489d-6f81-4129-8780-744ced5b3269}</Project>
       <Name>AudioLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SharpOSC\SharpOSC\SharpOSC.csproj">
+      <Project>{9b922b0b-5595-4e05-8270-f63faaa6c299}</Project>
+      <Name>SharpOSC</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

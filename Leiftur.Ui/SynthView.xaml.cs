@@ -20,12 +20,17 @@ namespace Leiftur.Ui
 	/// </summary>
 	public partial class SynthView : UserControl
 	{
-		private readonly SynthViewModel Vm;
+		private SynthViewModel Vm;
 
 		public SynthView()
 		{
 			InitializeComponent();
-			this.Vm = new SynthViewModel();
+		}
+
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			var controls = OscAddress.GetChildrenWithValue(this);
+			this.Vm = new SynthViewModel(controls);
 			this.DataContext = Vm;
 		}
 	}

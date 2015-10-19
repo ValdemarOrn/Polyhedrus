@@ -5,10 +5,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Leiftur.Ui"
              xmlns:wpfUi="clr-namespace:AudioLib.WpfUi;assembly=AudioLib"
+             xmlns:lpCore="clr-namespace:LowProfile.Core.Ui;assembly=LowProfile.Core"
              mc:Ignorable="d" 
              d:DesignHeight="520" d:DesignWidth="1136">
     <UserControl.Resources>
-        <ResourceDictionary Source="Styles.xaml" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <lpCore:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <lpCore:BoolToBoldConverter x:Key="BoolToBoldConverter" />
+        </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -41,13 +48,21 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Style="{StaticResource MarkerButton}">Osc 1</Button>
-                <Button Grid.Column="1" Style="{StaticResource MarkerButton}">Osc 2</Button>
-                <Button Grid.Column="2" Style="{StaticResource MarkerButton}">Osc 3</Button>
+                <Button Grid.Column="0" Style="{StaticResource MarkerButton}" Command="{Binding SetModuleVisibleCommand}" CommandParameter="Osc1" 
+                        FontWeight="{Binding Osc1Visible, Converter={StaticResource BoolToBoldConverter}}" Width="50">Osc 1</Button>
+                <Button Grid.Column="1" Style="{StaticResource MarkerButton}" Command="{Binding SetModuleVisibleCommand}" CommandParameter="Osc2"
+                        FontWeight="{Binding Osc2Visible, Converter={StaticResource BoolToBoldConverter}}" Width="50">Osc 2</Button>
+                <Button Grid.Column="2" Style="{StaticResource MarkerButton}" Command="{Binding SetModuleVisibleCommand}" CommandParameter="Osc3" 
+                        FontWeight="{Binding Osc3Visible, Converter={StaticResource BoolToBoldConverter}}" Width="50">Osc 3</Button>
                 <Rectangle Style="{StaticResource SectionLine}" />
             </Grid>
 
-            <local:OscSection Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="245" Height="171" />
+            <local:OscSection Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="245" Height="171" 
+                              ModuleAddress="Osc1" Visibility="{Binding Osc1Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
+            <local:OscSection Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="245" Height="171" 
+                              ModuleAddress="Osc2" Visibility="{Binding Osc2Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
+            <local:OscSection Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="245" Height="171" 
+                              ModuleAddress="Osc3" Visibility="{Binding Osc3Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
 
             <Grid Grid.Row="2" Grid.Column="1" Style="{StaticResource SectionTitle}">
                 <Grid.ColumnDefinitions>
@@ -153,12 +168,13 @@
             <local:DelaySection Grid.Row="5" Grid.Column="9" VerticalAlignment="Top" HorizontalAlignment="Left" Width="392" Height="114" />
 
             <Label Style="{StaticResource FancyLabel}" Margin="5,15,5,5" FontSize="20">Amp Env Attack: 220 ms</Label>
+            <Button Click="Button_Click">Go</Button>
         </StackPanel>
 
 
         <StackPanel Grid.Column="3" Grid.ColumnSpan="5" Grid.Row="1" Grid.RowSpan="2" Margin="0,125,0,0">
             <Label Style="{StaticResource FancyLabel}">Factory Soundset</Label>
-            <Label Style="{StaticResource FancyLabel}">A Fire Upon The Deep</Label>
+            <Label Style="{StaticResource FancyLabel}">001: Sound Patch 1</Label>
         </StackPanel>
         <local:MatrixSection HorizontalAlignment="Center" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="5" Grid.RowSpan="3" Margin="0,10,0,0" />
     </Grid>

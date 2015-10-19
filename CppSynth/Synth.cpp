@@ -142,7 +142,7 @@ namespace Leiftur
 
 			if (data.size() > 0)
 			{
-				auto oscMsgs = OscMessage::ParseBundle(data);
+				auto oscMsgs = OscMessage::ParseRawBytes(data);
 				auto oscMsg = oscMsgs[0];
 				if (oscMsg.TypeTags[0] == 'f')
 				{
