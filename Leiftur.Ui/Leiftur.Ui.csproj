@@ -58,74 +58,89 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ArpeggiatorSection.xaml.cs">
+    <Compile Include="Components\ArpeggiatorSection.xaml.cs">
       <DependentUpon>ArpeggiatorSection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CharacterSection.xaml.cs">
+    <Compile Include="Components\BaseControl.cs" />
+    <Compile Include="Components\CharacterSection.xaml.cs">
       <DependentUpon>CharacterSection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DelaySection.xaml.cs">
+    <Compile Include="Components\DelaySection.xaml.cs">
       <DependentUpon>DelaySection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EnvelopeSection.xaml.cs">
+    <Compile Include="Components\EnvelopeSection.xaml.cs">
       <DependentUpon>EnvelopeSection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FilterHpSection.xaml.cs">
+    <Compile Include="Components\FilterHpSection.xaml.cs">
       <DependentUpon>FilterHpSection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FilterMainSection.xaml.cs">
+    <Compile Include="Components\FilterMainSection.xaml.cs">
       <DependentUpon>FilterMainSection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LfoSection.xaml.cs">
+    <Compile Include="Components\FlatToggleButton.xaml.cs">
+      <DependentUpon>FlatToggleButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\LfoSection.xaml.cs">
       <DependentUpon>LfoSection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MatrixSection.xaml.cs">
+    <Compile Include="Components\MatrixSection.xaml.cs">
       <DependentUpon>MatrixSection.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\Spinner.xaml.cs">
+      <DependentUpon>Spinner.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Messaging\OscTranceiver.cs" />
-    <Compile Include="MixerSection.xaml.cs">
+    <Compile Include="Components\MixerSection.xaml.cs">
       <DependentUpon>MixerSection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ModKnob.xaml.cs">
+    <Compile Include="Components\ModKnob.xaml.cs">
       <DependentUpon>ModKnob.xaml</DependentUpon>
     </Compile>
     <Compile Include="ModRoute.cs" />
     <Compile Include="OscAddress.cs" />
-    <Compile Include="OscSection.xaml.cs">
+    <Compile Include="Components\OscSection.xaml.cs">
       <DependentUpon>OscSection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SynthView.xaml.cs">
+    <Compile Include="Components\SynthView.xaml.cs">
       <DependentUpon>SynthView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SynthViewModel.cs" />
-    <Compile Include="VoicesSection.xaml.cs">
+    <Compile Include="Components\VoicesSection.xaml.cs">
       <DependentUpon>VoicesSection.xaml</DependentUpon>
     </Compile>
-    <Page Include="ArpeggiatorSection.xaml">
+    <Page Include="Components\ArpeggiatorSection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CharacterSection.xaml">
+    <Page Include="Components\CharacterSection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DelaySection.xaml">
+    <Page Include="Components\DelaySection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="EnvelopeSection.xaml">
+    <Page Include="Components\EnvelopeSection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FilterHpSection.xaml">
+    <Page Include="Components\FilterHpSection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FilterMainSection.xaml">
+    <Page Include="Components\FilterMainSection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LfoSection.xaml">
+    <Page Include="Components\FlatToggleButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\LfoSection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\Spinner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -141,31 +156,31 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="MatrixSection.xaml">
+    <Page Include="Components\MatrixSection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MixerSection.xaml">
+    <Page Include="Components\MixerSection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ModKnob.xaml">
+    <Page Include="Components\ModKnob.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="OscSection.xaml">
+    <Page Include="Components\OscSection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles.xaml">
+    <Page Include="Components\Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SynthView.xaml">
+    <Page Include="Components\SynthView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="VoicesSection.xaml">
+    <Page Include="Components\VoicesSection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -201,10 +216,6 @@
     <ProjectReference Include="..\..\..\Libraries\LowProfile.Common\LowProfile.Core\LowProfile.Core.csproj">
       <Project>{6f6a3fb4-5e5f-4076-b91a-f8c7fe84e37c}</Project>
       <Name>LowProfile.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\AudioLib\AudioLib\AudioLib.csproj">
-      <Project>{4905489d-6f81-4129-8780-744ced5b3269}</Project>
-      <Name>AudioLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SharpOSC\SharpOSC\SharpOSC.csproj">
       <Project>{9b922b0b-5595-4e05-8270-f63faaa6c299}</Project>

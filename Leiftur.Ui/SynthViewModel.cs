@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using Leiftur.Ui.Components;
 
 namespace Leiftur.Ui
 {
@@ -21,6 +22,11 @@ namespace Leiftur.Ui
 		private bool osc1Visible;
 		private bool osc2Visible;
 		private bool osc3Visible;
+		private bool lfo1Visible;
+		private bool lfo2Visible;
+		private bool arpeggiatorVisible;
+		private bool delayVisible;
+		private bool chorusVisible;
 
 		public SynthViewModel(Dictionary<DependencyObject, string> controls)
 		{
@@ -35,6 +41,8 @@ namespace Leiftur.Ui
 
 			SetModuleVisibleCommand = new DelegateCommand(x => SetModuleVisible(x.ToString()), () => true);
 			Osc1Visible = true;
+			Lfo1Visible = true;
+			DelayVisible = true;
 		}
 		
 		public DelegateCommand SetModuleVisibleCommand { get; private set; }
@@ -61,6 +69,36 @@ namespace Leiftur.Ui
 		{
 			get { return osc3Visible; }
 			set { osc3Visible = value; NotifyPropertyChanged(); }
+		}
+
+		public bool Lfo1Visible
+		{
+			get { return lfo1Visible; }
+			set { lfo1Visible = value; NotifyPropertyChanged(); }
+		}
+
+		public bool Lfo2Visible
+		{
+			get { return lfo2Visible; }
+			set { lfo2Visible = value; NotifyPropertyChanged(); }
+		}
+
+		public bool ArpeggiatorVisible
+		{
+			get { return arpeggiatorVisible; }
+			set { arpeggiatorVisible = value; NotifyPropertyChanged(); }
+		}
+
+		public bool DelayVisible
+		{
+			get { return delayVisible; }
+			set { delayVisible = value; NotifyPropertyChanged(); }
+		}
+
+		public bool ChorusVisible
+		{
+			get { return chorusVisible; }
+			set { chorusVisible = value; NotifyPropertyChanged(); }
 		}
 
 		private void RegisterControls()
@@ -121,6 +159,34 @@ namespace Leiftur.Ui
 				Osc1Visible = false;
 				Osc2Visible = false;
 				Osc3Visible = true;
+			}
+			else if (module == "Lfo1")
+			{
+				ArpeggiatorVisible = false;
+				Lfo2Visible = false;
+				Lfo1Visible = true;
+			}
+			else if (module == "Lfo2")
+			{
+				Lfo1Visible = false;
+				ArpeggiatorVisible = false;
+				Lfo2Visible = true;
+			}
+			else if (module == "Arpeggiator")
+			{
+				Lfo2Visible = false;
+				Lfo1Visible = false;
+				ArpeggiatorVisible = true;
+			}
+			else if (module == "Delay")
+			{
+				ChorusVisible = false;
+				DelayVisible = true;
+			}
+			else if (module == "Chorus")
+			{
+				DelayVisible = false;
+				ChorusVisible = true;
 			}
 		}
 

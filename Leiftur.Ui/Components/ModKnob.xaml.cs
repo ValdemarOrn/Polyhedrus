@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace Leiftur.Ui
+namespace Leiftur.Ui.Components
 {
 	/// <summary>
 	/// Interaction logic for ModKnob.xaml
@@ -15,6 +15,15 @@ namespace Leiftur.Ui
 	{
 		static internal DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(double), typeof(ModKnob),
 				new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+		static internal DependencyProperty StepsProperty = DependencyProperty.Register("Steps", typeof(int), typeof(ModKnob),
+				new FrameworkPropertyMetadata(1000, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+		static internal DependencyProperty MinProperty = DependencyProperty.Register("Min", typeof(double), typeof(ModKnob),
+				new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+		static internal DependencyProperty MaxProperty = DependencyProperty.Register("Max", typeof(double), typeof(ModKnob),
+				new FrameworkPropertyMetadata(1.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
 		static internal DependencyProperty ModValueProperty = DependencyProperty.Register("ModValue", typeof(double), typeof(ModKnob),
 				new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
@@ -39,10 +48,31 @@ namespace Leiftur.Ui
 				.AddValueChanged(this, (s, e) => { Recalculate(); });
 		}
 
+		private double quantizedValue;
+		private double innerValue;
+
 		public double Value
 		{
 			get { return (double)base.GetValue(ValueProperty); }
 			set { SetValue(ValueProperty, value); }
+		}
+
+		public int Steps
+		{
+			get { return (int)base.GetValue(StepsProperty); }
+			set { SetValue(StepsProperty, value); }
+		}
+
+		public double Min
+		{
+			get { return (double)base.GetValue(MinProperty); }
+			set { SetValue(MinProperty, value); }
+		}
+
+		public double Max
+		{
+			get { return (double)base.GetValue(MaxProperty); }
+			set { SetValue(MaxProperty, value); }
 		}
 
 		public double ModValue
@@ -74,7 +104,7 @@ namespace Leiftur.Ui
 			// indicator
 
 			var radius = 40;
-			var angle = 225.0 - Value * 270.0;
+			var angle = 225.0 - quantizedValue * 270.0;
 			var dx = Math.Cos(ToRad(angle));
 			var dy = Math.Sin(ToRad(angle));
 
@@ -94,10 +124,10 @@ namespace Leiftur.Ui
 			y0 = radius - dy * (radius - 5);
 
 			var diff = ModValue;
-			if (Value + diff < 0)
-				diff = - Value;
-			else if (Value + diff > 1)
-				diff = 1 - Value;
+			if (quantizedValue + diff < 0)
+				diff = -quantizedValue;
+			else if (quantizedValue + diff > 1)
+				diff = 1 - quantizedValue;
 
 			var dAngle = diff * 270.0;
 			angle = angle - dAngle;
@@ -173,7 +203,7 @@ namespace Leiftur.Ui
 
 		private void ChangeValue(double dx)
 		{
-			var oldVal = Value;
+			var oldVal = innerValue;
 			var val = oldVal + Delta * dx;
 
 			if (val < 0.0)
@@ -182,7 +212,12 @@ namespace Leiftur.Ui
 				val = 1.0;
 
 			if (val != oldVal)
-				Value = val;
+			{
+				innerValue = val;
+				var intVal = (int)(val * (Steps - 0.00001));
+				quantizedValue = intVal / (double)(Steps - 1);
+				Value = quantizedValue;
+			}
 		}
 
 		private void ChangeModValue(double dx)

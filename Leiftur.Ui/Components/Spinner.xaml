@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="Leiftur.Ui.Components.Spinner"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Leiftur.Ui.Components"
+             mc:Ignorable="d" 
+			 x:Name="Main"
+             d:DesignHeight="20" d:DesignWidth="50"
+             Background="Transparent"
+             Cursor="SizeNS"
+			 MouseDown="OnMouseDown" MouseUp="OnMouseUp" MouseMove="OnMouseMove" MouseDoubleClick="OnMouseDoubleClick" SnapsToDevicePixels="True">
+    <Grid>
+        <Rectangle SnapsToDevicePixels="{Binding ElementName=Main, Path=SnaptoDevicePixels}"
+                   Stroke="{Binding ElementName=Main, Path=BorderBrush, FallbackValue=Black}" StrokeThickness="1" RadiusX="3" RadiusY="3" 
+                   Fill="{Binding ElementName=Main, Path=Fill, FallbackValue=White}" />
+        <Label Padding="0" Margin="0" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="{Binding ElementName=Main, Path=HorizontalAlignment}" 
+               FontFamily="{Binding ElementName=Main, Path=FontFamily}"
+               FontSize="{Binding ElementName=Main, Path=FontSize}"
+               FontWeight="{Binding ElementName=Main, Path=FontWeight}"
+               Foreground="{Binding ElementName=Main, Path=Foreground, FallbackValue=Black}"
+			   Content="{Binding ElementName=Main, Path=ValueText, FallbackValue=12.34}"/>
+    </Grid>
+</UserControl>

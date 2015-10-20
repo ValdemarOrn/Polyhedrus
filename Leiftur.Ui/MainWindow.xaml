@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Leiftur.Ui"
+        xmlns:components="clr-namespace:Leiftur.Ui.Components"
         mc:Ignorable="d"
         Title="MainWindow" Height="555" Width="1145">
     <Window.Background>
@@ -12,5 +13,5 @@
             <GradientStop Color="#FFE6E6E6" Offset="1"/>
         </LinearGradientBrush>
     </Window.Background>
-    <local:SynthView></local:SynthView>
+    <components:SynthView></components:SynthView>
 </Window>
