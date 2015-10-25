@@ -1,6 +1,8 @@
 #ifndef LEIFTUR_FILTER_CASCADE
 #define LEIFTUR_FILTER_CASCADE
 
+#include <cmath>
+
 namespace Leiftur
 {
 	class FilterCascade
@@ -9,6 +11,12 @@ namespace Leiftur
 		static const int CVtoAlphaSize = 10000;
 		static float CVtoAlpha[CVtoAlphaSize];
 		static void ComputeCVtoAlpha(int samplerate);
+	public:
+		static inline float GetCvFreq(float cv)
+		{
+			float freq = (float)(440.0 * std::pow(2, (cv * 12 - 69.0 + 12) / 12));
+			return freq;
+		}
 
 	public:
 		const int Oversample = 4;

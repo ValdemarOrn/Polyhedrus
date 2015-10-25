@@ -1,7 +1,4 @@
 #include "Envelope.h"
-#include "AudioLib/ValueTables.h"
-
-using AudioLib::ValueTables;
 
 namespace Leiftur
 {
@@ -36,7 +33,7 @@ namespace Leiftur
 	{
 		auto transform = [=](float input) 
 		{ 
-			float sampleLength = ValueTables::Get(input, ValueTables::Response4Dec) * MaxTimeSeconds * samplerate;
+			float sampleLength = GetDecayTime(input) * samplerate;
 			return 1.0 / (sampleLength + 1);
 		};
 

@@ -2,14 +2,6 @@
 
 namespace Leiftur
 {
-	int RoundToInt(float value)
-	{
-		auto sign = value < 0.0 ? -1 : 1;
-		auto abs = sign == -1 ? -value : value;
-		auto rounded = (int)(abs + 0.001);
-		return abs * sign;
-	}
-
 	void Voice::SetOscParameter(Module module, OscParameters parameter, double value)
 	{
 		auto update = [=](Oscillator* osc)
@@ -20,10 +12,10 @@ namespace Leiftur
 				osc->Cent = value;
 				break;
 			case OscParameters::Octave:
-				osc->Octave = RoundToInt(value);
+				osc->Octave = Parameters::RoundToInt(value);
 				break;
 			case OscParameters::Semi:
-				osc->Semi = RoundToInt(value);
+				osc->Semi = Parameters::RoundToInt(value);
 				break;
 			case OscParameters::Phase:
 				osc->Phase = value;
@@ -32,7 +24,7 @@ namespace Leiftur
 				osc->Shape = value;
 				break;
 			case OscParameters::Waveform:
-				osc->SetWaveform(RoundToInt(value));
+				osc->SetWaveform(Parameters::RoundToInt(value));
 				break;
 			}
 		};
@@ -89,7 +81,7 @@ namespace Leiftur
 			mixer.Am23 = value;
 			break;
 		case MixerParameters::Color:
-			mixer.Color = RoundToInt(value);
+			mixer.Color = Parameters::RoundToInt(value);
 			break;
 		case MixerParameters::Fm12:
 			mixer.Fm12 = value;

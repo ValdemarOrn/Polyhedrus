@@ -9,8 +9,6 @@ namespace Leiftur
 	{
 		std::string GetDllDirectory();
 		void StartEditor(int port);
-		void AttachEditor(void* windowPointer);
-		void DetachEditor();
 	}
 }
 

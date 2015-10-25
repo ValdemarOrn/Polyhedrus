@@ -89,6 +89,7 @@
     <Compile Include="Components\Spinner.xaml.cs">
       <DependentUpon>Spinner.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ControlManager.cs" />
     <Compile Include="Messaging\OscTranceiver.cs" />
     <Compile Include="Components\MixerSection.xaml.cs">
       <DependentUpon>MixerSection.xaml</DependentUpon>

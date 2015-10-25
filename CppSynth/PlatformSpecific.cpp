@@ -1,7 +1,7 @@
 #include "PlatformSpecific.h"
-#include <Windows.h>
-#include <string>
 
+// Windows-specific Code here
+#include <Windows.h>
 namespace Leiftur
 {
 	namespace PlatformSpecific
@@ -31,16 +31,6 @@ namespace Leiftur
 		}
 
 		void StartEditor(int port)
-		{
-
-		}
-
-		void AttachEditor(void* windowPointer)
-		{
-
-		}
-
-		void DetachEditor()
 		{
 
 		}

@@ -26,6 +26,7 @@ namespace Leiftur
 		if (moduleString == "Osc2") return Module::Osc2;
 		if (moduleString == "Osc3") return Module::Osc3;
 		if (moduleString == "Mixer") return Module::Mixer;
+		if (moduleString == "Character") return Module::Character;
 		if (moduleString == "FilterHp") return Module::FilterHp;
 		if (moduleString == "FilterMain") return Module::FilterMain;
 		if (moduleString == "EnvAmp") return Module::EnvAmp;
@@ -62,6 +63,14 @@ namespace Leiftur
 			if (parameterString == "Noise") return (int)MixerParameters::Noise;
 			if (parameterString == "Color") return (int)MixerParameters::Color;
 			if (parameterString == "Output") return (int)MixerParameters::Output;
+		}
+		else if (module == Module::Character)
+		{
+			if (parameterString == "Bottom") return (int)CharacterParameters::Bottom;
+			if (parameterString == "Clip") return (int)CharacterParameters::Clip;
+			if (parameterString == "Decimate") return (int)CharacterParameters::Decimate;
+			if (parameterString == "Reduce") return (int)CharacterParameters::Reduce;
+			if (parameterString == "Top") return (int)CharacterParameters::Top;
 		}
 		else if (module == Module::FilterHp)
 		{
@@ -106,6 +115,7 @@ namespace Leiftur
 			if (parameterString == "NotePtn") return (int)ArpParameters::NotePtn;
 			if (parameterString == "OctavePtn") return (int)ArpParameters::OctavePtn;
 			if (parameterString == "Gate") return (int)ArpParameters::Gate;
+			if (parameterString == "Divide") return (int)ArpParameters::Divide;
 			if (parameterString == "Bpm") return (int)ArpParameters::Bpm;
 			if (parameterString == "Sync") return (int)ArpParameters::Sync;
 		}
@@ -203,6 +213,8 @@ namespace Leiftur
 			if (parameterString == "Amount16") return (int)ModMatrixParameters::Amount16;
 			if (parameterString == "ViaAmount16") return (int)ModMatrixParameters::ViaAmount16;
 		}
+
+		return 0;
 	}
 
 	void Parameters::ParseAddress(std::string address, Module* module, int* parameter)

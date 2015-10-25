@@ -38,7 +38,7 @@ namespace Leiftur
 			env.SetParameter(EnvParameters::Decay, value);
 			return;
 		case LfoParameters::Freq:
-			freq = (float)value * 10;
+			freq = GetFrequency(value);
 			return;
 		case LfoParameters::Phase:
 			phase = (float)value;

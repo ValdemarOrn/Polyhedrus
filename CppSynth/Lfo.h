@@ -3,6 +3,7 @@
 
 #include "Envelope.h"
 #include "Parameters.h"
+#include "AudioLib/ValueTables.h"
 
 namespace Leiftur
 {
@@ -23,6 +24,7 @@ namespace Leiftur
 	class Lfo
 	{
 	public:
+		static const int MaxFreq = 100;
 		float FreqMod;
 		float PhaseMod;
 
@@ -51,6 +53,11 @@ namespace Leiftur
 		float Process(int samples);
 		inline float GetOutput() { return output; }
 		void Reset();
+
+		inline static float GetFrequency(float value)
+		{
+			return ValueTables::Get(value, ValueTables::Response4Dec) * MaxFreq;
+		}
 
 	private:
 		void Update();

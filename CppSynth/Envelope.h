@@ -2,6 +2,9 @@
 #define LEIFTUR_ENVELOPE
 
 #include "Parameters.h"
+#include "AudioLib/ValueTables.h"
+
+using AudioLib::ValueTables;
 
 namespace Leiftur
 {
@@ -15,6 +18,11 @@ namespace Leiftur
 		static const int SectionRelease = 4;
 		static const int SectionPostRelease = 5;
 		static const float MaxTimeSeconds; // defined in body
+
+		static inline double GetDecayTime(double input)
+		{
+			return ValueTables::Get(input, ValueTables::Response3Dec) * MaxTimeSeconds;
+		}
 
 		bool Gate;
 		float Velocity;

@@ -16,17 +16,12 @@ namespace Leiftur.Ui
 {
 	public class SynthViewModel : ViewModelBase
 	{
+		private readonly ControlManager controlManager;
+		private readonly Dictionary<int, string> formattedParameters;
+
 		private ModRoute[] modRoutes;
-
-		private readonly OscTranceiver tranceiver;
-		private readonly Dictionary<string, OscMessage> sendMessages;
-		private Dictionary<int, string> formattedParameters;
-		private readonly DependencyObject[] controls;
-		private readonly Thread oscThread;
-
-		private UIElement currentControl;
-		private Module activeModule;
-		private int activeParameter;
+		private Module? activeModule;
+		private int? activeParameter;
 
 		private bool osc1Visible;
 		private bool osc2Visible;
@@ -37,21 +32,15 @@ namespace Leiftur.Ui
 		private bool delayVisible;
 		private bool chorusVisible;
 		private string announcerText;
+		
 
 		public SynthViewModel(Dictionary<DependencyObject, string> controls)
 		{
-			ModRoutes = Enumerable.Range(0, 12).Select(x => new ModRoute()).ToArray();
-			tranceiver = new OscTranceiver(12003, 12004);
-			sendMessages = new Dictionary<string, OscMessage>();
+			controlManager = new ControlManager(controls, this);
+            ModRoutes = Enumerable.Range(0, 12).Select(x => new ModRoute()).ToArray();
 			formattedParameters = new Dictionary<int, string>();
 			AnnouncerText = "";
-
-            this.controls = controls.Keys.ToArray();
-            RegisterControls();
-
-			oscThread = new Thread(() => ProcessOscMessages()) { IsBackground = true };
-			oscThread.Start();
-
+			
 			SetModuleVisibleCommand = new DelegateCommand(x => SetModuleVisible(x.ToString()), () => true);
 			Osc1Visible = true;
 			Lfo1Visible = true;
@@ -124,120 +113,38 @@ namespace Leiftur.Ui
 
 		#endregion
 
-		/// <summary>
-		/// Update loop for OSC messaging
-		/// </summary>
-		private void ProcessOscMessages()
+		internal void ProcessParameterUpdate(Module module, int parameter, double value, string formattedParameter)
 		{
-			while (true)
-			{
-				var msg = tranceiver.Receive();
-				if (msg != null)
-					ProcessOscMessage(msg);
-
-				lock (sendMessages)
-				{
-					var keys = sendMessages.Keys.ToArray();
-					foreach (var key in keys)
-					{
-						try
-						{
-							var oscMsg = sendMessages[key];
-							sendMessages.Remove(key);
-							var bytes = oscMsg.GetBytes();
-							tranceiver.Send(bytes);
-						}
-						catch (Exception ex)
-						{
-							Console.WriteLine(ex.GetTrace());
-						}
-					}
-				}
-
-				Thread.Sleep(20);
-			}
-		}
-
-		private void RegisterControls()
-		{
-			foreach (var control in controls)
-			{
-				if (control is UIElement)
-				{
-					UIElement uiElem = control as UIElement;
-					uiElem.MouseEnter += (s, e) => SetActiveControl(s as UIElement, true);
-					uiElem.MouseLeave += (s, e) => SetActiveControl(s as UIElement, false);
-				}
-
-				var address = OscAddress.GetAddress(control);
-
-				var modKnob = control as ModKnob;
-                if (modKnob != null)
-				{
-					DependencyPropertyDescriptor.FromProperty(ModKnob.ValueProperty, typeof(ModKnob))
-						.AddValueChanged(modKnob, (s, e) => { SendOscMessage(address, modKnob.Value); });
-				}
-			}
-		}
-
-		private void SetActiveControl(UIElement uiElement, bool isActive)
-		{
-			if (isActive)
-			{
-				currentControl = uiElement;
-				var address = OscAddress.GetAddress(uiElement);
-				var tuple = Parameters.ParseAddress(address);
-				activeModule = tuple.Item1;
-				activeParameter = tuple.Item2;
+			formattedParameters[Parameters.Pack(module, parameter)] = formattedParameter;
+			if (module == activeModule && parameter == activeParameter)
 				UpdateAnnouncer();
-			}
-			else if (currentControl.Equals(uiElement))
-			{
-				currentControl = null;
-				AnnouncerText = " ";
-			}
 		}
-		
-		private void ProcessOscMessage(byte[] bytes)
+
+		internal void SetActiveParameter(Module module, int parameter)
 		{
-			try
-			{
-				var msg = OscPacket.GetPacket(bytes) as OscMessage;
-				Console.WriteLine(msg.ToString());
-				if (msg.Address == "/Control/ParameterResponse")
-				{
-					var module = (Module)(int)msg.Arguments[0];
-					var parameter = (int)msg.Arguments[1];
-					var floatVal = (float)msg.Arguments[2];
-					var formattedString = (string)msg.Arguments[3];
-					formattedParameters[Parameters.Pack(module, parameter)] = formattedString.Trim();
-					if (module == activeModule && parameter == activeParameter)
-						UpdateAnnouncer();
-				}
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.GetTrace());
-			}
+			activeModule = module;
+			activeParameter = parameter;
+			UpdateAnnouncer();
+		}
+
+		public void ClearActiveParameter()
+		{
+			activeModule = null;
+			activeParameter = null;
 		}
 
 		private void UpdateAnnouncer()
 		{
-			var formattedString = formattedParameters.GetValueOrDefault(Parameters.Pack(activeModule, activeParameter), "");
-            AnnouncerText = Parameters.PrettyPrint(activeModule, activeParameter) + ": " + formattedString;
-		}
-
-		private void SendOscMessage(string address, double value)
-		{
-			Console.WriteLine("Sending {0} - {1}", address, value);
-			var oscMsg = new OscMessage(address, (float)value);
-			
-			lock (sendMessages)
+			if (activeModule == null || activeParameter == null)
 			{
-				sendMessages[oscMsg.Address] = oscMsg;
+				AnnouncerText = "";
+				return;
 			}
-		}
 
+			var formattedString = formattedParameters.GetValueOrDefault(Parameters.Pack(activeModule.Value, activeParameter.Value), "");
+            AnnouncerText = Parameters.PrettyPrint(activeModule.Value, activeParameter.Value) + ": " + formattedString;
+		}
+		
 		private void SetModuleVisible(string module)
 		{
 			if (module == "Osc1")
@@ -288,5 +195,6 @@ namespace Leiftur.Ui
 			}
 		}
 
+		
 	}
 }

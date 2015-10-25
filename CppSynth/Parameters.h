@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <cmath>
 
 namespace Leiftur
 {
@@ -239,6 +240,23 @@ namespace Leiftur
 		static int GetParameter(std::string parameterString, Module module);
 	public:
 		static void ParseAddress(std::string address, Module* module, int* parameter);
+
+		static int FloorToInt(double value)
+		{
+			auto sign = value < 0.0 ? -1 : 1;
+			auto abs = sign == -1 ? -value : value;
+			auto rounded = (int)(abs + 0.0001);
+			return rounded * sign;
+		}
+
+		static int RoundToInt(double value)
+		{
+			auto sign = value < 0.0 ? -1 : 1;
+			auto abs = sign == -1 ? -value : value;
+			auto rounded = std::round(abs);
+			int round2 = (int)(rounded + 0.0001);
+			return round2 * sign;
+		}
 	};
 }
 

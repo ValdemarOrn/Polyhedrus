@@ -1,7 +1,6 @@
 #include "FilterCascade.h"
 #include "AudioLib/ValueTables.h"
 #include "AudioLib/Utils.h"
-#include <cmath>
 
 namespace Leiftur
 {
@@ -118,7 +117,7 @@ namespace Leiftur
 
 		// Voltage is from C0 = 16.3516Hz to C10 = 16744.04Hz
 		float voltage = 10 * Cutoff + CutoffMod;
-		voltage = AudioLib::Utils::Limit(voltage, 0.0, 9.9999);
+		voltage = AudioLib::Utils::Limit(voltage, 0.0f, 9.9999f);
 
 		p = CVtoAlpha[(int)(voltage * 1000.0)];
 	}
