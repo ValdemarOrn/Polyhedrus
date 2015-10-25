@@ -34,13 +34,14 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="94" />
             <RowDefinition Height="Auto" />
-
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Grid.Column="1" Grid.RowSpan="10">
-            <Grid Grid.Row="0" Grid.Column="1" Style="{StaticResource SectionTitle}">
+            <Grid Style="{StaticResource SectionTitle}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
@@ -56,14 +57,14 @@
                 <Rectangle Style="{StaticResource SectionLine}" />
             </Grid>
 
-            <components:OscSection Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="245" Height="171" 
+            <components:OscSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="245" Height="171" 
                               ModuleAddress="Osc1" Visibility="{Binding Osc1Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
-            <components:OscSection Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="245" Height="171" 
+            <components:OscSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="245" Height="171" 
                               ModuleAddress="Osc2" Visibility="{Binding Osc2Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
-            <components:OscSection Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="245" Height="171" 
+            <components:OscSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="245" Height="171" 
                               ModuleAddress="Osc3" Visibility="{Binding Osc3Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
 
-            <Grid Grid.Row="2" Grid.Column="1" Style="{StaticResource SectionTitle}">
+            <Grid Style="{StaticResource SectionTitle}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -72,9 +73,9 @@
                 <Rectangle Style="{StaticResource SectionLine}" />
             </Grid>
 
-            <components:MixerSection Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="245" Height="114" />
+            <components:MixerSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="245" Height="114" />
 
-            <Grid Grid.Row="4" Grid.Column="1" Style="{StaticResource SectionTitle}">
+            <Grid Style="{StaticResource SectionTitle}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -83,7 +84,7 @@
                 <Rectangle Style="{StaticResource SectionLine}" />
             </Grid>
 
-            <components:VoicesSection Grid.Row="5" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="245" Height="114" />
+            <components:VoicesSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="245" Height="114" />
         </StackPanel>
         
         <Grid Grid.Row="0" Grid.Column="3" Style="{StaticResource SectionTitle}">
@@ -118,10 +119,30 @@
         </Grid>
 
         <components:FilterMainSection Grid.Row="1" Grid.Column="7" VerticalAlignment="Top" HorizontalAlignment="Left" Width="150" Height="114" />
+
+        <StackPanel Grid.Column="3" Grid.ColumnSpan="5" Grid.Row="2" VerticalAlignment="Center">
+            <Label Style="{StaticResource FancyLabel}">Factory Soundset</Label>
+            <Label Style="{StaticResource FancyLabel}">001: Sound Patch 1</Label>
+        </StackPanel>
         
+        <components:MacroControls Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="5" Height="57" HorizontalContentAlignment="Center" />
+
+        <Grid Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="5" Style="{StaticResource SectionTitle}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Style="{StaticResource MarkerButton}">Matrix 1-8</Button>
+            <Button Grid.Column="1" Style="{StaticResource MarkerButton}">Matrix 9-16</Button>
+            <Rectangle Style="{StaticResource SectionLine}" />
+        </Grid>
+
+        <components:MatrixSection Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="5"  HorizontalAlignment="Center" Margin="0,0,0,0" />
+
         <StackPanel Grid.Row="0" Grid.Column="9" Grid.RowSpan="10">
 
-            <Grid Grid.Row="0" Grid.Column="9" Style="{StaticResource SectionTitle}">
+            <Grid Style="{StaticResource SectionTitle}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
@@ -136,7 +157,7 @@
             <components:EnvelopeSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="392" Height="57" ModuleAddress="EnvFilter" />
             <components:EnvelopeSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="392" Height="57" ModuleAddress="EnvMod" />
 
-            <Grid Grid.Row="2" Grid.Column="9" Style="{StaticResource SectionTitle}">
+            <Grid Style="{StaticResource SectionTitle}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
@@ -152,7 +173,7 @@
 
                 <Rectangle Style="{StaticResource SectionLine}" />
             </Grid>
-            
+
             <components:LfoSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="392" Height="57" ModuleAddress="Lfo1"
                                    Visibility="{Binding Lfo1Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
             <components:LfoSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="392" Height="57" ModuleAddress="Lfo2"
@@ -160,7 +181,7 @@
             <components:ArpeggiatorSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="392" Height="57"
                                            Visibility="{Binding ArpeggiatorVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
 
-            <Grid Grid.Row="4" Grid.Column="9" Style="{StaticResource SectionTitle}">
+            <Grid Style="{StaticResource SectionTitle}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
@@ -171,10 +192,10 @@
                         FontWeight="{Binding DelayVisible, Converter={StaticResource BoolToBoldConverter}}" Width="50">Delay</Button>
                 <Button Grid.Column="1" Style="{StaticResource MarkerButton}" Command="{Binding SetModuleVisibleCommand}" CommandParameter="Chorus"
                         FontWeight="{Binding ChorusVisible, Converter={StaticResource BoolToBoldConverter}}" Width="55">Chorus</Button>
-                
+
                 <Rectangle Style="{StaticResource SectionLine}" />
             </Grid>
-            
+
             <components:DelaySection VerticalAlignment="Top" HorizontalAlignment="Left" Width="392" Height="114" 
                                      Visibility="{Binding DelayVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
 
@@ -182,11 +203,5 @@
             <Button Click="Button_Click">Go</Button>
         </StackPanel>
 
-
-        <StackPanel Grid.Column="3" Grid.ColumnSpan="5" Grid.Row="1" Grid.RowSpan="2" Margin="0,125,0,0">
-            <Label Style="{StaticResource FancyLabel}">Factory Soundset</Label>
-            <Label Style="{StaticResource FancyLabel}">001: Sound Patch 1</Label>
-        </StackPanel>
-        <components:MatrixSection HorizontalAlignment="Center" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="5" Grid.RowSpan="3" Margin="0,10,0,0" />
     </Grid>
 </UserControl>

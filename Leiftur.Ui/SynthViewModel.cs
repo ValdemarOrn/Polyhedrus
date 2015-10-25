@@ -38,7 +38,7 @@ namespace Leiftur.Ui
 		public SynthViewModel(Dictionary<DependencyObject, string> controlDict)
 		{
 			controlManager = new ControlManager(this);
-            ModRoutes = Enumerable.Range(0, 12).Select(x => new ModRoute()).ToArray();
+            ModRoutes = Enumerable.Range(0, 8).Select(x => new ModRoute()).ToArray();
 			formattedParameters = new Dictionary<int, string>();
 			AnnouncerText = "";
 
