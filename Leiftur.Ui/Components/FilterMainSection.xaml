@@ -34,8 +34,8 @@
         <Label Grid.Row="2" Grid.Column="1">Envelope</Label>
         <Label Grid.Row="2" Grid.Column="2">Type</Label>
 
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="0" ui:OscAddress.Address="/FilterMain/Keytrack" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1" ui:OscAddress.Address="/FilterMain/Env" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="2" ui:OscAddress.Address="/FilterMain/Type" />
+        <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="0" Min="-1" Max="1" DefaultValue="0.0" ui:OscAddress.Address="/FilterMain/Keytrack" />
+        <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1" Min="-1" Max="1" DefaultValue="0.0" ui:OscAddress.Address="/FilterMain/Env" />
+        <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="2" Min="0" Max="4" ui:OscAddress.Address="/FilterMain/Type" />
     </Grid>
 </UserControl>

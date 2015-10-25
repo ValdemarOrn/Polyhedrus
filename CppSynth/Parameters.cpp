@@ -106,7 +106,7 @@ namespace Leiftur
 			if (parameterString == "NotePtn") return (int)ArpParameters::NotePtn;
 			if (parameterString == "OctavePtn") return (int)ArpParameters::OctavePtn;
 			if (parameterString == "Gate") return (int)ArpParameters::Gate;
-			if (parameterString == "Tempo") return (int)ArpParameters::Tempo;
+			if (parameterString == "Bpm") return (int)ArpParameters::Bpm;
 			if (parameterString == "Sync") return (int)ArpParameters::Sync;
 		}
 		else if (module == Module::Voices)

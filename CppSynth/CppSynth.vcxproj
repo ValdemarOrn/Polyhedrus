@@ -40,6 +40,7 @@
     <ClInclude Include="Oscillator.h" />
     <ClInclude Include="Osc\OscMessage.h" />
     <ClInclude Include="Osc\UdpTranceiver.h" />
+    <ClInclude Include="PlatformSpecific.h" />
     <ClInclude Include="Parameters.h" />
     <ClInclude Include="Synth.h" />
     <ClInclude Include="UnitTests.h" />
@@ -68,6 +69,7 @@
     <ClCompile Include="Osc\OscMessage.cpp" />
     <ClCompile Include="Osc\UdpTranceiver.cpp" />
     <ClCompile Include="Parameters.cpp" />
+    <ClCompile Include="PlatformSpecific.cpp" />
     <ClCompile Include="Synth.cpp" />
     <ClCompile Include="SynthParameters.cpp" />
     <ClCompile Include="UnitTests\OscTests.cpp" />

@@ -114,6 +114,9 @@
     <ClInclude Include="AudioLib\FastSin.h">
       <Filter>Source Files\AudioLib</Filter>
     </ClInclude>
+    <ClInclude Include="PlatformSpecific.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Synth.cpp">
@@ -190,6 +193,9 @@
     </ClCompile>
     <ClCompile Include="AudioLib\FastSin.cpp">
       <Filter>Source Files\AudioLib</Filter>
+    </ClCompile>
+    <ClCompile Include="PlatformSpecific.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

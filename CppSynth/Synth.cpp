@@ -68,7 +68,7 @@ namespace Leiftur
 		// Lower 8 bits = parameter
 		Module module = (Module)((parameter & 0xFF00) >> 16);
 		int param = parameter = 0x00FF;
-		SetParameterInner(module, param, value, false);
+		SetParameterInner(module, param, value);
 	}
 
 	void Synth::SetParameter(std::string address, double value)
@@ -76,7 +76,7 @@ namespace Leiftur
 		Module module;
 		int parameter;
 		Parameters::ParseAddress(address, &module, &parameter);
-		SetParameterInner(module, parameter, value, false);
+		SetParameterInner(module, parameter, value);
 	}
 
 	void Synth::ProcessMidi(uint8_t* message)
@@ -156,11 +156,11 @@ namespace Leiftur
 		}
 	}
 
-	void Synth::SetParameterInner(Module module, int parameter, double value, bool isTranslated)
+	void Synth::SetParameterInner(Module module, int parameter, double value)
 	{
-		//double translatedValue = isTranslated ? value : TranslateValue(module, parameter, value);
-		int idx = (((int)module) << 16) | parameter;
+		int idx = PackParameter(module, parameter);
 		parameters[idx] = value;
+		SendBackParameter(module, parameter);
 
 		if (module == Module::Voices)
 			SetGlobalVoiceParameter((VoiceParameters)parameter, value);

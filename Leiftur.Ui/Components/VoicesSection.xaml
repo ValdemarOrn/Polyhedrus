@@ -35,7 +35,7 @@
         <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" local:OscAddress.Address="/Voices/Detune" />
         <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" local:OscAddress.Address="/Voices/Spread" />
         <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" local:OscAddress.Address="/Voices/Glide" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="3" local:OscAddress.Address="/Voices/Bend" />
+        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="3" Min="0" Max="12" local:OscAddress.Address="/Voices/Bend" />
         <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="4" local:OscAddress.Address="/Voices/Master" />
 
         <Label Grid.Row="2" Grid.Column="0">Voices</Label>
@@ -43,7 +43,7 @@
         <Label Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3">Voice Mode</Label>
 
         <components:Spinner HorizontalAlignment="Center" Grid.Row="3" Grid.Column="0" Value="1" Min="1" Max="32" Delta="1" Sensitivity="20" Formatter="{}0" 
-                       local:OscAddress.Address="/Voices/Voices" />
+                       local:OscAddress.Address="/Voices/Polyphony" />
         <components:Spinner HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1" Value="1" Min="1" Max="32" Delta="1" Sensitivity="20" Formatter="{}0" 
                        local:OscAddress.Address="/Voices/Unison" />
         

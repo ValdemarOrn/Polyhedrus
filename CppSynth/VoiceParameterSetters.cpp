@@ -2,6 +2,14 @@
 
 namespace Leiftur
 {
+	int RoundToInt(float value)
+	{
+		auto sign = value < 0.0 ? -1 : 1;
+		auto abs = sign == -1 ? -value : value;
+		auto rounded = (int)(abs + 0.001);
+		return abs * sign;
+	}
+
 	void Voice::SetOscParameter(Module module, OscParameters parameter, double value)
 	{
 		auto update = [=](Oscillator* osc)
@@ -9,13 +17,13 @@ namespace Leiftur
 			switch (parameter)
 			{
 			case OscParameters::Cent:
-				osc->Cent = value * 100 - 50;
+				osc->Cent = value;
 				break;
 			case OscParameters::Octave:
-				osc->Octave = (int)(4.999 * value) - 2;
+				osc->Octave = RoundToInt(value);
 				break;
 			case OscParameters::Semi:
-				osc->Semi = (int)(24.999 * value) - 12;
+				osc->Semi = RoundToInt(value);
 				break;
 			case OscParameters::Phase:
 				osc->Phase = value;
@@ -24,7 +32,7 @@ namespace Leiftur
 				osc->Shape = value;
 				break;
 			case OscParameters::Waveform:
-				osc->SetWaveform((int)(value * 1.999));
+				osc->SetWaveform(RoundToInt(value));
 				break;
 			}
 		};
@@ -32,7 +40,7 @@ namespace Leiftur
 		if (module == Module::Osc1)
 		{
 			if (parameter == OscParameters::Pan)
-				mixer.Osc1Pan = -1.0 + 2 * value;
+				mixer.Osc1Pan = value;
 			else if (parameter == OscParameters::Volume)
 				mixer.Osc1Volume = value;
 			else if (parameter == OscParameters::Slop)
@@ -45,7 +53,7 @@ namespace Leiftur
 		else if (module == Module::Osc2)
 		{
 			if (parameter == OscParameters::Pan)
-				mixer.Osc2Pan = -1.0 + 2 * value;
+				mixer.Osc2Pan = value;
 			else if (parameter == OscParameters::Volume)
 				mixer.Osc2Volume = value;
 			else if (parameter == OscParameters::Slop)
@@ -58,7 +66,7 @@ namespace Leiftur
 		else if (module == Module::Osc3)
 		{
 			if (parameter == OscParameters::Pan)
-				mixer.Osc3Pan = -1.0 + 2 * value;
+				mixer.Osc3Pan = value;
 			else if (parameter == OscParameters::Volume)
 				mixer.Osc3Volume = value;
 			else if (parameter == OscParameters::Slop)
@@ -81,7 +89,7 @@ namespace Leiftur
 			mixer.Am23 = value;
 			break;
 		case MixerParameters::Color:
-			mixer.Color = (int)(value * 2.999);
+			mixer.Color = RoundToInt(value);
 			break;
 		case MixerParameters::Fm12:
 			mixer.Fm12 = value;
@@ -101,9 +109,9 @@ namespace Leiftur
 	void Voice::SetFilterHpParameter(Module module, FilterHpParameters parameter, double value)
 	{
 		if (parameter == FilterHpParameters::Env)
-			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterHpEnv].Amount = value;
+			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterHpEnv].Amount = 10 * value;
 		else if (parameter == FilterHpParameters::Keytrack)
-			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterHpKeytrack].Amount = -1.0f + value * 2.0;
+			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterHpKeytrack].Amount = value;
 		else
 		{
 			hpFilterL.SetParameter(parameter, value);
@@ -116,7 +124,7 @@ namespace Leiftur
 		if (parameter == FilterMainParameters::Env)
 			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterMainEnv].Amount = 10 * value;
 		else if (parameter == FilterMainParameters::Keytrack)
-			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterMainKeytrack].Amount = -1.0f + value * 2.0;
+			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterMainKeytrack].Amount = value;
 		else
 		{
 			mainFilterL.SetParameter(parameter, value);

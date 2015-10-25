@@ -178,7 +178,7 @@
             <components:DelaySection VerticalAlignment="Top" HorizontalAlignment="Left" Width="392" Height="114" 
                                      Visibility="{Binding DelayVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
 
-            <Label Style="{StaticResource FancyLabel}" Margin="5,15,5,5" FontSize="20">Amp Env Attack: 220 ms</Label>
+            <Label Style="{StaticResource FancyLabel}" Margin="5,15,5,5" FontSize="20" Content="{Binding AnnouncerText, FallbackValue=Announcer Text}" />
             <Button Click="Button_Click">Go</Button>
         </StackPanel>
 

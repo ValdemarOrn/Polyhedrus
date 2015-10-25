@@ -8,11 +8,14 @@ namespace Leiftur
 {
 	enum class Module
 	{
+		Control = 0,
+
 		Osc1 = 1,
 		Osc2 = 2,
 		Osc3 = 3,
 
 		Mixer = 10,
+		Character = 15,
 
 		FilterHp = 20,
 		FilterMain = 21,
@@ -55,6 +58,15 @@ namespace Leiftur
 		Output = 8,
 	};
 
+	enum class CharacterParameters
+	{
+		Bottom = 1,
+		Top = 2,
+		Decimate = 3,
+		Reduce = 4,
+		Clip = 5,
+	};
+
 	enum class FilterHpParameters
 	{
 		Cutoff = 1,
@@ -82,6 +94,7 @@ namespace Leiftur
 		Release = 5,
 		Velocity = 6,
 		Retrigger = 7,
+		Exponent = 8,
 	};
 
 	enum class LfoParameters
@@ -102,8 +115,9 @@ namespace Leiftur
 		NotePtn = 2,
 		OctavePtn = 3,
 		Gate = 4,
-		Tempo = 5,
-		Sync = 6,
+		Divide = 5,
+		Bpm = 6,
+		Sync = 7,
 	};
 
 	enum class VoiceParameters

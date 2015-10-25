@@ -42,7 +42,7 @@
         <Label Grid.Row="2" Grid.Column="2">Output</Label>
 
         <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="0" ui:OscAddress.Address="/Mixer/Noise" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1" ui:OscAddress.Address="/Mixer/Color" />
+        <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1" Min="0" Max="2" ui:OscAddress.Address="/Mixer/Color" />
         <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="2" ui:OscAddress.Address="/Mixer/Output" />
     </Grid>
 </UserControl>

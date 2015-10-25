@@ -14,6 +14,7 @@ namespace Leiftur
 
 		// These arrays map each midi note to a number of partials and the table index for that partial wave
 		static int WavetablePartials[NumPartials];
+		static int WavetableSize[NumPartials];
 		static int WavetableIndex[128];
 
 		static std::vector<Wavetable*> Wavetables;

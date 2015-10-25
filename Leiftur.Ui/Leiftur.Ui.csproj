@@ -104,6 +104,7 @@
     <Compile Include="Components\SynthView.xaml.cs">
       <DependentUpon>SynthView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Parameters.cs" />
     <Compile Include="SynthViewModel.cs" />
     <Compile Include="Components\VoicesSection.xaml.cs">
       <DependentUpon>VoicesSection.xaml</DependentUpon>

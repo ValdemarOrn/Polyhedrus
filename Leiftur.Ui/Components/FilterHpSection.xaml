@@ -30,7 +30,7 @@
         <Label Grid.Row="2" Grid.Column="0">Keytack</Label>
         <Label Grid.Row="2" Grid.Column="1">Envelope</Label>
 
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="0" ui:OscAddress.Address="/FilterHp/Keytrack" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1" ui:OscAddress.Address="/FilterHp/Env" />
+        <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="0" Min="-1" Max="1" DefaultValue="0.0" ui:OscAddress.Address="/FilterHp/Keytrack" />
+        <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1" Min="-1" Max="1" DefaultValue="0.0" ui:OscAddress.Address="/FilterHp/Env" />
     </Grid>
 </UserControl>

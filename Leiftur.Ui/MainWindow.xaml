@@ -13,5 +13,6 @@
             <GradientStop Color="#FFE6E6E6" Offset="1"/>
         </LinearGradientBrush>
     </Window.Background>
+    <!--<components:ModKnob HorizontalAlignment="Center"  Min="-1" Max="1" DefaultValue="0.2" local:OscAddress.Address="/FilterMain/Env" />-->
     <components:SynthView></components:SynthView>
 </Window>

@@ -10,6 +10,7 @@
 #include "Parameters.h"
 #include <map>
 
+
 namespace Leiftur
 {
 	const int MaxVoiceCount = 32;
@@ -32,6 +33,7 @@ namespace Leiftur
 
 	private:
 		std::map<int, double> parameters;
+		std::map<int, std::string> formattedParameters;
 		volatile bool isClosing;
 		UdpTranceiver* udpTranceiver;
 		std::thread messageListenerThread;
@@ -58,8 +60,8 @@ namespace Leiftur
 	private:
 
 		void MessageListener();
-		void SetParameterInner(Module module, int parameter, double value, bool isTranslated);
-		//double TranslateValue(Module module, int parameter, double value);
+		void SetParameterInner(Module module, int parameter, double value);
+		std::string FormatParameter(Module module, int parameter, double value);
 
 		void NoteOn(char note, float velocity);
 		void NoteOff(char note);
@@ -70,9 +72,15 @@ namespace Leiftur
 		void SetKeyPressure(int note, float pressure);
 		void SetChannelPressure(float pressure);
 
+		void SendBackParameter(Module module, int parameter);
 		void SetGlobalVoiceParameter(VoiceParameters parameter, double value);
 		void UpdateVoiceStates();
 		int FindNextMonoNote();
+
+		inline static constexpr int PackParameter(const Module module, const int parameter)
+		{
+			return (((int)module) << 16) | parameter;
+		}
 	};
 }
 

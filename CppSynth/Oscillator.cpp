@@ -72,6 +72,7 @@ namespace Leiftur
 		float waveIndex = (Shape + ShapeMod) * wavetable->Count;
 
 		float pitch = Note + 12.0f * Octave + Semi + 0.01f * Cent + 24.0f * PitchMod;
+		pitch = AudioLib::Utils::Limit(pitch, 0.0, 127.9999);
 		int partialIndex = Wavetable::WavetableIndex[(int)pitch];
 		waveMix = waveIndex - (int)waveIndex;
 

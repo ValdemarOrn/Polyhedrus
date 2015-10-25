@@ -26,6 +26,24 @@ namespace Leiftur
 		return value;
 	}
 
+	inline void WriteInt(uint8_t* dataPtr, int value)
+	{
+		uint8_t* iPtr = (uint8_t*)&value;
+		dataPtr[0] = iPtr[3];
+		dataPtr[1] = iPtr[2];
+		dataPtr[2] = iPtr[1];
+		dataPtr[3] = iPtr[0];
+	}
+
+	inline void WriteFloat(uint8_t* dataPtr, float value)
+	{
+		uint8_t* fPtr = (uint8_t*)&value;
+		dataPtr[0] = fPtr[3];
+		dataPtr[1] = fPtr[2];
+		dataPtr[2] = fPtr[1];
+		dataPtr[3] = fPtr[0];
+	}
+
 	vector<OscMessage> OscMessage::ParseRawBytes(vector<uint8_t> byteData)
 	{
 		char* ptr = (char*)&byteData[0];
@@ -72,6 +90,7 @@ namespace Leiftur
 
 	OscMessage::OscMessage(std::vector<uint8_t> data)
 	{
+		isWriteable = false;
 		Data = data;
 		int parseIndex = 0;
 		uint8_t* dataPtr = &(data[0]);
@@ -95,6 +114,100 @@ namespace Leiftur
 			else if (tag == 'b')
 				parseIndex = ParseBlob(dataPtr, parseIndex);
 		}
+	}
+
+	OscMessage::OscMessage(std::string address)
+	{
+		isWriteable = true;
+		Address = address;
+	}
+
+	void OscMessage::SetInt(int value)
+	{
+		uint8_t bytes[4];
+		WriteInt(bytes, value);
+		Data.push_back(bytes[0]);
+		Data.push_back(bytes[1]);
+		Data.push_back(bytes[2]);
+		Data.push_back(bytes[3]);
+		TypeTags.push_back('i');
+	}
+
+	void OscMessage::SetFloat(float value)
+	{
+		uint8_t bytes[4];
+		WriteFloat(bytes, value);
+		Data.push_back(bytes[0]);
+		Data.push_back(bytes[1]);
+		Data.push_back(bytes[2]);
+		Data.push_back(bytes[3]);
+		TypeTags.push_back('f');
+	}
+
+	void OscMessage::SetString(std::string value)
+	{
+		const char* str = value.c_str();
+		int len = strlen(str);
+		for (int i = 0; i < len; i++)
+			Data.push_back(str[i]);
+		
+		Data.push_back(0);
+		while(Data.size() % 4 != 0)
+			Data.push_back(0); // Pad until 4-byte aligned
+
+		TypeTags.push_back('s');
+	}
+
+	void OscMessage::SetBlob(vector<uint8_t> data)
+	{
+		int len = data.size();
+
+		uint8_t bytes[4];
+		WriteInt(bytes, len);
+		Data.push_back(bytes[0]);
+		Data.push_back(bytes[1]);
+		Data.push_back(bytes[2]);
+		Data.push_back(bytes[3]);
+
+		for (int i = 0; i < len; i++)
+			Data.push_back(data[i]);
+
+		Data.push_back(0);
+		while (Data.size() % 4 != 0)
+			Data.push_back(0); // Pad until 4-byte aligned
+
+		TypeTags.push_back('b');
+	}
+
+	vector<uint8_t> OscMessage::GetBytes()
+	{
+		vector<uint8_t> output;
+		auto addressStr = Address.c_str();
+		int addrLen = strlen(addressStr);
+
+		for (int i = 0; i < addrLen; i++)
+			output.push_back(addressStr[i]);
+		
+		output.push_back(0);
+		while (output.size() % 4 != 0)
+			output.push_back(0);
+
+		for (int i = 0; i < TypeTags.size(); i++)
+			output.push_back(TypeTags[i]);
+		
+		output.push_back(',');
+		output.push_back(0);
+		while (output.size() % 4 != 0)
+			output.push_back(0);
+
+		for (int i = 0; i < Data.size(); i++)
+			output.push_back(Data[i]);
+
+		output.push_back(0);
+		while (output.size() % 4 != 0)
+			output.push_back(0);
+
+		return output;
 	}
 
 	int OscMessage::GetInt(int argumentIndex)

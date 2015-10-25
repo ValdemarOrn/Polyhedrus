@@ -17,12 +17,22 @@ namespace Leiftur
 		vector<char> TypeTags;
 		vector<uint8_t> Data;
 		vector<int> ArgumentIndices;
+	private:
+		bool isWriteable;
 	public:
 
 		static vector<OscMessage> ParseRawBytes(vector<uint8_t> byteData);
 		static vector<OscMessage> ParseBundle(vector<uint8_t> dataBundle);
 
 		OscMessage(vector<uint8_t> data);
+		OscMessage(std::string address);
+
+		void SetInt(int value);
+		void SetFloat(float value);
+		void SetString(std::string value);
+		void SetBlob(vector<uint8_t> data);
+		vector<uint8_t> GetBytes();
+
 		int GetInt(int argumentIndex);
 		float GetFloat(int argumentIndex);
 		string GetString(int argumentIndex);

@@ -25,6 +25,9 @@ namespace Leiftur.Ui.Components
 		static internal DependencyProperty MaxProperty = DependencyProperty.Register("Max", typeof(double), typeof(ModKnob),
 				new FrameworkPropertyMetadata(1.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
+		static internal DependencyProperty DefaultValueProperty = DependencyProperty.Register("DefaultValue", typeof(double?), typeof(ModKnob),
+				new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
 		static internal DependencyProperty ModValueProperty = DependencyProperty.Register("ModValue", typeof(double), typeof(ModKnob),
 				new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
@@ -42,13 +45,41 @@ namespace Leiftur.Ui.Components
 			InitializeComponent();
 
 			DependencyPropertyDescriptor.FromProperty(ValueProperty, this.GetType())
-				.AddValueChanged(this, (s, e) => { Recalculate(); });
+				.AddValueChanged(this, (s, e) => { SetInnerValue(); Recalculate(); });
 
 			DependencyPropertyDescriptor.FromProperty(ModValueProperty, this.GetType())
 				.AddValueChanged(this, (s, e) => { Recalculate(); });
+
+			DependencyPropertyDescriptor.FromProperty(DefaultValueProperty, this.GetType())
+				.AddValueChanged(this, (s, e) =>
+				{
+					if (DefaultValue.HasValue)
+					{
+						Value = DefaultValue.Value;
+						SetInnerValue();
+						Recalculate();
+					}
+				});
+
+			
+			SetInnerValue();
+			Recalculate();
+
+			MouseDoubleClick += MouseDoubleClickHandler;
+			MouseDown += MouseDownHandler;
+			MouseUp += MouseUpHandler;
+			MouseMove += MouseMoveHandler;
 		}
 
-		private double quantizedValue;
+		private double QuantizedValue
+		{
+			get
+			{
+				var intVal = (int)(innerValue * (Steps - 0.00001));
+				return intVal / (double)(Steps - 1);
+			}
+		}
+
 		private double innerValue;
 
 		public double Value
@@ -75,6 +106,12 @@ namespace Leiftur.Ui.Components
 			set { SetValue(MaxProperty, value); }
 		}
 
+		public double? DefaultValue
+		{
+			get { return (double?)base.GetValue(DefaultValueProperty); }
+			set { SetValue(DefaultValueProperty, value); }
+		}
+
 		public double ModValue
 		{
 			get { return (double)base.GetValue(ModValueProperty); }
@@ -99,12 +136,20 @@ namespace Leiftur.Ui.Components
 			set { SetValue(DeltaProperty, value); }
 		}
 
+		private void SetInnerValue()
+		{
+			if (disableUpdates)
+				return;
+
+			innerValue = (Value - Min) / (Max - Min);
+		}
+
 		void Recalculate()
 		{
 			// indicator
 
 			var radius = 40;
-			var angle = 225.0 - quantizedValue * 270.0;
+			var angle = 225.0 - QuantizedValue * 270.0;
 			var dx = Math.Cos(ToRad(angle));
 			var dy = Math.Sin(ToRad(angle));
 
@@ -124,10 +169,10 @@ namespace Leiftur.Ui.Components
 			y0 = radius - dy * (radius - 5);
 
 			var diff = ModValue;
-			if (quantizedValue + diff < 0)
-				diff = -quantizedValue;
-			else if (quantizedValue + diff > 1)
-				diff = 1 - quantizedValue;
+			if (QuantizedValue + diff < 0)
+				diff = -QuantizedValue;
+			else if (QuantizedValue + diff > 1)
+				diff = 1 - QuantizedValue;
 
 			var dAngle = diff * 270.0;
 			angle = angle - dAngle;
@@ -152,8 +197,14 @@ namespace Leiftur.Ui.Components
 
 		bool Selected;
 		Point MousePos;
+		private bool disableUpdates;
 
-		private void OnMouseDown(object sender, MouseButtonEventArgs e)
+		private void MouseDoubleClickHandler(object sender, MouseButtonEventArgs e)
+		{
+			Value = DefaultValue ?? Min;
+		}
+
+		private void MouseDownHandler(object sender, MouseButtonEventArgs e)
 		{
 			if (Mouse.LeftButton == MouseButtonState.Released)
 				return;
@@ -163,14 +214,14 @@ namespace Leiftur.Ui.Components
 			MousePos = e.GetPosition(this);
 		}
 
-		private void OnMouseUp(object sender, MouseButtonEventArgs e)
+		private void MouseUpHandler(object sender, MouseButtonEventArgs e)
 		{
 			Selected = false;
 			Mouse.Capture(null);
 			MousePos = e.GetPosition(this);
 		}
 
-		private void OnMouseMove(object sender, MouseEventArgs e)
+		private void MouseMoveHandler(object sender, MouseEventArgs e)
 		{
 			if (Mouse.LeftButton == MouseButtonState.Released)
 			{
@@ -213,10 +264,16 @@ namespace Leiftur.Ui.Components
 
 			if (val != oldVal)
 			{
-				innerValue = val;
-				var intVal = (int)(val * (Steps - 0.00001));
-				quantizedValue = intVal / (double)(Steps - 1);
-				Value = quantizedValue;
+				try
+				{
+					disableUpdates = true;
+					innerValue = val;
+					Value = Min + QuantizedValue * (Max - Min);
+				}
+				finally
+				{
+					disableUpdates = false;
+				}
 			}
 		}
 
