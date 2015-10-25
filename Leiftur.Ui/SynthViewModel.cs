@@ -18,10 +18,12 @@ namespace Leiftur.Ui
 	{
 		private readonly ControlManager controlManager;
 		private readonly Dictionary<int, string> formattedParameters;
+		private readonly Dictionary<int, DependencyObject> controls;
 
 		private ModRoute[] modRoutes;
 		private Module? activeModule;
 		private int? activeParameter;
+		private UIElement currentControl;
 
 		private bool osc1Visible;
 		private bool osc2Visible;
@@ -33,14 +35,16 @@ namespace Leiftur.Ui
 		private bool chorusVisible;
 		private string announcerText;
 		
-
-		public SynthViewModel(Dictionary<DependencyObject, string> controls)
+		public SynthViewModel(Dictionary<DependencyObject, string> controlDict)
 		{
-			controlManager = new ControlManager(controls, this);
+			controlManager = new ControlManager(this);
             ModRoutes = Enumerable.Range(0, 12).Select(x => new ModRoute()).ToArray();
 			formattedParameters = new Dictionary<int, string>();
 			AnnouncerText = "";
-			
+
+			this.controls = new Dictionary<int, DependencyObject>();
+			RegisterControls(controlDict);
+
 			SetModuleVisibleCommand = new DelegateCommand(x => SetModuleVisible(x.ToString()), () => true);
 			Osc1Visible = true;
 			Lfo1Visible = true;
@@ -112,22 +116,90 @@ namespace Leiftur.Ui
 		}
 
 		#endregion
-
+		
 		internal void ProcessParameterUpdate(Module module, int parameter, double value, string formattedParameter)
 		{
-			formattedParameters[Parameters.Pack(module, parameter)] = formattedParameter;
+			var key = Parameters.Pack(module, parameter);
+            formattedParameters[key] = formattedParameter;
+
 			if (module == activeModule && parameter == activeParameter)
-				UpdateAnnouncer();
+				UpdateAnnouncer(); // update announcer for active control
+			else
+			{
+				var control = controls.GetValueOrDefault(key);
+				if (control != null)
+				{
+					control.Dispatcher.InvokeAsync(() =>
+					{
+						if (control is ModKnob)
+						{
+							(control as ModKnob).Value = value;
+						}
+					});
+				}
+			}
+
+		}
+		
+		internal void RequestState()
+		{
+			controlManager.SendOscControlMessage("/Control/RequestState");
 		}
 
-		internal void SetActiveParameter(Module module, int parameter)
+		private void RegisterControls(Dictionary<DependencyObject, string> controlDict)
+		{
+			foreach (var control in controlDict.Keys)
+			{
+				if (control as UIElement == null)
+					continue;
+				
+				UIElement uiElem = control as UIElement;
+				uiElem.MouseEnter += (s, e) => SetActiveControl(s as UIElement, true);
+				uiElem.MouseLeave += (s, e) => SetActiveControl(s as UIElement, false);
+				
+				var address = OscAddress.GetAddress(control);
+				var key = Parameters.Pack(address);
+				controls[key] = control;
+
+				var modKnob = control as ModKnob;
+				if (modKnob != null)
+				{
+					DependencyPropertyDescriptor.FromProperty(ModKnob.ValueProperty, typeof(ModKnob))
+						.AddValueChanged(modKnob, (s, e) => SendValue(address, modKnob.Value));
+				}
+			}
+		}
+
+		private void SendValue(string address, double value)
+		{
+			controlManager.SendOscMessage(address, value);
+		}
+
+		private void SetActiveControl(UIElement uiElement, bool isActive)
+		{
+			if (isActive)
+			{
+				currentControl = uiElement;
+				var address = OscAddress.GetAddress(uiElement);
+				var tuple = Parameters.ParseAddress(address);
+				SetActiveParameter(tuple.Item1, tuple.Item2);
+
+			}
+			else if (currentControl.Equals(uiElement))
+			{
+				currentControl = null;
+				ClearActiveParameter();
+			}
+		}
+
+		private void SetActiveParameter(Module module, int parameter)
 		{
 			activeModule = module;
 			activeParameter = parameter;
 			UpdateAnnouncer();
 		}
 
-		public void ClearActiveParameter()
+		private void ClearActiveParameter()
 		{
 			activeModule = null;
 			activeParameter = null;
@@ -195,6 +267,5 @@ namespace Leiftur.Ui
 			}
 		}
 
-		
 	}
 }

@@ -7,6 +7,7 @@
 #include "Synth.h"
 #include "Osc/OscMessage.h"
 #include "AudioLib/Utils.h"
+#include "PlatformSpecific.h"
 
 using namespace std;
 using namespace AudioLib::Utils;
@@ -58,24 +59,16 @@ namespace Leiftur
 		{
 			Voices[i].Initialize(samplerate, ModulationUpdateRate, BufferSize);
 		}
+
+		presetManager.Initialize(PlatformSpecific::GetDllDir());
+		LoadPreset(presetManager.GetDefaultPreset());
 	}
 
-	void Synth::SetParameter(int parameter, double value)
-	{
-		// Parameter values is interpreseted as
-		// mmmmmmmmmmmmmmmmxxxxxxxxpppppppp
-		// Upper 16 bits = module
-		// Lower 8 bits = parameter
-		Module module = (Module)((parameter & 0xFF00) >> 16);
-		int param = parameter = 0x00FF;
-		SetParameterInner(module, param, value);
-	}
-
-	void Synth::SetParameter(std::string address, double value)
+	void Synth::SetParameter(int key, double value)
 	{
 		Module module;
 		int parameter;
-		Parameters::ParseAddress(address, &module, &parameter);
+		UnpackParameter(key, &module, &parameter);
 		SetParameterInner(module, parameter, value);
 	}
 
@@ -130,34 +123,90 @@ namespace Leiftur
 		}
 	}
 
-	// ------------------- Inner Methods ----------------------
+
+	// ------------------------------------------------------------------------------
+	// ------------------------------ Inner Methods ---------------------------------
+	// ------------------------------------------------------------------------------
+
 
 	void Synth::MessageListener()
 	{
-		auto sleepTime = chrono::milliseconds(1);
+		auto sleepTime = chrono::milliseconds(20);
 
 		while (!isClosing)
 		{
-			auto data = udpTranceiver->Receive();
-
-			if (data.size() > 0)
+			try
 			{
-				auto oscMsgs = OscMessage::ParseRawBytes(data);
-				auto oscMsg = oscMsgs[0];
-				if (oscMsg.TypeTags[0] == 'f')
+				while (true)
 				{
-					float val = oscMsg.GetFloat(0);
-					std::cout << oscMsg.Address << ": " << val << std::endl;
-					SetParameter(oscMsg.Address, val);
+					auto data = udpTranceiver->Receive();
+					if (data.size() == 0)
+						break;
+					
+					auto oscMsgs = OscMessage::ParseRawBytes(data);
+					auto oscMsg = oscMsgs[0];
+					Module module;
+					int parameter;
+					Parameters::ParseAddress(oscMsg.Address, &module, &parameter);
+					if (module == Module::Control)
+					{
+						HandleControlMessage(oscMsg);
+					}
+					else if (oscMsg.TypeTags[0] == 'f')
+					{
+						float value = oscMsg.GetFloat(0);
+						SetParameterInner(module, parameter, value);
+					}
 				}
+			}
+			catch (exception ex)
+			{
+				std::cout << ex.what() << std::endl;
 			}
 
 			this_thread::sleep_for(sleepTime);
 		}
 	}
 
+	void Synth::LoadPreset(Preset preset)
+	{
+		currentPreset = preset;
+
+		for (std::map<int, double>::iterator it = currentPreset.Values.begin(); it != currentPreset.Values.end(); ++it)
+		{
+			const int key = it->first;
+			const double value = it->second;
+			Module module;
+			int parameter;
+			UnpackParameter(key, &module, &parameter);
+			SetParameterInner(module, parameter, value);
+		}
+	}
+
+	void Synth::HandleControlMessage(OscMessage msg)
+	{
+		if (msg.Address == "/Control/RequestState")
+			SendStateToEditor();
+	}
+
+	void Synth::SendStateToEditor()
+	{
+		for (std::map<int, double>::iterator it = currentPreset.Values.begin(); it != currentPreset.Values.end(); ++it)
+		{
+			const int key = it->first;
+			Module module;
+			int parameter;
+			UnpackParameter(key, &module, &parameter);
+			SendBackParameter(module, parameter);
+		}
+	}
+
 	void Synth::SetParameterInner(Module module, int parameter, double value)
 	{
+		if (module == Module::ModMatrix)
+		{
+			int k = 23;
+		}
 		int idx = PackParameter(module, parameter);
 		parameters[idx] = value;
 		SendBackParameter(module, parameter);
@@ -170,6 +219,36 @@ namespace Leiftur
 			Voices[i].SetParameter(module, parameter, value);
 		}
 	}
+
+	void Synth::SetGlobalVoiceParameter(VoiceParameters parameter, double value)
+	{
+		if (parameter == VoiceParameters::Unison)
+		{
+			int val = Parameters::FloorToInt(value);
+			unison = val < 1 ? 1 : val;
+		}
+		else if (parameter == VoiceParameters::Master)
+		{
+			masterVol = value;
+		}
+		else if (parameter == VoiceParameters::Polyphony)
+		{
+			int val = Parameters::FloorToInt(value);
+			polyphony = val < 1 ? 1 : val;
+			UpdateVoiceStates();
+		}
+		else if (parameter == VoiceParameters::VoiceMode)
+		{
+			UpdateVoiceStates();
+			voiceMode = (VoiceMode)(int)Parameters::FloorToInt(value);
+		}
+	}
+
+
+	// ------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------------
+
 
 	void Synth::NoteOn(char note, float velocity)
 	{
@@ -261,29 +340,11 @@ namespace Leiftur
 			Voices[i].SetModWheel(pressure);
 	}
 
-	void Synth::SetGlobalVoiceParameter(VoiceParameters parameter, double value)
-	{
-		if (parameter == VoiceParameters::Unison)
-		{
-			int val = (int)(value * MaxVoiceCount + 0.001);
-			unison = val < 1 ? 1 : val;
-		}
-		else if (parameter == VoiceParameters::Master)
-		{
-			masterVol = value;
-		}
-		else if (parameter == VoiceParameters::Polyphony)
-		{
-			int val = (int)(value * MaxVoiceCount + 0.001);
-			polyphony = val < 1 ? 1 : val;
-			UpdateVoiceStates();
-		}
-		else if (parameter == VoiceParameters::VoiceMode)
-		{
-			UpdateVoiceStates();
-			voiceMode = (VoiceMode)(int)((1.0 - value) * 3.999);
-		}
-	}
+
+	// ------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------------
+
 
 	void Synth::UpdateVoiceStates()
 	{

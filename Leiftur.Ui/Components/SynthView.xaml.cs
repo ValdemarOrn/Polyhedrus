@@ -20,6 +20,7 @@ namespace Leiftur.Ui.Components
 			var controls = OscAddress.GetChildrenWithValue(this);
 			this.Vm = new SynthViewModel(controls);
 			this.DataContext = Vm;
+			Vm.RequestState();
 		}
 	}
 }

@@ -92,7 +92,7 @@ namespace Leiftur
 	void Wavetable::Setup()
 	{
 		auto sampleCount = 2048;
-		auto numTables = 64;
+		auto numTables = 16;
 
 		auto saw = Wavetables::Sawtooth::CreateTable(sampleCount, numTables);
 		auto wavetable = ConvertTable(saw, sampleCount, numTables);

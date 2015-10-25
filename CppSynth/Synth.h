@@ -7,7 +7,9 @@
 #include "Default.h"
 #include "Voice.h"
 #include "Osc/UdpTranceiver.h"
+#include "Osc/OscMessage.h"
 #include "Parameters.h"
+#include "PresetManager.h"
 #include <map>
 
 
@@ -35,6 +37,8 @@ namespace Leiftur
 		std::map<int, double> parameters;
 		std::map<int, std::string> formattedParameters;
 		volatile bool isClosing;
+		PresetManager presetManager;
+		Preset currentPreset;
 		UdpTranceiver* udpTranceiver;
 		std::thread messageListenerThread;
 		VoiceMode voiceMode;
@@ -51,17 +55,35 @@ namespace Leiftur
 		~Synth();
 
 		void Initialize(int samplerate, int udpListenPort, int udpSendPort);
-
-		void SetParameter(int parameter, double value);
-		void SetParameter(std::string address, double value);
+		void SetParameter(int key, double value);
 		void ProcessMidi(uint8_t* message);
 		void ProcessAudio(float** buffer, int bufferSize);
+
+		inline static void UnpackParameter(const int key, Module* module, int* parameter)
+		{
+			// Parameter values is interpreseted as
+			// mmmmmmmmmmmmmmmmpppppppppppppppp
+			// Upper 16 bits = module
+			// Lower 16 bits = parameter
+			*module = (Module)((key & 0xFFFF0000) >> 16);
+			*parameter = key & 0x0000FFFF;
+		}
+
+		inline static constexpr int PackParameter(const Module module, const int parameter)
+		{
+			return (((int)module) << 16) | parameter;
+		}
 
 	private:
 
 		void MessageListener();
+		void LoadPreset(Preset preset);
+		void HandleControlMessage(OscMessage msg);
+		void SendStateToEditor();
 		void SetParameterInner(Module module, int parameter, double value);
 		std::string FormatParameter(Module module, int parameter, double value);
+		void SendBackParameter(Module module, int parameter);
+		void SetGlobalVoiceParameter(VoiceParameters parameter, double value);
 
 		void NoteOn(char note, float velocity);
 		void NoteOff(char note);
@@ -72,15 +94,8 @@ namespace Leiftur
 		void SetKeyPressure(int note, float pressure);
 		void SetChannelPressure(float pressure);
 
-		void SendBackParameter(Module module, int parameter);
-		void SetGlobalVoiceParameter(VoiceParameters parameter, double value);
 		void UpdateVoiceStates();
-		int FindNextMonoNote();
-
-		inline static constexpr int PackParameter(const Module module, const int parameter)
-		{
-			return (((int)module) << 16) | parameter;
-		}
+		int FindNextMonoNote();		
 	};
 }
 

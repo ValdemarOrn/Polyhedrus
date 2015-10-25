@@ -42,6 +42,7 @@
     <ClInclude Include="Osc\UdpTranceiver.h" />
     <ClInclude Include="PlatformSpecific.h" />
     <ClInclude Include="Parameters.h" />
+    <ClInclude Include="PresetManager.h" />
     <ClInclude Include="Synth.h" />
     <ClInclude Include="UnitTests.h" />
     <ClInclude Include="UnitTests\OscTests.h" />
@@ -70,6 +71,7 @@
     <ClCompile Include="Osc\UdpTranceiver.cpp" />
     <ClCompile Include="Parameters.cpp" />
     <ClCompile Include="PlatformSpecific.cpp" />
+    <ClCompile Include="PresetManager.cpp" />
     <ClCompile Include="Synth.cpp" />
     <ClCompile Include="SynthParameters.cpp" />
     <ClCompile Include="UnitTests\OscTests.cpp" />

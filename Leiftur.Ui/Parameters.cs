@@ -245,6 +245,12 @@ namespace Leiftur.Ui
 			return (((int)module) << 16) | parameter;
 		}
 
+		public static int Pack(string address)
+		{
+			var tuple = ParseAddress(address);
+			return Pack(tuple.Item1, tuple.Item2);
+		}
+
 		public static Tuple<Module, int> ParseAddress(string address)
 		{
 			var parts = address.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);

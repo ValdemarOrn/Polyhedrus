@@ -57,13 +57,13 @@ namespace Leiftur
 	{
 		if (module == Module::Osc1 || module == Module::Osc2 || module == Module::Osc3)
 			SetOscParameter(module, (OscParameters)parameter, value);
-		if (module == Module::Mixer)
+		else if (module == Module::Mixer)
 			SetMixerParameter(module, (MixerParameters)parameter, value);
-		if (module == Module::FilterHp)
+		else if (module == Module::FilterHp)
 			SetFilterHpParameter(module, (FilterHpParameters)parameter, value);
-		if (module == Module::FilterMain)
+		else if (module == Module::FilterMain)
 			SetFilterMainParameter(module, (FilterMainParameters)parameter, value);
-		if (module == Module::EnvAmp || module == Module::EnvFilter || module == Module::EnvMod)
+		else if (module == Module::EnvAmp || module == Module::EnvFilter || module == Module::EnvMod)
 			SetEnvParameter(module, (EnvParameters)parameter, value);
 	}
 

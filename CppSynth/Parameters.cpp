@@ -22,6 +22,7 @@ namespace Leiftur
 
 	Module Parameters::GetModule(std::string moduleString)
 	{
+		if (moduleString == "Control") return Module::Control;
 		if (moduleString == "Osc1") return Module::Osc1;
 		if (moduleString == "Osc2") return Module::Osc2;
 		if (moduleString == "Osc3") return Module::Osc3;

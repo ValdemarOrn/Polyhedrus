@@ -5,11 +5,12 @@
 
 namespace Leiftur
 {
-	namespace PlatformSpecific
+	class PlatformSpecific
 	{
-		std::string GetDllDirectory();
-		void StartEditor(int port);
-	}
+	public:
+		static std::string GetDllDir();
+		static void StartEditor(int port);
+	};
 }
 
 #endif
