@@ -12,9 +12,8 @@ namespace Leiftur
 	public:
 		std::string BankName;
 		std::string PresetName;
-		std::string Filename;
+		std::string FilePath;
 
-		bool ValuesLoaded;
 		std::map<std::string, std::string> Metadata;
 		std::map<int, double> Values;
 	};
@@ -22,12 +21,16 @@ namespace Leiftur
 	class PresetManager
 	{
 	public:
-		std::map<std::string, std::map<std::string, Preset>> PresetBanks;
+		std::string BaseDirectory;
+
+		std::map<std::string, std::vector<Preset>> PresetBanks;
 
 		PresetManager();
 		void Initialize(std::string baseDirectory);
 		Preset GetDefaultPreset();
-		void LoadPresetValues(Preset* preset);
+		void LoadBanks();
+		void LoadPresetsByBank(std::string bank);
+		Preset ReadPresetFile(std::string bank, std::string presetFilepath);
 		void SavePreset(Preset* preset);
 	};
 }

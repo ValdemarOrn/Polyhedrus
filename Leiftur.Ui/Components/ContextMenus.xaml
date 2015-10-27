@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Leiftur.Ui.Components">
+
+    <ContextMenu x:Key="SomeContextMenu">
+        <MenuItem Header="Presets" />
+        <Separator />
+        <MenuItem Header="Save Preset" Command="{Binding SavePresetCommand}" />
+        <MenuItem Header="Delete Preset" Command="{Binding DeletePresetCommand}" />
+    </ContextMenu>
+</ResourceDictionary>

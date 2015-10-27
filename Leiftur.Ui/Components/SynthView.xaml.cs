@@ -20,7 +20,14 @@ namespace Leiftur.Ui.Components
 			var controls = OscAddress.GetChildrenWithValue(this);
 			this.Vm = new SynthViewModel(controls);
 			this.DataContext = Vm;
+			Vm.Parent = this.Parent as Window;
 			Vm.RequestState();
+		}
+
+		private void ShowContextMenu(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		{
+			(sender as FrameworkElement).ContextMenu.DataContext = this.DataContext;
+			(sender as FrameworkElement).ContextMenu.IsOpen = true;
 		}
 	}
 }

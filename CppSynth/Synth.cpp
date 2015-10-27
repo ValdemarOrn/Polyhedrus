@@ -143,19 +143,36 @@ namespace Leiftur
 					if (data.size() == 0)
 						break;
 					
-					auto oscMsgs = OscMessage::ParseRawBytes(data);
-					auto oscMsg = oscMsgs[0];
-					Module module;
-					int parameter;
-					Parameters::ParseAddress(oscMsg.Address, &module, &parameter);
-					if (module == Module::Control)
+					try
 					{
-						HandleControlMessage(oscMsg);
+						auto oscMsgs = OscMessage::ParseRawBytes(data);
+						auto oscMsg = oscMsgs[0];
+						Module module;
+						int parameter;
+						Parameters::ParseAddress(oscMsg.Address, &module, &parameter);
+						if (module == Module::Control)
+						{
+							HandleControlMessage(oscMsg);
+						}
+						else if (oscMsg.TypeTags[0] == 'f')
+						{
+							float value = oscMsg.GetFloat(0);
+							SetParameterInner(module, parameter, value);
+						}
 					}
-					else if (oscMsg.TypeTags[0] == 'f')
+					catch (exception ex)
 					{
-						float value = oscMsg.GetFloat(0);
-						SetParameterInner(module, parameter, value);
+						try
+						{
+							std::cout << ex.what() << std::endl;
+							OscMessage oscMsg("/Control/ErrorMessage");
+							oscMsg.SetString(std::string("An Error occurred while processing an OSC message:\n") + ex.what());
+							udpTranceiver->Send(oscMsg.GetBytes());
+						}
+						catch (exception ex2)
+						{
+							std::cout << ex2.what() << std::endl;
+						}
 					}
 				}
 			}
@@ -187,6 +204,8 @@ namespace Leiftur
 	{
 		if (msg.Address == "/Control/RequestState")
 			SendStateToEditor();
+		if (msg.Address == "/Control/SavePreset")
+			SavePreset(msg.GetString(0), msg.GetString(1));
 	}
 
 	void Synth::SendStateToEditor()
@@ -199,6 +218,14 @@ namespace Leiftur
 			UnpackParameter(key, &module, &parameter);
 			SendBackParameter(module, parameter);
 		}
+	}
+
+	void Synth::SavePreset(std::string bankName, std::string presetName)
+	{
+		currentPreset.BankName = bankName;
+		currentPreset.PresetName = presetName;
+		presetManager.SavePreset(&currentPreset);
+		udpTranceiver->Send(OscMessage("/Control/PresetListChanged").GetBytes());
 	}
 
 	void Synth::SetParameterInner(Module module, int parameter, double value)

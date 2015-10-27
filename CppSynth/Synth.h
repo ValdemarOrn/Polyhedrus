@@ -80,6 +80,7 @@ namespace Leiftur
 		void LoadPreset(Preset preset);
 		void HandleControlMessage(OscMessage msg);
 		void SendStateToEditor();
+		void SavePreset(std::string bankName, std::string presetName);
 		void SetParameterInner(Module module, int parameter, double value);
 		std::string FormatParameter(Module module, int parameter, double value);
 		void SendBackParameter(Module module, int parameter);

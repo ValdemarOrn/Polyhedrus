@@ -11,6 +11,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles.xaml" />
+                <ResourceDictionary Source="ContextMenus.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <lpCore:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <lpCore:BoolToBoldConverter x:Key="BoolToBoldConverter" />
@@ -34,7 +35,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="94" />
+            <RowDefinition Height="92" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -120,9 +121,18 @@
 
         <components:FilterMainSection Grid.Row="1" Grid.Column="7" VerticalAlignment="Top" HorizontalAlignment="Left" Width="150" Height="114" />
 
-        <StackPanel Grid.Column="3" Grid.ColumnSpan="5" Grid.Row="2" VerticalAlignment="Center">
-            <Label Style="{StaticResource FancyLabel}">Factory Soundset</Label>
-            <Label Style="{StaticResource FancyLabel}">001: Sound Patch 1</Label>
+        <StackPanel Grid.Column="3" Grid.ColumnSpan="5" Grid.Row="2" VerticalAlignment="Center" >
+            <Label Style="{StaticResource FancyLabel}" Visibility="{Binding PresetVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}">
+                Factory Soundset
+            </Label>
+            <Label Style="{StaticResource FancyLabel}" Visibility="{Binding PresetVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}"
+                   ContextMenu="{StaticResource SomeContextMenu}" MouseUp="ShowContextMenu">
+                001: Sound Patch 1
+            </Label>
+            <Label Style="{StaticResource FancyLabel}" Content="{Binding AnnouncerCaption, FallbackValue=Announcer Caption}"
+                   Visibility="{Binding AnnouncerVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
+            <Label Style="{StaticResource FancyLabel}" Content="{Binding AnnouncerValue, FallbackValue=Announcer Value}"
+                   Visibility="{Binding AnnouncerVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
         </StackPanel>
         
         <components:MacroControls Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="5" Height="57" HorizontalContentAlignment="Center" />
@@ -199,8 +209,7 @@
             <components:DelaySection VerticalAlignment="Top" HorizontalAlignment="Left" Width="392" Height="114" 
                                      Visibility="{Binding DelayVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
 
-            <Label Style="{StaticResource FancyLabel}" Margin="5,15,5,5" FontSize="20" Content="{Binding AnnouncerText, FallbackValue=Announcer Text}" />
-            <Button Click="Button_Click">Go</Button>
+            <Button Width="50" Click="Button_Click" HorizontalAlignment="Right">Go</Button>
         </StackPanel>
 
     </Grid>

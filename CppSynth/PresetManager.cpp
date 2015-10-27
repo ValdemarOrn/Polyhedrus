@@ -4,6 +4,16 @@
 #include "Lfo.h"
 #include "ModMatrix.h"
 #include "ModSourceDest.h"
+#include "Utils.h"
+
+#include <boost/filesystem.hpp>
+#include <boost/algorithm/string/predicate.hpp>
+#include <fstream>
+#include <map>
+#include <iostream>
+
+using namespace boost::filesystem;
+using namespace std;
 
 namespace Leiftur
 {
@@ -13,16 +23,23 @@ namespace Leiftur
 
 	void PresetManager::Initialize(std::string baseDirectory)
 	{
+		path path = baseDirectory;
+		path = path / "Presets";
+		BaseDirectory = path.string();
+		create_directories(path);
+		LoadBanks();
+		
+		for (auto bank : PresetBanks)
+			LoadPresetsByBank(bank.first);
 	}
 
 	Preset PresetManager::GetDefaultPreset()
 	{
 		Preset preset;
 		preset.BankName = "Default";
-		preset.Filename = "";
+		preset.FilePath = "";
 		preset.Metadata["Author"] = "Default";
 		preset.PresetName = "Init Preset";
-		preset.ValuesLoaded = true;
 
 		auto setOsc = [&](Module module)
 		{
@@ -156,11 +173,116 @@ namespace Leiftur
 		return preset;
 	}
 
-	void PresetManager::LoadPresetValues(Preset* preset)
+	void PresetManager::LoadBanks()
 	{
+		directory_iterator end_itr;
+
+		for (directory_iterator itr(BaseDirectory); itr != end_itr; ++itr)
+		{
+			if (is_directory(itr->status()))
+			{
+				auto bank = itr->path();
+				auto file = bank.filename().string();
+				PresetBanks[file];
+			}
+		}
+	}
+	
+	void PresetManager::LoadPresetsByBank(std::string bank)
+	{
+		path bankDir = BaseDirectory;
+		bankDir = bankDir / bank;
+		directory_iterator end_itr;
+
+		for (directory_iterator itr(bankDir); itr != end_itr; ++itr)
+		{
+			auto ext = itr->path().extension();
+			if (ext == ".preset")
+			{
+				auto preset = ReadPresetFile(bank, itr->path().string());
+				PresetBanks[bank].push_back(preset);
+			}
+		}
+	}
+
+	Preset PresetManager::ReadPresetFile(std::string bank, std::string presetFilepath)
+	{
+		try
+		{
+			Preset preset;
+			preset.BankName = bank;
+			preset.FilePath = presetFilepath;
+			
+			map<string, string> metadata;
+			ifstream infile(presetFilepath);
+			bool headerComplete = false;
+
+			std::string line;
+			while (std::getline(infile, line))
+			{
+				if (line == "")
+				{
+					headerComplete = true;
+					continue;
+				}
+
+				auto kvp = SplitString(line, ':');
+				auto key = kvp.at(0);
+				auto value = kvp.at(1);
+
+				if (!headerComplete)
+				{
+					if (key == "PresetName")
+						preset.PresetName = value;
+					else
+						preset.Metadata[key] = value;
+				}
+				else
+				{
+					int intKey = stoi(key);
+					int floatVal = stof(value);
+					preset.Values[intKey] = floatVal;
+				}
+			}
+
+			return preset;
+		}
+		catch (exception ex)
+		{
+			cout << "Failed to parse preset file: " << presetFilepath << endl;
+			cout << ex.what() << endl;
+			return GetDefaultPreset();
+		}
 	}
 
 	void PresetManager::SavePreset(Preset* preset)
 	{
+		// Create the contents
+		stringstream ss;
+
+		ss << "PresetName:" << preset->PresetName << std::endl;
+		for (auto kvp : preset->Metadata)
+			ss << kvp.first << ":" << kvp.second << std::endl;
+		
+		ss << std::endl;
+
+		for (auto kvp : preset->Values)
+			ss << kvp.first << ":" << kvp.second << std::endl;
+
+		string data = ss.str();
+
+		// Write the file
+		path dir(BaseDirectory);
+		dir = dir / preset->BankName;
+		auto filepath = dir / (preset->PresetName + ".preset");
+		create_directories(dir);
+
+		fstream fs;
+		fs.open(filepath.string(), ios::out);
+		fs << data;
+		fs.flush();
+		fs.close();
+
+		preset->FilePath = filepath.string();
 	}
 }

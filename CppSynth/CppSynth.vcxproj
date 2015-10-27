@@ -46,6 +46,7 @@
     <ClInclude Include="Synth.h" />
     <ClInclude Include="UnitTests.h" />
     <ClInclude Include="UnitTests\OscTests.h" />
+    <ClInclude Include="Utils.h" />
     <ClInclude Include="Vca.h" />
     <ClInclude Include="Voice.h" />
     <ClInclude Include="Wavetable.h" />

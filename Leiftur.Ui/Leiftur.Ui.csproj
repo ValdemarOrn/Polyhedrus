@@ -89,6 +89,9 @@
     <Compile Include="Components\MatrixSection.xaml.cs">
       <DependentUpon>MatrixSection.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\SavePresetDialog.xaml.cs">
+      <DependentUpon>SavePresetDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\Spinner.xaml.cs">
       <DependentUpon>Spinner.xaml</DependentUpon>
     </Compile>
@@ -121,6 +124,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Components\ContextMenus.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Components\DelaySection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -146,6 +153,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Components\MacroControls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\SavePresetDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

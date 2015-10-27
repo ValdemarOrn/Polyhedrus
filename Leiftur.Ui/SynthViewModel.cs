@@ -33,19 +33,31 @@ namespace Leiftur.Ui
 		private bool arpeggiatorVisible;
 		private bool delayVisible;
 		private bool chorusVisible;
-		private string announcerText;
-		
+		private string announcerCaption;
+		private string announcerValue;
+		private bool disableSendValue;
+
 		public SynthViewModel(Dictionary<DependencyObject, string> controlDict)
 		{
+			Application.Current.DispatcherUnhandledException += (s, e) =>
+			{
+				var ex = e.Exception;
+				MessageBox.Show(ex.GetTrace(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+				e.Handled = true;
+			};
+
 			controlManager = new ControlManager(this);
             ModRoutes = Enumerable.Range(0, 8).Select(x => new ModRoute()).ToArray();
 			formattedParameters = new Dictionary<int, string>();
-			AnnouncerText = "";
+			announcerCaption = "";
+			announcerValue = "";
 
 			this.controls = new Dictionary<int, DependencyObject>();
 			RegisterControls(controlDict);
 
 			SetModuleVisibleCommand = new DelegateCommand(x => SetModuleVisible(x.ToString()), () => true);
+			SavePresetCommand = new DelegateCommand(x => SavePreset(), () => true);
+			DeletePresetCommand = new DelegateCommand(x => DeletePreset(), () => true);
 			Osc1Visible = true;
 			Lfo1Visible = true;
 			DelayVisible = true;
@@ -54,6 +66,10 @@ namespace Leiftur.Ui
 		#region Properties
 
 		public DelegateCommand SetModuleVisibleCommand { get; private set; }
+		public DelegateCommand SavePresetCommand { get; private set; }
+		public DelegateCommand DeletePresetCommand { get; private set; }
+
+		public Window Parent { get; set; }
 
 		public ModRoute[] ModRoutes
 		{
@@ -109,10 +125,32 @@ namespace Leiftur.Ui
 			set { chorusVisible = value; NotifyPropertyChanged(); }
 		}
 
-		public string AnnouncerText
+		public bool PresetVisible => !AnnouncerVisible;
+
+		public bool AnnouncerVisible => !string.IsNullOrWhiteSpace(AnnouncerCaption);
+
+		public string AnnouncerCaption
 		{
-			get { return announcerText; }
-			set { announcerText = value; NotifyPropertyChanged(); }
+			get { return announcerCaption; }
+			set
+			{
+				announcerCaption = value;
+				NotifyPropertyChanged();
+				NotifyPropertyChanged(nameof(AnnouncerVisible));
+				NotifyPropertyChanged(nameof(PresetVisible));
+			}
+		}
+
+		public string AnnouncerValue
+		{
+			get { return announcerValue; }
+			set
+			{
+				announcerValue = value;
+				NotifyPropertyChanged();
+				NotifyPropertyChanged(nameof(AnnouncerVisible));
+				NotifyPropertyChanged(nameof(PresetVisible));
+			}
 		}
 
 		#endregion
@@ -123,22 +161,30 @@ namespace Leiftur.Ui
             formattedParameters[key] = formattedParameter;
 
 			if (module == activeModule && parameter == activeParameter)
-				UpdateAnnouncer(); // update announcer for active control
-			else
 			{
-				var control = controls.GetValueOrDefault(key);
-				if (control != null)
-				{
-					control.Dispatcher.InvokeAsync(() =>
-					{
-						if (control is ModKnob)
-						{
-							(control as ModKnob).Value = value;
-						}
-					});
-				}
+				UpdateAnnouncer(); // update announcer for active control
+				return;
 			}
 
+			var control = controls.GetValueOrDefault(key);
+			if (control == null)
+				return;
+
+			control.Dispatcher.InvokeAsync(() =>
+			{
+				try
+				{
+					disableSendValue = true;
+					if (control is ModKnob)
+					{
+						(control as ModKnob).Value = value;
+					}
+				}
+				finally
+				{
+					disableSendValue = false;
+				}
+			});
 		}
 		
 		internal void RequestState()
@@ -172,6 +218,9 @@ namespace Leiftur.Ui
 
 		private void SendValue(string address, double value)
 		{
+			if (disableSendValue)
+				return;
+
 			controlManager.SendOscMessage(address, value);
 		}
 
@@ -203,18 +252,21 @@ namespace Leiftur.Ui
 		{
 			activeModule = null;
 			activeParameter = null;
+			UpdateAnnouncer();
 		}
 
 		private void UpdateAnnouncer()
 		{
 			if (activeModule == null || activeParameter == null)
 			{
-				AnnouncerText = "";
+				AnnouncerCaption = "";
+				AnnouncerValue = "";
 				return;
 			}
 
 			var formattedString = formattedParameters.GetValueOrDefault(Parameters.Pack(activeModule.Value, activeParameter.Value), "");
-            AnnouncerText = Parameters.PrettyPrint(activeModule.Value, activeParameter.Value) + ": " + formattedString;
+			AnnouncerCaption = Parameters.PrettyPrint(activeModule.Value, activeParameter.Value);
+			AnnouncerValue = formattedString;
 		}
 		
 		private void SetModuleVisible(string module)
@@ -266,6 +318,34 @@ namespace Leiftur.Ui
 				ChorusVisible = true;
 			}
 		}
+		
+		private void SavePreset()
+		{
+			var presetName = new SavePresetDialog() { Owner = Parent }.ShowDialog("Preset Name");
+			if (string.IsNullOrWhiteSpace(presetName))
+				return;
 
+			var bankName = "User Bank";
+			if (!CheckValidName(bankName))
+				throw new Exception("The selected bank name is invalid");
+			if (!CheckValidName(presetName))
+				throw new Exception("The selected preset name is invalid");
+
+			controlManager.SendOscControlMessage("/Control/SavePreset", bankName, presetName);
+		}
+
+		private bool CheckValidName(string name)
+		{
+			if (name.Length > 256)
+				return false;
+
+			// ASCII encoding replaces non-ascii with question marks, so we use UTF8 to see if multi-byte sequences are there
+			return name.All(x => (x >= '0' && x <= '9') || (x >= 'A' && x <= 'Z') || (x >= 'a' && x <= 'z') || x == '-' || x == '_' || x == '(' || x == ')');
+        }
+
+		private void DeletePreset()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

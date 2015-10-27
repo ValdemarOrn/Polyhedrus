@@ -235,7 +235,6 @@ namespace Leiftur
 	class Parameters
 	{
 	private:
-		static std::vector<std::string> Split(const std::string s, char delim);
 		static Module GetModule(std::string moduleString);
 		static int GetParameter(std::string parameterString, Module module);
 	public:

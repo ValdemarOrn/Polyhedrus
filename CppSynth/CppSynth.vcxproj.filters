@@ -120,6 +120,9 @@
     <ClInclude Include="PresetManager.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Synth.cpp">
