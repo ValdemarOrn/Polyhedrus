@@ -122,13 +122,13 @@
         <components:FilterMainSection Grid.Row="1" Grid.Column="7" VerticalAlignment="Top" HorizontalAlignment="Left" Width="150" Height="114" />
 
         <StackPanel Grid.Column="3" Grid.ColumnSpan="5" Grid.Row="2" VerticalAlignment="Center" >
-            <Label Style="{StaticResource FancyLabel}" Visibility="{Binding PresetVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}">
-                Factory Soundset
-            </Label>
-            <Label Style="{StaticResource FancyLabel}" Visibility="{Binding PresetVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}"
-                   ContextMenu="{StaticResource SomeContextMenu}" MouseUp="ShowContextMenu">
-                001: Sound Patch 1
-            </Label>
+            <Label Style="{StaticResource FancyLabel}" Content="{Binding SelectedBank, FallbackValue=Selected Bank}"
+                   Visibility="{Binding PresetVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" 
+                   ContextMenu="{StaticResource BanksContextMenu}" MouseUp="ShowContextMenu" />
+            <Label Style="{StaticResource FancyLabel}" Content="{Binding SelectedPreset, FallbackValue=Selected Preset}"
+                   Visibility="{Binding PresetVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}"
+                   ContextMenu="{StaticResource PresetsContextMenu}" MouseUp="ShowContextMenu" />
+            
             <Label Style="{StaticResource FancyLabel}" Content="{Binding AnnouncerCaption, FallbackValue=Announcer Caption}"
                    Visibility="{Binding AnnouncerVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
             <Label Style="{StaticResource FancyLabel}" Content="{Binding AnnouncerValue, FallbackValue=Announcer Value}"

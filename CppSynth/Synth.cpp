@@ -184,6 +184,26 @@ namespace Leiftur
 			this_thread::sleep_for(sleepTime);
 		}
 	}
+	
+	void Synth::HandleControlMessage(OscMessage msg)
+	{
+		if (msg.Address == "/Control/RequestState")
+			SendStateToEditor();
+		else if (msg.Address == "/Control/RequestBanks")
+			SendBanksToEditor();
+		else if (msg.Address == "/Control/RequestPresets")
+			SendPresetsToEditor(msg.GetString(0));
+		else if (msg.Address == "/Control/LoadPreset")
+			LoadPreset(msg.GetString(0), msg.GetString(1));
+		else if (msg.Address == "/Control/SavePreset")
+			SavePreset(msg.GetString(0), msg.GetString(1));
+	}
+	
+	void Synth::LoadPreset(std::string bank, std::string presetName)
+	{
+		auto preset = presetManager.GetPreset(bank, presetName);
+		LoadPreset(preset);
+	}
 
 	void Synth::LoadPreset(Preset preset)
 	{
@@ -198,18 +218,16 @@ namespace Leiftur
 			UnpackParameter(key, &module, &parameter);
 			SetParameterInner(module, parameter, value);
 		}
-	}
 
-	void Synth::HandleControlMessage(OscMessage msg)
-	{
-		if (msg.Address == "/Control/RequestState")
-			SendStateToEditor();
-		if (msg.Address == "/Control/SavePreset")
-			SavePreset(msg.GetString(0), msg.GetString(1));
+		SendStateToEditor();
 	}
 
 	void Synth::SendStateToEditor()
 	{
+		OscMessage msg("/Control/PresetData");
+		msg.SetString(currentPreset.Serialize());
+		udpTranceiver->Send(msg.GetBytes());
+
 		for (std::map<int, double>::iterator it = currentPreset.Values.begin(); it != currentPreset.Values.end(); ++it)
 		{
 			const int key = it->first;
@@ -220,12 +238,31 @@ namespace Leiftur
 		}
 	}
 
+	void Synth::SendBanksToEditor()
+	{
+		auto bankNames = presetManager.GetBankString();
+		OscMessage msg("/Control/Banks");
+		msg.SetString(bankNames);
+		udpTranceiver->Send(msg.GetBytes());
+	}
+
+	void Synth::SendPresetsToEditor(std::string bankName)
+	{
+		auto presetNames = presetManager.GetPresetString(bankName);
+		OscMessage msg("/Control/Presets");
+		msg.SetString(bankName);
+		msg.SetString(presetNames);
+		udpTranceiver->Send(msg.GetBytes());
+	}
+
 	void Synth::SavePreset(std::string bankName, std::string presetName)
 	{
 		currentPreset.BankName = bankName;
 		currentPreset.PresetName = presetName;
 		presetManager.SavePreset(&currentPreset);
-		udpTranceiver->Send(OscMessage("/Control/PresetListChanged").GetBytes());
+		OscMessage msg("/Control/PresetsChanged");
+		msg.SetString(bankName);
+		udpTranceiver->Send(msg.GetBytes());
 	}
 
 	void Synth::SetParameterInner(Module module, int parameter, double value)
@@ -235,7 +272,7 @@ namespace Leiftur
 			int k = 23;
 		}
 		int idx = PackParameter(module, parameter);
-		parameters[idx] = value;
+		currentPreset.Values[idx] = value;
 		SendBackParameter(module, parameter);
 
 		if (module == Module::Voices)

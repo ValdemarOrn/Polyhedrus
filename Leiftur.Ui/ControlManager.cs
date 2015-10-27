@@ -104,15 +104,8 @@ namespace Leiftur.Ui
 			{
 				var msg = OscPacket.GetPacket(bytes) as OscMessage;
 				Console.WriteLine(msg.ToString());
-				if (msg.Address == "/Control/ParameterResponse")
-				{
-					var module = (Module)(int)msg.Arguments[0];
-					var parameter = (int)msg.Arguments[1];
-					var floatVal = (float)msg.Arguments[2];
-					var formattedString = (string)msg.Arguments[3];
-					
-					vm.ProcessParameterUpdate(module, parameter, floatVal, formattedString.Trim());
-				}
+				if (msg.Address.StartsWith("/Control/"))
+					vm.ProcessControlMessage(msg);
 			}
 			catch (Exception ex)
 			{

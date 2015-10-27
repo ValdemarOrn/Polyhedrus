@@ -2,8 +2,24 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Leiftur.Ui.Components">
 
-    <ContextMenu x:Key="SomeContextMenu">
-        <MenuItem Header="Presets" />
+    <ContextMenu x:Key="BanksContextMenu" ItemsSource="{Binding Banks}">
+        <ContextMenu.ItemContainerStyle>
+            <Style TargetType="MenuItem">
+                <Setter Property="Command" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=DataContext.SetBankCommand}" />
+                <Setter Property="CommandParameter" Value="{Binding}" />
+            </Style>
+        </ContextMenu.ItemContainerStyle>
+    </ContextMenu>
+
+    <ContextMenu x:Key="PresetsContextMenu">
+        <MenuItem Header="Presets" ItemsSource="{Binding Presets}">
+            <MenuItem.ItemContainerStyle>
+                <Style TargetType="MenuItem">
+                    <Setter Property="Command" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=MenuItem}, Path=DataContext.SetPresetCommand}" />
+                    <Setter Property="CommandParameter" Value="{Binding}" />
+                </Style>
+            </MenuItem.ItemContainerStyle>
+        </MenuItem>
         <Separator />
         <MenuItem Header="Save Preset" Command="{Binding SavePresetCommand}" />
         <MenuItem Header="Delete Preset" Command="{Binding DeletePresetCommand}" />

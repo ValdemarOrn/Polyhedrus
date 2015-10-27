@@ -17,6 +17,21 @@ using namespace std;
 
 namespace Leiftur
 {
+	std::string Preset::Serialize()
+	{
+		stringstream ss;
+		ss << "BankName=" << this->BankName << ";";
+		ss << "PresetName=" << this->PresetName << ";";
+		ss << "FilePath=" << this->FilePath << ";";
+
+		for (auto kvp : Metadata)
+		{
+			ss << kvp.first << "=" << kvp.second << ";";
+		}
+
+		return ss.str();
+	}
+
 	PresetManager::PresetManager()
 	{
 	}
@@ -173,8 +188,52 @@ namespace Leiftur
 		return preset;
 	}
 
+	Preset PresetManager::GetPreset(std::string bankName, std::string presetName)
+	{
+		if (PresetBanks.find(bankName) == PresetBanks.end())
+			return GetDefaultPreset();
+
+		for (auto preset : PresetBanks[bankName])
+		{
+			if (preset.PresetName == presetName)
+				return preset;
+		}
+		
+		return GetDefaultPreset();
+	}
+
+	std::string PresetManager::GetBankString()
+	{
+		stringstream ss;
+
+		for (auto bank : PresetBanks)
+		{
+			if (bank.second.size() == 0)
+				continue;
+
+			ss << bank.first << ";";
+		}
+		
+		return ss.str();
+	}
+
+	std::string PresetManager::GetPresetString(std::string bankName)
+	{
+		if (PresetBanks.find(bankName) == PresetBanks.end())
+			return "";
+
+		stringstream ss;
+		for (auto preset : PresetBanks[bankName])
+		{
+			ss << preset.PresetName << ";";
+		}
+
+		return ss.str();
+	}
+
 	void PresetManager::LoadBanks()
 	{
+		PresetBanks.clear();
 		directory_iterator end_itr;
 
 		for (directory_iterator itr(BaseDirectory); itr != end_itr; ++itr)
@@ -188,29 +247,30 @@ namespace Leiftur
 		}
 	}
 	
-	void PresetManager::LoadPresetsByBank(std::string bank)
+	void PresetManager::LoadPresetsByBank(std::string bankName)
 	{
 		path bankDir = BaseDirectory;
-		bankDir = bankDir / bank;
+		bankDir = bankDir / bankName;
 		directory_iterator end_itr;
+		PresetBanks[bankName].clear();
 
 		for (directory_iterator itr(bankDir); itr != end_itr; ++itr)
 		{
 			auto ext = itr->path().extension();
 			if (ext == ".preset")
 			{
-				auto preset = ReadPresetFile(bank, itr->path().string());
-				PresetBanks[bank].push_back(preset);
+				auto preset = ReadPresetFile(bankName, itr->path().string());
+				PresetBanks[bankName].push_back(preset);
 			}
 		}
 	}
 
-	Preset PresetManager::ReadPresetFile(std::string bank, std::string presetFilepath)
+	Preset PresetManager::ReadPresetFile(std::string bankName, std::string presetFilepath)
 	{
 		try
 		{
 			Preset preset;
-			preset.BankName = bank;
+			preset.BankName = bankName;
 			preset.FilePath = presetFilepath;
 			
 			map<string, string> metadata;
@@ -240,8 +300,8 @@ namespace Leiftur
 				else
 				{
 					int intKey = stoi(key);
-					int floatVal = stof(value);
-					preset.Values[intKey] = floatVal;
+					double dVal = stod(value);
+					preset.Values[intKey] = dVal;
 				}
 			}
 
@@ -284,5 +344,8 @@ namespace Leiftur
 		fs.close();
 
 		preset->FilePath = filepath.string();
+
+		// reload the list of presets in the bank
+		LoadPresetsByBank(preset->BankName);
 	}
 }

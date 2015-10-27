@@ -203,10 +203,6 @@ namespace Leiftur
 		for (int i = 0; i < Data.size(); i++)
 			output.push_back(Data[i]);
 
-		output.push_back(0);
-		while (output.size() % 4 != 0)
-			output.push_back(0);
-
 		return output;
 	}
 

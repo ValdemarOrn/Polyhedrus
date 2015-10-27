@@ -34,7 +34,6 @@ namespace Leiftur
 		int Samplerate;
 
 	private:
-		std::map<int, double> parameters;
 		std::map<int, std::string> formattedParameters;
 		volatile bool isClosing;
 		PresetManager presetManager;
@@ -77,9 +76,12 @@ namespace Leiftur
 	private:
 
 		void MessageListener();
-		void LoadPreset(Preset preset);
 		void HandleControlMessage(OscMessage msg);
+		void LoadPreset(std::string bank, std::string presetName);
+		void LoadPreset(Preset preset);
 		void SendStateToEditor();
+		void SendBanksToEditor();
+		void SendPresetsToEditor(std::string bankName);
 		void SavePreset(std::string bankName, std::string presetName);
 		void SetParameterInner(Module module, int parameter, double value);
 		std::string FormatParameter(Module module, int parameter, double value);

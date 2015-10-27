@@ -21,7 +21,7 @@ namespace Leiftur.Ui.Components
 			this.Vm = new SynthViewModel(controls);
 			this.DataContext = Vm;
 			Vm.Parent = this.Parent as Window;
-			Vm.RequestState();
+			Vm.Initialize();
 		}
 
 		private void ShowContextMenu(object sender, System.Windows.Input.MouseButtonEventArgs e)

@@ -19,6 +19,7 @@ namespace Leiftur.Ui
 		private readonly ControlManager controlManager;
 		private readonly Dictionary<int, string> formattedParameters;
 		private readonly Dictionary<int, DependencyObject> controls;
+		private readonly Dictionary<string, List<string>> presetBanks;
 
 		private ModRoute[] modRoutes;
 		private Module? activeModule;
@@ -36,6 +37,8 @@ namespace Leiftur.Ui
 		private string announcerCaption;
 		private string announcerValue;
 		private bool disableSendValue;
+		private string selectedBank;
+		private string selectedPreset;
 
 		public SynthViewModel(Dictionary<DependencyObject, string> controlDict)
 		{
@@ -46,6 +49,7 @@ namespace Leiftur.Ui
 				e.Handled = true;
 			};
 
+			presetBanks = new Dictionary<string, List<string>> { { "Default Bank", new List<string>() } };
 			controlManager = new ControlManager(this);
             ModRoutes = Enumerable.Range(0, 8).Select(x => new ModRoute()).ToArray();
 			formattedParameters = new Dictionary<int, string>();
@@ -55,6 +59,8 @@ namespace Leiftur.Ui
 			this.controls = new Dictionary<int, DependencyObject>();
 			RegisterControls(controlDict);
 
+			SetBankCommand = new DelegateCommand(x => SelectedBank = x.ToString(), () => true);
+			SetPresetCommand = new DelegateCommand(x => SelectedPreset = x.ToString(), () => true);
 			SetModuleVisibleCommand = new DelegateCommand(x => SetModuleVisible(x.ToString()), () => true);
 			SavePresetCommand = new DelegateCommand(x => SavePreset(), () => true);
 			DeletePresetCommand = new DelegateCommand(x => DeletePreset(), () => true);
@@ -65,11 +71,43 @@ namespace Leiftur.Ui
 
 		#region Properties
 
+		public DelegateCommand SetBankCommand { get; private set; }
+		public DelegateCommand SetPresetCommand { get; private set; }
 		public DelegateCommand SetModuleVisibleCommand { get; private set; }
 		public DelegateCommand SavePresetCommand { get; private set; }
 		public DelegateCommand DeletePresetCommand { get; private set; }
 
 		public Window Parent { get; set; }
+
+		public string[] Banks => presetBanks.Keys.ToArray();
+
+		public string[] Presets => presetBanks[selectedBank].ToArray();
+
+		public string SelectedBank
+		{
+			get { return selectedBank; }
+			set
+			{
+				var isSame = value == selectedBank;
+				selectedBank = value;
+				NotifyPropertyChanged();
+				if (!isSame)
+					RequestPresets();
+			}
+		}
+
+		public string SelectedPreset
+		{
+			get { return selectedPreset; }
+			set
+			{
+				var isSame = value == SelectedPreset;
+				selectedPreset = value;
+				NotifyPropertyChanged();
+				if (!isSame)
+					LoadPreset();
+			}
+		}
 
 		public ModRoute[] ModRoutes
 		{
@@ -154,8 +192,82 @@ namespace Leiftur.Ui
 		}
 
 		#endregion
-		
-		internal void ProcessParameterUpdate(Module module, int parameter, double value, string formattedParameter)
+
+		internal void Initialize()
+		{
+			RequestBanks();
+			RequestState();
+		}
+
+		internal void ProcessControlMessage(OscMessage msg)
+		{
+			if (msg.Address == "/Control/PresetData")
+			{
+				var serializedData = msg.Arguments[0] as string;
+				if (serializedData == null)
+					return;
+
+				var data = serializedData
+					.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries)
+					.Select(x => x.Split('='))
+					.Where(x => x.Length == 2)
+					.Select(x => new { Key = x[0], Value = x[1] })
+					.ToDictionary(x => x.Key, x => x.Value);
+
+				SelectedBank = data.GetValueOrDefault("BankName", "Unknown Bank");
+				SelectedPreset = data.GetValueOrDefault("PresetName", "Unknown Preset");
+			}
+			else if(msg.Address == "/Control/ParameterData")
+			{
+				var module = (Module)(int)msg.Arguments[0];
+				var parameter = (int)msg.Arguments[1];
+				var floatVal = (float)msg.Arguments[2];
+				var formattedString = (string)msg.Arguments[3];
+				ProcessParameterUpdate(module, parameter, floatVal, formattedString.Trim());
+			}
+			else if (msg.Address == "/Control/Banks")
+			{
+				if (msg.Arguments.Length != 1 || !(msg.Arguments[0] is string))
+					return;
+
+				var bankString = msg.Arguments.First() as string;
+				var banks = bankString.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+				if (banks.Length == 0)
+					return;
+
+				presetBanks.Clear();
+				foreach (var bank in banks)
+					presetBanks[bank] = new List<string>();
+				NotifyPropertyChanged(nameof(Banks));
+			}
+			else if (msg.Address == "/Control/Presets")
+			{
+				if (msg.Arguments.Length != 2 || !(msg.Arguments[0] is string) || !(msg.Arguments[1] is string))
+					return;
+
+				var bankName = msg.Arguments.First() as string;
+				var presets = (msg.Arguments.Last() as string).Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+
+				if (!presetBanks.ContainsKey(bankName) || presets.Length == 0)
+					return;
+
+				presetBanks[bankName].Clear();
+				foreach (var preset in presets)
+					presetBanks[bankName].Add(preset);
+
+				NotifyPropertyChanged(nameof(Presets));
+			}
+			else if (msg.Address == "/Control/PresetsChanged")
+			{
+				if (msg.Arguments.Length != 1 || !(msg.Arguments[0] is string))
+					return;
+
+				var bank = msg.Arguments.First() as string;
+				controlManager.SendOscControlMessage("/Control/RequestPresets", bank);
+			}
+        }
+
+		private void ProcessParameterUpdate(Module module, int parameter, double value, string formattedParameter)
 		{
 			var key = Parameters.Pack(module, parameter);
             formattedParameters[key] = formattedParameter;
@@ -186,10 +298,25 @@ namespace Leiftur.Ui
 				}
 			});
 		}
-		
-		internal void RequestState()
+
+		private void RequestState()
 		{
 			controlManager.SendOscControlMessage("/Control/RequestState");
+		}
+
+		private void RequestBanks()
+		{
+			controlManager.SendOscControlMessage("/Control/RequestBanks");
+		}
+
+		private void RequestPresets()
+		{
+			controlManager.SendOscControlMessage("/Control/RequestPresets", SelectedBank);
+		}
+
+		private void LoadPreset()
+		{
+			controlManager.SendOscControlMessage("/Control/LoadPreset", SelectedBank, SelectedPreset);
 		}
 
 		private void RegisterControls(Dictionary<DependencyObject, string> controlDict)
@@ -318,14 +445,25 @@ namespace Leiftur.Ui
 				ChorusVisible = true;
 			}
 		}
-		
+
+		private bool CheckValidName(string name)
+		{
+			if (name.Length > 256)
+				return false;
+
+			var legalChars = new[] { '-', '_', '(', ')', ' ' };
+
+			// ASCII encoding replaces non-ascii with question marks, so we use UTF8 to see if multi-byte sequences are there
+			return name.All(x => (x >= '0' && x <= '9') || (x >= 'A' && x <= 'Z') || (x >= 'a' && x <= 'z') || legalChars.Contains(x));
+		}
+
 		private void SavePreset()
 		{
 			var presetName = new SavePresetDialog() { Owner = Parent }.ShowDialog("Preset Name");
 			if (string.IsNullOrWhiteSpace(presetName))
 				return;
 
-			var bankName = "User Bank";
+			var bankName = SelectedBank;
 			if (!CheckValidName(bankName))
 				throw new Exception("The selected bank name is invalid");
 			if (!CheckValidName(presetName))
@@ -333,19 +471,10 @@ namespace Leiftur.Ui
 
 			controlManager.SendOscControlMessage("/Control/SavePreset", bankName, presetName);
 		}
-
-		private bool CheckValidName(string name)
-		{
-			if (name.Length > 256)
-				return false;
-
-			// ASCII encoding replaces non-ascii with question marks, so we use UTF8 to see if multi-byte sequences are there
-			return name.All(x => (x >= '0' && x <= '9') || (x >= 'A' && x <= 'Z') || (x >= 'a' && x <= 'z') || x == '-' || x == '_' || x == '(' || x == ')');
-        }
-
+		
 		private void DeletePreset()
 		{
-			throw new NotImplementedException();
+			
 		}
 	}
 }
