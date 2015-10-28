@@ -33,6 +33,7 @@
     <ClInclude Include="FilterCascade.h" />
     <ClInclude Include="FilterHp.h" />
     <ClInclude Include="FilterMain.h" />
+    <ClInclude Include="FilterZeroDelay.h" />
     <ClInclude Include="Lfo.h" />
     <ClInclude Include="MixerSettings.h" />
     <ClInclude Include="ModMatrix.h" />
@@ -65,6 +66,7 @@
     <ClCompile Include="FilterCascade.cpp" />
     <ClCompile Include="FilterHp.cpp" />
     <ClCompile Include="FilterMain.cpp" />
+    <ClCompile Include="FilterZeroDelay.cpp" />
     <ClCompile Include="Lfo.cpp" />
     <ClCompile Include="ModMatrix.cpp" />
     <ClCompile Include="Oscillator.cpp" />

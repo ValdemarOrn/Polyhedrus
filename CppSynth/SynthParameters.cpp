@@ -56,7 +56,7 @@ namespace Leiftur
 
 	std::string FormatFilterCutoff(double value)
 	{
-		auto freq = FilterCascade::GetCvFreq((float)(value * 10));
+		auto freq = FilterCascade::GetCvFreq((float)(value * 10.3));
 		return FormatIntRounded(freq) + " Hz";
 	}
 

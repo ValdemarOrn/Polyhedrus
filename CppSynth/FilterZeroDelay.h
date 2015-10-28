@@ -1,20 +1,31 @@
-#ifndef LEIFTUR_FILTER_CASCADE
-#define LEIFTUR_FILTER_CASCADE
+#ifndef LEIFTUR_FILTER_ZERO_DELAY
+#define LEIFTUR_FILTER_ZERO_DELAY
 
 #include <cmath>
 
 namespace Leiftur
 {
-	class FilterCascade
+	struct ZeroDelayLp
 	{
-	private:
-		static const int CVtoAlphaSize = 10000;
-		static float CVtoAlpha[CVtoAlphaSize];
-		static void ComputeCVtoAlpha(int samplerate);
+		float z1_state;
+		float g;
+
+		inline float Process(float x)
+		{
+			// perform one sample tick of the lowpass filter
+			float v = (x - z1_state) * g / (1 + g);
+			float y = v + z1_state;
+			z1_state = y + v;
+			return y;
+		}
+	};
+
+	class FilterZeroDelay
+	{
 	public:
 		static inline float GetCvFreq(float cv)
 		{
-			// Voltage is 1V/OCt, C0 = 16.3516Hz
+			// Voltage is 1V/OCt, 0V = C0 = 16.3516Hz
 			// 10.3V = Max = 20614.33hz
 			float freq = (float)(440.0 * std::pow(2, (cv * 12 - 69.0 + 12) / 12));
 			return freq;
@@ -30,35 +41,26 @@ namespace Leiftur
 		float ResonanceMod;
 		float DriveMod;
 
-		float VA;
-		float VB;
-		float VC;
-		float VD;
-		float VX;
+		ZeroDelayLp lp1;
+		ZeroDelayLp lp2;
+		ZeroDelayLp lp3;
+		ZeroDelayLp lp4;
 
 	private:
 		float* buffer;
 		float gain;
 		float driveTotal;
 		float totalResonance;
-		float oversampledInput;
-
-		float p;
-		float x;
-		float a;
-		float b;
-		float c;
-		float d;
 		float feedback;
 
-		float fsinv;
 		int samplerate;
+		float T;
 		int updateCounter;
 		int modulationUpdateRate;
 
 	public:
-		FilterCascade();
-		~FilterCascade();
+		FilterZeroDelay();
+		~FilterZeroDelay();
 
 		void Initialize(int samplerate, int bufferSize, int modulationUpdateRate);
 		void Process(float* input, int len);

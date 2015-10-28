@@ -115,9 +115,9 @@ namespace Leiftur
 		totalResonance = Resonance + ResonanceMod;
 		totalResonance = AudioLib::Utils::Limit(totalResonance, 0.0f, 0.999f);
 
-		// Voltage is from C0 = 16.3516Hz to C10 = 16744.04Hz
-		float voltage = 10 * Cutoff + CutoffMod;
-		voltage = AudioLib::Utils::Limit(voltage, 0.0f, 9.9999f);
+		// Voltage is 1V/OCt, C0 = 16.3516Hz
+		float voltage = 10.3 * Cutoff + CutoffMod;
+		voltage = AudioLib::Utils::Limit(voltage, 0.0f, 10.3f);
 
 		p = CVtoAlpha[(int)(voltage * 1000.0)];
 	}
