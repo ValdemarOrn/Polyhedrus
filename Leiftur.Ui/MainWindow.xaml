@@ -7,12 +7,6 @@
         xmlns:components="clr-namespace:Leiftur.Ui.Components"
         mc:Ignorable="d"
         Title="MainWindow" Height="565" Width="1040">
-    <Window.Background>
-        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-            <GradientStop Color="#FFF7F7F7" Offset="0"/>
-            <GradientStop Color="#FFE6E6E6" Offset="1"/>
-        </LinearGradientBrush>
-    </Window.Background>
-    <!--<components:ModKnob HorizontalAlignment="Center"  Min="-1" Max="1" DefaultValue="0.2" local:OscAddress.Address="/FilterMain/Env" />-->
+    <!--<components:LightKnob HorizontalAlignment="Center" Width="40"  Min="-1" Max="1" DefaultValue="0.7" />-->
     <components:SynthView></components:SynthView>
 </Window>

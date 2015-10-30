@@ -27,22 +27,23 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Grid.Column="0">Range</Label>
-        <Label Grid.Row="0" Grid.Column="1">Note Ptn</Label>
-        <Label Grid.Row="0" Grid.Column="2">Oct Ptn</Label>
-        <Label Grid.Row="0" Grid.Column="3">Gate</Label>
-        <Label Grid.Row="0" Grid.Column="4">Divide</Label>
-        <Label Grid.Row="0" Grid.Column="5">BPM</Label>
-        
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" Min="1" Max="3.999" ui:OscAddress.Address="/Arp/Range" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" Min="0" Max="4.999" ui:OscAddress.Address="/Arp/NotePtn" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" Min="0" Max="4.999" ui:OscAddress.Address="/Arp/OctavePtn" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="3" ui:OscAddress.Address="/Arp/Gate" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="4" ui:OscAddress.Address="/Arp/Divide" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="5" Steps="241" Min="10" Max="250" ui:OscAddress.Address="/Arp/Bpm" />
+        <Label Grid.Row="1" Grid.Column="0">Range</Label>
+        <Label Grid.Row="1" Grid.Column="1">Note Ptn</Label>
+        <Label Grid.Row="1" Grid.Column="2">Oct Ptn</Label>
+        <Label Grid.Row="1" Grid.Column="3">Gate</Label>
+        <Label Grid.Row="1" Grid.Column="4">Divide</Label>
+        <Label Grid.Row="1" Grid.Column="5">BPM</Label>
 
-        <Label Grid.Row="2" Grid.Column="0">Sync</Label>
-        <components:FlatToggleButton Grid.Row="3" Grid.Column="0" ui:OscAddress.Address="/Arp/Sync" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" Min="1" Max="3.999" ui:OscAddress.Address="/Arp/Range" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" Min="0" Max="4.999" ui:OscAddress.Address="/Arp/NotePtn" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" Min="0" Max="4.999" ui:OscAddress.Address="/Arp/OctavePtn" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" ui:OscAddress.Address="/Arp/Gate" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="4" ui:OscAddress.Address="/Arp/Divide" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="5" Steps="241" Min="10" Max="250" ui:OscAddress.Address="/Arp/Bpm" />
+
+        <Label Grid.Row="3" Grid.Column="0">Sync</Label>
+        <ToggleButton Style="{StaticResource CircleToggleButton}" Grid.Row="2" Grid.Column="0" ui:OscAddress.Address="/Arp/Sync" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="4" Visibility="Hidden" /> <!-- Sizer -->
         
     </Grid>
 </UserControl>

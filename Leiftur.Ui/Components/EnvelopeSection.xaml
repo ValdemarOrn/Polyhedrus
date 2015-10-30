@@ -36,19 +36,19 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Grid.Column="0">Attack</Label>
-            <Label Grid.Row="0" Grid.Column="1">Hold</Label>
-            <Label Grid.Row="0" Grid.Column="2">Decay</Label>
-            <Label Grid.Row="0" Grid.Column="3">Sustain</Label>
-            <Label Grid.Row="0" Grid.Column="4">Release</Label>
-            <Label Grid.Row="0" Grid.Column="5">Velocity</Label>
+            <Label Grid.Row="1" Grid.Column="0">Attack</Label>
+            <Label Grid.Row="1" Grid.Column="1">Hold</Label>
+            <Label Grid.Row="1" Grid.Column="2">Decay</Label>
+            <Label Grid.Row="1" Grid.Column="3">Sustain</Label>
+            <Label Grid.Row="1" Grid.Column="4">Release</Label>
+            <Label Grid.Row="1" Grid.Column="5">Velocity</Label>
 
-            <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" ui:OscAddress.Address="/*/Attack" />
-            <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" ui:OscAddress.Address="/*/Hold" />
-            <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" ui:OscAddress.Address="/*/Decay" />
-            <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="3" ui:OscAddress.Address="/*/Sustain" />
-            <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="4" ui:OscAddress.Address="/*/Release" />
-            <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="5" ui:OscAddress.Address="/*/Velocity" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" ui:OscAddress.Address="/*/Attack" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" ui:OscAddress.Address="/*/Hold" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" ui:OscAddress.Address="/*/Decay" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" ui:OscAddress.Address="/*/Sustain" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="4" ui:OscAddress.Address="/*/Release" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="5" ui:OscAddress.Address="/*/Velocity" />
         </Grid>
         <Grid Visibility="{Binding ElementName=Main, Path=ShowPage2, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}">
             <Grid.ColumnDefinitions>
@@ -67,15 +67,15 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0">Atk Curve</Label>
-            <Label Grid.Row="0" Grid.Column="1">Dec Curve</Label>
-            <Label Grid.Row="0" Grid.Column="2">Rel Curve</Label>
-            <Label Grid.Row="0" Grid.Column="3">Retrigger</Label>
+            <Label Grid.Row="1" Grid.Column="0">Atk Curve</Label>
+            <Label Grid.Row="1" Grid.Column="1">Dec Curve</Label>
+            <Label Grid.Row="1" Grid.Column="2">Rel Curve</Label>
+            <Label Grid.Row="1" Grid.Column="3">Retrigger</Label>
 
-            <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" Min="-1" Max="1" DefaultValue="0" />
-            <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" Min="-1" Max="1" DefaultValue="0" />
-            <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" Min="-1" Max="1" DefaultValue="0" />
-            <components:FlatToggleButton Grid.Row="1" Grid.Column="3" ui:OscAddress.Address="/*/Retrigger" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" Min="-1" Max="1" DefaultValue="0" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" Min="-1" Max="1" DefaultValue="0" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" Min="-1" Max="1" DefaultValue="0" />
+            <ToggleButton Style="{StaticResource CircleToggleButton}" Grid.Row="0" Grid.Column="3" ui:OscAddress.Address="/*/Retrigger" />
         </Grid>
     </StackPanel>
 </components:BaseControl>

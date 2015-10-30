@@ -83,6 +83,9 @@
     <Compile Include="Components\LfoSection.xaml.cs">
       <DependentUpon>LfoSection.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\LightKnob.xaml.cs">
+      <DependentUpon>LightKnob.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\MacroControls.xaml.cs">
       <DependentUpon>MacroControls.xaml</DependentUpon>
     </Compile>
@@ -149,6 +152,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Components\LfoSection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\LightKnob.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

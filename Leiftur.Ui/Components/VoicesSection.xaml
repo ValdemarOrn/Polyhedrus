@@ -26,28 +26,28 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Grid.Column="0">Detune</Label>
-        <Label Grid.Row="0" Grid.Column="1">Spread</Label>
-        <Label Grid.Row="0" Grid.Column="2">Glide</Label>
-        <Label Grid.Row="0" Grid.Column="3">Bend</Label>
-        <Label Grid.Row="0" Grid.Column="4">Master</Label>
+        <Label Grid.Row="1" Grid.Column="0">Detune</Label>
+        <Label Grid.Row="1" Grid.Column="1">Spread</Label>
+        <Label Grid.Row="1" Grid.Column="2">Glide</Label>
+        <Label Grid.Row="1" Grid.Column="3">Bend</Label>
+        <Label Grid.Row="1" Grid.Column="4">Master</Label>
 
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" local:OscAddress.Address="/Voices/Detune" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" local:OscAddress.Address="/Voices/Spread" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" local:OscAddress.Address="/Voices/Glide" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="3" Min="0" Max="12" local:OscAddress.Address="/Voices/Bend" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="4" local:OscAddress.Address="/Voices/Master" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" local:OscAddress.Address="/Voices/Detune" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" local:OscAddress.Address="/Voices/Spread" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" local:OscAddress.Address="/Voices/Glide" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" Min="0" Max="12" local:OscAddress.Address="/Voices/Bend" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="4" local:OscAddress.Address="/Voices/Master" />
 
-        <Label Grid.Row="2" Grid.Column="0">Voices</Label>
-        <Label Grid.Row="2" Grid.Column="1">Unison</Label>
-        <Label Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3">Voice Mode</Label>
+        <Label Grid.Row="3" Grid.Column="0">Voices</Label>
+        <Label Grid.Row="3" Grid.Column="1">Unison</Label>
+        <Label Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3">Voice Mode</Label>
 
-        <components:Spinner HorizontalAlignment="Center" Grid.Row="3" Grid.Column="0" Value="1" Min="1" Max="32" Delta="1" Sensitivity="20" Formatter="{}0" 
+        <components:Spinner HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" Value="1" Min="1" Max="32" Delta="1" Sensitivity="20" Formatter="{}0" 
                        local:OscAddress.Address="/Voices/Polyphony" />
-        <components:Spinner HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1" Value="1" Min="1" Max="32" Delta="1" Sensitivity="20" Formatter="{}0" 
+        <components:Spinner HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" Value="1" Min="1" Max="32" Delta="1" Sensitivity="20" Formatter="{}0" 
                        local:OscAddress.Address="/Voices/Unison" />
         
-        <Border Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3" Style="{StaticResource NormalText}" >
+        <Border Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" Style="{StaticResource NormalText}" >
             <Label>Poly - Round Robin</Label>
         </Border>
     </Grid>

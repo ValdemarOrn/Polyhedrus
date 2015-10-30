@@ -20,17 +20,18 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Grid.Column="0">Cutoff</Label>
-        <Label Grid.Row="0" Grid.Column="1">Resonance</Label>
+        <Label Grid.Row="1" Grid.Column="0">Cutoff</Label>
+        <Label Grid.Row="1" Grid.Column="1">Resonance</Label>
 
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" ui:OscAddress.Address="/FilterHp/Cutoff" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" ui:OscAddress.Address="/FilterHp/Resonance" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" ui:OscAddress.Address="/FilterHp/Cutoff" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" ui:OscAddress.Address="/FilterHp/Resonance" />
 
-        <Label Grid.Row="2" Grid.Column="0">Keytack</Label>
-        <Label Grid.Row="2" Grid.Column="1">Envelope</Label>
+        <Label Grid.Row="3" Grid.Column="0">Keytack</Label>
+        <Label Grid.Row="3" Grid.Column="1">Envelope</Label>
 
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="0" Min="-1" Max="1" DefaultValue="0.0" ui:OscAddress.Address="/FilterHp/Keytrack" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1" Min="-1" Max="1" DefaultValue="0.0" ui:OscAddress.Address="/FilterHp/Env" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" Min="-1" Max="1" DefaultValue="0.0" ui:OscAddress.Address="/FilterHp/Keytrack" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" Min="-1" Max="1" DefaultValue="0.0" ui:OscAddress.Address="/FilterHp/Env" />
     </Grid>
 </UserControl>

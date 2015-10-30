@@ -25,19 +25,20 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2">Bottom</Label>
-        <Label Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2">Top</Label>
+        <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">Bottom</Label>
+        <Label Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2">Top</Label>
 
-        <components:ModKnob HorizontalAlignment="Right" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" ui:OscAddress.Address="/Character/Bottom" />
-        <components:ModKnob HorizontalAlignment="Left" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" ui:OscAddress.Address="/Character/Top" />
+        <components:LightKnob HorizontalAlignment="Right" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" ui:OscAddress.Address="/Character/Bottom" />
+        <components:LightKnob HorizontalAlignment="Left" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="3" ui:OscAddress.Address="/Character/Top" />
 
-        <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">Decimate</Label>
-        <Label Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2">Reduce</Label>
-        <Label Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2">Clip</Label>
+        <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">Decimate</Label>
+        <Label Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2">Reduce</Label>
+        <Label Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="2">Clip</Label>
 
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" ui:OscAddress.Address="/Character/Decimate" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" ui:OscAddress.Address="/Character/Reduce" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="2" ui:OscAddress.Address="/Character/Clip" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" ui:OscAddress.Address="/Character/Decimate" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" ui:OscAddress.Address="/Character/Reduce" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2" ui:OscAddress.Address="/Character/Clip" />
     </Grid>
 </UserControl>

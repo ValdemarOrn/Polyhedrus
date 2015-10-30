@@ -31,36 +31,36 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0">Octave</Label>
-        <Label Grid.Row="0" Grid.Column="1">Semi</Label>
-        <Label Grid.Row="0" Grid.Column="2">Cent</Label>
-        <Label Grid.Row="0" Grid.Column="3">Pan</Label>
-        <Label Grid.Row="0" Grid.Column="4">Volume</Label>
+        <Label Grid.Row="1" Grid.Column="0">Octave</Label>
+        <Label Grid.Row="1" Grid.Column="1">Semi</Label>
+        <Label Grid.Row="1" Grid.Column="2">Cent</Label>
+        <Label Grid.Row="1" Grid.Column="3">Pan</Label>
+        <Label Grid.Row="1" Grid.Column="4">Volume</Label>
 
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" Steps="5" Min="-2" Max="2" DefaultValue="0" ui:OscAddress.Address="/*/Octave" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" Steps="25" Min="-12" Max="12" DefaultValue="0" ui:OscAddress.Address="/*/Semi" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" Steps="101" Min="-50" Max="50" DefaultValue="0" ui:OscAddress.Address="/*/Cent" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="3" Min="-1" Max="1" DefaultValue="0" ui:OscAddress.Address="/*/Pan" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="4" ui:OscAddress.Address="/*/Volume" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" Steps="5" Min="-2" Max="2" DefaultValue="0" ui:OscAddress.Address="/*/Octave" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" Steps="25" Min="-12" Max="12" DefaultValue="0" ui:OscAddress.Address="/*/Semi" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" Steps="101" Min="-50" Max="50" DefaultValue="0" ui:OscAddress.Address="/*/Cent" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" Min="-1" Max="1" DefaultValue="0" ui:OscAddress.Address="/*/Pan" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="4" ui:OscAddress.Address="/*/Volume" />
         
-        <Label Grid.Row="2" Grid.Column="0">Slop</Label>
-        <Label Grid.Row="2" Grid.Column="1">Phase</Label>
-        <Label Grid.Row="2" Grid.Column="2">Shape</Label>
+        <Label Grid.Row="3" Grid.Column="0">Slop</Label>
+        <Label Grid.Row="3" Grid.Column="1">Phase</Label>
+        <Label Grid.Row="3" Grid.Column="2">Shape</Label>
 
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="0" DefaultValue="0" ui:OscAddress.Address="/*/Slop" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1" ui:OscAddress.Address="/*/Phase" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="2" ui:OscAddress.Address="/*/Shape" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" DefaultValue="0" ui:OscAddress.Address="/*/Slop" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" ui:OscAddress.Address="/*/Phase" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" ui:OscAddress.Address="/*/Shape" />
 
-        <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Rectangle Width="40" Height="0.5" Fill="#90000000" Margin="0,4,10,0" />
-            <Label>Waveform</Label>
-            <Rectangle Width="40" Height="0.5" Fill="#90000000" Margin="10,4,0,0" />
+        <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,0">
+            <Rectangle Width="40" Height="0.5" Fill="#50000000" Margin="0,1,10,0" />
+            <Label Padding="0">Waveform</Label>
+            <Rectangle Width="40" Height="0.5" Fill="#50000000" Margin="10,1,0,0" />
         </StackPanel>
 
-        <StackPanel Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Rectangle Width="20" Height="0.5" Fill="#90000000" Margin="0,4,10,0" />
-            <Label>Routing</Label>
-            <Rectangle Width="20" Height="0.5" Fill="#90000000" Margin="10,4,0,0" />
+        <StackPanel Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,0">
+            <Rectangle Width="20" Height="0.5" Fill="#50000000" Margin="0,1,10,0" />
+            <Label Padding="0">Routing</Label>
+            <Rectangle Width="20" Height="0.5" Fill="#50000000" Margin="10,1,0,0" />
         </StackPanel>
 
         <Border Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource NormalText}" Margin="0,10,3,10" >
