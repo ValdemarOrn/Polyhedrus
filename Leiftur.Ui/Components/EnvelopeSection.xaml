@@ -5,42 +5,77 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:components="clr-namespace:Leiftur.Ui.Components"
              xmlns:ui="clr-namespace:Leiftur.Ui"
+             xmlns:ui1="clr-namespace:LowProfile.Core.Ui;assembly=LowProfile.Core"
              mc:Ignorable="d" 
-             d:DesignHeight="70" d:DesignWidth="400">
+             x:Name="Main"
+             d:DesignHeight="140" d:DesignWidth="400">
     <UserControl.Resources>
-        <ResourceDictionary Source="Styles.xaml" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml" />
+                <ResourceDictionary Source="ContextMenus.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <ui1:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <ui1:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
+        </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Label Grid.Row="0" Grid.Column="0">Attack</Label>
-        <Label Grid.Row="0" Grid.Column="1">Hold</Label>
-        <Label Grid.Row="0" Grid.Column="2">Decay</Label>
-        <Label Grid.Row="0" Grid.Column="3">Sustain</Label>
-        <Label Grid.Row="0" Grid.Column="4">Release</Label>
-        <Label Grid.Row="0" Grid.Column="5">Velocity</Label>
-        <Label Grid.Row="0" Grid.Column="6">Retrigger</Label>
-        <Label Grid.Row="0" Grid.Column="7">Exponent</Label>
+    <StackPanel>
+        <Grid Visibility="{Binding ElementName=Main, Path=ShowPage2, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Grid.Column="0">Attack</Label>
+            <Label Grid.Row="0" Grid.Column="1">Hold</Label>
+            <Label Grid.Row="0" Grid.Column="2">Decay</Label>
+            <Label Grid.Row="0" Grid.Column="3">Sustain</Label>
+            <Label Grid.Row="0" Grid.Column="4">Release</Label>
+            <Label Grid.Row="0" Grid.Column="5">Velocity</Label>
 
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" ui:OscAddress.Address="/*/Attack" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" ui:OscAddress.Address="/*/Hold" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" ui:OscAddress.Address="/*/Decay" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="3" ui:OscAddress.Address="/*/Sustain" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="4" ui:OscAddress.Address="/*/Release" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="5" ui:OscAddress.Address="/*/Velocity" />
-        <components:FlatToggleButton Grid.Row="1" Grid.Column="6" ui:OscAddress.Address="/*/Retrigger" />
-        <components:FlatToggleButton Grid.Row="1" Grid.Column="7" ui:OscAddress.Address="/*/Exponent" />
-    </Grid>
+            <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" ui:OscAddress.Address="/*/Attack" />
+            <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" ui:OscAddress.Address="/*/Hold" />
+            <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" ui:OscAddress.Address="/*/Decay" />
+            <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="3" ui:OscAddress.Address="/*/Sustain" />
+            <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="4" ui:OscAddress.Address="/*/Release" />
+            <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="5" ui:OscAddress.Address="/*/Velocity" />
+        </Grid>
+        <Grid Visibility="{Binding ElementName=Main, Path=ShowPage2, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0">Atk Curve</Label>
+            <Label Grid.Row="0" Grid.Column="1">Dec Curve</Label>
+            <Label Grid.Row="0" Grid.Column="2">Rel Curve</Label>
+            <Label Grid.Row="0" Grid.Column="3">Retrigger</Label>
+
+            <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" Min="-1" Max="1" DefaultValue="0" />
+            <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" Min="-1" Max="1" DefaultValue="0" />
+            <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" Min="-1" Max="1" DefaultValue="0" />
+            <components:FlatToggleButton Grid.Row="1" Grid.Column="3" ui:OscAddress.Address="/*/Retrigger" />
+        </Grid>
+    </StackPanel>
 </components:BaseControl>

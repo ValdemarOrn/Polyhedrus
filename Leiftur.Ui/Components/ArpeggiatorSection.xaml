@@ -6,7 +6,7 @@
              xmlns:components="clr-namespace:Leiftur.Ui.Components"
              xmlns:ui="clr-namespace:Leiftur.Ui"
              mc:Ignorable="d" 
-             d:DesignHeight="80" d:DesignWidth="392">
+             d:DesignHeight="140" d:DesignWidth="300">
     <UserControl.Resources>
         <ResourceDictionary Source="Styles.xaml" />
     </UserControl.Resources>
@@ -19,11 +19,13 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Label Grid.Row="0" Grid.Column="0">Range</Label>
         <Label Grid.Row="0" Grid.Column="1">Note Ptn</Label>
@@ -31,9 +33,7 @@
         <Label Grid.Row="0" Grid.Column="3">Gate</Label>
         <Label Grid.Row="0" Grid.Column="4">Divide</Label>
         <Label Grid.Row="0" Grid.Column="5">BPM</Label>
-        <Label Grid.Row="0" Grid.Column="6">Sync</Label>
-
-
+        
         <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" Min="1" Max="3.999" ui:OscAddress.Address="/Arp/Range" />
         <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" Min="0" Max="4.999" ui:OscAddress.Address="/Arp/NotePtn" />
         <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" Min="0" Max="4.999" ui:OscAddress.Address="/Arp/OctavePtn" />
@@ -41,7 +41,8 @@
         <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="4" ui:OscAddress.Address="/Arp/Divide" />
         <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="5" Steps="241" Min="10" Max="250" ui:OscAddress.Address="/Arp/Bpm" />
 
-        <components:FlatToggleButton Grid.Row="1" Grid.Column="6" ui:OscAddress.Address="/Arp/Sync" />
+        <Label Grid.Row="2" Grid.Column="0">Sync</Label>
+        <components:FlatToggleButton Grid.Row="3" Grid.Column="0" ui:OscAddress.Address="/Arp/Sync" />
         
     </Grid>
 </UserControl>

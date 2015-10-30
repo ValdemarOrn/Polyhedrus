@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Leiftur.Ui"
              xmlns:components="clr-namespace:Leiftur.Ui.Components"
              mc:Ignorable="d" 
-             d:DesignHeight="130" d:DesignWidth="400">
+             d:DesignHeight="120" d:DesignWidth="300">
     <UserControl.Resources>
         <ResourceDictionary Source="Styles.xaml" />
     </UserControl.Resources>
@@ -18,30 +18,41 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Grid.Column="0">Phase</Label>
-        <Label Grid.Row="0" Grid.Column="1">Frequency</Label>
-        <Label Grid.Row="0" Grid.Column="2">Shape</Label>
-        <Label Grid.Row="0" Grid.Column="3">Attack</Label>
-        <Label Grid.Row="0" Grid.Column="4">Decay</Label>
-        <Label Grid.Row="0" Grid.Column="5">Sustain</Label>
-        <Label Grid.Row="0" Grid.Column="6">Release</Label>
-        <Label Grid.Row="0" Grid.Column="7">Sync</Label>
 
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" local:OscAddress.Address="/*/Phase" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" local:OscAddress.Address="/*/Freq" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" local:OscAddress.Address="/*/Shape" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="3" local:OscAddress.Address="/*/Attack" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="4" local:OscAddress.Address="/*/Decay" />
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="5" local:OscAddress.Address="/*/Sustain" />
-        <components:FlatToggleButton Grid.Row="1" Grid.Column="6" local:OscAddress.Address="/*/Release" />
-        <components:FlatToggleButton Grid.Row="1" Grid.Column="7" local:OscAddress.Address="/*/Sync" />
+        <Label Grid.Row="0" Grid.Column="0">Delay</Label>
+        <Label Grid.Row="0" Grid.Column="1">Attack</Label>
+        <Label Grid.Row="0" Grid.Column="2">Hold</Label>
+        <Label Grid.Row="0" Grid.Column="3">Decay</Label>
+        <Label Grid.Row="0" Grid.Column="4">Sustain</Label>
+        <Label Grid.Row="0" Grid.Column="5">Release</Label>
+        
+        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" />
+        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" local:OscAddress.Address="/*/Attack" />
+        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" />
+        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="3" local:OscAddress.Address="/*/Decay" />
+        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="4" local:OscAddress.Address="/*/Sustain" />
+        <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="5" local:OscAddress.Address="/*/Release" />
+        
+        <Label Grid.Row="2" Grid.Column="0">Phase</Label>
+        <Label Grid.Row="2" Grid.Column="1">Freq</Label>
+        <Label Grid.Row="2" Grid.Column="2">Shape</Label>
+        <Label Grid.Row="2" Grid.Column="3">Slew</Label>
+        <Label Grid.Row="2" Grid.Column="4">Steps</Label>
+        <Label Grid.Row="2" Grid.Column="5">Sync</Label>
+
+        <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="0" local:OscAddress.Address="/*/Phase" />
+        <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1" local:OscAddress.Address="/*/Freq" />
+        <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="2" local:OscAddress.Address="/*/Shape" />
+        <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="3" />
+        <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="4" />
+        <components:FlatToggleButton Grid.Row="3" Grid.Column="5" local:OscAddress.Address="/*/Sync" />
     </Grid>
 </components:BaseControl>

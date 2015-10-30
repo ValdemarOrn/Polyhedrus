@@ -6,7 +6,7 @@
              xmlns:lpCore="clr-namespace:LowProfile.Core.Ui;assembly=LowProfile.Core"
              xmlns:components="clr-namespace:Leiftur.Ui.Components"
              mc:Ignorable="d" 
-             d:DesignHeight="520" d:DesignWidth="1136">
+             d:DesignHeight="520" d:DesignWidth="1035">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -33,9 +33,6 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="92" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -97,7 +94,7 @@
             <Rectangle Style="{StaticResource SectionLine}" />
         </Grid>
 
-        <components:CharacterSection Grid.Row="1" Grid.Column="3" VerticalAlignment="Top" HorizontalAlignment="Left" Width="150" Height="114" />
+        <components:CharacterSection Grid.Row="1" Grid.Column="3" VerticalAlignment="Top" HorizontalAlignment="Left" Width="147" Height="114" />
 
         <Grid Grid.Row="0" Grid.Column="5" Style="{StaticResource SectionTitle}">
             <Grid.ColumnDefinitions>
@@ -113,44 +110,30 @@
         <Grid Grid.Row="0" Grid.Column="7" Style="{StaticResource SectionTitle}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Style="{StaticResource MarkerButton}">Filter</Button>
+            <Button Grid.Column="1" Style="{StaticResource MarkerButton}">Distortion</Button>
             <Rectangle Style="{StaticResource SectionLine}" />
         </Grid>
 
-        <components:FilterMainSection Grid.Row="1" Grid.Column="7" VerticalAlignment="Top" HorizontalAlignment="Left" Width="150" Height="114" />
+        <components:FilterMainSection Grid.Row="1" Grid.Column="7" VerticalAlignment="Top" HorizontalAlignment="Left" Width="147" Height="114" />
 
-        <StackPanel Grid.Column="3" Grid.ColumnSpan="5" Grid.Row="2" VerticalAlignment="Center" >
-            <Label Style="{StaticResource FancyLabel}" Content="{Binding SelectedBank, FallbackValue=Selected Bank}"
-                   Visibility="{Binding PresetVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" 
-                   ContextMenu="{StaticResource BanksContextMenu}" MouseUp="ShowContextMenu" />
-            <Label Style="{StaticResource FancyLabel}" Content="{Binding SelectedPreset, FallbackValue=Selected Preset}"
-                   Visibility="{Binding PresetVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}"
-                   ContextMenu="{StaticResource PresetsContextMenu}" MouseUp="ShowContextMenu" />
-            
-            <Label Style="{StaticResource FancyLabel}" Content="{Binding AnnouncerCaption, FallbackValue=Announcer Caption}"
-                   Visibility="{Binding AnnouncerVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
-            <Label Style="{StaticResource FancyLabel}" Content="{Binding AnnouncerValue, FallbackValue=Announcer Value}"
-                   Visibility="{Binding AnnouncerVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
-        </StackPanel>
-        
-        <components:MacroControls Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="5" Height="57" HorizontalContentAlignment="Center" />
+        <StackPanel Grid.Column="3" Grid.ColumnSpan="5" Grid.Row="2" VerticalAlignment="Top" >
+            <Grid Height="90" VerticalAlignment="Center">
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center" >
+                    <Label Style="{StaticResource FancyLabel}" Content="{Binding SelectedBank, FallbackValue=Selected Bank}"
+                           ContextMenu="{StaticResource BanksContextMenu}" MouseUp="ShowContextMenu" />
+                    <Label Style="{StaticResource FancyLabel}" Content="{Binding SelectedPreset, FallbackValue=Selected Preset}"
+                           ContextMenu="{StaticResource PresetsContextMenu}" MouseUp="ShowContextMenu" />
+                </StackPanel>
+            </Grid>
 
-        <Grid Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="5" Style="{StaticResource SectionTitle}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Style="{StaticResource MarkerButton}">Matrix 1-8</Button>
-            <Button Grid.Column="1" Style="{StaticResource MarkerButton}">Matrix 9-16</Button>
-            <Rectangle Style="{StaticResource SectionLine}" />
-        </Grid>
-
-        <components:MatrixSection Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="5"  HorizontalAlignment="Center" Margin="0,0,0,0" />
-
-        <StackPanel Grid.Row="0" Grid.Column="9" Grid.RowSpan="10">
+            <StackPanel Height="35" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label Style="{StaticResource FancyLabel}" Content="{Binding AnnouncerCaption, FallbackValue=Announcer Caption}" />
+                <Label Style="{StaticResource FancyLabel}" Content="{Binding AnnouncerValue, FallbackValue=Announcer Value}" />
+            </StackPanel>
 
             <Grid Style="{StaticResource SectionTitle}">
                 <Grid.ColumnDefinitions>
@@ -159,14 +142,54 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Style="{StaticResource MarkerButton}">Envelopes</Button>
+                <Button Grid.Column="0" Style="{StaticResource MarkerButton}" Command="{Binding SetModuleVisibleCommand}" CommandParameter="Matrix1" 
+                        FontWeight="{Binding Matrix1Visible, Converter={StaticResource BoolToBoldConverter}}" Width="80">Matrix 1-8</Button>
+                <Button Grid.Column="1" Style="{StaticResource MarkerButton}" Command="{Binding SetModuleVisibleCommand}" CommandParameter="Matrix2" 
+                        FontWeight="{Binding Matrix2Visible, Converter={StaticResource BoolToBoldConverter}}" Width="80">Matrix 9-16</Button>
+                <Button Grid.Column="2" Style="{StaticResource MarkerButton}" Command="{Binding SetModuleVisibleCommand}" CommandParameter="Macros" 
+                        FontWeight="{Binding MacrosVisible, Converter={StaticResource BoolToBoldConverter}}" Width="60">Macros</Button>
+                
+                <Rectangle Grid.Column="0" Style="{StaticResource SectionLine}" />
+            </Grid>
+
+            <components:MatrixSection HorizontalAlignment="Center" VerticalAlignment="Top"
+                                      Visibility="{Binding Matrix1Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
+            <components:MatrixSection HorizontalAlignment="Center" VerticalAlignment="Top"
+                                      Visibility="{Binding Matrix2Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
+            <components:MacroControls Height="114" HorizontalContentAlignment="Center" VerticalAlignment="Top"
+                                      Visibility="{Binding MacrosVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
+        
+        </StackPanel>
+
+        
+        <StackPanel Grid.Row="0" Grid.Column="9" Grid.RowSpan="10">
+
+            <Grid Style="{StaticResource SectionTitle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Style="{StaticResource MarkerButton}">Amp Envelope</Button>
+                <Button Grid.Column="1" Style="{StaticResource MarkerButton}" HorizontalAlignment="Right">Curves</Button>
                 <Rectangle Style="{StaticResource SectionLine}" />
             </Grid>
 
-            <components:EnvelopeSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="392" Height="57" ModuleAddress="EnvAmp" />
-            <components:EnvelopeSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="392" Height="57" ModuleAddress="EnvFilter" />
-            <components:EnvelopeSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="392" Height="57" ModuleAddress="EnvMod" />
+            <components:EnvelopeSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="57" ModuleAddress="EnvAmp" />
 
+            <Grid Style="{StaticResource SectionTitle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Style="{StaticResource MarkerButton}">Filter Envelope</Button>
+                <Button Grid.Column="1" Style="{StaticResource MarkerButton}" HorizontalAlignment="Right">Curves</Button>
+                <Rectangle Style="{StaticResource SectionLine}" />
+            </Grid>
+            
+            <components:EnvelopeSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="57" ModuleAddress="EnvFilter" />
+
+            <Grid Height="22" />
+            
             <Grid Style="{StaticResource SectionTitle}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -184,11 +207,11 @@
                 <Rectangle Style="{StaticResource SectionLine}" />
             </Grid>
 
-            <components:LfoSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="392" Height="57" ModuleAddress="Lfo1"
+            <components:LfoSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="114" ModuleAddress="Lfo1"
                                    Visibility="{Binding Lfo1Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
-            <components:LfoSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="392" Height="57" ModuleAddress="Lfo2"
+            <components:LfoSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="114" ModuleAddress="Lfo2"
                                    Visibility="{Binding Lfo2Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
-            <components:ArpeggiatorSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="392" Height="57"
+            <components:ArpeggiatorSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="114"
                                            Visibility="{Binding ArpeggiatorVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
 
             <Grid Style="{StaticResource SectionTitle}">
@@ -206,7 +229,7 @@
                 <Rectangle Style="{StaticResource SectionLine}" />
             </Grid>
 
-            <components:DelaySection VerticalAlignment="Top" HorizontalAlignment="Left" Width="392" Height="114" 
+            <components:DelaySection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="114" 
                                      Visibility="{Binding DelayVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
 
             <Button Width="50" Click="Button_Click" HorizontalAlignment="Right">Go</Button>

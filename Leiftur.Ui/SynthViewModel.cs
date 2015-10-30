@@ -39,6 +39,9 @@ namespace Leiftur.Ui
 		private bool disableSendValue;
 		private string selectedBank;
 		private string selectedPreset;
+		private bool matrix1Visible;
+		private bool matrix2Visible;
+		private bool macrosVisible;
 
 		public SynthViewModel(Dictionary<DependencyObject, string> controlDict)
 		{
@@ -67,6 +70,10 @@ namespace Leiftur.Ui
 			Osc1Visible = true;
 			Lfo1Visible = true;
 			DelayVisible = true;
+			Matrix1Visible = true;
+
+			SelectedBank = "Unknown Bank";
+			SelectedPreset = "Unknown Preset";
 		}
 
 		#region Properties
@@ -163,9 +170,23 @@ namespace Leiftur.Ui
 			set { chorusVisible = value; NotifyPropertyChanged(); }
 		}
 
-		public bool PresetVisible => !AnnouncerVisible;
+		public bool Matrix1Visible
+		{
+			get { return matrix1Visible; }
+			set { matrix1Visible = value; NotifyPropertyChanged(); }
+		}
 
-		public bool AnnouncerVisible => !string.IsNullOrWhiteSpace(AnnouncerCaption);
+		public bool Matrix2Visible
+		{
+			get { return matrix2Visible; }
+			set { matrix2Visible = value; NotifyPropertyChanged(); }
+		}
+
+		public bool MacrosVisible
+		{
+			get { return macrosVisible; }
+			set { macrosVisible = value; NotifyPropertyChanged(); }
+		}
 
 		public string AnnouncerCaption
 		{
@@ -174,8 +195,6 @@ namespace Leiftur.Ui
 			{
 				announcerCaption = value;
 				NotifyPropertyChanged();
-				NotifyPropertyChanged(nameof(AnnouncerVisible));
-				NotifyPropertyChanged(nameof(PresetVisible));
 			}
 		}
 
@@ -186,8 +205,6 @@ namespace Leiftur.Ui
 			{
 				announcerValue = value;
 				NotifyPropertyChanged();
-				NotifyPropertyChanged(nameof(AnnouncerVisible));
-				NotifyPropertyChanged(nameof(PresetVisible));
 			}
 		}
 
@@ -443,6 +460,24 @@ namespace Leiftur.Ui
 			{
 				DelayVisible = false;
 				ChorusVisible = true;
+			}
+			else if (module == "Matrix1")
+			{
+				Matrix2Visible = false;
+				MacrosVisible = false;
+				Matrix1Visible = true;
+			}
+			else if (module == "Matrix2")
+			{
+				Matrix1Visible = false;
+				MacrosVisible = false;
+				Matrix2Visible = true;
+			}
+			else if (module == "Macros")
+			{
+				Matrix2Visible = false;
+				Matrix1Visible = false;
+				MacrosVisible = true;
 			}
 		}
 

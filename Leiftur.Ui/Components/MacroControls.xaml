@@ -12,16 +12,14 @@
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="98" />
+            <ColumnDefinition Width="98" />
+            <ColumnDefinition Width="98" />
+            <ColumnDefinition Width="98" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -30,18 +28,18 @@
         <Label Grid.Row="0" Grid.Column="1">2</Label>
         <Label Grid.Row="0" Grid.Column="2">3</Label>
         <Label Grid.Row="0" Grid.Column="3">4</Label>
-        <Label Grid.Row="0" Grid.Column="4">5</Label>
-        <Label Grid.Row="0" Grid.Column="5">6</Label>
-        <Label Grid.Row="0" Grid.Column="6">7</Label>
-        <Label Grid.Row="0" Grid.Column="7">8</Label>
+        <Label Grid.Row="2" Grid.Column="0">5</Label>
+        <Label Grid.Row="2" Grid.Column="1">6</Label>
+        <Label Grid.Row="2" Grid.Column="2">7</Label>
+        <Label Grid.Row="2" Grid.Column="3">8</Label>
 
         <local:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" ui:OscAddress.Address="/Macro/1" />
         <local:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" ui:OscAddress.Address="/Macro/2" />
         <local:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" ui:OscAddress.Address="/Macro/3" />
         <local:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="3" ui:OscAddress.Address="/Macro/4" />
-        <local:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="4" ui:OscAddress.Address="/Macro/5" />
-        <local:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="5" ui:OscAddress.Address="/Macro/6" />
-        <local:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="6" ui:OscAddress.Address="/Macro/7" />
-        <local:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="7" ui:OscAddress.Address="/Macro/8" />
+        <local:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="0" ui:OscAddress.Address="/Macro/5" />
+        <local:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1" ui:OscAddress.Address="/Macro/6" />
+        <local:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="2" ui:OscAddress.Address="/Macro/7" />
+        <local:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="3" ui:OscAddress.Address="/Macro/8" />
     </Grid>
 </UserControl>

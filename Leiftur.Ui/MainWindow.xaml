@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Leiftur.Ui"
         xmlns:components="clr-namespace:Leiftur.Ui.Components"
         mc:Ignorable="d"
-        Title="MainWindow" Height="555" Width="1145">
+        Title="MainWindow" Height="565" Width="1040">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="#FFF7F7F7" Offset="0"/>

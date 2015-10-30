@@ -6,7 +6,7 @@
              xmlns:components="clr-namespace:Leiftur.Ui.Components"
              xmlns:ui="clr-namespace:Leiftur.Ui"
              mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="250">
+             d:DesignHeight="200" d:DesignWidth="300">
     <UserControl.Resources>
         <ResourceDictionary Source="Styles.xaml" />
     </UserControl.Resources>
@@ -30,13 +30,13 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
+
         <Label Grid.Row="0" Grid.Column="0">Octave</Label>
         <Label Grid.Row="0" Grid.Column="1">Semi</Label>
         <Label Grid.Row="0" Grid.Column="2">Cent</Label>
         <Label Grid.Row="0" Grid.Column="3">Pan</Label>
         <Label Grid.Row="0" Grid.Column="4">Volume</Label>
-        
+
         <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" Steps="5" Min="-2" Max="2" DefaultValue="0" ui:OscAddress.Address="/*/Octave" />
         <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" Steps="25" Min="-12" Max="12" DefaultValue="0" ui:OscAddress.Address="/*/Semi" />
         <components:ModKnob HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" Steps="101" Min="-50" Max="50" DefaultValue="0" ui:OscAddress.Address="/*/Cent" />
@@ -47,7 +47,7 @@
         <Label Grid.Row="2" Grid.Column="1">Phase</Label>
         <Label Grid.Row="2" Grid.Column="2">Shape</Label>
 
-        <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="0" ui:OscAddress.Address="/*/Slop" />
+        <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="0" DefaultValue="0" ui:OscAddress.Address="/*/Slop" />
         <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1" ui:OscAddress.Address="/*/Phase" />
         <components:ModKnob HorizontalAlignment="Center" Grid.Row="3" Grid.Column="2" ui:OscAddress.Address="/*/Shape" />
 
@@ -70,6 +70,6 @@
         <Border Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="2" Style="{StaticResource NormalText}" Margin="3,10,0,10" >
             <Label>Character</Label>
         </Border>
-        
+
     </Grid>
 </components:BaseControl>
