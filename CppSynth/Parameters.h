@@ -138,7 +138,6 @@ namespace Leiftur
 		DecayCurve = 14,
 		ReleaseCurve = 15,
 		Retrigger = 16,
-
 	};
 
 	enum class ArpParameters

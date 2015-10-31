@@ -19,31 +19,39 @@ namespace Leiftur.Ui
 
 		FilterHp = 20,
 		FilterMain = 21,
+		Drive = 22,
 
 		EnvAmp = 70,
 		EnvFilter = 71,
-		EnvMod = 72,
 
-		Lfo1 = 81,
-		Lfo2 = 82,
+		Mod1 = 81,
+		Mod2 = 82,
+		Mod3 = 83,
 
 		Arp = 100,
 		Voices = 110,
 
+		Chorus = 150,
+		Delay = 151,
+
+		Macros = 190,
 		ModMatrix = 200,
 	}
 
 	enum OscParameters
 	{
-		Slop = 1,
-		Phase = 2,
-		Octave = 3,
-		Semi = 4,
-		Cent = 5,
-		Waveform = 6,
-		Shape = 7,
-		Pan = 8,
-		Volume = 9
+		Octave = 1,
+		Semi = 2,
+		Cent = 3,
+		Pan = 4,
+		Volume = 5,
+
+		Slop = 6,
+		Phase = 7,
+		Shape = 8,
+
+		Waveform = 9,
+		Routing = 10
 	}
 
 	enum MixerParameters
@@ -85,6 +93,15 @@ namespace Leiftur.Ui
 		Type = 6,
 	}
 
+	enum DriveParameters
+	{
+		Gain = 1,
+		Bias = 2,
+		Post = 3,
+		Type = 4,
+		Mellow = 5,
+	}
+
 	enum EnvParameters
 	{
 		Attack = 1,
@@ -93,20 +110,32 @@ namespace Leiftur.Ui
 		Sustain = 4,
 		Release = 5,
 		Velocity = 6,
-		Retrigger = 7,
-		Exponent = 8,
+		AttackCurve = 7,
+		DecayCurve = 8,
+		ReleaseCurve = 9,
+		Retrigger = 10,
 	}
 
-	enum LfoParameters
+	enum ModParameters
 	{
-		Phase = 1,
-		Freq = 2,
-		Shape = 3,
-		Attack = 4,
-		Decay = 5,
-		Sustain = 6,
-		Release = 7,
-		Sync = 8,
+		Delay = 1,
+		Attack = 2,
+		Hold = 3,
+		Decay = 4,
+		Sustain = 5,
+		Release = 6,
+
+		Phase = 7,
+		Freq = 8,
+		Shape = 9,
+		Slew = 10,
+		Steps = 11,
+		Sync = 12,
+
+		AttackCurve = 13,
+		DecayCurve = 14,
+		ReleaseCurve = 15,
+		Retrigger = 16,
 	}
 
 	enum ArpParameters
@@ -130,6 +159,46 @@ namespace Leiftur.Ui
 		Polyphony = 6,
 		Unison = 7,
 		VoiceMode = 8,
+	}
+
+	enum ChorusParameters
+	{
+		Enable1 = 1,
+		Enable2 = 2,
+		Rate1 = 3,
+		Rate2 = 4,
+		Depth1 = 5,
+		Depth2 = 6,
+		Width = 7,
+		Quality = 8,
+		Wet = 9,
+	}
+
+	enum DelayParameters
+	{
+		DelayL = 1,
+		DelayR  = 2,
+		FeedbackL = 3,
+		FeedbackR = 4,
+		Lowpass = 5,
+		Highpass = 6,
+		Saturate = 7,
+		Crossfeed = 8,
+		Diffuse = 9,
+		Wet = 10,
+		Sync = 11,
+	}
+
+	enum MacroParameters
+	{
+		Macro1 = 1,
+		Macro2 = 2,
+		Macro3 = 3,
+		Macro4 = 4,
+		Macro5 = 5,
+		Macro6 = 6,
+		Macro7 = 7,
+		Macro8 = 8,
 	}
 
 	enum ModMatrixParameters
@@ -280,20 +349,32 @@ namespace Leiftur.Ui
 				case Module.FilterMain:
 					parameter = (int)(FilterMainParameters)Enum.Parse(typeof(FilterMainParameters), parts[1], true);
 					break;
+				case Module.Drive:
+					parameter = (int)(DriveParameters)Enum.Parse(typeof(DriveParameters), parts[1], true);
+					break;
 				case Module.EnvAmp:
 				case Module.EnvFilter:
-				case Module.EnvMod:
 					parameter = (int)(EnvParameters)Enum.Parse(typeof(EnvParameters), parts[1], true);
 					break;
-				case Module.Lfo1:
-				case Module.Lfo2:
-					parameter = (int)(LfoParameters)Enum.Parse(typeof(LfoParameters), parts[1], true);
+				case Module.Mod1:
+				case Module.Mod2:
+				case Module.Mod3:
+					parameter = (int)(ModParameters)Enum.Parse(typeof(ModParameters), parts[1], true);
 					break;
 				case Module.Arp:
 					parameter = (int)(ArpParameters)Enum.Parse(typeof(ArpParameters), parts[1], true);
 					break;
 				case Module.Voices:
 					parameter = (int)(VoiceParameters)Enum.Parse(typeof(VoiceParameters), parts[1], true);
+					break;
+				case Module.Chorus:
+					parameter = (int)(ChorusParameters)Enum.Parse(typeof(ChorusParameters), parts[1], true);
+					break;
+				case Module.Delay:
+					parameter = (int)(DelayParameters)Enum.Parse(typeof(DelayParameters), parts[1], true);
+					break;
+				case Module.Macros:
+					parameter = (int)(MacroParameters)Enum.Parse(typeof(MacroParameters), parts[1], true);
 					break;
 				case Module.ModMatrix:
 					parameter = (int)(ModMatrixParameters)Enum.Parse(typeof(ModMatrixParameters), parts[1], true);
@@ -334,17 +415,25 @@ namespace Leiftur.Ui
 					return module + " " + Pretty(((FilterHpParameters)parameter).ToString());
 				case Module.FilterMain:
 					return module + " " + Pretty(((FilterMainParameters)parameter).ToString());
+				case Module.Drive:
+					return module + " " + Pretty(((DriveParameters)parameter).ToString());
 				case Module.EnvAmp:
 				case Module.EnvFilter:
-				case Module.EnvMod:
 					return module + " " + Pretty(((EnvParameters)parameter).ToString());
-				case Module.Lfo1:
-				case Module.Lfo2:
-					return module + " " + Pretty(((LfoParameters)parameter).ToString());
+				case Module.Mod1:
+				case Module.Mod2:
+				case Module.Mod3:
+					return module + " " + Pretty(((ModParameters)parameter).ToString());
 				case Module.Arp:
 					return module + " " + Pretty(((ArpParameters)parameter).ToString());
 				case Module.Voices:
 					return module + " " + Pretty(((VoiceParameters)parameter).ToString());
+				case Module.Chorus:
+					return module + " " + Pretty(((ChorusParameters)parameter).ToString());
+				case Module.Delay:
+					return module + " " + Pretty(((DelayParameters)parameter).ToString());
+				case Module.Macros:
+					return module + " " + Pretty(((MacroParameters)parameter).ToString());
 				case Module.ModMatrix:
 					return module + " " + Pretty(((ModMatrixParameters)parameter).ToString());
 				default:

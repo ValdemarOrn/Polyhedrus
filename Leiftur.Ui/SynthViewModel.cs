@@ -469,9 +469,9 @@ namespace Leiftur.Ui
 				try
 				{
 					disableSendValue = true;
-					if (control is ModKnob)
+					if (control is LightKnob)
 					{
-						(control as ModKnob).Value = value;
+						(control as LightKnob).Value = value;
 					}
 				}
 				finally
@@ -516,11 +516,11 @@ namespace Leiftur.Ui
 				var key = Parameters.Pack(address);
 				controls[key] = control;
 
-				var modKnob = control as ModKnob;
-				if (modKnob != null)
+				var lightKnob = control as LightKnob;
+				if (lightKnob != null)
 				{
-					DependencyPropertyDescriptor.FromProperty(ModKnob.ValueProperty, typeof(ModKnob))
-						.AddValueChanged(modKnob, (s, e) => SendValue(address, modKnob.Value));
+					DependencyPropertyDescriptor.FromProperty(LightKnob.ValueProperty, typeof(LightKnob))
+						.AddValueChanged(lightKnob, (s, e) => SendValue(address, lightKnob.Value));
 				}
 			}
 		}
