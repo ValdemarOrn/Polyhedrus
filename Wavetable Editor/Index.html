@@ -1,0 +1,112 @@
+
+<html>
+<body>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript" src="Wav.js"></script>
+
+<script type="text/javascript">
+
+    var N = 1024;
+    var wavetableCount = 256;
+    var wavetable = new Array(wavetableCount);
+
+    function makeWave(k, N, K) {
+        var output = new Array(N);
+        for (var i = 0; i < N; i++) {
+            output[i] = Math.sin(i / N * 2 * Math.PI * (1 + k * 0.05));
+        }
+
+        return output;
+    }
+
+    function recompute() {
+
+        for (var k = 0; k < wavetableCount; k++) {
+            wavetable[k] = makeWave(k, N, wavetableCount);
+        }
+
+        repaint();
+    }
+
+    function repaint() {
+        var slider = document.getElementById('waveSlider').value;
+        var k = Math.round(slider * (wavetableCount - 1));
+        var selectedWave = wavetable[k];
+        paintWave(selectedWave);
+    }
+
+    function paintWave(wave) {
+        var canvas = document.getElementById('canvas');
+        var width = canvas.width;
+        var height = canvas.height;
+        var ctx = canvas.getContext('2d');
+
+        ctx.clearRect(0, 0, width, height);
+
+        ctx.beginPath();
+        ctx.moveTo(0, 0.25 * height);
+        ctx.lineTo(width, 0.25 * height);
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = '#999';
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(0, 0.75 * height);
+        ctx.lineTo(width, 0.75 * height);
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = '#999';
+        ctx.stroke();
+
+        ctx.beginPath();
+        for (var i = 0; i < wave.length; i++) {
+            var x = i / wave.length * width;
+            var y = -wave[i] * height / 2 * 0.5 + height / 2;
+
+            if (i == 0)
+                ctx.moveTo(x, y);
+            else
+                ctx.lineTo(x, y);
+        }
+
+        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = "#555";
+        ctx.stroke();
+
+    }
+
+    function downloadWave() {
+
+        //var i = 0;
+        var vol = 0.8;
+        //var len = 48000 * 2;
+        var wav = new Wav();
+        var buffer = [];
+
+        for (var k = 0;  k < wavetable.length; k++) {
+            var wave = wavetable[k];
+            for (var n = 0; n < wave.length; n++) {
+                buffer.push(wave[n] * vol);
+            }
+        }
+
+        wav.setBuffer(buffer);
+        var b = wav.getBlob();
+        var url = window.URL.createObjectURL(b);
+        document.getElementById('downloadLink').href = url;
+        //document.write("<a href='" + url + "' download='Test.wav'>play</a>");
+    }
+</script>
+
+<div>
+    <a href="#" onclick="recompute();">Recompute</a>
+    <a id="downloadLink" href="#" download="Wavetable.wav" onclick="downloadWave();">Download Wavetable</a>
+
+</div>
+<div>
+    <input id="waveSlider" type="range" min="0" max="1" step="0.001" style="width: 800px; margin: 10 0px;" oninput="repaint();" />
+</div>
+    
+    <canvas id="canvas" width="800" height="400" style="border: 1px solid black; background: #ddd;}"></canvas>
+</body>
+</html>
