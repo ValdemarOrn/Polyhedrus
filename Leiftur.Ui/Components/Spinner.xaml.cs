@@ -28,7 +28,7 @@ namespace Leiftur.Ui.Components
 		static public DependencyProperty ValueTextProperty = DependencyProperty.Register("ValueText", typeof(string), typeof(Spinner));
 
 		static public DependencyProperty FormatterProperty = DependencyProperty.Register("Formatter", typeof(string), typeof(Spinner),
-			new FrameworkPropertyMetadata("{0.00}", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+			new FrameworkPropertyMetadata("0.00", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
 		static new public DependencyProperty BorderBrushProperty = DependencyProperty.Register("BorderBrush", typeof(Brush), typeof(Spinner),
 				new FrameworkPropertyMetadata(new SolidColorBrush(Colors.Black), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
@@ -36,18 +36,26 @@ namespace Leiftur.Ui.Components
 		static public DependencyProperty FillProperty = DependencyProperty.Register("Fill", typeof(Brush), typeof(Spinner),
 				new FrameworkPropertyMetadata(new SolidColorBrush(Colors.White), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
+		private double innerValue;
+
 		public Spinner()
 		{
-			Delta = 0.005;
+			Delta = 0.01;
+			Quantize = 0.01;
 			Min = 0;
 			Max = 1;
+
 			InitializeComponent();
 
 			// add change listeners to props
-			DependencyPropertyDescriptor prop = DependencyPropertyDescriptor.FromProperty(ValueProperty, this.GetType());
-			prop.AddValueChanged(this, (x, y) => SetValue(ValueTextProperty, FormattedValue));
+			DependencyPropertyDescriptor prop = DependencyPropertyDescriptor.FromProperty(ValueProperty, GetType());
+			prop.AddValueChanged(this, (x, y) =>
+			{
+				innerValue = Value;
+				SetValue(ValueTextProperty, FormattedValue);
+			});
 
-			prop = DependencyPropertyDescriptor.FromProperty(FormatterProperty, this.GetType());
+			prop = DependencyPropertyDescriptor.FromProperty(FormatterProperty, GetType());
 			prop.AddValueChanged(this, (x, y) => SetValue(ValueTextProperty, FormattedValue));
 		}
 
@@ -68,7 +76,7 @@ namespace Leiftur.Ui.Components
 			get
 			{
 				if (Formatter == null)
-					return Value.ToString("{0.000}", CultureInfo.InvariantCulture);
+					return Value.ToString("0.000", CultureInfo.InvariantCulture);
 				else
 					return Value.ToString(Formatter, CultureInfo.InvariantCulture);
 			}
@@ -95,16 +103,15 @@ namespace Leiftur.Ui.Components
 			get { return (Brush)GetValue(FillProperty); }
 			set { SetValue(FillProperty, value); }
 		}
-
-		public int Sensitivity { get; set; }
+		
 		public double Delta { get; set; }
+		public double Quantize { get; set; }
 		public double Min { get; set; }
 		public double Max { get; set; }
 		public double Default { get; set; }
 
 		private bool isSelected;
-		private Point? mousePosStart;
-		private double valueStart;
+		private Point? lastMousePos;
 
 		private void OnMouseDown(object sender, MouseButtonEventArgs e)
 		{
@@ -113,15 +120,14 @@ namespace Leiftur.Ui.Components
 
 			isSelected = true;
 			Mouse.Capture(this);
-			mousePosStart = e.GetPosition(this);
-			valueStart = Value;
+			lastMousePos = e.GetPosition(this);
 		}
 
 		private void OnMouseUp(object sender, MouseButtonEventArgs e)
 		{
 			isSelected = false;
 			Mouse.Capture(null);
-			mousePosStart = null;
+			lastMousePos = null;
 		}
 
 		private void OnMouseMove(object sender, MouseEventArgs e)
@@ -130,40 +136,47 @@ namespace Leiftur.Ui.Components
 			{
 				isSelected = false;
 				Mouse.Capture(null);
-				mousePosStart = null;
+				lastMousePos = null;
 				return;
 			}
 
-			if (!isSelected || !mousePosStart.HasValue)
+			if (!isSelected || !lastMousePos.HasValue)
 				return;
 
-			var curentPos = e.GetPosition(this);
-			double dx = (int)((mousePosStart.Value.Y - curentPos.Y) / Sensitivity);
+			var currentPos = e.GetPosition(this);
+			double dx = (int)(lastMousePos.Value.Y - currentPos.Y);
+			lastMousePos = currentPos;
 
-			if (Math.Abs(dx) < 1.0)
+            if (Math.Abs(dx) < 1.0)
 				return;
 
 			if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
 				dx *= 0.1;
 
-			var val = valueStart + Delta * dx;
+			var val = innerValue + Delta * dx;
 
 			if (val < Min)
 				val = Min;
 			else if (val > Max)
 				val = Max;
 
-			if (val != valueStart)
+			innerValue = val;
+			var valQuantized = Math.Round(val / Quantize) * Quantize;
+			if (valQuantized < Min)
+				valQuantized = Min;
+			else if (valQuantized > Max)
+				valQuantized = Max;
+
+			if (valQuantized != Value)
 			{
-				Value = val;
-				valueStart = val;
-				mousePosStart = curentPos;
+				Value = valQuantized;
 			}
 		}
 
 		private void OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{
 			Value = Default;
+			
 		}
 	}
 }

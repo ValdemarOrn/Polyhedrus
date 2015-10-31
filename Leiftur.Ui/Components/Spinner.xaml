@@ -14,7 +14,8 @@
         <Rectangle SnapsToDevicePixels="{Binding ElementName=Main, Path=SnaptoDevicePixels}"
                    Stroke="{Binding ElementName=Main, Path=BorderBrush, FallbackValue=Black}" StrokeThickness="1" RadiusX="3" RadiusY="3" 
                    Fill="{Binding ElementName=Main, Path=Fill, FallbackValue=White}" />
-        <Label Padding="0" Margin="0" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="{Binding ElementName=Main, Path=HorizontalAlignment}" 
+        <Label Padding="0" Margin="0" VerticalAlignment="Center" VerticalContentAlignment="Center" 
+               HorizontalAlignment="{Binding ElementName=Main, Path=HorizontalAlignment}" 
                FontFamily="{Binding ElementName=Main, Path=FontFamily}"
                FontSize="{Binding ElementName=Main, Path=FontSize}"
                FontWeight="{Binding ElementName=Main, Path=FontWeight}"

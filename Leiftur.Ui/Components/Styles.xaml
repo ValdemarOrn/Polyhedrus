@@ -6,6 +6,7 @@
 
     <SolidColorBrush x:Key="ForegroundBase" Color="#ccc" />
     <SolidColorBrush x:Key="ForegroundBlue" Color="#07ddff" />
+    <SolidColorBrush x:Key="ForegroundBlueHighlight" Color="#57E8FF" />
     <SolidColorBrush x:Key="ModuleBackground" Color="#20000000" />
     
     <Style TargetType="Grid" x:Key="SectionTitle">
@@ -23,6 +24,22 @@
         <Setter Property="Height" Value="2" />
         <Setter Property="Fill" Value="#50000000" />
         <Setter Property="Grid.ColumnSpan" Value="99" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="TitleLabel">
+        <Setter Property="FontFamily" Value="Open Sans" />
+        <Setter Property="FontWeight" Value="Light" />
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBase}" />
+        <Setter Property="FontSize" Value="26" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="Margin" Value="2" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect ShadowDepth="0" Direction="0" Color="#fff" Opacity="0.4" BlurRadius="12"/>
+            </Setter.Value>
+        </Setter>
     </Style>
     
     <Style TargetType="Label">
@@ -70,11 +87,35 @@
         <Setter Property="Padding" Value="6,1,6,3" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Foreground" Value="{StaticResource ForegroundBlue}"/>
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBlueHighlight}"/>
             </Trigger>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ToggleButton}, Path=IsChecked}" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBlue}"/>
+            </DataTrigger>
         </Style.Triggers>
     </Style>
 
+    <Style TargetType="ToggleButton" x:Key="MarkerToggleButton">
+        <Setter Property="Foreground" Value="Transparent" />
+        <Setter Property="Padding" Value="6,0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid>
+                        <Label Style="{StaticResource MarkerLabel}" Padding="{Binding Path=Padding, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}"
+                           Content="{Binding Path=Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}" />
+                        <Rectangle VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="2" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBlue}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
     <Style TargetType="Button" x:Key="MarkerButton">
         <Setter Property="Template">
             <Setter.Value>
@@ -97,51 +138,42 @@
         <Setter Property="Height" Value="28" />
         <Setter Property="Width" Value="28" />
         <Setter Property="Margin" Value="10.5,6,10.5,6" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBlueHighlight}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
-    <Style TargetType="Border" x:Key="BigText">
-        <Setter Property="Background" Value="#10000000" />
+    <Style TargetType="local:MenuSelector" x:Key="MenuSelectorStyle">
         <Setter Property="Padding" Value="2" />
-        <Setter Property="Margin" Value="4,10,4,4" />
-        <Setter Property="CornerRadius" Value="3" />
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Style.Resources>
-            <Style TargetType="Label">
-                <Setter Property="FontSize" Value="14" />
-                <Setter Property="HorizontalAlignment" Value="Center" />
-                <Setter Property="HorizontalContentAlignment" Value="Center" />
-                <Setter Property="VerticalAlignment" Value="Center" />
-                <Setter Property="VerticalContentAlignment" Value="Center" />
-                <Setter Property="Margin" Value="0" />
-                <Setter Property="Padding" Value="0" />
-                <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Foreground" Value="CornflowerBlue"/>
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-        </Style.Resources>
-    </Style>
-
-    <Style TargetType="Border" x:Key="NormalText" BasedOn="{StaticResource BigText}">
-        <Setter Property="Padding" Value="2" />
-        <Setter Property="Height" Value="19" />
         <Setter Property="Margin" Value="6,10,6,10" />
-        <Setter Property="CornerRadius" Value="3" />
-        <Setter Property="VerticalAlignment" Value="Center" />
         <Style.Resources>
-            <Style TargetType="Label">
-                <Setter Property="FontFamily" Value="Open Sans" />
-                <Setter Property="FontSize" Value="11" />
-                <Setter Property="HorizontalAlignment" Value="Center" />
-                <Setter Property="HorizontalContentAlignment" Value="Center" />
-                <Setter Property="VerticalAlignment" Value="Center" />
-                <Setter Property="VerticalContentAlignment" Value="Center" />
-                <Setter Property="Margin" Value="0" />
+            <Style TargetType="Border">
+                <Setter Property="Background" Value="#10ffffff" />
                 <Setter Property="Padding" Value="0" />
+                <Setter Property="Height" Value="19" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="CornerRadius" Value="3" />
+                <Setter Property="BorderBrush" Value="{StaticResource ForegroundBase}" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Style.Resources>
+                    <Style TargetType="Label">
+                        <Setter Property="FontFamily" Value="Open Sans" />
+                        <Setter Property="FontSize" Value="11" />
+                        <Setter Property="Foreground" Value="{Binding Path=BorderBrush, RelativeSource={RelativeSource AncestorType=Border}}" />
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="Margin" Value="0" />
+                        <Setter Property="Padding" Value="0" />
+                    </Style>
+                </Style.Resources>
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Foreground" Value="CornflowerBlue"/>
+                        <Setter Property="BorderBrush" Value="{StaticResource ForegroundBlue}"/>
                     </Trigger>
                 </Style.Triggers>
             </Style>
@@ -151,15 +183,16 @@
     <Style TargetType="components:Spinner">
         <Setter Property="Width" Value="39" />
         <Setter Property="Height" Value="20" />
-        <Setter Property="FontFamily" Value="Open Sans" />
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBase}"/>
+        <Setter Property="FontFamily" Value="Tahoma" />
         <Setter Property="FontSize" Value="11" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="Margin" Value="5,10,5,10" />
-        <Setter Property="Fill" Value="#ddd" />
+        <Setter Property="Fill" Value="#10ffffff" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Foreground" Value="CornflowerBlue"/>
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBlue}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -182,8 +215,9 @@
 
     <Style TargetType="components:Spinner" x:Key="MatrixSpinner">
         <Setter Property="Height" Value="19" />
-        <Setter Property="FontFamily" Value="Open Sans" />
+        <Setter Property="FontFamily" Value="Tahoma" />
         <Setter Property="FontSize" Value="11" />
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBase}" />
         <Setter Property="FontWeight" Value="Light" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="BorderBrush" Value="Transparent" />
@@ -196,6 +230,7 @@
     <Style TargetType="Label" x:Key="MatrixLabel">
         <Setter Property="FontSize" Value="11" />
         <Setter Property="FontWeight" Value="Light" />
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBase}" />
         <Setter Property="Margin" Value="1" />
         <Setter Property="Padding" Value="1" />
         <Setter Property="VerticalAlignment" Value="Center" />
@@ -272,8 +307,8 @@
             <Setter.Value>
                 <ControlTemplate>
                     <Grid>
-                        <Ellipse Width="12" Height="12" Fill="#90000000"></Ellipse>
-                        <Ellipse Width="10" Height="10" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}" />
+                        <Ellipse HorizontalAlignment="Center" Width="12" Height="12" Fill="#90000000"></Ellipse>
+                        <Ellipse HorizontalAlignment="Center" Width="10" Height="10" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -282,7 +317,10 @@
             <Trigger Property="IsChecked" Value="True">
                 <Setter Property="Foreground" Value="{StaticResource ForegroundBlue}" />
             </Trigger>
-        </Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="#50ffffff" />
+            </Trigger>
+            </Style.Triggers>
     </Style>
 
 </ResourceDictionary>

@@ -42,6 +42,9 @@ namespace Leiftur.Ui
 		private bool matrix1Visible;
 		private bool matrix2Visible;
 		private bool macrosVisible;
+		private Dictionary<int, string> waveformTypes;
+		private bool ampEnvPage2Visible;
+		private bool filterEnvPage2Visible;
 
 		public SynthViewModel(Dictionary<DependencyObject, string> controlDict)
 		{
@@ -62,6 +65,8 @@ namespace Leiftur.Ui
 			this.controls = new Dictionary<int, DependencyObject>();
 			RegisterControls(controlDict);
 
+			ShowAmpEnvPage2 = new DelegateCommand(_ => AmpEnvPage2Visible = !AmpEnvPage2Visible);
+			ShowFilterEnvPage2 = new DelegateCommand(_ => FilterEnvPage2Visible = !FilterEnvPage2Visible);
 			SetBankCommand = new DelegateCommand(x => SelectedBank = x.ToString(), () => true);
 			SetPresetCommand = new DelegateCommand(x => SelectedPreset = x.ToString(), () => true);
 			SetModuleVisibleCommand = new DelegateCommand(x => SetModuleVisible(x.ToString()), () => true);
@@ -78,7 +83,9 @@ namespace Leiftur.Ui
 
 		#region Properties
 
-		public DelegateCommand SetBankCommand { get; private set; }
+		public DelegateCommand ShowAmpEnvPage2 { get; private set; }
+		public DelegateCommand ShowFilterEnvPage2 { get; private set; }
+        public DelegateCommand SetBankCommand { get; private set; }
 		public DelegateCommand SetPresetCommand { get; private set; }
 		public DelegateCommand SetModuleVisibleCommand { get; private set; }
 		public DelegateCommand SavePresetCommand { get; private set; }
@@ -88,7 +95,7 @@ namespace Leiftur.Ui
 
 		public string[] Banks => presetBanks.Keys.ToArray();
 
-		public string[] Presets => presetBanks[selectedBank].ToArray();
+		public string[] Presets => (presetBanks.GetValueOrDefault(selectedBank) ?? new List<string>()).ToArray();
 
 		public string SelectedBank
 		{
@@ -125,19 +132,46 @@ namespace Leiftur.Ui
 		public bool Osc1Visible
 		{
 			get { return osc1Visible; }
-			set { osc1Visible = value; NotifyPropertyChanged(); }
+			set
+			{
+				if (value == osc1Visible)
+					return;
+
+				Osc2Visible = false;
+				Osc3Visible = false;
+				osc1Visible = value;
+				NotifyPropertyChanged();
+			}
 		}
 
 		public bool Osc2Visible
 		{
 			get { return osc2Visible; }
-			set { osc2Visible = value; NotifyPropertyChanged(); }
+			set
+			{
+				if (value == osc2Visible)
+					return;
+
+				Osc1Visible = false;
+				Osc3Visible = false;
+				osc2Visible = value;
+				NotifyPropertyChanged();
+			}
 		}
 
 		public bool Osc3Visible
 		{
 			get { return osc3Visible; }
-			set { osc3Visible = value; NotifyPropertyChanged(); }
+			set
+			{
+				if (value == osc3Visible)
+					return;
+
+				Osc1Visible = false;
+				Osc2Visible = false;
+				osc3Visible = value;
+				NotifyPropertyChanged();
+			}
 		}
 
 		public bool Lfo1Visible
@@ -186,6 +220,18 @@ namespace Leiftur.Ui
 		{
 			get { return macrosVisible; }
 			set { macrosVisible = value; NotifyPropertyChanged(); }
+		}
+
+		public bool AmpEnvPage2Visible
+		{
+			get { return ampEnvPage2Visible; }
+			set { ampEnvPage2Visible = value; NotifyPropertyChanged(); }
+		}
+
+		public bool FilterEnvPage2Visible
+		{
+			get { return filterEnvPage2Visible; }
+			set { filterEnvPage2Visible = value; NotifyPropertyChanged(); }
 		}
 
 		public string AnnouncerCaption

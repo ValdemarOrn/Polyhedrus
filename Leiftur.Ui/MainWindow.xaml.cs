@@ -28,6 +28,7 @@ namespace Leiftur.Ui
 			Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 			Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
 			InitializeComponent();
+
 		}
 	}
 }

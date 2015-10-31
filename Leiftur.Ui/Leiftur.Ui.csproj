@@ -65,6 +65,9 @@
     <Compile Include="Components\CharacterSection.xaml.cs">
       <DependentUpon>CharacterSection.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\ChorusSection.xaml.cs">
+      <DependentUpon>ChorusSection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\DelaySection.xaml.cs">
       <DependentUpon>DelaySection.xaml</DependentUpon>
     </Compile>
@@ -91,6 +94,9 @@
     </Compile>
     <Compile Include="Components\MatrixSection.xaml.cs">
       <DependentUpon>MatrixSection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\MenuSelector.xaml.cs">
+      <DependentUpon>MenuSelector.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\SavePresetDialog.xaml.cs">
       <DependentUpon>SavePresetDialog.xaml</DependentUpon>
@@ -127,6 +133,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Components\ChorusSection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Components\ContextMenus.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -160,6 +170,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Components\MacroControls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\MenuSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -248,6 +262,9 @@
       <Project>{9b922b0b-5595-4e05-8270-f63faaa6c299}</Project>
       <Name>SharpOSC</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Components\Background.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -31,8 +31,8 @@
                         <Label Width="93" Style="{StaticResource MatrixLabel}">Amp Envelope</Label>
                         <Label Width="95" Style="{StaticResource MatrixLabel}">Osc. 1 Pitch</Label>
                         <Label Width="93" Style="{StaticResource MatrixLabel}">None</Label>
-                        <components:Spinner Width="65" Style="{StaticResource MatrixSpinner}" Value="1.234" Min="-1.0" Max="1.0" Formatter="{}0.000" />
-                        <components:Spinner Width="65" Style="{StaticResource MatrixSpinner}" Value="1.234" Min="-1.0" Max="1.0" Formatter="{}0.000" />
+                        <components:Spinner Width="65" Style="{StaticResource MatrixSpinner}" Min="-1.0" Max="1.0" Quantize="0.001" Delta="0.01" Formatter="{}0.000" />
+                        <components:Spinner Width="65" Style="{StaticResource MatrixSpinner}" Min="-1.0" Max="1.0" Quantize="0.001" Delta="0.01" Formatter="{}0.000" />
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

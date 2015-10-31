@@ -11,7 +11,7 @@
 
             <Canvas Width="120" Height="120">
                 <Path x:Name="ModLine1" Stroke="{Binding ElementName=Main, Path=Foreground}" StrokeThickness="8" Stretch="None" Data="M4,60 A 57,57 90 0 1 60,4" />
-                <Path x:Name="ModLine2" Stroke="#30ffffff" StrokeThickness="5.8" Stretch="None" Data="M60,3 A 57,57 90 0 1 117,60" />
+                <Path x:Name="ModLine2" Stroke="#30ffffff" StrokeThickness="7.8" Stretch="None" Data="M60,3 A 57,57 90 0 1 117,60" />
             </Canvas>
 
             <Grid Width="102" Height="102">
