@@ -29,8 +29,6 @@ namespace Leiftur.Ui
 		private bool osc1Visible;
 		private bool osc2Visible;
 		private bool osc3Visible;
-		private bool lfo1Visible;
-		private bool lfo2Visible;
 		private bool arpeggiatorVisible;
 		private bool delayVisible;
 		private bool chorusVisible;
@@ -45,6 +43,11 @@ namespace Leiftur.Ui
 		private Dictionary<int, string> waveformTypes;
 		private bool ampEnvPage2Visible;
 		private bool filterEnvPage2Visible;
+		private bool mainFilterVisible;
+		private bool driveVisible;
+		private bool mod1Visible;
+		private bool mod2Visible;
+		private bool mod3Visible;
 
 		public SynthViewModel(Dictionary<DependencyObject, string> controlDict)
 		{
@@ -69,12 +72,12 @@ namespace Leiftur.Ui
 			ShowFilterEnvPage2 = new DelegateCommand(_ => FilterEnvPage2Visible = !FilterEnvPage2Visible);
 			SetBankCommand = new DelegateCommand(x => SelectedBank = x.ToString(), () => true);
 			SetPresetCommand = new DelegateCommand(x => SelectedPreset = x.ToString(), () => true);
-			SetModuleVisibleCommand = new DelegateCommand(x => SetModuleVisible(x.ToString()), () => true);
 			SavePresetCommand = new DelegateCommand(x => SavePreset(), () => true);
 			DeletePresetCommand = new DelegateCommand(x => DeletePreset(), () => true);
 			Osc1Visible = true;
-			Lfo1Visible = true;
-			DelayVisible = true;
+			MainFilterVisible = true;
+			Mod1Visible = true;
+			ChorusVisible = true;
 			Matrix1Visible = true;
 
 			SelectedBank = "Unknown Bank";
@@ -87,7 +90,6 @@ namespace Leiftur.Ui
 		public DelegateCommand ShowFilterEnvPage2 { get; private set; }
         public DelegateCommand SetBankCommand { get; private set; }
 		public DelegateCommand SetPresetCommand { get; private set; }
-		public DelegateCommand SetModuleVisibleCommand { get; private set; }
 		public DelegateCommand SavePresetCommand { get; private set; }
 		public DelegateCommand DeletePresetCommand { get; private set; }
 
@@ -174,52 +176,169 @@ namespace Leiftur.Ui
 			}
 		}
 
-		public bool Lfo1Visible
+		public bool MainFilterVisible
 		{
-			get { return lfo1Visible; }
-			set { lfo1Visible = value; NotifyPropertyChanged(); }
+			get { return mainFilterVisible; }
+			set
+			{
+				if (value == MainFilterVisible)
+					return;
+
+				DriveVisible = false;
+				mainFilterVisible = value;
+				NotifyPropertyChanged();
+			}
 		}
 
-		public bool Lfo2Visible
+		public bool DriveVisible
 		{
-			get { return lfo2Visible; }
-			set { lfo2Visible = value; NotifyPropertyChanged(); }
+			get { return driveVisible; }
+			set
+			{
+				if (value == DriveVisible)
+					return;
+				
+				MainFilterVisible = false;
+				driveVisible = value;
+				NotifyPropertyChanged();
+			}
+		}
+
+		public bool Mod1Visible
+		{
+			get { return mod1Visible; }
+			set
+			{
+				if (value == mod1Visible)
+					return;
+
+				Mod2Visible = false;
+				Mod3Visible = false;
+				ArpeggiatorVisible = false;
+				mod1Visible = value;
+				NotifyPropertyChanged();
+			}
+		}
+
+		public bool Mod2Visible
+		{
+			get { return mod2Visible; }
+			set
+			{
+				if (value == mod2Visible)
+					return;
+
+				Mod1Visible = false;
+				Mod3Visible = false;
+				ArpeggiatorVisible = false;
+				mod2Visible = value;
+				NotifyPropertyChanged();
+			}
+		}
+
+		public bool Mod3Visible
+		{
+			get { return mod3Visible; }
+			set
+			{
+				if (value == mod3Visible)
+					return;
+
+				Mod1Visible = false;
+				Mod2Visible = false;
+				ArpeggiatorVisible = false;
+				mod3Visible = value;
+				NotifyPropertyChanged();
+			}
 		}
 
 		public bool ArpeggiatorVisible
 		{
 			get { return arpeggiatorVisible; }
-			set { arpeggiatorVisible = value; NotifyPropertyChanged(); }
+			set
+			{
+				if (value == arpeggiatorVisible)
+					return;
+
+				Mod1Visible = false;
+				Mod2Visible = false;
+				Mod3Visible = false;
+				arpeggiatorVisible = value;
+				NotifyPropertyChanged();
+			}
 		}
 
 		public bool DelayVisible
 		{
 			get { return delayVisible; }
-			set { delayVisible = value; NotifyPropertyChanged(); }
+			set
+			{
+				if (value == delayVisible)
+					return;
+
+				ChorusVisible = false;
+				delayVisible = value;
+				NotifyPropertyChanged();
+			}
 		}
 
 		public bool ChorusVisible
 		{
 			get { return chorusVisible; }
-			set { chorusVisible = value; NotifyPropertyChanged(); }
+			set
+			{
+				if (value == chorusVisible)
+					return;
+
+				DelayVisible = false;
+				chorusVisible = value;
+				NotifyPropertyChanged();
+			}
 		}
 
 		public bool Matrix1Visible
 		{
 			get { return matrix1Visible; }
-			set { matrix1Visible = value; NotifyPropertyChanged(); }
+			set
+			{
+				if (value == matrix1Visible)
+					return;
+
+				Matrix2Visible = false;
+				MacrosVisible = false;
+				matrix1Visible = value;
+				NotifyPropertyChanged();
+			}
 		}
 
 		public bool Matrix2Visible
 		{
 			get { return matrix2Visible; }
-			set { matrix2Visible = value; NotifyPropertyChanged(); }
+			set
+			{
+				if (value == matrix2Visible)
+					return;
+
+				Matrix1Visible = false;
+				MacrosVisible = false;
+				matrix2Visible = value;
+				NotifyPropertyChanged();
+			}
 		}
 
 		public bool MacrosVisible
 		{
 			get { return macrosVisible; }
-			set { macrosVisible = value; NotifyPropertyChanged(); }
+			set
+			{
+				if (value == macrosVisible)
+					return;
+
+				Matrix1Visible = false;
+				Matrix2Visible = false;
+				macrosVisible = value;
+				NotifyPropertyChanged();
+			}
 		}
 
 		public bool AmpEnvPage2Visible
@@ -457,74 +576,6 @@ namespace Leiftur.Ui
 			var formattedString = formattedParameters.GetValueOrDefault(Parameters.Pack(activeModule.Value, activeParameter.Value), "");
 			AnnouncerCaption = Parameters.PrettyPrint(activeModule.Value, activeParameter.Value);
 			AnnouncerValue = formattedString;
-		}
-		
-		private void SetModuleVisible(string module)
-		{
-			if (module == "Osc1")
-			{
-				Osc2Visible = false;
-				Osc3Visible = false;
-				Osc1Visible = true;
-			}
-			else if (module == "Osc2")
-			{
-				Osc1Visible = false;
-				Osc3Visible = false;
-				Osc2Visible = true;
-			}
-			else if (module == "Osc3")
-			{
-				Osc1Visible = false;
-				Osc2Visible = false;
-				Osc3Visible = true;
-			}
-			else if (module == "Lfo1")
-			{
-				ArpeggiatorVisible = false;
-				Lfo2Visible = false;
-				Lfo1Visible = true;
-			}
-			else if (module == "Lfo2")
-			{
-				Lfo1Visible = false;
-				ArpeggiatorVisible = false;
-				Lfo2Visible = true;
-			}
-			else if (module == "Arpeggiator")
-			{
-				Lfo2Visible = false;
-				Lfo1Visible = false;
-				ArpeggiatorVisible = true;
-			}
-			else if (module == "Delay")
-			{
-				ChorusVisible = false;
-				DelayVisible = true;
-			}
-			else if (module == "Chorus")
-			{
-				DelayVisible = false;
-				ChorusVisible = true;
-			}
-			else if (module == "Matrix1")
-			{
-				Matrix2Visible = false;
-				MacrosVisible = false;
-				Matrix1Visible = true;
-			}
-			else if (module == "Matrix2")
-			{
-				Matrix1Visible = false;
-				MacrosVisible = false;
-				Matrix2Visible = true;
-			}
-			else if (module == "Macros")
-			{
-				Matrix2Visible = false;
-				Matrix1Visible = false;
-				MacrosVisible = true;
-			}
 		}
 
 		private bool CheckValidName(string name)

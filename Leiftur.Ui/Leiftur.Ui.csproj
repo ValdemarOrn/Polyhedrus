@@ -71,6 +71,9 @@
     <Compile Include="Components\DelaySection.xaml.cs">
       <DependentUpon>DelaySection.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\DriveSection.xaml.cs">
+      <DependentUpon>DriveSection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\EnvelopeSection.xaml.cs">
       <DependentUpon>EnvelopeSection.xaml</DependentUpon>
     </Compile>
@@ -142,6 +145,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Components\DelaySection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\DriveSection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

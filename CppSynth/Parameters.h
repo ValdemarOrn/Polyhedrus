@@ -20,31 +20,40 @@ namespace Leiftur
 
 		FilterHp = 20,
 		FilterMain = 21,
+		Drive = 22,
 
 		EnvAmp = 70,
 		EnvFilter = 71,
-		EnvMod = 72,
 
-		Lfo1 = 81,
-		Lfo2 = 82,
+		Mod1 = 81,
+		Mod2 = 82,
+		Mod3 = 83,
 
 		Arp = 100,
 		Voices = 110,
 
+		Chorus = 150,
+		Delay = 151,
+
+		Macros = 190,
 		ModMatrix = 200,
 	};
 
 	enum class OscParameters
 	{
-		Slop = 1,
-		Phase = 2,
-		Octave = 3,
-		Semi = 4,
-		Cent = 5,
-		Waveform = 6,
-		Shape = 7,
-		Pan = 8,
-		Volume = 9
+		Octave = 1,
+		Semi = 2,
+		Cent = 3,
+		Pan = 4,
+		Volume = 5,
+
+		Slop = 6,
+		Phase = 7,
+		Shape = 8,
+
+		Waveform = 9,
+		Routing = 10 
+		
 	};
 
 	enum class MixerParameters
@@ -86,6 +95,15 @@ namespace Leiftur
 		Type = 6,
 	};
 
+	enum class DriveParameters
+	{
+		Gain = 1,
+		Bias = 2,
+		Post = 3,
+		Type = 4,
+		Mellow = 5,
+	};
+
 	enum class EnvParameters
 	{
 		Attack = 1,
@@ -94,20 +112,33 @@ namespace Leiftur
 		Sustain = 4,
 		Release = 5,
 		Velocity = 6,
-		Retrigger = 7,
-		Exponent = 8,
+		AttackCurve = 7,
+		DecayCurve = 8,
+		ReleaseCurve = 9,
+		Retrigger = 10,
 	};
 
-	enum class LfoParameters
+	enum class ModParameters
 	{
-		Phase = 1,
-		Freq = 2,
-		Shape = 3,
-		Attack = 4,
-		Decay = 5,
-		Sustain = 6,
-		Release = 7,
-		Sync = 8,
+		Delay = 1,
+		Attack = 2,
+		Hold = 3,
+		Decay = 4,
+		Sustain = 5,
+		Release = 6,
+
+		Phase = 7,
+		Freq = 8,
+		Shape = 9,
+		Slew = 10,
+		Steps = 11,
+		Sync = 12,
+
+		AttackCurve = 13,
+		DecayCurve = 14,
+		ReleaseCurve = 15,
+		Retrigger = 16,
+
 	};
 
 	enum class ArpParameters
@@ -131,6 +162,46 @@ namespace Leiftur
 		Polyphony = 6,
 		Unison = 7,
 		VoiceMode = 8,
+	};
+
+	enum class ChorusParameters
+	{
+		Enable1 = 1,
+		Enable2 = 2,
+		Rate1 = 3,
+		Rate2 = 4,
+		Depth1 = 5,
+		Depth2 = 6,
+		Width = 7,
+		Quality = 8,
+		Wet = 9,
+	};
+
+	enum class DelayParameters
+	{
+		DelayL = 1,
+		DelayR  = 2,
+		FeedbackL = 3,
+		FeedbackR = 4,
+		Lowpass = 5,
+		Highpass = 6,
+		Saturate = 7,
+		Crossfeed = 8,
+		Diffuse = 9,
+		Wet = 10,
+		Sync = 11,
+	};
+
+	enum class MacroParameters
+	{
+		Macro1 = 1,
+		Macro2 = 2,
+		Macro3 = 3,
+		Macro4 = 4,
+		Macro5 = 5,
+		Macro6 = 6,
+		Macro7 = 7,
+		Macro8 = 8,
 	};
 
 	enum class ModMatrixParameters

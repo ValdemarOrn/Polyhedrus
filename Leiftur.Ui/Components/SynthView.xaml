@@ -164,13 +164,22 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Style="{StaticResource MarkerButton}">Filter</Button>
-            <Button Grid.Column="1" Style="{StaticResource MarkerButton}">Distortion</Button>
-            <ToggleButton Grid.Column="2" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" />
             <Rectangle Style="{StaticResource SectionLine}" />
+
+            <ToggleButton Grid.Column="0" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding MainFilterVisible}">Filter</ToggleButton>
+            <ToggleButton Grid.Column="1" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding DriveVisible}">Drive</ToggleButton>
+            <ToggleButton Grid.Column="2" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" 
+                              Visibility="{Binding MainFilterVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
+            <ToggleButton Grid.Column="2" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" 
+                              Visibility="{Binding DriveVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
+
+
         </Grid>
 
-        <components:FilterMainSection Grid.Row="2" Grid.Column="7" VerticalAlignment="Top" HorizontalAlignment="Left" Width="147" Height="114" Background="{StaticResource ModuleBackground}" />
+        <components:FilterMainSection Grid.Row="2" Grid.Column="7" VerticalAlignment="Top" HorizontalAlignment="Left" Width="147" Height="114" Background="{StaticResource ModuleBackground}" 
+                                      Visibility="{Binding MainFilterVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
+        <components:DriveSection Grid.Row="2" Grid.Column="7" VerticalAlignment="Top" HorizontalAlignment="Left" Width="147" Height="114" Background="{StaticResource ModuleBackground}" 
+                                      Visibility="{Binding DriveVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
 
         <StackPanel Grid.Column="3" Grid.ColumnSpan="5" Grid.Row="3" VerticalAlignment="Top" >
             <Grid Height="90" VerticalAlignment="Center">
@@ -197,14 +206,13 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Style="{StaticResource MarkerButton}" Command="{Binding SetModuleVisibleCommand}" CommandParameter="Matrix1" 
-                        FontWeight="{Binding Matrix1Visible, Converter={StaticResource BoolToBoldConverter}}" Width="75">Matrix 1-8</Button>
-                <Button Grid.Column="1" Style="{StaticResource MarkerButton}" Command="{Binding SetModuleVisibleCommand}" CommandParameter="Matrix2" 
-                        FontWeight="{Binding Matrix2Visible, Converter={StaticResource BoolToBoldConverter}}" Width="85">Matrix 9-16</Button>
-                <Button Grid.Column="2" Style="{StaticResource MarkerButton}" Command="{Binding SetModuleVisibleCommand}" CommandParameter="Macros" 
-                        FontWeight="{Binding MacrosVisible, Converter={StaticResource BoolToBoldConverter}}" Width="60">Macros</Button>
-                
+
                 <Rectangle Grid.Column="0" Style="{StaticResource SectionLine}" />
+
+                <ToggleButton Grid.Column="0" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding Matrix1Visible}">Matrix 1-8</ToggleButton>
+                <ToggleButton Grid.Column="1" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding Matrix2Visible}">Matrix 9-16</ToggleButton>
+                <ToggleButton Grid.Column="2" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding MacrosVisible}">Macros</ToggleButton>
+                
             </Grid>
 
             <components:MatrixSection Height="201" HorizontalAlignment="Center" VerticalAlignment="Top" Background="{StaticResource ModuleBackground}" Padding="0,10"
@@ -258,29 +266,33 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Style="{StaticResource MarkerButton}" Command="{Binding SetModuleVisibleCommand}" CommandParameter="Lfo1" 
-                        FontWeight="{Binding Lfo1Visible, Converter={StaticResource BoolToBoldConverter}}" Width="50">LFO 1</Button>
-                <Button Grid.Column="1" Style="{StaticResource MarkerButton}" Command="{Binding SetModuleVisibleCommand}" CommandParameter="Lfo2"
-                        FontWeight="{Binding Lfo2Visible, Converter={StaticResource BoolToBoldConverter}}" Width="50">LFO 2</Button>
-                <Button Grid.Column="2" Style="{StaticResource MarkerButton}" Command="{Binding SetModuleVisibleCommand}" CommandParameter="Arpeggiator" 
-                        FontWeight="{Binding ArpeggiatorVisible, Converter={StaticResource BoolToBoldConverter}}" Width="88">Arpeggiator</Button>
 
-                <ToggleButton Grid.Column="3" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}"
-                              Visibility="{Binding Lfo1Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}"/>
-                <ToggleButton Grid.Column="3" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}"
-                              Visibility="{Binding Lfo2Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}"/>
-                <ToggleButton Grid.Column="3" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}"
-                              Visibility="{Binding ArpeggiatorVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}"/>
-                
                 <Rectangle Style="{StaticResource SectionLine}" />
+                
+                <ToggleButton Grid.Column="0" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding Mod1Visible}">Mod 1</ToggleButton>
+                <ToggleButton Grid.Column="1" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding Mod2Visible}">Mod 2</ToggleButton>
+                <ToggleButton Grid.Column="2" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding Mod3Visible}">Mod 3</ToggleButton>
+                <ToggleButton Grid.Column="3" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding ArpeggiatorVisible}">Arpeggiator</ToggleButton>
+
+                <ToggleButton Grid.Column="4" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}"
+                              Visibility="{Binding Mod1Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}"/>
+                <ToggleButton Grid.Column="4" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}"
+                              Visibility="{Binding Mod2Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}"/>
+                <ToggleButton Grid.Column="4" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}"
+                              Visibility="{Binding Mod3Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}"/>
+                <ToggleButton Grid.Column="4" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}"
+                              Visibility="{Binding ArpeggiatorVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}"/>
             </Grid>
 
-            <components:LfoSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="114" ModuleAddress="Lfo1" Background="{StaticResource ModuleBackground}"
-                                   Visibility="{Binding Lfo1Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
-            <components:LfoSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="114" ModuleAddress="Lfo2" Background="{StaticResource ModuleBackground}"
-                                   Visibility="{Binding Lfo2Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
+            <components:LfoSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="114" ModuleAddress="Mod1" Background="{StaticResource ModuleBackground}"
+                                   Visibility="{Binding Mod1Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
+            <components:LfoSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="114" ModuleAddress="Mod2" Background="{StaticResource ModuleBackground}"
+                                   Visibility="{Binding Mod2Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
+            <components:LfoSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="114" ModuleAddress="Mod3" Background="{StaticResource ModuleBackground}"
+                                   Visibility="{Binding Mod3Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
             <components:ArpeggiatorSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="114" Background="{StaticResource ModuleBackground}"
                                            Visibility="{Binding ArpeggiatorVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
 
@@ -291,17 +303,16 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Style="{StaticResource MarkerButton}" Command="{Binding SetModuleVisibleCommand}" CommandParameter="Delay" 
-                        FontWeight="{Binding DelayVisible, Converter={StaticResource BoolToBoldConverter}}" Width="50">Delay</Button>
-                <Button Grid.Column="1" Style="{StaticResource MarkerButton}" Command="{Binding SetModuleVisibleCommand}" CommandParameter="Chorus"
-                        FontWeight="{Binding ChorusVisible, Converter={StaticResource BoolToBoldConverter}}" Width="55">Chorus</Button>
 
+                <Rectangle Style="{StaticResource SectionLine}" />
+                
+                <ToggleButton Grid.Column="0" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding ChorusVisible}">Chorus</ToggleButton>
+                <ToggleButton Grid.Column="1" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding DelayVisible}">Delay</ToggleButton>
+                
                 <ToggleButton Grid.Column="3" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}"
                               Visibility="{Binding DelayVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}"/>
                 <ToggleButton Grid.Column="3" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}"
                               Visibility="{Binding ChorusVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}"/>
-                
-                <Rectangle Style="{StaticResource SectionLine}" />
             </Grid>
 
             <components:DelaySection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="114" Background="{StaticResource ModuleBackground}" 

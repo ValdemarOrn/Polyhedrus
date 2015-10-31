@@ -62,6 +62,7 @@ namespace Leiftur
 			preset.Values[Synth::PackParameter(module, (int)OscParameters::Octave)] = 0;
 			preset.Values[Synth::PackParameter(module, (int)OscParameters::Pan)] = 0.0;
 			preset.Values[Synth::PackParameter(module, (int)OscParameters::Phase)] = 1.0;
+			preset.Values[Synth::PackParameter(module, (int)OscParameters::Routing)] = 0;
 			preset.Values[Synth::PackParameter(module, (int)OscParameters::Semi)] = 0;
 			preset.Values[Synth::PackParameter(module, (int)OscParameters::Shape)] = 0.0;
 			preset.Values[Synth::PackParameter(module, (int)OscParameters::Slop)] = 0.0;
@@ -108,28 +109,49 @@ namespace Leiftur
 			preset.Values[Synth::PackParameter(module, (int)FilterMainParameters::Type)] = 0;
 		};
 
+		auto setDrive = [&](Module module)
+		{
+			preset.Values[Synth::PackParameter(module, (int)DriveParameters::Bias)] = 0.0;
+			preset.Values[Synth::PackParameter(module, (int)DriveParameters::Gain)] = 0.0;
+			preset.Values[Synth::PackParameter(module, (int)DriveParameters::Mellow)] = 0.0;
+			preset.Values[Synth::PackParameter(module, (int)DriveParameters::Post)] = 1;
+			preset.Values[Synth::PackParameter(module, (int)DriveParameters::Type)] = 0;
+		};
+
 		auto setEnv = [&](Module module)
 		{
 			preset.Values[Synth::PackParameter(module, (int)EnvParameters::Attack)] = 0.1;
+			preset.Values[Synth::PackParameter(module, (int)EnvParameters::AttackCurve)] = 0.5;
 			preset.Values[Synth::PackParameter(module, (int)EnvParameters::Decay)] = 0.5;
-			preset.Values[Synth::PackParameter(module, (int)EnvParameters::Exponent)] = 0;
+			preset.Values[Synth::PackParameter(module, (int)EnvParameters::DecayCurve)] = 0.5;
 			preset.Values[Synth::PackParameter(module, (int)EnvParameters::Hold)] = 0.0;
 			preset.Values[Synth::PackParameter(module, (int)EnvParameters::Release)] = 0.2;
+			preset.Values[Synth::PackParameter(module, (int)EnvParameters::ReleaseCurve)] = 0.5;
 			preset.Values[Synth::PackParameter(module, (int)EnvParameters::Retrigger)] = 0;
 			preset.Values[Synth::PackParameter(module, (int)EnvParameters::Sustain)] = 0.8;
 			preset.Values[Synth::PackParameter(module, (int)EnvParameters::Velocity)] = 0.0;
 		};
 
-		auto setLfo = [&](Module module)
+		auto setMod = [&](Module module)
 		{
-			preset.Values[Synth::PackParameter(module, (int)LfoParameters::Attack)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)LfoParameters::Decay)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)LfoParameters::Freq)] = 0.5;
-			preset.Values[Synth::PackParameter(module, (int)LfoParameters::Phase)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)LfoParameters::Release)] = 0;
-			preset.Values[Synth::PackParameter(module, (int)LfoParameters::Shape)] = (int)LfoShape::Triangle;
-			preset.Values[Synth::PackParameter(module, (int)LfoParameters::Sustain)] = 1.0;
-			preset.Values[Synth::PackParameter(module, (int)LfoParameters::Sync)] = 0.0;
+			preset.Values[Synth::PackParameter(module, (int)ModParameters::Delay)] = 0.0;
+			preset.Values[Synth::PackParameter(module, (int)ModParameters::Attack)] = 0.0;
+			preset.Values[Synth::PackParameter(module, (int)ModParameters::Hold)] = 0.0;
+			preset.Values[Synth::PackParameter(module, (int)ModParameters::Decay)] = 0.0;
+			preset.Values[Synth::PackParameter(module, (int)ModParameters::Sustain)] = 1.0;
+			preset.Values[Synth::PackParameter(module, (int)ModParameters::Release)] = 1.0;
+
+			preset.Values[Synth::PackParameter(module, (int)ModParameters::Phase)] = 0.0;
+			preset.Values[Synth::PackParameter(module, (int)ModParameters::Freq)] = 0.5;
+			preset.Values[Synth::PackParameter(module, (int)ModParameters::Shape)] = (int)LfoShape::Triangle;
+			preset.Values[Synth::PackParameter(module, (int)ModParameters::Slew)] = 0.0;
+			preset.Values[Synth::PackParameter(module, (int)ModParameters::Steps)] = 1.0;
+			preset.Values[Synth::PackParameter(module, (int)ModParameters::Sync)] = 0.0;
+
+			preset.Values[Synth::PackParameter(module, (int)ModParameters::AttackCurve)] = 0.0;
+			preset.Values[Synth::PackParameter(module, (int)ModParameters::DecayCurve)] = 0.0;
+			preset.Values[Synth::PackParameter(module, (int)ModParameters::ReleaseCurve)] = 0.0;
+			preset.Values[Synth::PackParameter(module, (int)ModParameters::Retrigger)] = 0;
 		};
 
 		auto setArp = [&](Module module)
@@ -141,6 +163,46 @@ namespace Leiftur
 			preset.Values[Synth::PackParameter(module, (int)ArpParameters::OctavePtn)] = 0;
 			preset.Values[Synth::PackParameter(module, (int)ArpParameters::Range)] = 3;
 			preset.Values[Synth::PackParameter(module, (int)ArpParameters::Sync)] = 0;
+		};
+
+		auto setChorus = [&](Module module)
+		{
+			preset.Values[Synth::PackParameter(module, (int)ChorusParameters::Enable1)] = 1;
+			preset.Values[Synth::PackParameter(module, (int)ChorusParameters::Enable2)] = 1;
+			preset.Values[Synth::PackParameter(module, (int)ChorusParameters::Rate1)] = 0.3123;
+			preset.Values[Synth::PackParameter(module, (int)ChorusParameters::Rate2)] = 0.6687;
+			preset.Values[Synth::PackParameter(module, (int)ChorusParameters::Depth1)] = 0.4;
+			preset.Values[Synth::PackParameter(module, (int)ChorusParameters::Depth2)] = 0.6;
+			preset.Values[Synth::PackParameter(module, (int)ChorusParameters::Width)] = 1.0;
+			preset.Values[Synth::PackParameter(module, (int)ChorusParameters::Quality)] = 0.5;
+			preset.Values[Synth::PackParameter(module, (int)ChorusParameters::Wet)] = 0.5;
+		};
+
+		auto setDelay = [&](Module module)
+		{
+			preset.Values[Synth::PackParameter(module, (int)DelayParameters::DelayL)] = 0.5;
+			preset.Values[Synth::PackParameter(module, (int)DelayParameters::DelayR)] = 0.5;
+			preset.Values[Synth::PackParameter(module, (int)DelayParameters::FeedbackL)] = 0.5;
+			preset.Values[Synth::PackParameter(module, (int)DelayParameters::FeedbackR)] = 0.5;
+			preset.Values[Synth::PackParameter(module, (int)DelayParameters::Lowpass)] = 1.0;
+			preset.Values[Synth::PackParameter(module, (int)DelayParameters::Highpass)] = 0.0;
+			preset.Values[Synth::PackParameter(module, (int)DelayParameters::Saturate)] = 0.0;
+			preset.Values[Synth::PackParameter(module, (int)DelayParameters::Crossfeed)] = 0.0;
+			preset.Values[Synth::PackParameter(module, (int)DelayParameters::Diffuse)] = 0.0;
+			preset.Values[Synth::PackParameter(module, (int)DelayParameters::Wet)] = 0.5;
+			preset.Values[Synth::PackParameter(module, (int)DelayParameters::Sync)] = 0;
+		};
+
+		auto setMacros = [&](Module module)
+		{
+			preset.Values[Synth::PackParameter(module, (int)MacroParameters::Macro1)] = 0.0;
+			preset.Values[Synth::PackParameter(module, (int)MacroParameters::Macro2)] = 0.0;
+			preset.Values[Synth::PackParameter(module, (int)MacroParameters::Macro3)] = 0.0;
+			preset.Values[Synth::PackParameter(module, (int)MacroParameters::Macro4)] = 0.0;
+			preset.Values[Synth::PackParameter(module, (int)MacroParameters::Macro5)] = 0.0;
+			preset.Values[Synth::PackParameter(module, (int)MacroParameters::Macro6)] = 0.0;
+			preset.Values[Synth::PackParameter(module, (int)MacroParameters::Macro7)] = 0.0;
+			preset.Values[Synth::PackParameter(module, (int)MacroParameters::Macro8)] = 0.0;
 		};
 
 		auto setVoices = [&](Module module)
@@ -174,12 +236,16 @@ namespace Leiftur
 		setCharacter(Module::Character);
 		setFilterHp(Module::FilterHp);
 		setFilterMain(Module::FilterMain);
+		setDrive(Module::Drive);
 		setEnv(Module::EnvAmp);
 		setEnv(Module::EnvFilter);
-		setEnv(Module::EnvMod);
-		setLfo(Module::Lfo1);
-		setLfo(Module::Lfo2);
+		setMod(Module::Mod1);
+		setMod(Module::Mod2);
+		setMod(Module::Mod3);
 		setArp(Module::Arp);
+		setChorus(Module::Chorus);
+		setDelay(Module::Delay);
+		setMacros(Module::Macros);
 		setVoices(Module::Voices);
 		setModMatrix(Module::ModMatrix);
 

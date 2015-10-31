@@ -3,9 +3,21 @@
 
 namespace Leiftur
 {
+	enum class OscRouting
+	{
+		Character = 0,
+		HpFilter = 1,
+		MainFilter = 2,
+		Direct = 3,
+	};
+
 	class MixerSettings
 	{
 	public:
+		OscRouting Osc1Routing;
+		OscRouting Osc2Routing;
+		OscRouting Osc3Routing;
+
 		float Osc1Volume;
 		float Osc2Volume;
 		float Osc3Volume;

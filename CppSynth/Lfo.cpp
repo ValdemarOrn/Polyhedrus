@@ -27,32 +27,32 @@ namespace Leiftur
 		env.Initialize(samplerate);
 	}
 
-	void Lfo::SetParameter(LfoParameters parameter, double value)
+	void Lfo::SetParameter(ModParameters parameter, double value)
 	{
 		switch (parameter)
 		{
-		case LfoParameters::Attack:
+		case ModParameters::Attack:
 			env.SetParameter(EnvParameters::Attack, value);
 			return;
-		case LfoParameters::Decay:
+		case ModParameters::Decay:
 			env.SetParameter(EnvParameters::Decay, value);
 			return;
-		case LfoParameters::Freq:
+		case ModParameters::Freq:
 			freq = GetFrequency(value);
 			return;
-		case LfoParameters::Phase:
+		case ModParameters::Phase:
 			phase = (float)value;
 			return;
-		case LfoParameters::Release:
+		case ModParameters::Release:
 			env.SetParameter(EnvParameters::Release, value);
 			return;
-		case LfoParameters::Shape:
+		case ModParameters::Shape:
 			shape = (LfoShape)(int)(value * 0.9999 * (int)LfoShape::Count);
 			return;
-		case LfoParameters::Sustain:
+		case ModParameters::Sustain:
 			env.SetParameter(EnvParameters::Sustain, value);
 			return;
-		case LfoParameters::Sync:
+		case ModParameters::Sync:
 			sync = value > 0.5;
 			return;
 		}

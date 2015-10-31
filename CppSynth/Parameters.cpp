@@ -16,13 +16,17 @@ namespace Leiftur
 		if (moduleString == "Character") return Module::Character;
 		if (moduleString == "FilterHp") return Module::FilterHp;
 		if (moduleString == "FilterMain") return Module::FilterMain;
+		if (moduleString == "Drive") return Module::Drive;
 		if (moduleString == "EnvAmp") return Module::EnvAmp;
 		if (moduleString == "EnvFilter") return Module::EnvFilter;
-		if (moduleString == "EnvMod") return Module::EnvMod;
-		if (moduleString == "Lfo1") return Module::Lfo1;
-		if (moduleString == "Lfo2") return Module::Lfo2;
+		if (moduleString == "Mod1") return Module::Mod1;
+		if (moduleString == "Mod2") return Module::Mod2;
+		if (moduleString == "Mod3") return Module::Mod3;
 		if (moduleString == "Arp") return Module::Arp;
 		if (moduleString == "Voices") return Module::Voices;
+		if (moduleString == "Chorus") return Module::Chorus;
+		if (moduleString == "Delay") return Module::Delay;
+		if (moduleString == "Macros") return Module::Macros;
 		if (moduleString == "ModMatrix") return Module::ModMatrix;
 	}
 
@@ -30,15 +34,17 @@ namespace Leiftur
 	{
 		if (module == Module::Osc1 || module == Module::Osc2 || module == Module::Osc3)
 		{
-			if (parameterString == "Slop") return (int)OscParameters::Slop;
-			if (parameterString == "Phase") return (int)OscParameters::Phase;
 			if (parameterString == "Octave") return (int)OscParameters::Octave;
 			if (parameterString == "Semi") return (int)OscParameters::Semi;
 			if (parameterString == "Cent") return (int)OscParameters::Cent;
-			if (parameterString == "Waveform") return (int)OscParameters::Waveform;
-			if (parameterString == "Shape") return (int)OscParameters::Shape;
 			if (parameterString == "Pan") return (int)OscParameters::Pan;
 			if (parameterString == "Volume") return (int)OscParameters::Volume;
+			if (parameterString == "Slop") return (int)OscParameters::Slop;
+			if (parameterString == "Phase") return (int)OscParameters::Phase;
+			if (parameterString == "Shape") return (int)OscParameters::Shape;
+			if (parameterString == "Waveform") return (int)OscParameters::Waveform;
+			if (parameterString == "Routing") return (int)OscParameters::Routing;
+			
 		}
 		else if (module == Module::Mixer)
 		{
@@ -75,7 +81,15 @@ namespace Leiftur
 			if (parameterString == "Env") return (int)FilterMainParameters::Env;
 			if (parameterString == "Type") return (int)FilterMainParameters::Type;
 		}
-		else if (module == Module::EnvAmp || module == Module::EnvFilter || module == Module::EnvMod)
+		else if (module == Module::Drive)
+		{
+			if (parameterString == "Bias") return (int)DriveParameters::Bias;
+			if (parameterString == "Gain") return (int)DriveParameters::Gain;
+			if (parameterString == "Mellow") return (int)DriveParameters::Mellow;
+			if (parameterString == "Post") return (int)DriveParameters::Post;
+			if (parameterString == "Type") return (int)DriveParameters::Type;
+		}
+		else if (module == Module::EnvAmp || module == Module::EnvFilter)
 		{
 			if (parameterString == "Attack") return (int)EnvParameters::Attack;
 			if (parameterString == "Hold") return (int)EnvParameters::Hold;
@@ -83,18 +97,29 @@ namespace Leiftur
 			if (parameterString == "Sustain") return (int)EnvParameters::Sustain;
 			if (parameterString == "Release") return (int)EnvParameters::Release;
 			if (parameterString == "Velocity") return (int)EnvParameters::Velocity;
+			if (parameterString == "AttackCurve") return (int)EnvParameters::AttackCurve;
+			if (parameterString == "DecayCurve") return (int)EnvParameters::DecayCurve;
+			if (parameterString == "ReleaseCurve") return (int)EnvParameters::ReleaseCurve;
 			if (parameterString == "Retrigger") return (int)EnvParameters::Retrigger;
 		}
-		else if (module == Module::Lfo1 || module == Module::Lfo2)
+		else if (module == Module::Mod1 || module == Module::Mod2 || module == Module::Mod3)
 		{
-			if (parameterString == "Phase") return (int)LfoParameters::Phase;
-			if (parameterString == "Freq") return (int)LfoParameters::Freq;
-			if (parameterString == "Shape") return (int)LfoParameters::Shape;
-			if (parameterString == "Attack") return (int)LfoParameters::Attack;
-			if (parameterString == "Decay") return (int)LfoParameters::Decay;
-			if (parameterString == "Sustain") return (int)LfoParameters::Sustain;
-			if (parameterString == "Release") return (int)LfoParameters::Release;
-			if (parameterString == "Sync") return (int)LfoParameters::Sync;
+			if (parameterString == "Attack") return (int)ModParameters::Attack;
+			if (parameterString == "AttackCurve") return (int)ModParameters::AttackCurve;
+			if (parameterString == "Decay") return (int)ModParameters::Decay;
+			if (parameterString == "DecayCurve") return (int)ModParameters::DecayCurve;
+			if (parameterString == "Delay") return (int)ModParameters::Delay;
+			if (parameterString == "Freq") return (int)ModParameters::Freq;
+			if (parameterString == "Hold") return (int)ModParameters::Hold;
+			if (parameterString == "Phase") return (int)ModParameters::Phase;
+			if (parameterString == "Release") return (int)ModParameters::Release;
+			if (parameterString == "ReleaseCurve") return (int)ModParameters::ReleaseCurve;
+			if (parameterString == "Retrigger") return (int)ModParameters::Retrigger;
+			if (parameterString == "Shape") return (int)ModParameters::Shape;
+			if (parameterString == "Slew") return (int)ModParameters::Slew;
+			if (parameterString == "Steps") return (int)ModParameters::Steps;
+			if (parameterString == "Sustain") return (int)ModParameters::Sustain;
+			if (parameterString == "Sync") return (int)ModParameters::Sync;
 		}
 		else if (module == Module::Arp)
 		{
@@ -116,6 +141,43 @@ namespace Leiftur
 			if (parameterString == "Polyphony") return (int)VoiceParameters::Polyphony;
 			if (parameterString == "Unison") return (int)VoiceParameters::Unison;
 			if (parameterString == "VoiceMode") return (int)VoiceParameters::VoiceMode;
+		}
+		else if (module == Module::Chorus)
+		{
+			if (parameterString == "Depth1") return (int)ChorusParameters::Depth1;
+			if (parameterString == "Depth2") return (int)ChorusParameters::Depth2;
+			if (parameterString == "Enable1") return (int)ChorusParameters::Enable1;
+			if (parameterString == "Enable2") return (int)ChorusParameters::Enable2;
+			if (parameterString == "Quality") return (int)ChorusParameters::Quality;
+			if (parameterString == "Rate1") return (int)ChorusParameters::Rate1;
+			if (parameterString == "Rate2") return (int)ChorusParameters::Rate2;
+			if (parameterString == "Wet") return (int)ChorusParameters::Wet;
+			if (parameterString == "Width") return (int)ChorusParameters::Width;
+		}
+		else if (module == Module::Delay)
+		{
+			if (parameterString == "DelayL") return (int)DelayParameters::DelayL;
+			if (parameterString == "DelayR") return (int)DelayParameters::DelayR;
+			if (parameterString == "FeedbackL") return (int)DelayParameters::FeedbackL;
+			if (parameterString == "FeedbackR") return (int)DelayParameters::FeedbackR;
+			if (parameterString == "Lowpass") return (int)DelayParameters::Lowpass;
+			if (parameterString == "Highpass") return (int)DelayParameters::Highpass;
+			if (parameterString == "Saturate") return (int)DelayParameters::Saturate;
+			if (parameterString == "Crossfeed") return (int)DelayParameters::Crossfeed;
+			if (parameterString == "Diffuse") return (int)DelayParameters::Diffuse;
+			if (parameterString == "Wet") return (int)DelayParameters::Wet;
+			if (parameterString == "Sync") return (int)DelayParameters::Sync;
+		}
+		else if (module == Module::Macros)
+		{
+			if (parameterString == "Macro1") return (int)MacroParameters::Macro1;
+			if (parameterString == "Macro2") return (int)MacroParameters::Macro2;
+			if (parameterString == "Macro3") return (int)MacroParameters::Macro3;
+			if (parameterString == "Macro4") return (int)MacroParameters::Macro4;
+			if (parameterString == "Macro5") return (int)MacroParameters::Macro5;
+			if (parameterString == "Macro6") return (int)MacroParameters::Macro6;
+			if (parameterString == "Macro7") return (int)MacroParameters::Macro7;
+			if (parameterString == "Macro8") return (int)MacroParameters::Macro8;
 		}
 		else if (module == Module::ModMatrix)
 		{

@@ -8,14 +8,14 @@ namespace Leiftur
 		{
 			switch (parameter)
 			{
-			case OscParameters::Cent:
-				osc->Cent = value;
-				break;
 			case OscParameters::Octave:
-				osc->Octave = Parameters::RoundToInt(value);
+				osc->Octave = Parameters::FloorToInt(value);
 				break;
 			case OscParameters::Semi:
-				osc->Semi = Parameters::RoundToInt(value);
+				osc->Semi = Parameters::FloorToInt(value);
+				break;
+			case OscParameters::Cent:
+				osc->Cent = value;
 				break;
 			case OscParameters::Phase:
 				osc->Phase = value;
@@ -24,7 +24,7 @@ namespace Leiftur
 				osc->Shape = value;
 				break;
 			case OscParameters::Waveform:
-				osc->SetWaveform(Parameters::RoundToInt(value));
+				osc->SetWaveform(Parameters::FloorToInt(value));
 				break;
 			}
 		};
@@ -35,6 +35,8 @@ namespace Leiftur
 				mixer.Osc1Pan = value;
 			else if (parameter == OscParameters::Volume)
 				mixer.Osc1Volume = value;
+			else if (parameter == OscParameters::Routing)
+				mixer.Osc1Routing = (OscRouting)Parameters::FloorToInt(value);
 			else if (parameter == OscParameters::Slop)
 			{ 
 				// set Slop in mod matrix
@@ -48,6 +50,8 @@ namespace Leiftur
 				mixer.Osc2Pan = value;
 			else if (parameter == OscParameters::Volume)
 				mixer.Osc2Volume = value;
+			else if (parameter == OscParameters::Routing)
+				mixer.Osc2Routing = (OscRouting)Parameters::FloorToInt(value);
 			else if (parameter == OscParameters::Slop)
 			{
 				// set Slop in mod matrix
@@ -61,6 +65,8 @@ namespace Leiftur
 				mixer.Osc3Pan = value;
 			else if (parameter == OscParameters::Volume)
 				mixer.Osc3Volume = value;
+			else if (parameter == OscParameters::Routing)
+				mixer.Osc3Routing = (OscRouting)Parameters::FloorToInt(value);
 			else if (parameter == OscParameters::Slop)
 			{
 				// set Slop in mod matrix
@@ -130,7 +136,5 @@ namespace Leiftur
 			ampEnv.SetParameter(parameter, value);
 		else if (module == Module::EnvFilter)
 			filterEnv.SetParameter(parameter, value);
-		else if (module == Module::EnvMod)
-			modEnv.SetParameter(parameter, value);
 	}
 }

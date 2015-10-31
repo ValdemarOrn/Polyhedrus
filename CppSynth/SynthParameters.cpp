@@ -3,6 +3,7 @@
 #include "FilterCascade.h"
 #include "Lfo.h"
 #include "Envelope.h"
+#include "MixerSettings.h"
 
 namespace Leiftur
 {
@@ -92,6 +93,19 @@ namespace Leiftur
 				return FormatPercentPrecise(value);
 			case OscParameters::Phase:
 				return value >= 0.999 ? "Free" : FormatIntRounded(value * 360) + " Deg";
+			case OscParameters::Waveform:
+				return FormatIntFloor(value);
+			case OscParameters::Routing:
+				if (OscRouting::Character == (OscRouting)Parameters::FloorToInt(value))
+					return "Character";
+				if (OscRouting::Direct == (OscRouting)Parameters::FloorToInt(value))
+					return "Direct";
+				if (OscRouting::HpFilter == (OscRouting)Parameters::FloorToInt(value))
+					return "HP Filter";
+				if (OscRouting::MainFilter == (OscRouting)Parameters::FloorToInt(value))
+					return "Main Filter";
+				else
+					return "---";
 			}
 		}
 		else if (module == Module::Mixer)
@@ -143,7 +157,23 @@ namespace Leiftur
 				return FormatIntFloor(value);
 			}
 		}
-		else if (module == Module::EnvAmp || module == Module::EnvFilter || module == Module::EnvMod)
+		else if (module == Module::Drive)
+		{
+			switch ((DriveParameters)parameter)
+			{
+			case DriveParameters::Gain:
+				return FormatPercent(value);
+			case DriveParameters::Bias:
+				return FormatDecimal2(value);
+			case DriveParameters::Post:
+				return value >= 0.5 ? "Post" : "Pre";
+			case DriveParameters::Type:
+				return FormatIntFloor(value);
+			case DriveParameters::Mellow:
+				return FormatPercent(value);
+			}
+		}
+		else if (module == Module::EnvAmp || module == Module::EnvFilter)
 		{
 			switch ((EnvParameters)parameter)
 			{
@@ -155,29 +185,39 @@ namespace Leiftur
 			case EnvParameters::Sustain:
 			case EnvParameters::Velocity:
 				return FormatPercent(value);
-			case EnvParameters::Exponent:
 			case EnvParameters::Retrigger:
 				return FormatOnOff(value);
+			case EnvParameters::AttackCurve:
+			case EnvParameters::DecayCurve:
+			case EnvParameters::ReleaseCurve:
+				return FormatDecimal2(value);
 			}
 		}
-		else if (module == Module::Lfo1 || module == Module::Lfo2)
+		else if (module == Module::Mod1 || module == Module::Mod2 || module == Module::Mod3)
 		{
-			switch ((LfoParameters)parameter)
+			switch ((ModParameters)parameter)
 			{
-			case LfoParameters::Attack:
-			case LfoParameters::Decay:
-			case LfoParameters::Release:
+			case ModParameters::Attack:
+			case ModParameters::Hold:
+			case ModParameters::Decay:
+			case ModParameters::Release:
 				return FormatTime(Envelope::GetDecayTime(value));
-			case LfoParameters::Freq:
+			case ModParameters::Freq:
 				return FormatLfoFreq(value);
-			case LfoParameters::Phase:
+			case ModParameters::Phase:
 				return value >= 0.999 ? "Free" : FormatIntRounded(value * 360) + " Deg";
-			case LfoParameters::Shape:
+			case ModParameters::Shape:
 				return FormatIntFloor(value);
-			case LfoParameters::Sustain:
+			case ModParameters::Sustain:
+			case ModParameters::Slew:
+			case ModParameters::Steps:
 				return FormatPercent(value);
-			case LfoParameters::Sync:
+			case ModParameters::Sync:
 				return FormatOnOff(value);
+			case ModParameters::AttackCurve:
+			case ModParameters::DecayCurve:
+			case ModParameters::ReleaseCurve:
+				return FormatDecimal2(value);
 			}
 		}
 		else if (module == Module::Arp)
@@ -221,6 +261,49 @@ namespace Leiftur
 			case VoiceParameters::VoiceMode:
 				return FormatIntFloor(value);
 			}
+		}
+		else if (module == Module::Chorus)
+		{
+			switch ((ChorusParameters)parameter)
+			{
+			case ChorusParameters::Enable1:
+			case ChorusParameters::Enable2:
+				return FormatOnOff(value);
+			case ChorusParameters::Rate1:
+			case ChorusParameters::Rate2:
+				return FormatLfoFreq(value);
+			case ChorusParameters::Depth1:
+			case ChorusParameters::Depth2:
+			case ChorusParameters::Width:
+			case ChorusParameters::Quality:
+			case ChorusParameters::Wet:
+				return FormatPercent(value);
+			}
+		}
+		else if (module == Module::Delay)
+		{
+			switch ((DelayParameters)parameter)
+			{
+			case DelayParameters::DelayL:
+			case DelayParameters::DelayR:
+				return FormatPercent(value);
+			case DelayParameters::FeedbackL:
+			case DelayParameters::FeedbackR:
+				return FormatPercent(value);
+			case DelayParameters::Lowpass:
+			case DelayParameters::Highpass:
+			case DelayParameters::Saturate:
+			case DelayParameters::Crossfeed:
+			case DelayParameters::Diffuse:
+			case DelayParameters::Wet:
+				return FormatPercent(value);
+			case DelayParameters::Sync:
+				return FormatOnOff(value);
+			}
+		}
+		else if (module == Module::Macros)
+		{
+			return FormatDecimal2(value);
 		}
 
 		return FormatDecimal3(value);

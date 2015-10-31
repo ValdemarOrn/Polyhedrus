@@ -6,7 +6,6 @@ enum class ModSource
 	Off = 0,
 	EnvAmp = 1,
 	EnvFilter = 2,
-	EnvMod = 3,
 
 	Lfo1 = 10,
 	Lfo2 = 11,

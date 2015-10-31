@@ -39,7 +39,6 @@ namespace Leiftur
 
 		Envelope ampEnv;
 		Envelope filterEnv;
-		Envelope modEnv;
 
 		float* oscMixL;
 		float* oscMixR;

@@ -49,7 +49,7 @@ namespace Leiftur
 		Lfo();
 		~Lfo();
 		void Initialize(int samplerate);
-		void SetParameter(LfoParameters parameter, double value);
+		void SetParameter(ModParameters parameter, double value);
 		float Process(int samples);
 		inline float GetOutput() { return output; }
 		void Reset();

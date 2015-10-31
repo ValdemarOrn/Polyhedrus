@@ -50,7 +50,6 @@ namespace Leiftur
 
 		ampEnv.Initialize(samplerate);
 		filterEnv.Initialize(samplerate);
-		modEnv.Initialize(samplerate);
 	}
 
 	void Voice::SetParameter(Module module, int parameter, double value)
@@ -63,7 +62,7 @@ namespace Leiftur
 			SetFilterHpParameter(module, (FilterHpParameters)parameter, value);
 		else if (module == Module::FilterMain)
 			SetFilterMainParameter(module, (FilterMainParameters)parameter, value);
-		else if (module == Module::EnvAmp || module == Module::EnvFilter || module == Module::EnvMod)
+		else if (module == Module::EnvAmp || module == Module::EnvFilter)
 			SetEnvParameter(module, (EnvParameters)parameter, value);
 	}
 
@@ -72,7 +71,6 @@ namespace Leiftur
 		Gate = velocity > 0;
 		ampEnv.Gate = Gate;
 		filterEnv.Gate = Gate;
-		modEnv.Gate = Gate;
 		modMatrix.ModSourceValues[(int)ModSource::Gate] = Gate;
 
 		if (Gate)
@@ -80,7 +78,6 @@ namespace Leiftur
 			this->velocity = velocity;
 			ampEnv.Velocity = velocity;
 			filterEnv.Velocity = velocity;
-			modEnv.Velocity = velocity;
 			modMatrix.ModSourceValues[(int)ModSource::Velocity] = velocity;
 		}
 	}
@@ -89,7 +86,6 @@ namespace Leiftur
 	{
 		ampEnv.Silence();
 		filterEnv.Silence();
-		modEnv.Silence();
 	}
 
 	void Voice::SetNote(int note)
@@ -161,7 +157,6 @@ namespace Leiftur
 	{
 		modMatrix.ModSourceValues[(int)ModSource::EnvAmp] = ampEnv.Process(modulationUpdateRate);
 		modMatrix.ModSourceValues[(int)ModSource::EnvFilter] = filterEnv.Process(modulationUpdateRate);
-		modMatrix.ModSourceValues[(int)ModSource::EnvMod] = modEnv.Process(modulationUpdateRate);
 
 		modMatrix.Process();
 
