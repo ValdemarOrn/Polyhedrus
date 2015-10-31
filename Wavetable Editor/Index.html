@@ -2,7 +2,6 @@
 <html>
 <body>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript" src="Wav.js"></script>
 
 <script type="text/javascript">
@@ -11,22 +10,33 @@
     var wavetableCount = 256;
     var wavetable = new Array(wavetableCount);
 
-    function makeWave(k, N, K) {
-        var output = new Array(N);
-        for (var i = 0; i < N; i++) {
-            output[i] = Math.sin(i / N * 2 * Math.PI * (1 + k * 0.05));
-        }
+    var wt = {};
 
-        return output;
+    function compileScript() {
+        var text = document.getElementById('scriptTextarea').value;
+        eval(text);
     }
 
     function recompute() {
 
-        for (var k = 0; k < wavetableCount; k++) {
-            wavetable[k] = makeWave(k, N, wavetableCount);
-        }
+        try {
+            scriptErrorTextarea.value = "";
 
-        repaint();
+            compileScript();
+            if (wt.initialize !== null)
+                wt.initialize(N, wavetableCount);
+
+            for (var k = 0; k < wavetableCount; k++) {
+                wavetable[k] = wt.makeWave(k, N, wavetableCount);
+            }
+
+
+            repaint();
+        }
+        catch (ex)
+        {
+            scriptErrorTextarea.value = ex.message + '\n' + ex.stack;
+        }
     }
 
     function repaint() {
@@ -76,10 +86,7 @@
     }
 
     function downloadWave() {
-
-        //var i = 0;
         var vol = 0.8;
-        //var len = 48000 * 2;
         var wav = new Wav();
         var buffer = [];
 
@@ -94,18 +101,37 @@
         var b = wav.getBlob();
         var url = window.URL.createObjectURL(b);
         document.getElementById('downloadLink').href = url;
-        //document.write("<a href='" + url + "' download='Test.wav'>play</a>");
     }
 </script>
 
-<div>
-    <a href="#" onclick="recompute();">Recompute</a>
-    <a id="downloadLink" href="#" download="Wavetable.wav" onclick="downloadWave();">Download Wavetable</a>
+    <div>
+        <a href="#" onclick="recompute();">Recompute</a>
+        <a id="downloadLink" href="#" download="Wavetable.wav" onclick="downloadWave();">Download Wavetable</a>
 
-</div>
-<div>
-    <input id="waveSlider" type="range" min="0" max="1" step="0.001" style="width: 800px; margin: 10 0px;" oninput="repaint();" />
-</div>
+    </div>
+    <textarea id="scriptTextarea" style="width:800px; height:400px">
+
+wt.initialize = function(N, K) {
+
+}
+
+wt.makeWave = function (k, N, K) {
+    var output = new Array(N);
+    for (var i = 0; i < N; i++) {
+        var phase = (i * (1 + k * 0.1)) / N
+        output[i] = -1 + 2 * (phase % 1.0);
+    }
+
+    return output;
+}
+
+    </textarea><br/>
+    <textarea id="scriptErrorTextarea" style="width:800px; height:200px">
+
+    </textarea>
+    <div>
+        <input id="waveSlider" type="range" min="0" max="1" step="0.001" style="width: 800px; margin: 10px 0px;" oninput="repaint();" />
+    </div>
     
     <canvas id="canvas" width="800" height="400" style="border: 1px solid black; background: #ddd;}"></canvas>
 </body>
