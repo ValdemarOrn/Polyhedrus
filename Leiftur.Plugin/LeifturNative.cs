@@ -10,17 +10,15 @@ namespace Leiftur.Plugin
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     unsafe struct WavetableNative
     {
-        public int Partials;
 		public int Count;
-		public int SampleSize;
+		public int WavetableDataSize;
 		public float* WavetableData;
     }
 
 	public struct Wavetable
 	{
-		public int Partials;
 		public int Count;
-		public int SampleSize;
+		public int WavetableDataSize;
 		public float[] WavetableData;
 	}
 
@@ -102,12 +100,10 @@ namespace Leiftur.Plugin
 
 			Wavetable managed = new Wavetable();
 			managed.Count = data->Count;
-			managed.Partials = data->Partials;
-			managed.SampleSize = data->SampleSize;
-			var size = managed.Partials * managed.Count * managed.SampleSize;
-			managed.WavetableData = new float[size];
+	        managed.WavetableDataSize = data->WavetableDataSize;
+			managed.WavetableData = new float[managed.WavetableDataSize];
 
-			for (int i = 0; i < size; i++)
+			for (int i = 0; i < managed.WavetableDataSize; i++)
 			{
 				managed.WavetableData[i] = data->WavetableData[i];
 			}

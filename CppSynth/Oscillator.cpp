@@ -36,7 +36,7 @@ namespace Leiftur
 	void Oscillator::SetWaveform(int table)
 	{
 		wavetable = Wavetable::Wavetables[table];
-		shiftValue = (32 - (int)(log2(wavetable->SampleSize) + 0.01)); // how many bits of the iterator are used to address the table
+		Update();
 	}
 
 	void Oscillator::Reset()
@@ -77,8 +77,10 @@ namespace Leiftur
 		waveMix = waveIndex - (int)waveIndex;
 
 		bool useNextWave = (waveIndex < wavetable->Count - 1);
-		waveA = wavetable->GetTable(partialIndex, (int)waveIndex);
-		waveB = wavetable->GetTable(partialIndex, (int)waveIndex + useNextWave);
+		waveA = wavetable->GetTable((int)waveIndex, partialIndex);
+		waveB = wavetable->GetTable((int)waveIndex + useNextWave, partialIndex);
+
+		shiftValue = (32 - (int)(log2(Wavetable::WavetableSize[partialIndex]) + 0.01)); // how many bits of the iterator are used to address the table
 
 		float freq = AudioLib::Utils::Note2Freq(pitch);
 		float samplesPerCycle = samplerate / freq;
