@@ -20,11 +20,24 @@
             margin: 5px;
         }
 
+		.controls {
+			border: 1px solid #999;
+			margin: 5px;
+			width: 800px;
+		}
+
+		.controls table {
+			width: 49%;
+			border: 0px solid red;
+			display: inline-block;
+		}
+
         .controls a {
             font-size: 14pt;
             text-decoration: none;
             font-weight: bold;
             color: #555;
+			cursor: pointer;
         }
 
         .controls a:hover {
@@ -59,12 +72,15 @@
                 wavetable[k] = wt.makeWave(k, N, wavetableCount);
             }
 
-
             updateWave();
+            scriptError.style.visibility = 'collapse';
+            scriptError.style.height = '0';
         }
         catch (ex)
         {
-            wt.errorEditor.setValue(ex.message + '\n' + ex.stack);
+        	scriptError.style.visibility = 'visible';
+        	scriptError.style.height = '200px';
+        	wt.errorEditor.setValue(ex.message + '\n' + ex.stack);
         }
     }
 
@@ -132,11 +148,57 @@
         var url = window.URL.createObjectURL(b);
         document.getElementById('downloadLink').href = url;
     }
+
+    window.addEventListener('load', function() {
+    
+    	wt.codeEditor = CodeMirror.fromTextArea(scriptTextarea, { lineNumbers: true, mode: "javascript", indentUnit: 2, smartIndent: false, tabSize: 2 });
+    	wt.errorEditor = CodeMirror.fromTextArea(scriptErrorTextarea, { lineNumbers: true, mode: "javascript", indentUnit: 2, smartIndent: false, tabSize: 2, readOnly: true });
+    	wt.codeEditor.setSize("100%", "100%");
+    	wt.errorEditor.setSize("100%", "100%");
+    	recompute();
+
+    });
 </script>
 
     <div class="controls">
-        <a href="#" onclick="recompute();">Recompute</a>
-        <a id="downloadLink" href="#" download="Wavetable.wav" onclick="downloadWave();">Download Wavetable</a>
+		<table>
+			<tr>
+				<td>Wavetable Count</td>
+				<td><input type="text" id="wavetableCount" value="256" /></td>
+			</tr>
+			<tr>
+				<td>Table Size</td>
+				<td><input type="text" id="wavetableCount" value="2048" /> </td>
+			</tr>
+			<tr>
+				<td>Table Size</td>
+				<td>
+					<select id="midiInputSelectBox">
+						<option>Midi 1</option>
+						<option>Midi 2</option>
+						<option>Midi 3</option>
+						<option>Midi 4</option>
+					</select>
+				</td>
+			</tr>
+		</table>
+		<table>
+			<tr class="noteLinks">
+				<td><a>C1</a></td>
+				<td><a>C2</a></td>
+				<td><a>C3</a></td>
+				<td><a>C4</a></td>
+				<td><a>C5</a></td>
+				<td><a>C6</a></td>
+			</tr>
+			<tr>
+				<td colspan="6"><input id="waveSlider" type="range" min="0" max="1" step="0.001" style="width:100%;" oninput="updateWave();" /></td>
+			</tr>
+			<tr>
+				<td colspan="3"><a href="#" onclick="recompute();">Recompute</a></td>
+				<td colspan="3"><a id="downloadLink" href="#" download="Wavetable.wav" onclick="downloadWave();">Download</a></td>
+			</tr>
+		</table>
     </div>
 
     <div class="codeEditor" style="height:300px;">
@@ -161,21 +223,10 @@ wt.makeWave = function (k, N, K) {
 
         </textarea>
     </div>
-    <div class="codeEditor" style="height:200px;">
+    <div class="codeEditor" id="scriptError" style="height:200px;">
         <textarea id="scriptErrorTextarea"></textarea>
-    </div>
-    <div style="width: 800px; margin: 10px 5px;">
-        <input id="waveSlider" type="range" min="0" max="1" step="0.001" style="width:100%;" oninput="updateWave();" />
     </div>
 
     <canvas id="canvas" width="800" height="300" style="margin: 5px; border: 1px solid #999; background: #f0f0f0;"></canvas>
-
-    <script type="text/javascript" >
-        wt.codeEditor = CodeMirror.fromTextArea(scriptTextarea, { lineNumbers: true, mode: "javascript", indentUnit: 2, smartIndent: false, tabSize: 2 });
-        wt.errorEditor = CodeMirror.fromTextArea(scriptErrorTextarea, { lineNumbers: true, mode: "javascript", indentUnit: 2, smartIndent: false, tabSize: 2, readOnly: true });
-        wt.codeEditor.setSize("100%", "100%");
-        wt.errorEditor.setSize("100%", "100%");
-        recompute();
-    </script>
 </body>
 </html>
