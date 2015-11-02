@@ -24,6 +24,7 @@
     <ClInclude Include="AudioLib\Noise.h" />
     <ClInclude Include="AudioLib\Utils.h" />
     <ClInclude Include="AudioLib\ValueTables.h" />
+    <ClInclude Include="AudioLib\WaveFile.h" />
     <ClInclude Include="Default.h" />
     <ClInclude Include="Envelope.h" />
     <ClInclude Include="Fft\BitReverse.h" />
@@ -45,8 +46,8 @@
     <ClInclude Include="Parameters.h" />
     <ClInclude Include="PresetManager.h" />
     <ClInclude Include="Synth.h" />
-    <ClInclude Include="UnitTests.h" />
     <ClInclude Include="UnitTests\OscTests.h" />
+    <ClInclude Include="UnitTests\WaveTests.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Vca.h" />
     <ClInclude Include="Voice.h" />
@@ -60,6 +61,7 @@
     <ClCompile Include="AudioLib\Noise.cpp" />
     <ClCompile Include="AudioLib\Utils.cpp" />
     <ClCompile Include="AudioLib\ValueTables.cpp" />
+    <ClCompile Include="AudioLib\WaveFile.cpp" />
     <ClCompile Include="Envelope.cpp" />
     <ClCompile Include="Exports.cpp" />
     <ClCompile Include="Fft\BitReverse.cpp" />
@@ -79,6 +81,7 @@
     <ClCompile Include="SynthParameters.cpp" />
     <ClCompile Include="UnitTests\OscTests.cpp" />
     <ClCompile Include="UnitTests\UnitTests.cpp" />
+    <ClCompile Include="UnitTests\WaveTests.cpp" />
     <ClCompile Include="Vca.cpp" />
     <ClCompile Include="Voice.cpp" />
     <ClCompile Include="VoiceParameterSetters.cpp" />

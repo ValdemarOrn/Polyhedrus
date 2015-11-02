@@ -65,7 +65,6 @@
     <ClInclude Include="Osc\UdpTranceiver.h">
       <Filter>Source Files\Osc</Filter>
     </ClInclude>
-    <ClInclude Include="UnitTests.h" />
     <ClInclude Include="UnitTests\OscTests.h">
       <Filter>Source Files\UnitTests</Filter>
     </ClInclude>
@@ -125,6 +124,12 @@
     </ClInclude>
     <ClInclude Include="WavetableManager.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioLib\WaveFile.h">
+      <Filter>Source Files\AudioLib</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitTests\WaveTests.h">
+      <Filter>Source Files\UnitTests</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -211,6 +216,12 @@
     </ClCompile>
     <ClCompile Include="WavetableManager.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioLib\WaveFile.cpp">
+      <Filter>Source Files\AudioLib</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitTests\WaveTests.cpp">
+      <Filter>Source Files\UnitTests</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

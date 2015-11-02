@@ -31,7 +31,7 @@ window.Wav = (function() {
         intBuffer[9] = 0x0000; //
 
         intBuffer[10] = 0x0001; // format tag : 1 
-        intBuffer[11] = this.channels; // channels: 2
+        intBuffer[11] = this.channels; // channels: 1
 
         intBuffer[12] = this.sampleRate & 0x0000ffff; // sample per sec
         intBuffer[13] = (this.sampleRate & 0xffff0000) >> 16; // sample per sec
