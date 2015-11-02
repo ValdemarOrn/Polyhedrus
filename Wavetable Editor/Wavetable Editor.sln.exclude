@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Wavetable Editor", ".", "{C3A8B3CC-B5E4-4045-83ED-03360FE48075}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_30634"
+		Debug.AspNetCompiler.PhysicalPath = "..\Wavetable Editor\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_30634\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_30634"
+		Release.AspNetCompiler.PhysicalPath = "..\Wavetable Editor\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_30634\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "30634"
+		SlnRelativePath = "..\Wavetable Editor\"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C3A8B3CC-B5E4-4045-83ED-03360FE48075}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3A8B3CC-B5E4-4045-83ED-03360FE48075}.Debug|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

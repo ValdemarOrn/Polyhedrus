@@ -2,7 +2,7 @@
 #define LEIFTUR_OSCILLATOR
 
 #include "Default.h"
-#include "Wavetable.h"
+#include "WavetableManager.h"
 
 namespace Leiftur
 {

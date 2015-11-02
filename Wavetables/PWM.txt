@@ -1,0 +1,21 @@
+
+wt.initialize = function(N, K) {
+    wavetableCountTextBox.value = "256";
+    wavetableSizeTextBox.value = "2048";
+    downloadLink.download = "PWM.wav";
+}
+
+wt.makeWave = function (k, N, K) {
+    var output = new Array(N);
+    var limit = (1 + k) / (1 + K);
+    
+    for (var i = 0; i < N; i++) {
+        
+        var part = (i / N) < limit;
+        output[i] = part ? 1 : -1;
+    }
+
+    return output;
+}
+
+        

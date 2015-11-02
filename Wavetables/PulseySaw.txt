@@ -1,0 +1,24 @@
+
+wt.initialize = function(N, K) {
+	wavetableCountTextBox.value = "256";
+  wavetableSizeTextBox.value = "2048";
+  downloadLink.download = "PulseySaw.wav";
+}
+
+wt.makeWave = function (k, N, K) {
+    var output = new Array(N);
+    var sk = 2 * k / K - 1;
+    var pow = Math.pow(2, 2 * sk);
+    console.log(pow);
+    
+    for (var i = 0; i < N; i++) {
+        var phase = (i / N + 0.5) % 1;
+        var value = -1 + 2 * phase;
+        
+        output[i] = Math.sign(value) * Math.pow(Math.abs(value), pow);
+    }
+
+    return output;
+}
+
+        

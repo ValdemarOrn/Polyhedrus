@@ -35,7 +35,7 @@ namespace Leiftur
 
 	void Oscillator::SetWaveform(int table)
 	{
-		wavetable = Wavetable::Wavetables[table];
+		wavetable = WavetableManager::Wavetables[table];
 		Update();
 	}
 
@@ -73,14 +73,14 @@ namespace Leiftur
 
 		float pitch = Note + 12.0f * Octave + Semi + 0.01f * Cent + 24.0f * PitchMod;
 		pitch = AudioLib::Utils::Limit(pitch, 0.0, 127.9999);
-		int partialIndex = Wavetable::WavetableIndex[(int)pitch];
+		int partialIndex = WavetableManager::WavetableIndex[(int)pitch];
 		waveMix = waveIndex - (int)waveIndex;
 
 		bool useNextWave = (waveIndex < wavetable->Count - 1);
 		waveA = wavetable->GetTable((int)waveIndex, partialIndex);
 		waveB = wavetable->GetTable((int)waveIndex + useNextWave, partialIndex);
 
-		shiftValue = (32 - (int)(log2(Wavetable::WavetableSize[partialIndex]) + 0.01)); // how many bits of the iterator are used to address the table
+		shiftValue = (32 - (int)(log2(WavetableManager::WavetableSize[partialIndex]) + 0.01)); // how many bits of the iterator are used to address the table
 
 		float freq = AudioLib::Utils::Note2Freq(pitch);
 		float samplesPerCycle = samplerate / freq;

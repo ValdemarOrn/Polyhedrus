@@ -1,5 +1,5 @@
-#ifndef LEIFTUR_WAVETABLE
-#define LEIFTUR_WAVETABLE
+#ifndef LEIFTUR_WAVETABLE_MANAGER
+#define LEIFTUR_WAVETABLE_MANAGER
 
 #include "Default.h"
 #include <vector>
@@ -7,7 +7,9 @@
 
 namespace Leiftur
 {
-	class Wavetable
+	class Wavetable;
+
+	class WavetableManager
 	{
 	public:
 		const static int NumPartials = 20;
@@ -28,24 +30,28 @@ namespace Leiftur
 
 		static std::vector<Wavetable*> Wavetables;
 		static void Setup();
+	};
 
+	class Wavetable
+	{
+	public:
 		int Count;
 		int WavetableDataSize;
 		float* WavetableData;
-		
+
 		inline float* GetTable(int tableIndex, int partialIndex)
 		{
 			if (partialIndex < 0)
 				partialIndex = 0;
-			else if (partialIndex >= NumPartials)
-				partialIndex = NumPartials - 1;
+			else if (partialIndex >= WavetableManager::NumPartials)
+				partialIndex = WavetableManager::NumPartials - 1;
 
 			if (tableIndex < 0)
 				tableIndex = 0;
 			else if (tableIndex >= Count)
 				tableIndex = Count - 1;
 
-			int idx = tableIndex * TotalSize + WavetableOffset[partialIndex];
+			int idx = tableIndex * WavetableManager::TotalSize + WavetableManager::WavetableOffset[partialIndex];
 			return &WavetableData[idx];
 		}
 	};

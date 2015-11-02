@@ -1,4 +1,4 @@
-#include "Wavetable.h"
+#include "WavetableManager.h"
 #include "Wavetables/Pwm.h"
 #include "Wavetables/Sawtooth.h"
 #include "Fft/FastFFT.h"
@@ -8,14 +8,14 @@ using std::vector;
 
 namespace Leiftur
 {
-	std::vector<Wavetable*> Wavetable::Wavetables;
-	int Wavetable::TotalSize;
+	std::vector<Wavetable*> WavetableManager::Wavetables;
+	int WavetableManager::TotalSize;
 
 	// These arrays map each midi note to a number of partials and the table index for that partial wave
-	int Wavetable::WavetablePartials[NumPartials] = { 512,389,291,218,163,122,91,68,51,38,28,21,16,12,9,6,5,3,2,1 };
-	int Wavetable::WavetableSize[NumPartials] = { 2048,2048,1024,1024,1024,512,512,512,256,256,128,128,128,128,128,128,128,128,128,128 };
-	int Wavetable::WavetableOffset[NumPartials];
-	int Wavetable::WavetableIndex[128] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,4,4,5,5,5,5,5,6,6,6,6,6,7,7,7,7,7,8,8,8,8,8,9,9,9,9,9,10,10,10,10,10,11,11,11,11,11,12,12,12,12,12,13,13,13,13,13,14,14,14,14,14,15,15,15,15,15,16,16,16,16,16,17,17,17,17,17,18,18,18,18,18,18,18,18,18,18,18,19,19,19 };
+	int WavetableManager::WavetablePartials[NumPartials] = { 512,389,291,218,163,122,91,68,51,38,28,21,16,12,9,6,5,3,2,1 };
+	int WavetableManager::WavetableSize[NumPartials] = { 2048,2048,1024,1024,1024,512,512,512,256,256,128,128,128,128,128,128,128,128,128,128 };
+	int WavetableManager::WavetableOffset[NumPartials];
+	int WavetableManager::WavetableIndex[128] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,4,4,5,5,5,5,5,6,6,6,6,6,7,7,7,7,7,8,8,8,8,8,9,9,9,9,9,10,10,10,10,10,11,11,11,11,11,12,12,12,12,12,13,13,13,13,13,14,14,14,14,14,15,15,15,15,15,16,16,16,16,16,17,17,17,17,17,18,18,18,18,18,18,18,18,18,18,18,19,19,19 };
 
 	Wavetable* ConvertTable(float* wavetable, int tableSize, int numTables)
 	{
@@ -24,8 +24,8 @@ namespace Leiftur
 
 		auto output = new Wavetable();
 		output->Count = numTables;
-		output->WavetableData = new float[Wavetable::TotalSize * numTables];
-		output->WavetableDataSize = Wavetable::TotalSize * numTables;
+		output->WavetableData = new float[WavetableManager::TotalSize * numTables];
+		output->WavetableDataSize = WavetableManager::TotalSize * numTables;
 		FastFFT<double> transform;
 
 		const int fftSize = 2048;
@@ -75,16 +75,16 @@ namespace Leiftur
 		for (int tableIndex = 0; tableIndex < numTables; tableIndex++)
 		{
 			auto table = &wavetable[tableIndex * tableSize];
-			
+
 			for (size_t i = 0; i < tableSize; i++)
-					input[i].Real = table[i];
-			
+				input[i].Real = table[i];
+
 			transform.FFT(input, fft, scratch, tableSize);
 
-			for (int partialIndex = 0; partialIndex < Wavetable::NumPartials; partialIndex++)
+			for (int partialIndex = 0; partialIndex < WavetableManager::NumPartials; partialIndex++)
 			{
-				auto partialCount = Wavetable::WavetablePartials[partialIndex];
-				auto tableSize = Wavetable::WavetableSize[partialIndex];
+				auto partialCount = WavetableManager::WavetablePartials[partialIndex];
+				auto tableSize = WavetableManager::WavetableSize[partialIndex];
 				auto tablePtr = output->GetTable(tableIndex, partialIndex);
 
 				auto fftSubset = LimitPartials(tableSize, partialCount);
@@ -102,7 +102,7 @@ namespace Leiftur
 	{
 		float max = 0.0;
 		float* wt = wavetable->GetTable(0, 0);
-		for (int i = 0; i < wavetable->Count * Wavetable::TotalSize; i++)
+		for (int i = 0; i < wavetable->Count * WavetableManager::TotalSize; i++)
 		{
 			if (abs(wt[i]) > max)
 				max = abs(wt[i]);
@@ -110,13 +110,13 @@ namespace Leiftur
 
 		auto scale = 1.0 / max;
 
-		for (int i = 0; i < wavetable->Count * Wavetable::TotalSize; i++)
+		for (int i = 0; i < wavetable->Count * WavetableManager::TotalSize; i++)
 		{
 			wt[i] = wavetable->WavetableData[i] * scale;
 		}
 	}
 
-	void Wavetable::Setup()
+	void WavetableManager::Setup()
 	{
 		auto sampleCount = 2048;
 		auto numTables = 16;
@@ -133,11 +133,11 @@ namespace Leiftur
 		auto saw = Wavetables::Sawtooth::CreateTable(sampleCount, numTables);
 		auto wavetable = ConvertTable(saw, sampleCount, numTables);
 		Normalize(wavetable);
-		Wavetable::Wavetables.push_back(wavetable);
+		WavetableManager::Wavetables.push_back(wavetable);
 
 		auto pwm = Wavetables::Pwm::CreateTable(sampleCount, numTables);
 		wavetable = ConvertTable(pwm, sampleCount, numTables);
 		Normalize(wavetable);
-		Wavetable::Wavetables.push_back(wavetable);
+		WavetableManager::Wavetables.push_back(wavetable);
 	}
 }

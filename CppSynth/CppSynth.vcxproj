@@ -50,7 +50,7 @@
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Vca.h" />
     <ClInclude Include="Voice.h" />
-    <ClInclude Include="Wavetable.h" />
+    <ClInclude Include="WavetableManager.h" />
     <ClInclude Include="Wavetables\Pwm.h" />
     <ClInclude Include="Wavetables\Sawtooth.h" />
   </ItemGroup>
@@ -82,7 +82,7 @@
     <ClCompile Include="Vca.cpp" />
     <ClCompile Include="Voice.cpp" />
     <ClCompile Include="VoiceParameterSetters.cpp" />
-    <ClCompile Include="Wavetable.cpp" />
+    <ClCompile Include="WavetableManager.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4AB3FB4C-2B24-40C8-8F48-28BCFD60AE81}</ProjectGuid>
