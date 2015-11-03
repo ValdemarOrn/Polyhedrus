@@ -18,21 +18,21 @@ namespace Leiftur
 		int Index;
 	};
 
-	class WavetableManager // Todo: make this class non-static!
+	const static int NumWavetablePartials = 20;
+
+	class WavetableManager
 	{
 	public:
-		const static int NumPartials = 20;
-
 		static std::vector<WavetableFile> WavetableFiles;
-
+	private:
 		// How many partials to include in each wave
-		static int WavetablePartials[NumPartials];
+		static int WavetablePartials[NumWavetablePartials];
 
 		// How large the wave for each wave is
-		static int WavetableSize[NumPartials];
+		static int WavetableSize[NumWavetablePartials];
 
 		// The offset from zero from the base partial table to the top (integrates the WavetableSize array)
-		static int WavetableOffset[NumPartials];
+		static int WavetableOffset[NumWavetablePartials];
 
 		static int TotalSize;
 
@@ -41,7 +41,10 @@ namespace Leiftur
 
 	private:
 		static std::vector<std::weak_ptr<Wavetable>> loadedWavetables;
+		static std::shared_ptr<Wavetable> ConvertTable(float* wavetable, int tableSize, int numTables);
+		static void Normalize(std::shared_ptr<Wavetable> wavetable);
 		static std::vector<WavetableFile> ScanWavetableFiles(std::string pluginDirectory);
+
 	public:
 
 		//static std::vector<Wavetable*> Wavetables;
@@ -55,6 +58,16 @@ namespace Leiftur
 	public:
 		int Count;
 		int WavetableDataSize;
+
+		// How many partials to include in each wave
+		int WavetablePartials[NumWavetablePartials];
+		// How large the wave for each wave is
+		int WavetableSize[NumWavetablePartials];
+		// The offset from zero from the base partial table to the top (integrates the WavetableSize array)
+		int WavetableOffset[NumWavetablePartials];
+		int TotalSize;
+		// Maps each midi note to the correct partial wave (0...NumPartials)
+		int WavetableIndex[128];
 
 	private:
 		float* wavetableData;
@@ -74,15 +87,15 @@ namespace Leiftur
 		{
 			if (partialIndex < 0)
 				partialIndex = 0;
-			else if (partialIndex >= WavetableManager::NumPartials)
-				partialIndex = WavetableManager::NumPartials - 1;
+			else if (partialIndex >= NumWavetablePartials)
+				partialIndex = NumWavetablePartials - 1;
 
 			if (tableIndex < 0)
 				tableIndex = 0;
 			else if (tableIndex >= Count)
 				tableIndex = Count - 1;
 
-			int idx = tableIndex * WavetableManager::TotalSize + WavetableManager::WavetableOffset[partialIndex];
+			int idx = tableIndex * TotalSize + WavetableOffset[partialIndex];
 			return &wavetableData[idx];
 		}
 	};

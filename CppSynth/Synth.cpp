@@ -47,6 +47,9 @@ namespace Leiftur
 
 	void Synth::Initialize(int samplerate, int udpListenPort, int udpSendPort)
 	{
+		presetManager.Initialize(PlatformSpecific::GetDllDir());
+
+
 		if (udpListenPort != 0)
 		{
 			delete udpTranceiver;
@@ -54,17 +57,12 @@ namespace Leiftur
 			messageListenerThread = thread(&Synth::MessageListener, this);
 		}
 
-		auto wavetable = WavetableManager::LoadWavetable(2); // load default wavetable
 		this->Samplerate = samplerate;
 		for (size_t i = 0; i < MaxVoiceCount; i++)
 		{
 			Voices[i].Initialize(samplerate, ModulationUpdateRate, BufferSize);
-			Voices[i].osc1.SetWavetable(wavetable);
-			Voices[i].osc2.SetWavetable(wavetable);
-			Voices[i].osc3.SetWavetable(wavetable);
 		}
 
-		presetManager.Initialize(PlatformSpecific::GetDllDir());
 		LoadPreset(presetManager.GetDefaultPreset());
 	}
 

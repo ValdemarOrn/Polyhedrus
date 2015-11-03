@@ -17,22 +17,32 @@ namespace Leiftur
 	int WavetableManager::TotalSize;
 
 	// These arrays map each midi note to a number of partials and the table index for that partial wave
-	int WavetableManager::WavetablePartials[NumPartials] = { 512,389,291,218,163,122,91,68,51,38,28,21,16,12,9,6,5,3,2,1 };
-	int WavetableManager::WavetableSize[NumPartials] = { 2048,2048,1024,1024,1024,512,512,512,256,256,128,128,128,128,128,128,128,128,128,128 };
-	int WavetableManager::WavetableOffset[NumPartials];
+	int WavetableManager::WavetablePartials[NumWavetablePartials] = { 512,389,291,218,163,122,91,68,51,38,28,21,16,12,9,6,5,3,2,1 };
+	int WavetableManager::WavetableSize[NumWavetablePartials] = { 2048,2048,1024,1024,1024,512,512,512,256,256,128,128,128,128,128,128,128,128,128,128 };
+	int WavetableManager::WavetableOffset[NumWavetablePartials];
 	int WavetableManager::WavetableIndex[128] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,4,4,5,5,5,5,5,6,6,6,6,6,7,7,7,7,7,8,8,8,8,8,9,9,9,9,9,10,10,10,10,10,11,11,11,11,11,12,12,12,12,12,13,13,13,13,13,14,14,14,14,14,15,15,15,15,15,16,16,16,16,16,17,17,17,17,17,18,18,18,18,18,18,18,18,18,18,18,19,19,19 };
 
-	std::shared_ptr<Wavetable> ConvertTable(float* wavetable, int tableSize, int numTables)
+	std::shared_ptr<Wavetable> WavetableManager::ConvertTable(float* wavetable, int tableSize, int numTables)
 	{
 		if (tableSize != 2048)
 			return 0;  //  Limit to 2048 only for simplification, Todo: Improve
 
 		std::shared_ptr<Wavetable> output(new Wavetable(WavetableManager::TotalSize * numTables));
 		output->Count = numTables;
-		//output->WavetableData = new float[WavetableManager::TotalSize * numTables];
-		output->WavetableDataSize = WavetableManager::TotalSize * numTables;
-		FastFFT<double> transform;
+		output->TotalSize = TotalSize;
+		output->WavetableDataSize = TotalSize * numTables;
 
+		for (int i = 0; i < 128; i++)
+			output->WavetableIndex[i] = WavetableIndex[i];
+		
+		for (int i = 0; i < NumWavetablePartials; i++)
+		{
+			output->WavetablePartials[i] = WavetablePartials[i];
+			output->WavetableSize[i] = WavetableSize[i];
+			output->WavetableOffset[i] = WavetableOffset[i];
+		}
+				
+		FastFFT<double> transform;
 		const int fftSize = 2048;
 		Complex<double> input[fftSize];
 		Complex<double> scratch[fftSize];
@@ -86,7 +96,7 @@ namespace Leiftur
 
 			transform.FFT(input, fft, scratch, tableSize);
 
-			for (int partialIndex = 0; partialIndex < WavetableManager::NumPartials; partialIndex++)
+			for (int partialIndex = 0; partialIndex < NumWavetablePartials; partialIndex++)
 			{
 				auto partialCount = WavetableManager::WavetablePartials[partialIndex];
 				auto tableSize = WavetableManager::WavetableSize[partialIndex];
@@ -103,7 +113,7 @@ namespace Leiftur
 		return output;
 	}
 
-	void Normalize(std::shared_ptr<Wavetable> wavetable)
+	void WavetableManager::Normalize(std::shared_ptr<Wavetable> wavetable)
 	{
 		float max = 0.0;
 		float* wt = wavetable->GetTable(0, 0);
@@ -177,7 +187,7 @@ namespace Leiftur
 		auto numTables = 16;
 
 		int sum = 0;
-		for (int i = 0; i < NumPartials; i++)
+		for (int i = 0; i < NumWavetablePartials; i++)
 		{
 			WavetableOffset[i] = sum;
 			sum += WavetableSize[i];
