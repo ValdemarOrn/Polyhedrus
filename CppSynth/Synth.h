@@ -11,7 +11,9 @@
 #include "Parameters.h"
 #include "PresetManager.h"
 #include <map>
+#include <memory>
 
+using std::shared_ptr;
 
 namespace Leiftur
 {
@@ -37,6 +39,7 @@ namespace Leiftur
 		std::map<int, std::string> formattedParameters;
 		volatile bool isClosing;
 		PresetManager presetManager;
+		shared_ptr<WavetableManager> wavetableManager;
 		Preset currentPreset;
 		UdpTranceiver* udpTranceiver;
 		std::thread messageListenerThread;

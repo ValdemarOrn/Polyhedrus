@@ -16,7 +16,6 @@ extern "C"
 		AudioLib::Noise::Initialize();
 		AudioLib::FastSin::Init();
 		FastFFT<float>::Setup();
-		Leiftur::WavetableManager::Setup(Leiftur::PlatformSpecific::GetDllDir());
 		
 		return new Leiftur::Synth();
 	}
@@ -68,7 +67,9 @@ extern "C"
 
 	_declspec(dllexport) Leiftur::Wavetable* GetWavetable(Leiftur::Synth* instance, int tableIndex)
 	{
-		wt = Leiftur::WavetableManager::LoadWavetable(tableIndex);
+		Leiftur::WavetableManager wtman;
+		wtman.Setup(Leiftur::PlatformSpecific::GetDllDir());
+		wt = wtman.LoadWavetable(tableIndex);
 		return &(*wt);
 	}
 }

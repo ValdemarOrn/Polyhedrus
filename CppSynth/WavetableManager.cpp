@@ -12,16 +12,6 @@ using namespace boost::filesystem;
 
 namespace Leiftur
 {
-	std::vector<WavetableFile> WavetableManager::WavetableFiles;
-	std::vector<std::weak_ptr<Wavetable>> WavetableManager::loadedWavetables;
-	int WavetableManager::TotalSize;
-
-	// These arrays map each midi note to a number of partials and the table index for that partial wave
-	int WavetableManager::WavetablePartials[NumWavetablePartials] = { 512,389,291,218,163,122,91,68,51,38,28,21,16,12,9,6,5,3,2,1 };
-	int WavetableManager::WavetableSize[NumWavetablePartials] = { 2048,2048,1024,1024,1024,512,512,512,256,256,128,128,128,128,128,128,128,128,128,128 };
-	int WavetableManager::WavetableOffset[NumWavetablePartials];
-	int WavetableManager::WavetableIndex[128] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,4,4,5,5,5,5,5,6,6,6,6,6,7,7,7,7,7,8,8,8,8,8,9,9,9,9,9,10,10,10,10,10,11,11,11,11,11,12,12,12,12,12,13,13,13,13,13,14,14,14,14,14,15,15,15,15,15,16,16,16,16,16,17,17,17,17,17,18,18,18,18,18,18,18,18,18,18,18,19,19,19 };
-
 	std::shared_ptr<Wavetable> WavetableManager::ConvertTable(float* wavetable, int tableSize, int numTables)
 	{
 		if (tableSize != 2048)

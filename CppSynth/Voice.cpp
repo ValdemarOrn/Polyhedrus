@@ -21,8 +21,10 @@ namespace Leiftur
 		delete outputR;
 	}
 
-	void Voice::Initialize(int samplerate, int modulationUpdateRate, int bufferSize)
+	void Voice::Initialize(int samplerate, int modulationUpdateRate, int bufferSize, shared_ptr<WavetableManager> wavetableManager)
 	{
+		this->wavetableManager = wavetableManager;
+
 		oscMixL = new float[bufferSize];
 		oscMixR = new float[bufferSize];
 		outputL = new float[bufferSize];

@@ -18,6 +18,9 @@ namespace Leiftur
 		int Note;
 		bool Gate;
 
+	private:
+		shared_ptr<WavetableManager> wavetableManager;
+
 		ModMatrix modMatrix;
 		MixerSettings mixer;
 
@@ -39,7 +42,6 @@ namespace Leiftur
 		Envelope ampEnv;
 		Envelope filterEnv;
 
-	private:
 		float* oscMixL;
 		float* oscMixR;
 
@@ -54,7 +56,7 @@ namespace Leiftur
 	public:
 		Voice();
 		~Voice();
-		void Initialize(int samplerate, int modulationUpdateRate, int bufferSize);
+		void Initialize(int samplerate, int modulationUpdateRate, int bufferSize, shared_ptr<WavetableManager> wavetableManager);
 		void SetParameter(Module module, int parameter, double value);
 		void SetGate(float velocity);
 		void TurnOff();

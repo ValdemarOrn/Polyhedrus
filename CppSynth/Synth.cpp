@@ -18,6 +18,8 @@ namespace Leiftur
 
 	Synth::Synth()
 	{
+		wavetableManager = make_shared<WavetableManager>();
+
 		isClosing = false;
 		polyphony = 1;
 		unison = 1;
@@ -47,9 +49,9 @@ namespace Leiftur
 
 	void Synth::Initialize(int samplerate, int udpListenPort, int udpSendPort)
 	{
+		wavetableManager->Setup(PlatformSpecific::GetDllDir());
 		presetManager.Initialize(PlatformSpecific::GetDllDir());
-
-
+		
 		if (udpListenPort != 0)
 		{
 			delete udpTranceiver;
@@ -60,7 +62,7 @@ namespace Leiftur
 		this->Samplerate = samplerate;
 		for (size_t i = 0; i < MaxVoiceCount; i++)
 		{
-			Voices[i].Initialize(samplerate, ModulationUpdateRate, BufferSize);
+			Voices[i].Initialize(samplerate, ModulationUpdateRate, BufferSize, wavetableManager);
 		}
 
 		LoadPreset(presetManager.GetDefaultPreset());
@@ -244,7 +246,7 @@ namespace Leiftur
 
 	void Synth::SendWaveformsToEditor()
 	{
-		auto files = WavetableManager::WavetableFiles;
+		auto& files = wavetableManager->WavetableFiles;
 
 		auto msg = OscMessage("/Control/Waveforms");
 		int i = 0;

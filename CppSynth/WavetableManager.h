@@ -23,34 +23,34 @@ namespace Leiftur
 	class WavetableManager
 	{
 	public:
-		static std::vector<WavetableFile> WavetableFiles;
+		std::vector<WavetableFile> WavetableFiles;
+
 	private:
 		// How many partials to include in each wave
-		static int WavetablePartials[NumWavetablePartials];
+		int WavetablePartials[NumWavetablePartials] = { 512,389,291,218,163,122,91,68,51,38,28,21,16,12,9,6,5,3,2,1 };
 
 		// How large the wave for each wave is
-		static int WavetableSize[NumWavetablePartials];
+		int WavetableSize[NumWavetablePartials] = { 2048,2048,1024,1024,1024,512,512,512,256,256,128,128,128,128,128,128,128,128,128,128 };
 
 		// The offset from zero from the base partial table to the top (integrates the WavetableSize array)
-		static int WavetableOffset[NumWavetablePartials];
+		int WavetableOffset[NumWavetablePartials];
 
-		static int TotalSize;
+		int TotalSize;
 
 		// Maps each midi note to the correct partial wave (0...NumPartials)
-		static int WavetableIndex[128];
+		int WavetableIndex[128] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,4,4,5,5,5,5,5,6,6,6,6,6,7,7,7,7,7,8,8,8,8,8,9,9,9,9,9,10,10,10,10,10,11,11,11,11,11,12,12,12,12,12,13,13,13,13,13,14,14,14,14,14,15,15,15,15,15,16,16,16,16,16,17,17,17,17,17,18,18,18,18,18,18,18,18,18,18,18,19,19,19 };
 
 	private:
-		static std::vector<std::weak_ptr<Wavetable>> loadedWavetables;
-		static std::shared_ptr<Wavetable> ConvertTable(float* wavetable, int tableSize, int numTables);
-		static void Normalize(std::shared_ptr<Wavetable> wavetable);
-		static std::vector<WavetableFile> ScanWavetableFiles(std::string pluginDirectory);
+		std::vector<std::weak_ptr<Wavetable>> loadedWavetables;
+		std::shared_ptr<Wavetable> ConvertTable(float* wavetable, int tableSize, int numTables);
+		void Normalize(std::shared_ptr<Wavetable> wavetable);
+		std::vector<WavetableFile> ScanWavetableFiles(std::string pluginDirectory);
 
 	public:
 
 		//static std::vector<Wavetable*> Wavetables;
-		static void Setup(std::string waveformDirectory);
-
-		static std::shared_ptr<Wavetable> LoadWavetable(int wtNum);
+		void Setup(std::string waveformDirectory);
+		std::shared_ptr<Wavetable> LoadWavetable(int wtNum);
 	};
 
 	class Wavetable
