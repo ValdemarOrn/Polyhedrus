@@ -253,7 +253,8 @@ namespace Leiftur
 
 		for (auto file : files)
 		{
-			msg.SetString(file);
+			msg.SetInt(file.Index);
+			msg.SetString(file.Selector);
 			i++;
 			if (i >= 2) // send chunks of waveforms, as we can have alot and it might not fit in a single udp message
 			{

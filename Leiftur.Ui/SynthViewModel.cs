@@ -1,15 +1,11 @@
-﻿using Leiftur.Ui.Messaging;
-using LowProfile.Core.Ui;
+﻿using LowProfile.Core.Ui;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using Leiftur.Ui.Components;
 using LowProfile.Core.Extensions;
 using SharpOSC;
@@ -22,7 +18,7 @@ namespace Leiftur.Ui
 		private readonly Dictionary<int, string> formattedParameters;
 		private readonly Dictionary<int, DependencyObject> controls;
 		private readonly Dictionary<string, List<string>> presetBanks;
-		private readonly ConcurrentBag<string> waveforms;
+		private readonly Dictionary<int, string> waveforms;
 
 		private ModRoute[] modRoutes;
 		private Module? activeModule;
@@ -43,7 +39,6 @@ namespace Leiftur.Ui
 		private bool matrix1Visible;
 		private bool matrix2Visible;
 		private bool macrosVisible;
-		private Dictionary<int, string> waveformTypes;
 		private bool ampEnvPage2Visible;
 		private bool filterEnvPage2Visible;
 		private bool mainFilterVisible;
@@ -51,8 +46,8 @@ namespace Leiftur.Ui
 		private bool mod1Visible;
 		private bool mod2Visible;
 		private bool mod3Visible;
-		private MenuItem waveformMenu;
-		private string[] waveformList;
+		//private MenuItem waveformMenu;
+		private Dictionary<int, string> waveformList;
 
 		public SynthViewModel(Dictionary<DependencyObject, string> controlDict)
 		{
@@ -63,7 +58,7 @@ namespace Leiftur.Ui
 				e.Handled = true;
 			};
 
-			waveforms = new ConcurrentBag<string>();
+			waveforms = new Dictionary<int, string>();
 			presetBanks = new Dictionary<string, List<string>> { { "Default Bank", new List<string>() } };
 			controlManager = new ControlManager(this);
             ModRoutes = Enumerable.Range(0, 8).Select(x => new ModRoute()).ToArray();
@@ -71,7 +66,7 @@ namespace Leiftur.Ui
 			announcerCaption = "";
 			announcerValue = "";
 
-			this.controls = new Dictionary<int, DependencyObject>();
+			controls = new Dictionary<int, DependencyObject>();
 			RegisterControls(controlDict);
 
 			ShowAmpEnvPage2 = new DelegateCommand(_ => AmpEnvPage2Visible = !AmpEnvPage2Visible);
@@ -105,7 +100,7 @@ namespace Leiftur.Ui
 
 		public string[] Presets => (presetBanks.GetValueOrDefault(selectedBank) ?? new List<string>()).ToArray();
 
-		public string[] WaveformList
+		public Dictionary<int, string> WaveformList
 		{
 			get { return waveformList; }
 			set { waveformList = value; NotifyPropertyChanged(); }
@@ -428,9 +423,14 @@ namespace Leiftur.Ui
 			}
 			else if (msg.Address == "/Control/Waveforms")
 			{
-				var w = msg.Arguments.OfType<string>().ToArray();
-				w.Foreach(waveforms.Add);
-				WaveformList = waveforms.ToArray();
+				for (int i = 0; i < msg.Arguments.Length - 1; i+=2)
+				{
+					var id = (int)msg.Arguments[i];
+					var specifier = ((string)msg.Arguments[i + 1]).Replace("/Wavetables/", "");
+					waveforms[id] = specifier;
+				}
+
+				WaveformList = waveforms.ToDictionary(x => x.Key, x => x.Value);
 				//Parent.Dispatcher.Invoke(UpdateWaveformList);
 			}
 			else if (msg.Address == "/Control/Banks")
@@ -438,7 +438,7 @@ namespace Leiftur.Ui
 				if (msg.Arguments.Length != 1 || !(msg.Arguments[0] is string))
 					return;
 
-				var bankString = msg.Arguments.First() as string;
+				var bankString = (string)msg.Arguments.First();
 				var banks = bankString.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
 				if (banks.Length == 0)
 					return;
@@ -453,8 +453,8 @@ namespace Leiftur.Ui
 				if (msg.Arguments.Length != 2 || !(msg.Arguments[0] is string) || !(msg.Arguments[1] is string))
 					return;
 
-				var bankName = msg.Arguments.First() as string;
-				var presets = (msg.Arguments.Last() as string).Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+				var bankName = (string)msg.Arguments.First();
+				var presets = ((string)msg.Arguments.Last()).Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
 
 				if (!presetBanks.ContainsKey(bankName) || presets.Length == 0)
 					return;
@@ -519,12 +519,7 @@ namespace Leiftur.Ui
 
 		private void RequestWaveforms()
 		{
-			while (!waveforms.IsEmpty)
-			{
-				string w;
-				waveforms.TryTake(out w);
-			}
-
+			waveforms.Clear();
 			controlManager.SendOscControlMessage("/Control/RequestWaveforms");
 		}
 
@@ -581,7 +576,7 @@ namespace Leiftur.Ui
 		{
 			foreach (var control in controlDict.Keys)
 			{
-				if (control as UIElement == null)
+				if (!(control is UIElement))
 					continue;
 				
 				UIElement uiElem = control as UIElement;
@@ -602,18 +597,10 @@ namespace Leiftur.Ui
 				var listbox = control as ListBox;
 				if (listbox != null)
 				{
-					DependencyPropertyDescriptor.FromProperty(ListBox.SelectedItemProperty, typeof(ListBox))
-						.AddValueChanged(listbox, (s, e) => SendValue(address, listbox.SelectedItem.ToString()));
+					DependencyPropertyDescriptor.FromProperty(Selector.SelectedItemProperty, typeof(ListBox))
+						.AddValueChanged(listbox, (s, e) => SendValue(address, ((KeyValuePair<int, string>)listbox.SelectedItem).Key));
 				}
 			}
-		}
-
-		private void SendValue(string address, string value)
-		{
-			if (disableSendValue)
-				return;
-
-			controlManager.SendOscMessage(address, value);
 		}
 
 		private void SendValue(string address, double value)

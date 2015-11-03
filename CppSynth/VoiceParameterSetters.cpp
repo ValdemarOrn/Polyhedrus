@@ -24,7 +24,7 @@ namespace Leiftur
 				osc->Shape = value;
 				break;
 			case OscParameters::Waveform:
-				// set by synth for all 
+				osc->SetWavetable(WavetableManager::LoadWavetable(Parameters::FloorToInt(value)));
 				break;
 			}
 		};

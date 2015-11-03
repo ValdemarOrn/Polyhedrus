@@ -10,12 +10,20 @@ namespace Leiftur
 {
 	class Wavetable;
 
-	class WavetableManager
+	class WavetableFile
+	{
+	public:
+		std::string FilePath;
+		std::string Selector;
+		int Index;
+	};
+
+	class WavetableManager // Todo: make this class non-static!
 	{
 	public:
 		const static int NumPartials = 20;
 
-		static std::vector<std::string> WavetableFiles;
+		static std::vector<WavetableFile> WavetableFiles;
 
 		// How many partials to include in each wave
 		static int WavetablePartials[NumPartials];
@@ -30,6 +38,11 @@ namespace Leiftur
 
 		// Maps each midi note to the correct partial wave (0...NumPartials)
 		static int WavetableIndex[128];
+
+	private:
+		static std::vector<std::weak_ptr<Wavetable>> loadedWavetables;
+		static std::vector<WavetableFile> ScanWavetableFiles(std::string pluginDirectory);
+	public:
 
 		//static std::vector<Wavetable*> Wavetables;
 		static void Setup(std::string waveformDirectory);

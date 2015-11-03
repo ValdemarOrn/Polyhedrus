@@ -12,7 +12,7 @@
         <ControlTemplate>
             <Border ClipToBounds="True">
                 <Grid>
-                    <Label Content="{Binding ElementName=Main, Path=SelectedItem}"
+                    <Label Content="{Binding ElementName=Main, Path=SelectedItem.Value}"
                            Width="{Binding ElementName=sizingControl, Path=ActualWidth}" />
                     <Rectangle Name="sizingControl" Visibility="Hidden" />
                 </Grid>

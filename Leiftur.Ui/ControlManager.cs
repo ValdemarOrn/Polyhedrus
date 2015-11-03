@@ -30,17 +30,6 @@ namespace Leiftur.Ui
 			oscThread.Start();
 		}
 
-		public void SendOscMessage(string address, string value)
-		{
-			Console.WriteLine("Sending {0} - {1}", address, value);
-			var oscMsg = new OscMessage(address, value);
-
-			lock (sendMessages)
-			{
-				sendMessages[oscMsg.Address] = oscMsg;
-			}
-		}
-
 		public void SendOscMessage(string address, double value)
 		{
 			Console.WriteLine("Sending {0} - {1}", address, value);

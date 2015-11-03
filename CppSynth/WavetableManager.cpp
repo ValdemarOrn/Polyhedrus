@@ -12,8 +12,8 @@ using namespace boost::filesystem;
 
 namespace Leiftur
 {
-	std::vector<std::string> WavetableManager::WavetableFiles;
-	//std::vector<Wavetable*> WavetableManager::Wavetables;
+	std::vector<WavetableFile> WavetableManager::WavetableFiles;
+	std::vector<std::weak_ptr<Wavetable>> WavetableManager::loadedWavetables;
 	int WavetableManager::TotalSize;
 
 	// These arrays map each midi note to a number of partials and the table index for that partial wave
@@ -121,14 +121,14 @@ namespace Leiftur
 		}
 	}
 
-	vector<string> ScanWavetableFiles(std::string pluginDirectory)
+	std::vector<WavetableFile> WavetableManager::ScanWavetableFiles(std::string pluginDirectory)
 	{
 		auto waveformDirectory = path(pluginDirectory) / "Waveforms";
 		auto wavetablePath = waveformDirectory / "Wavetables";
 		int dirLen = waveformDirectory.string().length();
 		directory_iterator end_itr;
 		vector<string> subdirs;
-		vector<string> files;
+		vector<WavetableFile> files;
 
 		for (directory_iterator itr(wavetablePath); itr != end_itr; ++itr)
 		{
@@ -148,18 +148,31 @@ namespace Leiftur
 				if (itr->path().extension() == ".wav")
 				{
 					auto fullPath = itr->path();
-					files.push_back(fullPath.string().substr(0)); // Todo: chop the path correctly
+					string selector = fullPath.string().substr(dirLen);
+					std::replace(selector.begin(), selector.end(), '\\', '/');
+					selector = selector.substr(0, selector.length() - 4);
+
+					WavetableFile file;
+					file.FilePath = fullPath.string();
+					file.Index = files.size();
+					file.Selector = selector;
+					files.push_back(file);
 				}
 			}
 		}
 
+		WavetableFiles = files;
+		loadedWavetables.clear();
+		for (int i = 0; i < WavetableFiles.size(); i++)
+			loadedWavetables.push_back(std::weak_ptr<Wavetable>());
+		
 		return files;
 	}
 
 	void WavetableManager::Setup(std::string waveformDirectory)
 	{
-		WavetableFiles = ScanWavetableFiles(waveformDirectory);
-
+		ScanWavetableFiles(waveformDirectory);
+		
 		auto sampleCount = 2048;
 		auto numTables = 16;
 
@@ -171,25 +184,24 @@ namespace Leiftur
 		}
 
 		TotalSize = sum;
-
-		/*auto saw = Wavetables::Sawtooth::CreateTable(sampleCount, numTables);
-		auto wavetable = ConvertTable(saw, sampleCount, numTables);
-		Normalize(wavetable);
-		WavetableManager::Wavetables.push_back(wavetable);
-
-		auto pwm = Wavetables::Pwm::CreateTable(sampleCount, numTables);
-		wavetable = ConvertTable(pwm, sampleCount, numTables);
-		Normalize(wavetable);
-		WavetableManager::Wavetables.push_back(wavetable);*/
 	}
 
 	std::shared_ptr<Wavetable> WavetableManager::LoadWavetable(int wtNum)
 	{
+		if (wtNum < 0 || wtNum >= WavetableFiles.size())
+			wtNum = 0;
+
+		if (auto spt = loadedWavetables[wtNum].lock())
+		{
+			return spt; // return cached wavetable pointer if it exists
+		}
+		
 		auto file = WavetableFiles.at(wtNum);
-		auto dat = AudioLib::WaveFile::ReadWaveFile(file);
+		auto dat = AudioLib::WaveFile::ReadWaveFile(file.FilePath);
 		auto data = dat.at(0);
 		auto wavetable = ConvertTable(&data[0], 2048, 256);
 		Normalize(wavetable);
+		loadedWavetables[wtNum] = wavetable;
 		return wavetable;
 	}
 }
