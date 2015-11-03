@@ -31,7 +31,7 @@ namespace AudioLib
 		/// </summary>
 		/// <param name="filename"></param>
 		/// <returns></returns>
-		static vector<vector<double>> ReadWaveFile(string filename);
+		static vector<vector<float>> ReadWaveFile(string filename);
 
 		/// <summary>
 		/// Read a WAVE file. Supports multiple channels, any bitrate.
@@ -39,7 +39,7 @@ namespace AudioLib
 		/// </summary>
 		/// <param name="filename"></param>
 		/// <returns></returns>
-		static vector<vector<double>> ReadWaveFile(const vector<uint8_t>& data);
+		static vector<vector<float>> ReadWaveFile(const vector<uint8_t>& data);
 
 	private:
 
@@ -51,7 +51,7 @@ namespace AudioLib
 		/// <param name="chunkSize">size of the data chunk</param>
 		/// <param name="format">the format description, read from the 'fmt ' chunk</param>
 		/// <returns></returns>
-		static vector<vector<double>> ParseDataChunk(const vector<uint8_t>& data, int idx, int chunkSize, FormatChunkData format);
+		static vector<vector<float>> ParseDataChunk(const vector<uint8_t>& data, int idx, int chunkSize, FormatChunkData format);
 
 		/// <summary>
 		/// Reads the fmt chunk

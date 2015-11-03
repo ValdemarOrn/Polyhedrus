@@ -21,7 +21,7 @@ namespace Leiftur.Tests
 			var data = t.GetWavetable(0);
 
 			var pm = new PlotModel();
-			pm.AddLine(data.WavetableData);
+			pm.AddLine(data.WavetableData.Take(20000));
 			pm.Show();
         }
 

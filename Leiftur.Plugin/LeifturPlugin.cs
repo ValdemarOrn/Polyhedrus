@@ -144,7 +144,7 @@ namespace Leiftur.Plugin
 		public void HostChanged()
 		{
 			var samplerate = HostInfo.SampleRate;
-			if (samplerate != Samplerate)
+			if (samplerate != Samplerate && samplerate != 44100)
 			{
 				Samplerate = samplerate;
 				controller.Initialize((int)samplerate, 0, 0);

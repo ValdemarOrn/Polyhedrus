@@ -18,7 +18,6 @@ namespace Leiftur
 		Phase = 1.0;
 		Shape = 0.0;
 		ShapeMod = 0;
-		SetWaveform(0);
 	}
 
 	Oscillator::~Oscillator()
@@ -33,9 +32,9 @@ namespace Leiftur
 		this->samplerate = samplerate;
 	}
 
-	void Oscillator::SetWaveform(int table)
+	void Oscillator::SetWavetable(std::shared_ptr<Wavetable> wavetable)
 	{
-		wavetable = WavetableManager::Wavetables[table];
+		this->wavetable = wavetable;
 		Update();
 	}
 

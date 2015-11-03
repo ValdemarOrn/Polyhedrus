@@ -49,12 +49,14 @@ namespace Leiftur
 			zeroDelayFilter.Process(input, len);
 	}
 
-	float * FilterMain::GetOutput()
+	float* FilterMain::GetOutput()
 	{
 		if (type == 0)
 			return cascadeFilter.GetOutput();
 		else if (type == 1)
 			return zeroDelayFilter.GetOutput();
+
+		return 0;
 	}
 
 }

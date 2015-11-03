@@ -1,6 +1,7 @@
 ﻿using Leiftur.Ui.Messaging;
 using LowProfile.Core.Ui;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using Leiftur.Ui.Components;
 using LowProfile.Core.Extensions;
 using SharpOSC;
@@ -20,6 +22,7 @@ namespace Leiftur.Ui
 		private readonly Dictionary<int, string> formattedParameters;
 		private readonly Dictionary<int, DependencyObject> controls;
 		private readonly Dictionary<string, List<string>> presetBanks;
+		private readonly ConcurrentBag<string> waveforms;
 
 		private ModRoute[] modRoutes;
 		private Module? activeModule;
@@ -48,6 +51,8 @@ namespace Leiftur.Ui
 		private bool mod1Visible;
 		private bool mod2Visible;
 		private bool mod3Visible;
+		private MenuItem waveformMenu;
+		private string[] waveformList;
 
 		public SynthViewModel(Dictionary<DependencyObject, string> controlDict)
 		{
@@ -58,6 +63,7 @@ namespace Leiftur.Ui
 				e.Handled = true;
 			};
 
+			waveforms = new ConcurrentBag<string>();
 			presetBanks = new Dictionary<string, List<string>> { { "Default Bank", new List<string>() } };
 			controlManager = new ControlManager(this);
             ModRoutes = Enumerable.Range(0, 8).Select(x => new ModRoute()).ToArray();
@@ -98,6 +104,18 @@ namespace Leiftur.Ui
 		public string[] Banks => presetBanks.Keys.ToArray();
 
 		public string[] Presets => (presetBanks.GetValueOrDefault(selectedBank) ?? new List<string>()).ToArray();
+
+		public string[] WaveformList
+		{
+			get { return waveformList; }
+			set { waveformList = value; NotifyPropertyChanged(); }
+		}
+
+		/*public MenuItem WaveformMenu
+		{
+			get { return waveformMenu; }
+			set { waveformMenu = value; NotifyPropertyChanged(); }
+		}*/
 
 		public string SelectedBank
 		{
@@ -379,6 +397,7 @@ namespace Leiftur.Ui
 		{
 			RequestBanks();
 			RequestState();
+			RequestWaveforms();
 		}
 
 		internal void ProcessControlMessage(OscMessage msg)
@@ -406,6 +425,13 @@ namespace Leiftur.Ui
 				var floatVal = (float)msg.Arguments[2];
 				var formattedString = (string)msg.Arguments[3];
 				ProcessParameterUpdate(module, parameter, floatVal, formattedString.Trim());
+			}
+			else if (msg.Address == "/Control/Waveforms")
+			{
+				var w = msg.Arguments.OfType<string>().ToArray();
+				w.Foreach(waveforms.Add);
+				WaveformList = waveforms.ToArray();
+				//Parent.Dispatcher.Invoke(UpdateWaveformList);
 			}
 			else if (msg.Address == "/Control/Banks")
 			{
@@ -491,6 +517,17 @@ namespace Leiftur.Ui
 			controlManager.SendOscControlMessage("/Control/RequestBanks");
 		}
 
+		private void RequestWaveforms()
+		{
+			while (!waveforms.IsEmpty)
+			{
+				string w;
+				waveforms.TryTake(out w);
+			}
+
+			controlManager.SendOscControlMessage("/Control/RequestWaveforms");
+		}
+
 		private void RequestPresets()
 		{
 			controlManager.SendOscControlMessage("/Control/RequestPresets", SelectedBank);
@@ -500,6 +537,45 @@ namespace Leiftur.Ui
 		{
 			controlManager.SendOscControlMessage("/Control/LoadPreset", SelectedBank, SelectedPreset);
 		}
+		
+		/*private void UpdateWaveformList()
+		{
+			var splitters = new [] { '/', '\\' };
+            var mainMenu = new MenuItem();
+			var allItems = waveforms
+				.Where(x => !string.IsNullOrWhiteSpace(x))
+				.Select(x => splitters.Contains(x[0]) ? x.Substring(1) : x)
+				.ToArray();
+
+            var maxLevel = allItems.Max(x => x.Split(splitters).Length);
+
+			Action<string[], MenuItem, int> populateMenu = null;
+			populateMenu = (items, menu, depth) =>
+			{
+				if (depth == maxLevel - 1)
+				{
+					foreach (var item in items)
+					{
+						var menuItem = new MenuItem { Header = item.Split(splitters).Last(), CommandParameter = item };
+                        menu.Items.Add(menuItem);
+					}
+				}
+				else
+				{
+					var groups = items.GroupBy(x => x.Split(splitters)[depth]);
+					foreach (var group in groups)
+					{
+						var subMenu = new MenuItem { Header = group.Key };
+						menu.Items.Add(subMenu);
+						populateMenu(group.ToArray(), subMenu, depth + 1);
+					}
+				}
+			};
+
+			populateMenu(allItems, mainMenu, 0);
+
+			WaveformMenu = mainMenu;
+		}*/
 
 		private void RegisterControls(Dictionary<DependencyObject, string> controlDict)
 		{
@@ -522,7 +598,22 @@ namespace Leiftur.Ui
 					DependencyPropertyDescriptor.FromProperty(LightKnob.ValueProperty, typeof(LightKnob))
 						.AddValueChanged(lightKnob, (s, e) => SendValue(address, lightKnob.Value));
 				}
+
+				var listbox = control as ListBox;
+				if (listbox != null)
+				{
+					DependencyPropertyDescriptor.FromProperty(ListBox.SelectedItemProperty, typeof(ListBox))
+						.AddValueChanged(listbox, (s, e) => SendValue(address, listbox.SelectedItem.ToString()));
+				}
 			}
+		}
+
+		private void SendValue(string address, string value)
+		{
+			if (disableSendValue)
+				return;
+
+			controlManager.SendOscMessage(address, value);
 		}
 
 		private void SendValue(string address, double value)

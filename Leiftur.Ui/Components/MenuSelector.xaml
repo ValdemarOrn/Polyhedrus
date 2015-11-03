@@ -10,8 +10,12 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <ListBox.Template>
         <ControlTemplate>
-            <Border>
-                <Label Content="{Binding ElementName=Main, Path=SelectedItem}" />
+            <Border ClipToBounds="True">
+                <Grid>
+                    <Label Content="{Binding ElementName=Main, Path=SelectedItem}"
+                           Width="{Binding ElementName=sizingControl, Path=ActualWidth}" />
+                    <Rectangle Name="sizingControl" Visibility="Hidden" />
+                </Grid>
             </Border>
         </ControlTemplate>
     </ListBox.Template>

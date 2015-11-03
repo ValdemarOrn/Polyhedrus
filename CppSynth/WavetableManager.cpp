@@ -3,12 +3,17 @@
 #include "Wavetables/Sawtooth.h"
 #include "Fft/FastFFT.h"
 #include "Fft/Complex.h"
+#include "boost/filesystem.hpp"
+#include "AudioLib/WaveFile.h"
 
 using std::vector;
+using std::string;
+using namespace boost::filesystem;
 
 namespace Leiftur
 {
-	std::vector<Wavetable*> WavetableManager::Wavetables;
+	std::vector<std::string> WavetableManager::WavetableFiles;
+	//std::vector<Wavetable*> WavetableManager::Wavetables;
 	int WavetableManager::TotalSize;
 
 	// These arrays map each midi note to a number of partials and the table index for that partial wave
@@ -17,14 +22,14 @@ namespace Leiftur
 	int WavetableManager::WavetableOffset[NumPartials];
 	int WavetableManager::WavetableIndex[128] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,4,4,5,5,5,5,5,6,6,6,6,6,7,7,7,7,7,8,8,8,8,8,9,9,9,9,9,10,10,10,10,10,11,11,11,11,11,12,12,12,12,12,13,13,13,13,13,14,14,14,14,14,15,15,15,15,15,16,16,16,16,16,17,17,17,17,17,18,18,18,18,18,18,18,18,18,18,18,19,19,19 };
 
-	Wavetable* ConvertTable(float* wavetable, int tableSize, int numTables)
+	std::shared_ptr<Wavetable> ConvertTable(float* wavetable, int tableSize, int numTables)
 	{
 		if (tableSize != 2048)
 			return 0;  //  Limit to 2048 only for simplification, Todo: Improve
 
-		auto output = new Wavetable();
+		std::shared_ptr<Wavetable> output(new Wavetable(WavetableManager::TotalSize * numTables));
 		output->Count = numTables;
-		output->WavetableData = new float[WavetableManager::TotalSize * numTables];
+		//output->WavetableData = new float[WavetableManager::TotalSize * numTables];
 		output->WavetableDataSize = WavetableManager::TotalSize * numTables;
 		FastFFT<double> transform;
 
@@ -98,7 +103,7 @@ namespace Leiftur
 		return output;
 	}
 
-	void Normalize(Wavetable* wavetable)
+	void Normalize(std::shared_ptr<Wavetable> wavetable)
 	{
 		float max = 0.0;
 		float* wt = wavetable->GetTable(0, 0);
@@ -112,12 +117,49 @@ namespace Leiftur
 
 		for (int i = 0; i < wavetable->Count * WavetableManager::TotalSize; i++)
 		{
-			wt[i] = wavetable->WavetableData[i] * scale;
+			wt[i] = wt[i] * scale;
 		}
 	}
 
-	void WavetableManager::Setup()
+	vector<string> ScanWavetableFiles(std::string pluginDirectory)
 	{
+		auto waveformDirectory = path(pluginDirectory) / "Waveforms";
+		auto wavetablePath = waveformDirectory / "Wavetables";
+		int dirLen = waveformDirectory.string().length();
+		directory_iterator end_itr;
+		vector<string> subdirs;
+		vector<string> files;
+
+		for (directory_iterator itr(wavetablePath); itr != end_itr; ++itr)
+		{
+			if (is_directory(itr->status()))
+			{
+				auto dir = itr->path().filename().string();
+				subdirs.push_back(dir);
+			}
+		}
+
+		for (auto subdir : subdirs)
+		{
+			auto subPath = wavetablePath / subdir;
+
+			for (directory_iterator itr(subPath); itr != end_itr; ++itr)
+			{
+				if (itr->path().extension() == ".wav")
+				{
+					auto fullPath = itr->path();
+					files.push_back(fullPath.string().substr(0)); // Todo: chop the path correctly
+				}
+			}
+		}
+
+		return files;
+	}
+
+	void WavetableManager::Setup(std::string waveformDirectory)
+	{
+		WavetableFiles = ScanWavetableFiles(waveformDirectory);
+
 		auto sampleCount = 2048;
 		auto numTables = 16;
 
@@ -130,7 +172,7 @@ namespace Leiftur
 
 		TotalSize = sum;
 
-		auto saw = Wavetables::Sawtooth::CreateTable(sampleCount, numTables);
+		/*auto saw = Wavetables::Sawtooth::CreateTable(sampleCount, numTables);
 		auto wavetable = ConvertTable(saw, sampleCount, numTables);
 		Normalize(wavetable);
 		WavetableManager::Wavetables.push_back(wavetable);
@@ -138,6 +180,16 @@ namespace Leiftur
 		auto pwm = Wavetables::Pwm::CreateTable(sampleCount, numTables);
 		wavetable = ConvertTable(pwm, sampleCount, numTables);
 		Normalize(wavetable);
-		WavetableManager::Wavetables.push_back(wavetable);
+		WavetableManager::Wavetables.push_back(wavetable);*/
+	}
+
+	std::shared_ptr<Wavetable> WavetableManager::LoadWavetable(int wtNum)
+	{
+		auto file = WavetableFiles.at(wtNum);
+		auto dat = AudioLib::WaveFile::ReadWaveFile(file);
+		auto data = dat.at(0);
+		auto wavetable = ConvertTable(&data[0], 2048, 256);
+		Normalize(wavetable);
+		return wavetable;
 	}
 }

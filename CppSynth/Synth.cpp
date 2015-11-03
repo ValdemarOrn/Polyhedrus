@@ -54,10 +54,14 @@ namespace Leiftur
 			messageListenerThread = thread(&Synth::MessageListener, this);
 		}
 
+		auto wavetable = WavetableManager::LoadWavetable(2); // load default wavetable
 		this->Samplerate = samplerate;
 		for (size_t i = 0; i < MaxVoiceCount; i++)
 		{
 			Voices[i].Initialize(samplerate, ModulationUpdateRate, BufferSize);
+			Voices[i].osc1.SetWavetable(wavetable);
+			Voices[i].osc2.SetWavetable(wavetable);
+			Voices[i].osc3.SetWavetable(wavetable);
 		}
 
 		presetManager.Initialize(PlatformSpecific::GetDllDir());
@@ -189,6 +193,8 @@ namespace Leiftur
 	{
 		if (msg.Address == "/Control/RequestState")
 			SendStateToEditor();
+		else if (msg.Address == "/Control/RequestWaveforms")
+			SendWaveformsToEditor();
 		else if (msg.Address == "/Control/RequestBanks")
 			SendBanksToEditor();
 		else if (msg.Address == "/Control/RequestPresets")
@@ -236,6 +242,29 @@ namespace Leiftur
 			UnpackParameter(key, &module, &parameter);
 			SendBackParameter(module, parameter);
 		}
+	}
+
+	void Synth::SendWaveformsToEditor()
+	{
+		auto files = WavetableManager::WavetableFiles;
+
+		auto msg = OscMessage("/Control/Waveforms");
+		int i = 0;
+
+		for (auto file : files)
+		{
+			msg.SetString(file);
+			i++;
+			if (i >= 2) // send chunks of waveforms, as we can have alot and it might not fit in a single udp message
+			{
+				udpTranceiver->Send(msg.GetBytes());
+				msg = OscMessage("/Control/Waveforms");
+				i = 0;
+			}
+		}
+
+		if (i > 0)
+			udpTranceiver->Send(msg.GetBytes());
 	}
 
 	void Synth::SendBanksToEditor()

@@ -18,7 +18,6 @@ namespace Leiftur
 		int Note;
 		bool Gate;
 
-	private:
 		ModMatrix modMatrix;
 		MixerSettings mixer;
 
@@ -40,6 +39,7 @@ namespace Leiftur
 		Envelope ampEnv;
 		Envelope filterEnv;
 
+	private:
 		float* oscMixL;
 		float* oscMixR;
 

@@ -5,6 +5,7 @@
 #include "AudioLib/ValueTables.h"
 #include "AudioLib/FastSin.h"
 #include "Fft/FastFFT.h"
+#include "PlatformSpecific.h"
 
 extern "C"
 {
@@ -15,8 +16,8 @@ extern "C"
 		AudioLib::Noise::Initialize();
 		AudioLib::FastSin::Init();
 		FastFFT<float>::Setup();
-		Leiftur::WavetableManager::Setup();
-
+		Leiftur::WavetableManager::Setup(Leiftur::PlatformSpecific::GetDllDir());
+		
 		return new Leiftur::Synth();
 	}
 
@@ -62,8 +63,12 @@ extern "C"
 		delete instance;
 	}
 
+
+	std::shared_ptr<Leiftur::Wavetable> wt;
+
 	_declspec(dllexport) Leiftur::Wavetable* GetWavetable(Leiftur::Synth* instance, int tableIndex)
 	{
-		return Leiftur::WavetableManager::Wavetables[tableIndex];
+		wt = Leiftur::WavetableManager::LoadWavetable(tableIndex);
+		return &(*wt);
 	}
 }

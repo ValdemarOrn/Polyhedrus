@@ -6,7 +6,7 @@ using namespace std;
 
 namespace AudioLib
 {
-	vector<vector<double>> WaveFile::ReadWaveFile(string filename)
+	vector<vector<float>> WaveFile::ReadWaveFile(string filename)
 	{
 		ifstream file(filename, ios::binary);
 		// Stop eating new lines in binary mode
@@ -30,17 +30,17 @@ namespace AudioLib
 		return ReadWaveFile(vec);
 	}
 
-	vector<vector<double>> WaveFile::ReadWaveFile(const vector<uint8_t>& data)
+	vector<vector<float>> WaveFile::ReadWaveFile(const vector<uint8_t>& data)
 	{
 		uint8_t waveFormat[5] = { data[8], data[9], data[10], data[11], 0 };
 		string fmt((char*)waveFormat);
 
 		if (fmt != "WAVE")
-			return vector<vector<double>>();
+			return vector<vector<float>>();
 
 		int idx = 12;
 		FormatChunkData format;
-		vector<vector<double>> output;
+		vector<vector<float>> output;
 
 		while (idx < data.size())
 		{
@@ -57,7 +57,7 @@ namespace AudioLib
 			if (chunkId == "data")
 			{
 				if (format.ByteRate == 0) // format must preced data.
-					return vector<vector<double>>();
+					return vector<vector<float>>();
 
 				output = ParseDataChunk(data, idx, chunkSize, format);
 				break;
@@ -69,12 +69,12 @@ namespace AudioLib
 		return output;
 	}
 
-	vector<vector<double>> WaveFile::ParseDataChunk(const vector<uint8_t>& data, int idx, int chunkSize, FormatChunkData format)
+	vector<vector<float>> WaveFile::ParseDataChunk(const vector<uint8_t>& data, int idx, int chunkSize, FormatChunkData format)
 	{
-		vector<vector<double>> channels;
+		vector<vector<float>> channels;
 
 		for (int i = 0; i < format.NumChannels; i++)
-			channels.push_back(vector<double>());
+			channels.push_back(vector<float>());
 
 		idx += 8;
 		int channel = 0;

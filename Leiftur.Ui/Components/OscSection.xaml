@@ -65,11 +65,7 @@
         </StackPanel>
 
         <components:MenuSelector Style="{StaticResource MenuSelectorStyle}" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" 
-                                 Margin="6,10,3,10" SelectedItem="Sawtooth">
-            <system:String>Sawtooth</system:String>
-            <system:String>Pulse</system:String>
-            <system:String>Triangle</system:String>
-            <system:String>Sine</system:String>
+                                 Margin="6,10,3,10" ui:OscAddress.Address="/*/Waveform" ItemsSource="{Binding WaveformList}">
         </components:MenuSelector>
 
         <components:MenuSelector Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="2" Style="{StaticResource MenuSelectorStyle}" Margin="3,10,6,10"

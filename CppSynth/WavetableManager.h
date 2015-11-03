@@ -4,6 +4,7 @@
 #include "Default.h"
 #include <vector>
 #include <string>
+#include <memory>
 
 namespace Leiftur
 {
@@ -13,6 +14,8 @@ namespace Leiftur
 	{
 	public:
 		const static int NumPartials = 20;
+
+		static std::vector<std::string> WavetableFiles;
 
 		// How many partials to include in each wave
 		static int WavetablePartials[NumPartials];
@@ -28,8 +31,10 @@ namespace Leiftur
 		// Maps each midi note to the correct partial wave (0...NumPartials)
 		static int WavetableIndex[128];
 
-		static std::vector<Wavetable*> Wavetables;
-		static void Setup();
+		//static std::vector<Wavetable*> Wavetables;
+		static void Setup(std::string waveformDirectory);
+
+		static std::shared_ptr<Wavetable> LoadWavetable(int wtNum);
 	};
 
 	class Wavetable
@@ -37,7 +42,20 @@ namespace Leiftur
 	public:
 		int Count;
 		int WavetableDataSize;
-		float* WavetableData;
+
+	private:
+		float* wavetableData;
+
+	public:
+		inline Wavetable(int dataSize)
+		{
+			this->wavetableData = new float[dataSize];
+		}
+
+		inline ~Wavetable()
+		{
+			delete wavetableData;
+		}
 
 		inline float* GetTable(int tableIndex, int partialIndex)
 		{
@@ -52,7 +70,7 @@ namespace Leiftur
 				tableIndex = Count - 1;
 
 			int idx = tableIndex * WavetableManager::TotalSize + WavetableManager::WavetableOffset[partialIndex];
-			return &WavetableData[idx];
+			return &wavetableData[idx];
 		}
 	};
 }

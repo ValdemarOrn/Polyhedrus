@@ -3,6 +3,7 @@
 
 #include "Default.h"
 #include "WavetableManager.h"
+//#include <memory>
 
 namespace Leiftur
 {
@@ -21,7 +22,7 @@ namespace Leiftur
 
 	private:
 		float* buffer;
-		Wavetable* wavetable;
+		std::shared_ptr<Wavetable> wavetable;
 		int samplerate;
 		int modulationUpdateRate;
 		uint32_t increment;
@@ -36,7 +37,7 @@ namespace Leiftur
 		Oscillator();
 		~Oscillator();
 		void Initialize(int samplerate, int bufferSize, int modulationUpdateRate);
-		void SetWaveform(int table);
+		void SetWavetable(std::shared_ptr<Wavetable> wavetable);
 		void Reset();
 		void Process(int count);
 		float* GetOutput();

@@ -80,6 +80,7 @@ namespace Leiftur
 		void LoadPreset(std::string bank, std::string presetName);
 		void LoadPreset(Preset preset);
 		void SendStateToEditor();
+		void SendWaveformsToEditor();
 		void SendBanksToEditor();
 		void SendPresetsToEditor(std::string bankName);
 		void SavePreset(std::string bankName, std::string presetName);
