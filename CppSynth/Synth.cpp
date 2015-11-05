@@ -215,6 +215,11 @@ namespace Leiftur
 	{
 		currentPreset = preset;
 
+		// we need to restore the waveform id from the selector (the string), as the ID can change when wav files are added and deleted
+		currentPreset.Values[PackParameter(Module::Osc1, (int)OscParameters::Waveform)] = wavetableManager->GetId(currentPreset.Metadata[PresetManager::Osc1Waveform]);
+		currentPreset.Values[PackParameter(Module::Osc2, (int)OscParameters::Waveform)] = wavetableManager->GetId(currentPreset.Metadata[PresetManager::Osc2Waveform]);
+		currentPreset.Values[PackParameter(Module::Osc3, (int)OscParameters::Waveform)] = wavetableManager->GetId(currentPreset.Metadata[PresetManager::Osc3Waveform]);
+		
 		for (std::map<int, double>::iterator it = currentPreset.Values.begin(); it != currentPreset.Values.end(); ++it)
 		{
 			const int key = it->first;
@@ -289,6 +294,15 @@ namespace Leiftur
 	{
 		currentPreset.BankName = bankName;
 		currentPreset.PresetName = presetName;
+
+		// we need to store the waveform selector (the string), as the ID can change when wav files are added and deleted
+		currentPreset.Metadata[PresetManager::Osc1Waveform]
+			= wavetableManager->WavetableFiles[currentPreset.Values[PackParameter(Module::Osc1, (int)OscParameters::Waveform)]].Selector;
+		currentPreset.Metadata[PresetManager::Osc2Waveform]
+			= wavetableManager->WavetableFiles[currentPreset.Values[PackParameter(Module::Osc2, (int)OscParameters::Waveform)]].Selector;
+		currentPreset.Metadata[PresetManager::Osc3Waveform]
+			= wavetableManager->WavetableFiles[currentPreset.Values[PackParameter(Module::Osc3, (int)OscParameters::Waveform)]].Selector;
+
 		presetManager.SavePreset(&currentPreset);
 		OscMessage msg("/Control/PresetsChanged");
 		msg.SetString(bankName);

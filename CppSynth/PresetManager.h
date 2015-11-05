@@ -23,6 +23,10 @@ namespace Leiftur
 	class PresetManager
 	{
 	public:
+		const static char* Osc1Waveform;
+		const static char* Osc2Waveform;
+		const static char* Osc3Waveform;
+
 		std::string BaseDirectory;
 
 		std::map<std::string, std::vector<Preset>> PresetBanks;

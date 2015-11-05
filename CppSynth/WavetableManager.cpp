@@ -204,4 +204,15 @@ namespace Leiftur
 		loadedWavetables[wtNum] = wavetable;
 		return wavetable;
 	}
+
+	int WavetableManager::GetId(std::string selector)
+	{
+		for (int i = 0; i < WavetableFiles.size(); i++)
+		{
+			if (WavetableFiles.at(i).Selector == selector)
+				return i;
+		}
+
+		return 0; // fallback to wavetable zero
+	}
 }

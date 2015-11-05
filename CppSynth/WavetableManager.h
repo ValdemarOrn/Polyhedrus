@@ -51,6 +51,7 @@ namespace Leiftur
 		//static std::vector<Wavetable*> Wavetables;
 		void Setup(std::string waveformDirectory);
 		std::shared_ptr<Wavetable> LoadWavetable(int wtNum);
+		int GetId(std::string selector);
 	};
 
 	class Wavetable

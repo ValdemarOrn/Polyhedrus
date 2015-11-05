@@ -499,6 +499,16 @@ namespace Leiftur.Ui
 					{
 						(control as LightKnob).Value = value;
 					}
+					if (control is ListBox)
+					{
+						var lb = (control as ListBox);
+						var source = lb.ItemsSource as Dictionary<int, string>;
+						if (source == null) return;
+
+						var dictKey = (int)(value + 0.0001);
+                        var selected = source.ContainsKey(dictKey) ? source.Single(x => x.Key == dictKey) : source.First();
+						lb.SelectedItem = selected;
+					}
 				}
 				finally
 				{

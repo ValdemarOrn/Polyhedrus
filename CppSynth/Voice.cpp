@@ -80,6 +80,9 @@ namespace Leiftur
 			this->velocity = velocity;
 			ampEnv.Velocity = velocity;
 			filterEnv.Velocity = velocity;
+			osc1.Reset();
+			osc2.Reset();
+			osc3.Reset();
 			modMatrix.ModSourceValues[(int)ModSource::Velocity] = velocity;
 		}
 	}

@@ -32,6 +32,10 @@ namespace Leiftur
 		return ss.str();
 	}
 
+	const char* PresetManager::Osc1Waveform = "_osc1.waveform";
+	const char* PresetManager::Osc2Waveform = "_osc2.waveform";
+	const char* PresetManager::Osc3Waveform = "_osc3.waveform";
+
 	PresetManager::PresetManager()
 	{
 	}
