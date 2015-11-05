@@ -16,6 +16,7 @@ namespace Leiftur
 		Osc3 = 3,
 
 		Mixer = 10,
+		ModuleSwitches = 11,
 		Character = 15,
 
 		FilterHp = 20,
@@ -66,6 +67,23 @@ namespace Leiftur
 		Noise = 6,
 		Color = 7,
 		Output = 8,
+	};
+
+	enum class ModuleSwitchParameters
+	{
+		Osc1On = 1,
+		Osc2On = 2,
+		Osc3On = 3,
+		CharacterOn = 4,
+		FilterHpOn = 5,
+		FilterMainOn = 6,
+		DriveOn = 7,
+		Mod1On = 8,
+		Mod2On = 9,
+		Mod3On = 10,
+		ArpOn = 11,
+		ChorusOn = 12,
+		DelayOn = 13,
 	};
 
 	enum class CharacterParameters

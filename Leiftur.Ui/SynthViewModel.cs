@@ -46,7 +46,6 @@ namespace Leiftur.Ui
 		private bool mod1Visible;
 		private bool mod2Visible;
 		private bool mod3Visible;
-		//private MenuItem waveformMenu;
 		private Dictionary<int, string> waveformList;
 
 		public SynthViewModel(Dictionary<DependencyObject, string> controlDict)
@@ -105,12 +104,6 @@ namespace Leiftur.Ui
 			get { return waveformList; }
 			set { waveformList = value; NotifyPropertyChanged(); }
 		}
-
-		/*public MenuItem WaveformMenu
-		{
-			get { return waveformMenu; }
-			set { waveformMenu = value; NotifyPropertyChanged(); }
-		}*/
 
 		public string SelectedBank
 		{
@@ -497,17 +490,21 @@ namespace Leiftur.Ui
 					disableSendValue = true;
 					if (control is LightKnob)
 					{
-						(control as LightKnob).Value = value;
+						((LightKnob)control).Value = value;
 					}
-					if (control is ListBox)
+					else if (control is ListBox)
 					{
-						var lb = (control as ListBox);
+						var lb = (ListBox)control;
 						var source = lb.ItemsSource as Dictionary<int, string>;
 						if (source == null) return;
 
 						var dictKey = (int)(value + 0.0001);
                         var selected = source.ContainsKey(dictKey) ? source.Single(x => x.Key == dictKey) : source.First();
 						lb.SelectedItem = selected;
+					}
+					else if (control is ToggleButton)
+					{
+						((ToggleButton)control).IsChecked = value > 0.5;
 					}
 				}
 				finally
@@ -609,6 +606,13 @@ namespace Leiftur.Ui
 				{
 					DependencyPropertyDescriptor.FromProperty(Selector.SelectedItemProperty, typeof(ListBox))
 						.AddValueChanged(listbox, (s, e) => SendValue(address, ((KeyValuePair<int, string>)listbox.SelectedItem).Key));
+				}
+
+				var toggle = control as ToggleButton;
+				if (toggle != null)
+				{
+					DependencyPropertyDescriptor.FromProperty(ToggleButton.IsCheckedProperty, typeof(ToggleButton))
+						.AddValueChanged(toggle, (s, e) => SendValue(address, toggle.IsChecked.GetValueOrDefault() ? 1 : 0));
 				}
 			}
 		}

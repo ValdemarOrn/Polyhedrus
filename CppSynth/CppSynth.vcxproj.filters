@@ -15,9 +15,6 @@
     <Filter Include="Source Files\Fft">
       <UniqueIdentifier>{8bab6923-9242-4640-b57a-20b7fcca31b5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Wavetables">
-      <UniqueIdentifier>{83853aad-24a8-4904-a498-31ccd36f30f8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Osc">
       <UniqueIdentifier>{9e2c75b4-aab5-4937-a721-2bb249a1ce58}</UniqueIdentifier>
     </Filter>
@@ -44,9 +41,6 @@
     <ClInclude Include="Voice.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Wavetables\Pwm.h">
-      <Filter>Source Files\Wavetables</Filter>
-    </ClInclude>
     <ClInclude Include="Fft\BitReverse.h">
       <Filter>Source Files\Fft</Filter>
     </ClInclude>
@@ -70,9 +64,6 @@
     </ClInclude>
     <ClInclude Include="Parameters.h">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Wavetables\Sawtooth.h">
-      <Filter>Source Files\Wavetables</Filter>
     </ClInclude>
     <ClInclude Include="FilterCascade.h">
       <Filter>Source Files</Filter>
@@ -130,6 +121,9 @@
     </ClInclude>
     <ClInclude Include="UnitTests\WaveTests.h">
       <Filter>Source Files\UnitTests</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -222,6 +216,9 @@
     </ClCompile>
     <ClCompile Include="UnitTests\WaveTests.cpp">
       <Filter>Source Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

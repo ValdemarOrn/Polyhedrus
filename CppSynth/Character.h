@@ -1,32 +1,27 @@
-#ifndef LEIFTUR_FILTER_HP
-#define LEIFTUR_FILTER_HP
+#ifndef LEIFTUR_CHARACTER
+#define LEIFTUR_CHARACTER
 
 #include "AudioLib/Biquad.h"
 #include "Parameters.h"
 
 namespace Leiftur
 {
-	class FilterHp
+	class Character
 	{
 	public:
 		bool IsEnabled;
-		float Cutoff;
-		float Resonance;
-		float CutoffMod;
-		float ResonanceMod;
 
 	private:
 		float* buffer;
 		int samplerate;
 		int modulationUpdateRate;
 		int updateCounter;
-		AudioLib::Biquad biquad;
 
 	public:
-		FilterHp();
-		~FilterHp();
+		Character();
+		~Character();
 		void Initialize(int samplerate, int bufferSize, int modulationUpdateRate);
-		void SetParameter(FilterHpParameters parameter, double value);
+		void SetParameter(CharacterParameters parameter, double value);
 		void Process(float* input, int len);
 		float* GetOutput();
 	private:

@@ -14,9 +14,11 @@ namespace Leiftur
 		int modulationUpdateRate;
 		FilterCascade cascadeFilter;
 		FilterZeroDelay zeroDelayFilter;
+		float* bypassBuffer;
 		int type;
 
 	public:
+		bool IsEnabled;
 		FilterMain();
 		~FilterMain();
 		void Initialize(int samplerate, int bufferSize, int modulationUpdateRate);

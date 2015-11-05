@@ -67,7 +67,7 @@ namespace AudioLib
 			return result * sign;
 		}
 
-		static inline void GainAndSum(float* dest, float* source, float gain, int len)
+		static inline void GainAndSum(float* source, float* dest, float gain, int len)
 		{
 			for (int i = 0; i < len; i++)
 				dest[i] += source[i] * gain;

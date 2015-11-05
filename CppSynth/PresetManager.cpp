@@ -86,6 +86,23 @@ namespace Leiftur
 			preset.Values[Synth::PackParameter(module, (int)MixerParameters::Output)] = 1.0;
 		};
 
+		auto setSwitches = [&](Module module)
+		{
+			preset.Values[Synth::PackParameter(module, (int)ModuleSwitchParameters::ArpOn)] = 0;
+			preset.Values[Synth::PackParameter(module, (int)ModuleSwitchParameters::CharacterOn)] = 1;
+			preset.Values[Synth::PackParameter(module, (int)ModuleSwitchParameters::ChorusOn)] = 0;
+			preset.Values[Synth::PackParameter(module, (int)ModuleSwitchParameters::DelayOn)] = 0;
+			preset.Values[Synth::PackParameter(module, (int)ModuleSwitchParameters::DriveOn)] = 0;
+			preset.Values[Synth::PackParameter(module, (int)ModuleSwitchParameters::FilterHpOn)] = 1;
+			preset.Values[Synth::PackParameter(module, (int)ModuleSwitchParameters::FilterMainOn)] = 1;
+			preset.Values[Synth::PackParameter(module, (int)ModuleSwitchParameters::Mod1On)] = 1;
+			preset.Values[Synth::PackParameter(module, (int)ModuleSwitchParameters::Mod2On)] = 0;
+			preset.Values[Synth::PackParameter(module, (int)ModuleSwitchParameters::Mod3On)] = 0;
+			preset.Values[Synth::PackParameter(module, (int)ModuleSwitchParameters::Osc1On)] = 1;
+			preset.Values[Synth::PackParameter(module, (int)ModuleSwitchParameters::Osc2On)] = 0;
+			preset.Values[Synth::PackParameter(module, (int)ModuleSwitchParameters::Osc3On)] = 0;
+		};
+
 		auto setCharacter = [&](Module module)
 		{
 			preset.Values[Synth::PackParameter(module, (int)CharacterParameters::Bottom)] = 0.0;
@@ -237,6 +254,7 @@ namespace Leiftur
 		setOsc(Module::Osc2);
 		setOsc(Module::Osc3);
 		setMixer(Module::Mixer);
+		setSwitches(Module::ModuleSwitches);
 		setCharacter(Module::Character);
 		setFilterHp(Module::FilterHp);
 		setFilterMain(Module::FilterMain);

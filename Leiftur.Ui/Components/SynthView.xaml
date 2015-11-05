@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:lpCore="clr-namespace:LowProfile.Core.Ui;assembly=LowProfile.Core"
              xmlns:components="clr-namespace:Leiftur.Ui.Components"
+             xmlns:ui="clr-namespace:Leiftur.Ui"
              mc:Ignorable="d" 
              d:DesignHeight="570" d:DesignWidth="1035">
     <UserControl.Background>
@@ -45,7 +46,7 @@
 
         <Label Grid.Column="1" Grid.ColumnSpan="9" Style="{StaticResource TitleLabel}">Polyhedrus</Label>
 
-        <StackPanel Orientation="Horizontal" Grid.Column="9" Grid.ColumnSpan="1" Grid.RowSpan="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="5,5,5,17">
+        <StackPanel Orientation="Horizontal" Grid.Column="9" Grid.RowSpan="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="5,5,5,17">
 
             <ToggleButton Style="{StaticResource CircleToggleButton}" />
             <ToggleButton Style="{StaticResource CircleToggleButton}" />
@@ -63,7 +64,7 @@
 
         </StackPanel>
         
-        <StackPanel Orientation="Horizontal" Grid.Column="9" Grid.ColumnSpan="1" Grid.RowSpan="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="5,5,5,-2">
+        <StackPanel Orientation="Horizontal" Grid.Column="9" Grid.RowSpan="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="5,5,5,-2">
 
             <ToggleButton Style="{StaticResource CircleToggleButton}" />
             <ToggleButton Style="{StaticResource CircleToggleButton}" />
@@ -81,7 +82,7 @@
 
         </StackPanel>
         
-        <StackPanel Grid.Row="1" Grid.Column="1" Grid.RowSpan="10">
+        <StackPanel Grid.Row="1" Grid.Column="1" Grid.RowSpan="3">
             <Grid Style="{StaticResource SectionTitle}" HorizontalAlignment="Left" Width="245">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -95,11 +96,11 @@
                 <ToggleButton Grid.Column="0" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding Osc1Visible, FallbackValue=True}">Osc 1</ToggleButton>
                 <ToggleButton Grid.Column="1" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding Osc2Visible}">Osc 2</ToggleButton>
                 <ToggleButton Grid.Column="2" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding Osc3Visible}">Osc 3</ToggleButton>
-                <ToggleButton Grid.Column="3" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" 
+                <ToggleButton Grid.Column="3" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/Osc1On" 
                               Visibility="{Binding Osc1Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
-                <ToggleButton Grid.Column="3" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" 
+                <ToggleButton Grid.Column="3" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/Osc2On" 
                               Visibility="{Binding Osc2Visible, Converter={StaticResource BoolToVisibilityConverter}}" />
-                <ToggleButton Grid.Column="3" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" 
+                <ToggleButton Grid.Column="3" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/Osc3On" 
                               Visibility="{Binding Osc3Visible, Converter={StaticResource BoolToVisibilityConverter}}" />
                 
             </Grid>
@@ -140,7 +141,8 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Style="{StaticResource MarkerButton}">Character</Button>
-            <ToggleButton Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" />
+            <ToggleButton Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}"
+                          ui:OscAddress.Address="/ModuleSwitches/CharacterOn" />
             <Rectangle Style="{StaticResource SectionLine}" />
         </Grid>
 
@@ -152,7 +154,8 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Style="{StaticResource MarkerButton}">HP Filter</Button>
-            <ToggleButton Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" />
+            <ToggleButton Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}"
+                           ui:OscAddress.Address="/ModuleSwitches/FilterHpOn" />
             <Rectangle Style="{StaticResource SectionLine}" />
         </Grid>
 
@@ -168,9 +171,9 @@
 
             <ToggleButton Grid.Column="0" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding MainFilterVisible}">Filter</ToggleButton>
             <ToggleButton Grid.Column="1" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding DriveVisible}">Drive</ToggleButton>
-            <ToggleButton Grid.Column="2" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" 
+            <ToggleButton Grid.Column="2" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/FilterMainOn"
                               Visibility="{Binding MainFilterVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
-            <ToggleButton Grid.Column="2" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" 
+            <ToggleButton Grid.Column="2" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/DriveOn"
                               Visibility="{Binding DriveVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
 
 
@@ -277,13 +280,13 @@
                 <ToggleButton Grid.Column="2" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding Mod3Visible}">Mod 3</ToggleButton>
                 <ToggleButton Grid.Column="3" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding ArpeggiatorVisible}">Arpeggiator</ToggleButton>
 
-                <ToggleButton Grid.Column="4" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}"
+                <ToggleButton Grid.Column="4" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/Mod1On"
                               Visibility="{Binding Mod1Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}"/>
-                <ToggleButton Grid.Column="4" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}"
+                <ToggleButton Grid.Column="4" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/Mod2On"
                               Visibility="{Binding Mod2Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}"/>
-                <ToggleButton Grid.Column="4" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}"
+                <ToggleButton Grid.Column="4" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/Mod3On"
                               Visibility="{Binding Mod3Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}"/>
-                <ToggleButton Grid.Column="4" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}"
+                <ToggleButton Grid.Column="4" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/ArpOn"
                               Visibility="{Binding ArpeggiatorVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}"/>
             </Grid>
 
@@ -305,13 +308,14 @@
                 </Grid.ColumnDefinitions>
 
                 <Rectangle Style="{StaticResource SectionLine}" />
-                
-                <ToggleButton Grid.Column="0" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding ChorusVisible}">Chorus</ToggleButton>
-                <ToggleButton Grid.Column="1" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding DelayVisible}">Delay</ToggleButton>
-                
-                <ToggleButton Grid.Column="3" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}"
+
+                <ToggleButton Grid.Column="0" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding DelayVisible}">Delay</ToggleButton>
+                <ToggleButton Grid.Column="1" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding ChorusVisible}">Chorus</ToggleButton>
+
+
+                <ToggleButton Grid.Column="3" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/DelayOn"
                               Visibility="{Binding DelayVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}"/>
-                <ToggleButton Grid.Column="3" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}"
+                <ToggleButton Grid.Column="3" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/ChorusOn"
                               Visibility="{Binding ChorusVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}"/>
             </Grid>
 

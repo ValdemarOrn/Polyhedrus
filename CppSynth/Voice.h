@@ -9,6 +9,7 @@
 #include "Envelope.h"
 #include "ModMatrix.h"
 #include "MixerSettings.h"
+#include "Character.h"
 
 namespace Leiftur
 {
@@ -23,11 +24,14 @@ namespace Leiftur
 
 		ModMatrix modMatrix;
 		MixerSettings mixer;
+		bool moduleSwitches[20];
 
 		Oscillator osc1;
 		Oscillator osc2;
 		Oscillator osc3;
 
+		Character characterL;
+		Character characterR;
 		FilterHp hpFilterL;
 		FilterHp hpFilterR;
 		FilterMain mainFilterL;
@@ -42,8 +46,8 @@ namespace Leiftur
 		Envelope ampEnv;
 		Envelope filterEnv;
 
-		float* oscMixL;
-		float* oscMixR;
+		float* signalMixL;
+		float* signalMixR;
 
 		float* outputL;
 		float* outputR;
@@ -69,10 +73,13 @@ namespace Leiftur
 		float** GetOutput();
 	private:
 		void ProcessModulation();
-		void MixOscillators(int bufferSize);
+		void MixSignals(int bufferSize, RoutingStage stage);
+		bool IsEnabled(ModuleSwitchParameters module);
 
 		void SetOscParameter(Module module, OscParameters parameter, double value);
 		void SetMixerParameter(Module module, MixerParameters parameter, double value);
+		void SetModuleSwitchParameter(Module module, ModuleSwitchParameters parameter, double value);
+		void SetCharacterParameter(Module module, CharacterParameters parameter, double value);
 		void SetFilterHpParameter(Module module, FilterHpParameters parameter, double value);
 		void SetFilterMainParameter(Module module, FilterMainParameters parameter, double value);
 		void SetEnvParameter(Module module, EnvParameters parameter, double value);

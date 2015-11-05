@@ -96,13 +96,13 @@ namespace Leiftur
 			case OscParameters::Waveform:
 				return FormatIntFloor(value);
 			case OscParameters::Routing:
-				if (OscRouting::Character == (OscRouting)Parameters::FloorToInt(value))
+				if (RoutingStage::Character == (RoutingStage)Parameters::FloorToInt(value))
 					return "Character";
-				if (OscRouting::Direct == (OscRouting)Parameters::FloorToInt(value))
+				if (RoutingStage::Direct == (RoutingStage)Parameters::FloorToInt(value))
 					return "Direct";
-				if (OscRouting::HpFilter == (OscRouting)Parameters::FloorToInt(value))
+				if (RoutingStage::HpFilter == (RoutingStage)Parameters::FloorToInt(value))
 					return "HP Filter";
-				if (OscRouting::MainFilter == (OscRouting)Parameters::FloorToInt(value))
+				if (RoutingStage::MainFilter == (RoutingStage)Parameters::FloorToInt(value))
 					return "Main Filter";
 				else
 					return "---";

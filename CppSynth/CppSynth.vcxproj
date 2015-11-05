@@ -25,6 +25,7 @@
     <ClInclude Include="AudioLib\Utils.h" />
     <ClInclude Include="AudioLib\ValueTables.h" />
     <ClInclude Include="AudioLib\WaveFile.h" />
+    <ClInclude Include="Character.h" />
     <ClInclude Include="Default.h" />
     <ClInclude Include="Envelope.h" />
     <ClInclude Include="Fft\BitReverse.h" />
@@ -52,8 +53,6 @@
     <ClInclude Include="Vca.h" />
     <ClInclude Include="Voice.h" />
     <ClInclude Include="WavetableManager.h" />
-    <ClInclude Include="Wavetables\Pwm.h" />
-    <ClInclude Include="Wavetables\Sawtooth.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AudioLib\Biquad.cpp" />
@@ -62,6 +61,7 @@
     <ClCompile Include="AudioLib\Utils.cpp" />
     <ClCompile Include="AudioLib\ValueTables.cpp" />
     <ClCompile Include="AudioLib\WaveFile.cpp" />
+    <ClCompile Include="Character.cpp" />
     <ClCompile Include="Envelope.cpp" />
     <ClCompile Include="Exports.cpp" />
     <ClCompile Include="Fft\BitReverse.cpp" />

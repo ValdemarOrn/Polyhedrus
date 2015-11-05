@@ -36,7 +36,7 @@ namespace Leiftur
 			else if (parameter == OscParameters::Volume)
 				mixer.Osc1Volume = value;
 			else if (parameter == OscParameters::Routing)
-				mixer.Osc1Routing = (OscRouting)Parameters::FloorToInt(value);
+				mixer.Osc1Routing = (RoutingStage)Parameters::FloorToInt(value);
 			else if (parameter == OscParameters::Slop)
 			{ 
 				// set Slop in mod matrix
@@ -51,7 +51,7 @@ namespace Leiftur
 			else if (parameter == OscParameters::Volume)
 				mixer.Osc2Volume = value;
 			else if (parameter == OscParameters::Routing)
-				mixer.Osc2Routing = (OscRouting)Parameters::FloorToInt(value);
+				mixer.Osc2Routing = (RoutingStage)Parameters::FloorToInt(value);
 			else if (parameter == OscParameters::Slop)
 			{
 				// set Slop in mod matrix
@@ -66,7 +66,7 @@ namespace Leiftur
 			else if (parameter == OscParameters::Volume)
 				mixer.Osc3Volume = value;
 			else if (parameter == OscParameters::Routing)
-				mixer.Osc3Routing = (OscRouting)Parameters::FloorToInt(value);
+				mixer.Osc3Routing = (RoutingStage)Parameters::FloorToInt(value);
 			else if (parameter == OscParameters::Slop)
 			{
 				// set Slop in mod matrix
@@ -102,6 +102,34 @@ namespace Leiftur
 			mixer.Noise = value;
 			break;
 		}
+	}
+
+	void Voice::SetModuleSwitchParameter(Module module, ModuleSwitchParameters parameter, double value)
+	{
+		bool isEn = value >= 0.5;
+
+		moduleSwitches[(int)parameter] = isEn;
+		switch (parameter)
+		{
+		case ModuleSwitchParameters::CharacterOn:
+			characterL.IsEnabled = isEn;
+			characterR.IsEnabled = isEn;
+			break;
+		case ModuleSwitchParameters::FilterHpOn:
+			hpFilterL.IsEnabled = isEn;
+			hpFilterR.IsEnabled = isEn;
+			break;
+		case ModuleSwitchParameters::FilterMainOn:
+			mainFilterL.IsEnabled = isEn;
+			mainFilterR.IsEnabled = isEn;
+			break;
+		}
+	}
+
+	void Voice::SetCharacterParameter(Module module, CharacterParameters parameter, double value)
+	{
+		characterL.SetParameter(parameter, value);
+		characterR.SetParameter(parameter, value);
 	}
 
 	void Voice::SetFilterHpParameter(Module module, FilterHpParameters parameter, double value)

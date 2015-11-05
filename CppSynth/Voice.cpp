@@ -7,16 +7,16 @@ namespace Leiftur
 {
 	Voice::Voice()
 	{
-		oscMixL = 0;
-		oscMixR = 0;
+		signalMixL = 0;
+		signalMixR = 0;
 		outputL = 0;
 		outputR = 0;
 	}
 
 	Voice::~Voice()
 	{
-		delete oscMixL;
-		delete oscMixR;
+		delete signalMixL;
+		delete signalMixR;
 		delete outputL;
 		delete outputR;
 	}
@@ -25,8 +25,8 @@ namespace Leiftur
 	{
 		this->wavetableManager = wavetableManager;
 
-		oscMixL = new float[bufferSize];
-		oscMixR = new float[bufferSize];
+		signalMixL = new float[bufferSize];
+		signalMixR = new float[bufferSize];
 		outputL = new float[bufferSize];
 		outputR = new float[bufferSize];
 		output[0] = outputL;
@@ -39,6 +39,8 @@ namespace Leiftur
 		osc2.Initialize(samplerate, modulationUpdateRate, bufferSize);
 		osc3.Initialize(samplerate, modulationUpdateRate, bufferSize);
 
+		characterL.Initialize(samplerate, bufferSize, modulationUpdateRate);
+		characterR.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		hpFilterL.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		hpFilterR.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		mainFilterL.Initialize(samplerate, bufferSize, modulationUpdateRate);
@@ -60,6 +62,10 @@ namespace Leiftur
 			SetOscParameter(module, (OscParameters)parameter, value);
 		else if (module == Module::Mixer)
 			SetMixerParameter(module, (MixerParameters)parameter, value);
+		else if (module == Module::ModuleSwitches)
+			SetModuleSwitchParameter(module, (ModuleSwitchParameters)parameter, value);
+		else if (module == Module::Character)
+			SetCharacterParameter(module, (CharacterParameters)parameter, value);
 		else if (module == Module::FilterHp)
 			SetFilterHpParameter(module, (FilterHpParameters)parameter, value);
 		else if (module == Module::FilterMain)
@@ -132,20 +138,28 @@ namespace Leiftur
 		{
 			ProcessModulation();
 
-			osc1.Process(bufferSize);
-			osc2.Process(bufferSize);
-			osc3.Process(bufferSize);
+			if (IsEnabled(ModuleSwitchParameters::Osc1On))
+				osc1.Process(bufferSize);
+			if (IsEnabled(ModuleSwitchParameters::Osc2On))
+				osc2.Process(bufferSize);
+			if (IsEnabled(ModuleSwitchParameters::Osc3On))
+				osc3.Process(bufferSize);
 
-			MixOscillators(bufferSize);
+			MixSignals(bufferSize, RoutingStage::Character);
+			characterL.Process(signalMixL, bufferSize);
+			characterR.Process(signalMixR, bufferSize);
 
-			hpFilterL.Process(oscMixL, bufferSize);
-			hpFilterR.Process(oscMixR, bufferSize);
-			mainFilterL.Process(hpFilterL.GetOutput(), bufferSize);
-			mainFilterR.Process(hpFilterR.GetOutput(), bufferSize);
+			MixSignals(bufferSize, RoutingStage::HpFilter);
+			hpFilterL.Process(signalMixL, bufferSize);
+			hpFilterR.Process(signalMixR, bufferSize);
 
-			ampEnv.Process(bufferSize);
-			vcaOutputL.Process(mainFilterL.GetOutput(), bufferSize);
-			vcaOutputR.Process(mainFilterR.GetOutput(), bufferSize);
+			MixSignals(bufferSize, RoutingStage::MainFilter);
+			mainFilterL.Process(signalMixL, bufferSize);
+			mainFilterR.Process(signalMixR, bufferSize);
+
+			MixSignals(bufferSize, RoutingStage::Direct);
+			vcaOutputL.Process(signalMixL, bufferSize);
+			vcaOutputR.Process(signalMixR, bufferSize);
 
 			AudioLib::Utils::Copy(vcaOutputL.GetOutput(), &outputL[i], bufferSize);
 			AudioLib::Utils::Copy(vcaOutputR.GetOutput(), &outputR[i], bufferSize);
@@ -203,31 +217,53 @@ namespace Leiftur
 		vcaOutputR.ControlVoltage = modMatrix.ModSourceValues[(int)ModSource::EnvAmp];
 	}
 
-	void Voice::MixOscillators(int bufferSize)
+	void Voice::MixSignals(int bufferSize, RoutingStage stage)
 	{
-		float osc1Vol = LimitMin(mixer.Osc1Volume + mixer.Osc1VolumeMod, 0.0);
-		float osc2Vol = LimitMin(mixer.Osc2Volume + mixer.Osc2VolumeMod, 0.0);
-		float osc3Vol = LimitMin(mixer.Osc3Volume + mixer.Osc3VolumeMod, 0.0);
-		float osc1Pan = mixer.Osc1Pan + mixer.Osc1PanMod;
-		float osc2Pan = mixer.Osc2Pan + mixer.Osc2PanMod;
-		float osc3Pan = mixer.Osc3Pan + mixer.Osc3PanMod;
+		mixer.ComputeOscVols();
 
-		float osc1VolL = osc1Vol * Limit(-osc1Pan + 1, 0.0, 1.0);
-		float osc1VolR = osc1Vol * Limit(osc1Pan + 1, 0.0, 1.0);
+		if (stage == RoutingStage::Character)
+		{
+			ZeroBuffer(signalMixL, bufferSize);
+			ZeroBuffer(signalMixR, bufferSize);
+		}
+		if (stage == RoutingStage::HpFilter)
+		{
+			Copy(characterL.GetOutput(), signalMixL, bufferSize);
+			Copy(characterR.GetOutput(), signalMixR, bufferSize);
+		}
+		else if (stage == RoutingStage::MainFilter)
+		{
+			Copy(hpFilterL.GetOutput(), signalMixL, bufferSize);
+			Copy(hpFilterR.GetOutput(), signalMixR, bufferSize);
+		}
+		else if (stage == RoutingStage::Direct)
+		{
+			Copy(mainFilterL.GetOutput(), signalMixL, bufferSize);
+			Copy(mainFilterR.GetOutput(), signalMixR, bufferSize);
+		}
 
-		float osc2VolL = osc2Vol * Limit(-osc2Pan + 1, 0.0, 1.0);
-		float osc2VolR = osc2Vol * Limit(osc2Pan + 1, 0.0, 1.0);
 
-		float osc3VolL = osc3Vol * Limit(-osc3Pan + 1, 0.0, 1.0);
-		float osc3VolR = osc3Vol * Limit(osc3Pan + 1, 0.0, 1.0);
+		if (IsEnabled(ModuleSwitchParameters::Osc1On) && mixer.Osc1Routing == stage)
+		{
+			GainAndSum(osc1.GetOutput(), signalMixL, mixer.Osc1VolL, bufferSize);
+			GainAndSum(osc1.GetOutput(), signalMixR, mixer.Osc1VolR, bufferSize);
+		}
 
-		ZeroBuffer(oscMixL, bufferSize);
-		ZeroBuffer(oscMixR, bufferSize);
-		GainAndSum(oscMixL, osc1.GetOutput(), osc1VolL, bufferSize);
-		GainAndSum(oscMixR, osc1.GetOutput(), osc1VolR, bufferSize);
-		GainAndSum(oscMixL, osc2.GetOutput(), osc2VolL, bufferSize);
-		GainAndSum(oscMixR, osc2.GetOutput(), osc2VolR, bufferSize);
-		GainAndSum(oscMixL, osc3.GetOutput(), osc3VolL, bufferSize);
-		GainAndSum(oscMixR, osc3.GetOutput(), osc3VolR, bufferSize);
+		if (IsEnabled(ModuleSwitchParameters::Osc2On) && mixer.Osc2Routing == stage)
+		{
+			GainAndSum(osc2.GetOutput(), signalMixL, mixer.Osc2VolL, bufferSize);
+			GainAndSum(osc2.GetOutput(), signalMixR, mixer.Osc2VolR, bufferSize);
+		}
+
+		if (IsEnabled(ModuleSwitchParameters::Osc3On) && mixer.Osc3Routing == stage)
+		{
+			GainAndSum(osc3.GetOutput(), signalMixL, mixer.Osc3VolL, bufferSize);
+			GainAndSum(osc3.GetOutput(), signalMixR, mixer.Osc3VolR, bufferSize);
+		}
+	}
+
+	inline bool Voice::IsEnabled(ModuleSwitchParameters module)
+	{
+		return moduleSwitches[(int)module];
 	}
 }

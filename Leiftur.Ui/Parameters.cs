@@ -15,6 +15,7 @@ namespace Leiftur.Ui
 		Osc3 = 3,
 
 		Mixer = 10,
+		ModuleSwitches = 11,
 		Character = 15,
 
 		FilterHp = 20,
@@ -64,6 +65,23 @@ namespace Leiftur.Ui
 		Noise = 6,
 		Color = 7,
 		Output = 8,
+	}
+
+	enum ModuleSwitchParameters
+	{
+		Osc1On = 1,
+		Osc2On = 2,
+		Osc3On = 3,
+		CharacterOn = 4,
+		FilterHpOn = 5,
+		FilterMainOn = 6,
+		DriveOn = 7,
+		Mod1On = 8,
+		Mod2On = 9,
+		Mod3On = 10,
+		ArpOn = 11,
+		ChorusOn = 12,
+		DelayOn = 13,
 	}
 
 	enum CharacterParameters
@@ -339,6 +357,9 @@ namespace Leiftur.Ui
 					break;
 				case Module.Mixer:
 					parameter = (int)(MixerParameters)Enum.Parse(typeof(MixerParameters), parts[1], true);
+					break;
+				case Module.ModuleSwitches:
+					parameter = (int)(ModuleSwitchParameters)Enum.Parse(typeof(ModuleSwitchParameters), parts[1], true);
 					break;
 				case Module.Character:
 					parameter = (int)(CharacterParameters)Enum.Parse(typeof(CharacterParameters), parts[1], true);

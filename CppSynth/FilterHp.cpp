@@ -45,8 +45,14 @@ namespace Leiftur
 		}
 	}
 
-	void FilterHp::Process(float * input, int len)
+	void FilterHp::Process(float* input, int len)
 	{
+		if (!IsEnabled)
+		{
+			AudioLib::Utils::Copy(input, buffer, len);
+			return;
+		}
+
 		for (int i = 0; i < len; i++)
 		{
 			if (updateCounter <= 0)

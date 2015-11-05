@@ -122,8 +122,8 @@ namespace Leiftur
 		{
 			Voices[i].Process(bufferSize);
 			auto output = Voices[i].GetOutput();
-			GainAndSum(buffer[0], output[0], 1.0, BufferSize);
-			GainAndSum(buffer[1], output[1], 1.0, BufferSize);
+			GainAndSum(output[0], buffer[0], 1.0, BufferSize);
+			GainAndSum(output[1], buffer[1], 1.0, BufferSize);
 		}
 	}
 

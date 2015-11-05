@@ -1,6 +1,4 @@
 #include "WavetableManager.h"
-#include "Wavetables/Pwm.h"
-#include "Wavetables/Sawtooth.h"
 #include "Fft/FastFFT.h"
 #include "Fft/Complex.h"
 #include "boost/filesystem.hpp"

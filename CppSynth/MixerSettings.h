@@ -1,22 +1,24 @@
 #ifndef LEIFTUR_MIXER_SETTINGS
 #define LEIFTUR_MIXER_SETTINGS
 
+#include "AudioLib/Utils.h"
+
 namespace Leiftur
 {
-	enum class OscRouting
+	enum class RoutingStage
 	{
 		Character = 0,
 		HpFilter = 1,
 		MainFilter = 2,
 		Direct = 3,
 	};
-
+	
 	class MixerSettings
 	{
 	public:
-		OscRouting Osc1Routing;
-		OscRouting Osc2Routing;
-		OscRouting Osc3Routing;
+		RoutingStage Osc1Routing;
+		RoutingStage Osc2Routing;
+		RoutingStage Osc3Routing;
 
 		float Osc1Volume;
 		float Osc2Volume;
@@ -51,6 +53,32 @@ namespace Leiftur
 		float OutputMod;
 
 		int Color;
+
+		float Osc1VolL;
+		float Osc1VolR;
+		float Osc2VolL;
+		float Osc2VolR;
+		float Osc3VolL;
+		float Osc3VolR;
+
+		inline void ComputeOscVols()
+		{
+			float osc1Vol = AudioLib::Utils::LimitMin(Osc1Volume + Osc1VolumeMod, 0.0);
+			float osc2Vol = AudioLib::Utils::LimitMin(Osc2Volume + Osc2VolumeMod, 0.0);
+			float osc3Vol = AudioLib::Utils::LimitMin(Osc3Volume + Osc3VolumeMod, 0.0);
+			float osc1Pan = Osc1Pan + Osc1PanMod;
+			float osc2Pan = Osc2Pan + Osc2PanMod;
+			float osc3Pan = Osc3Pan + Osc3PanMod;
+
+			Osc1VolL = osc1Vol * AudioLib::Utils::Limit(-osc1Pan + 1, 0.0, 1.0);
+			Osc1VolR = osc1Vol * AudioLib::Utils::Limit(osc1Pan + 1, 0.0, 1.0);
+
+			Osc2VolL = osc2Vol * AudioLib::Utils::Limit(-osc2Pan + 1, 0.0, 1.0);
+			Osc2VolR = osc2Vol * AudioLib::Utils::Limit(osc2Pan + 1, 0.0, 1.0);
+
+			Osc3VolL = osc3Vol * AudioLib::Utils::Limit(-osc3Pan + 1, 0.0, 1.0);
+			Osc3VolR = osc3Vol * AudioLib::Utils::Limit(osc3Pan + 1, 0.0, 1.0);
+		}
 	};
 }
 

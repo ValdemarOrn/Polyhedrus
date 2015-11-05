@@ -13,6 +13,7 @@ namespace Leiftur
 		if (moduleString == "Osc2") return Module::Osc2;
 		if (moduleString == "Osc3") return Module::Osc3;
 		if (moduleString == "Mixer") return Module::Mixer;
+		if (moduleString == "ModuleSwitches") return Module::ModuleSwitches;
 		if (moduleString == "Character") return Module::Character;
 		if (moduleString == "FilterHp") return Module::FilterHp;
 		if (moduleString == "FilterMain") return Module::FilterMain;
@@ -56,6 +57,22 @@ namespace Leiftur
 			if (parameterString == "Noise") return (int)MixerParameters::Noise;
 			if (parameterString == "Color") return (int)MixerParameters::Color;
 			if (parameterString == "Output") return (int)MixerParameters::Output;
+		}
+		else if (module == Module::ModuleSwitches)
+		{
+			if (parameterString == "ArpOn") return (int)ModuleSwitchParameters::ArpOn;
+			if (parameterString == "CharacterOn") return (int)ModuleSwitchParameters::CharacterOn;
+			if (parameterString == "ChorusOn") return (int)ModuleSwitchParameters::ChorusOn;
+			if (parameterString == "DelayOn") return (int)ModuleSwitchParameters::DelayOn;
+			if (parameterString == "DriveOn") return (int)ModuleSwitchParameters::DriveOn;
+			if (parameterString == "FilterHpOn") return (int)ModuleSwitchParameters::FilterHpOn;
+			if (parameterString == "FilterMainOn") return (int)ModuleSwitchParameters::FilterMainOn;
+			if (parameterString == "Mod1On") return (int)ModuleSwitchParameters::Mod1On;
+			if (parameterString == "Mod2On") return (int)ModuleSwitchParameters::Mod2On;
+			if (parameterString == "Mod3On") return (int)ModuleSwitchParameters::Mod3On;
+			if (parameterString == "Osc1On") return (int)ModuleSwitchParameters::Osc1On;
+			if (parameterString == "Osc2On") return (int)ModuleSwitchParameters::Osc2On;
+			if (parameterString == "Osc3On") return (int)ModuleSwitchParameters::Osc3On;
 		}
 		else if (module == Module::Character)
 		{
