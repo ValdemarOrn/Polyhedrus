@@ -1,7 +1,11 @@
 #ifndef LEIFTUR_FILTER_ZERO_DELAY
 #define LEIFTUR_FILTER_ZERO_DELAY
 
+#define _USE_MATH_DEFINES
 #include <cmath>
+
+#include "CvFreq.h"
+
 
 namespace Leiftur
 {
@@ -23,15 +27,6 @@ namespace Leiftur
 	class FilterZeroDelay
 	{
 	public:
-		static inline float GetCvFreq(float cv)
-		{
-			// Voltage is 1V/OCt, 0V = C0 = 16.3516Hz
-			// 10.3V = Max = 20614.33hz
-			float freq = (float)(440.0 * std::pow(2, (cv * 12 - 69.0 + 12) / 12));
-			return freq;
-		}
-
-	public:
 		const int Oversample = 4;
 
 		float Drive;
@@ -41,6 +36,7 @@ namespace Leiftur
 		float ResonanceMod;
 		float DriveMod;
 
+		CvFreq cvToFreq;
 		ZeroDelayLp lp1;
 		ZeroDelayLp lp2;
 		ZeroDelayLp lp3;

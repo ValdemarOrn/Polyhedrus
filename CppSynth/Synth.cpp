@@ -150,7 +150,7 @@ namespace Leiftur
 					try
 					{
 						auto oscMsgs = OscMessage::ParseRawBytes(data);
-						auto oscMsg = oscMsgs[0];
+						auto oscMsg = oscMsgs.at(0);
 						Module module;
 						int parameter;
 						Parameters::ParseAddress(oscMsg.Address, &module, &parameter);
@@ -158,7 +158,7 @@ namespace Leiftur
 						{
 							HandleControlMessage(oscMsg);
 						}
-						else if (oscMsg.TypeTags[0] == 'f')
+						else if (oscMsg.TypeTags.at(0) == 'f')
 						{
 							float value = oscMsg.GetFloat(0);
 							SetParameterInner(module, parameter, value);
@@ -203,6 +203,8 @@ namespace Leiftur
 			LoadPreset(msg.GetString(0), msg.GetString(1));
 		else if (msg.Address == "/Control/SavePreset")
 			SavePreset(msg.GetString(0), msg.GetString(1));
+		else if (msg.Address == "/Control/RequestVisual/EnvAmp")
+			SendVisual(Module::EnvAmp);
 	}
 	
 	void Synth::LoadPreset(std::string bank, std::string presetName)
@@ -307,6 +309,24 @@ namespace Leiftur
 		OscMessage msg("/Control/PresetsChanged");
 		msg.SetString(bankName);
 		udpTranceiver->Send(msg.GetBytes());
+	}
+
+	void Synth::SendVisual(Module module)
+	{
+		if (module == Module::EnvAmp)
+		{
+			auto vis = Voices[0].ampEnv.GetVisual();
+			OscMessage msg("/Control/Visual/EnvAmp");
+			msg.SetBlob(vis);
+			udpTranceiver->Send(msg.GetBytes());
+		}
+		else if (module == Module::EnvFilter)
+		{
+			auto vis = Voices[0].filterEnv.GetVisual();
+			OscMessage msg("/Control/Visual/EnvFilter");
+			msg.SetBlob(vis);
+			udpTranceiver->Send(msg.GetBytes());
+		}
 	}
 
 	void Synth::SetParameterInner(Module module, int parameter, double value)

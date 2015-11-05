@@ -26,6 +26,7 @@
     <ClInclude Include="AudioLib\ValueTables.h" />
     <ClInclude Include="AudioLib\WaveFile.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="CvFreq.h" />
     <ClInclude Include="Default.h" />
     <ClInclude Include="Envelope.h" />
     <ClInclude Include="Fft\BitReverse.h" />
@@ -62,6 +63,7 @@
     <ClCompile Include="AudioLib\ValueTables.cpp" />
     <ClCompile Include="AudioLib\WaveFile.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="CvFreq.cpp" />
     <ClCompile Include="Envelope.cpp" />
     <ClCompile Include="Exports.cpp" />
     <ClCompile Include="Fft\BitReverse.cpp" />

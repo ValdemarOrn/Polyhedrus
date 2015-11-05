@@ -69,11 +69,7 @@
         </components:MenuSelector>
 
         <components:MenuSelector Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="2" Style="{StaticResource MenuSelectorStyle}" Margin="3,10,6,10"
-                                 SelectedItem="Character">
-            <system:String>Character</system:String>
-            <system:String>HP Filter</system:String>
-            <system:String>Main Filter</system:String>
-            <system:String>Direct</system:String>
+                                 ItemsSource="{Binding ModuleRoutings}" ui:OscAddress.Address="/*/Routing">
         </components:MenuSelector>
 
     </Grid>

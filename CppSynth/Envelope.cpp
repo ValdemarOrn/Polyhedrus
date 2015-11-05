@@ -40,21 +40,25 @@ namespace Leiftur
 		switch (parameter)
 		{
 		case EnvParameters::Attack:
+			attack = value;
 			attackInc = transform(value);
 			break;
 		case EnvParameters::Hold:
+			hold = value;
 			if (value == 0)
 				holdInc = 1.0;
 			else
 				holdInc = transform(value);
 			break;
 		case EnvParameters::Decay:
+			decay = value;
 			decayInc = transform(value);
 			break;
 		case EnvParameters::Sustain:
 			sustain = value;
 			break;
 		case EnvParameters::Release:
+			release = value;
 			releaseInc = transform(value);
 			break;
 		case EnvParameters::Velocity:
@@ -140,6 +144,56 @@ namespace Leiftur
 	{
 		iterator = 0;
 		section = 0;
+	}
+
+	std::vector<uint8_t> Envelope::GetVisual()
+	{
+		std::vector<uint8_t> output;
+		int len = 100;
+
+		output.push_back(0);
+
+		int stageLen = attack * len;
+		for (int i = 0; i < stageLen; i++)
+		{
+			float fval = i / (float)stageLen;
+			uint8_t val = (int)(fval * 255.999);
+			output.push_back(val);
+		}
+
+		output.push_back(255);
+
+		stageLen = hold * len;
+		for (int i = 0; i < stageLen; i++)
+		{
+			output.push_back(255);
+		}
+
+		stageLen = decay * len;
+		for (int i = 0; i < stageLen; i++)
+		{
+			float fval = (1 - i / (float)stageLen) * (1 - sustain) + sustain;
+			uint8_t val = (int)(fval * 255.999);
+			output.push_back(val);
+		}
+
+		stageLen = len / 2;
+		for (int i = 0; i < stageLen; i++)
+		{
+			float fval = sustain;
+			uint8_t val = (int)(fval * 255.999);
+			output.push_back(val);
+		}
+
+		stageLen = release * len;
+		for (int i = 0; i < stageLen; i++)
+		{
+			float fval = sustain * (1 - (i / (float)stageLen));
+			uint8_t val = (int)(fval * 255.999);
+			output.push_back(val);
+		}
+
+		return output;
 	}
 
 }

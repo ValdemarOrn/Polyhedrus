@@ -15,6 +15,20 @@ namespace AudioLib
 			for (int i = 0; i < len; i++)
 				buffer[i] = 0.0;
 		}
+		
+		static inline void PreventDenormal(float* buffer, int len)
+		{
+			static bool sign;
+			auto offset = 0.00001f;
+			if (sign) offset *= -1;
+			sign = !sign;
+
+			for (int i = 0; i < len; i++)
+			{
+				buffer[i] = offset;
+				offset *= -1;
+			}
+		}
 
 		static inline void Copy(float* source, float* dest, int len)
 		{

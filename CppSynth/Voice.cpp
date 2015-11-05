@@ -134,6 +134,11 @@ namespace Leiftur
 		int i = 0;
 		int bufferSize = modulationUpdateRate;
 
+		if (Gate)
+		{
+			int k = 23;
+		}
+
 		while (i < totalBufferSize)
 		{
 			ProcessModulation();
@@ -221,11 +226,9 @@ namespace Leiftur
 	{
 		mixer.ComputeOscVols();
 
-		if (stage == RoutingStage::Character)
-		{
-			ZeroBuffer(signalMixL, bufferSize);
-			ZeroBuffer(signalMixR, bufferSize);
-		}
+		PreventDenormal(signalMixL, bufferSize);
+		PreventDenormal(signalMixR, bufferSize);
+
 		if (stage == RoutingStage::HpFilter)
 		{
 			Copy(characterL.GetOutput(), signalMixL, bufferSize);

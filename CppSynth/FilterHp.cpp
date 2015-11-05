@@ -21,6 +21,7 @@ namespace Leiftur
 	void FilterHp::Initialize(int samplerate, int bufferSize, int modulationUpdateRate)
 	{
 		buffer = new float[bufferSize];
+		cvToFreq.Initialize(samplerate);
 
 		this->modulationUpdateRate = modulationUpdateRate;
 		this->samplerate = samplerate;
@@ -74,10 +75,10 @@ namespace Leiftur
 
 	void FilterHp::Update()
 	{
-		float value = Cutoff + CutoffMod;
-		value = AudioLib::Utils::Limit(value, 0.0, 1.0);
+		float cv = 10.3 * Cutoff + CutoffMod;
+		auto freq = cvToFreq.GetFreq(cv);
 
-		biquad.Frequency = 10 + AudioLib::ValueTables::Get(value, AudioLib::ValueTables::Response3Dec) * 19000;
+		biquad.Frequency = freq;
 		biquad.Update();
 	}
 

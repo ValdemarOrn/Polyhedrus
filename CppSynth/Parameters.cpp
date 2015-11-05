@@ -289,7 +289,11 @@ namespace Leiftur
 
 		auto parts = SplitString(address, '/');
 		if (parts.size() != 2)
+		{
+			*module = Module::Control;
+			*parameter = 0;
 			return;
+		}
 
 		auto moduleString = parts[0];
 		auto parameterString = parts[1];

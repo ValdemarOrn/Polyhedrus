@@ -124,6 +124,7 @@
       <DependentUpon>SynthView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Parameters.cs" />
+    <Compile Include="RoutingStage.cs" />
     <Compile Include="SynthViewModel.cs" />
     <Compile Include="Components\VoicesSection.xaml.cs">
       <DependentUpon>VoicesSection.xaml</DependentUpon>

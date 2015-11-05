@@ -3,9 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Media;
 using Leiftur.Ui.Components;
 using LowProfile.Core.Extensions;
 using SharpOSC;
@@ -47,6 +49,8 @@ namespace Leiftur.Ui
 		private bool mod2Visible;
 		private bool mod3Visible;
 		private Dictionary<int, string> waveformList;
+		private bool presetPanelVisible;
+		private Geometry visualGeometry;
 
 		public SynthViewModel(Dictionary<DependencyObject, string> controlDict)
 		{
@@ -56,6 +60,8 @@ namespace Leiftur.Ui
 				MessageBox.Show(ex.GetTrace(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 				e.Handled = true;
 			};
+
+			ModuleRoutings = Enum.GetValues(typeof(RoutingStage)).Cast<RoutingStage>().ToDictionary(x => (int)x, x => x.ToString());
 
 			waveforms = new Dictionary<int, string>();
 			presetBanks = new Dictionary<string, List<string>> { { "Default Bank", new List<string>() } };
@@ -79,6 +85,7 @@ namespace Leiftur.Ui
 			Mod1Visible = true;
 			ChorusVisible = true;
 			Matrix1Visible = true;
+			PresetPanelVisible = true;
 
 			SelectedBank = "Unknown Bank";
 			SelectedPreset = "Unknown Preset";
@@ -105,6 +112,8 @@ namespace Leiftur.Ui
 			set { waveformList = value; NotifyPropertyChanged(); }
 		}
 
+		public Dictionary<int, string> ModuleRoutings { get; set; }
+
 		public string SelectedBank
 		{
 			get { return selectedBank; }
@@ -129,6 +138,25 @@ namespace Leiftur.Ui
 				if (!isSame)
 					LoadPreset();
 			}
+		}
+
+		public bool PresetPanelVisible
+		{
+			get { return presetPanelVisible; }
+			set
+			{
+				presetPanelVisible = value;
+				NotifyPropertyChanged();
+				NotifyPropertyChanged(nameof(VisualPanelVisible));
+			}
+		}
+
+		public bool VisualPanelVisible => !PresetPanelVisible;
+
+		public Geometry VisualGeometry
+		{
+			get { return visualGeometry; }
+			set { visualGeometry = value; NotifyPropertyChanged(); }
 		}
 
 		public ModRoute[] ModRoutes
@@ -413,6 +441,7 @@ namespace Leiftur.Ui
 				var floatVal = (float)msg.Arguments[2];
 				var formattedString = (string)msg.Arguments[3];
 				ProcessParameterUpdate(module, parameter, floatVal, formattedString.Trim());
+				PrepareVisualRequest(module);
 			}
 			else if (msg.Address == "/Control/Waveforms")
 			{
@@ -465,6 +494,10 @@ namespace Leiftur.Ui
 
 				var bank = msg.Arguments.First() as string;
 				controlManager.SendOscControlMessage("/Control/RequestPresets", bank);
+			}
+			else if (msg.Address.StartsWith("/Control/Visual"))
+			{
+				UpdateVisual((byte[])msg.Arguments[0]);
 			}
         }
 
@@ -533,6 +566,11 @@ namespace Leiftur.Ui
 		private void RequestPresets()
 		{
 			controlManager.SendOscControlMessage("/Control/RequestPresets", SelectedBank);
+		}
+
+		private void RequestVisual(Module module)
+		{
+			controlManager.SendOscControlMessage("/Control/RequestVisual/" + module);
 		}
 
 		private void LoadPreset()
@@ -634,11 +672,26 @@ namespace Leiftur.Ui
 				var tuple = Parameters.ParseAddress(address);
 				SetActiveParameter(tuple.Item1, tuple.Item2);
 
+				PrepareVisualRequest(tuple.Item1);
 			}
 			else if (currentControl.Equals(uiElement))
 			{
 				currentControl = null;
 				ClearActiveParameter();
+				PresetPanelVisible = true;
+			}
+		}
+
+		private void PrepareVisualRequest(Module module)
+		{
+			if (new[] { Module.EnvAmp, Module.EnvFilter, Module.Osc1, Module.Osc2, Module.Osc3 }.Contains(module))
+			{
+				PresetPanelVisible = false;
+				RequestVisual(module);
+			}
+			else
+			{
+				PresetPanelVisible = true;
 			}
 		}
 
@@ -668,6 +721,39 @@ namespace Leiftur.Ui
 			var formattedString = formattedParameters.GetValueOrDefault(Parameters.Pack(activeModule.Value, activeParameter.Value), "");
 			AnnouncerCaption = Parameters.PrettyPrint(activeModule.Value, activeParameter.Value);
 			AnnouncerValue = formattedString;
+		}
+
+		private void UpdateVisual(byte[] data)
+		{
+			var width = 400;
+			var height = 80;
+
+			var sb = new StringBuilder();
+			var startX = 0.0;
+			var startY = 0.0;
+
+			for (int i = 0; i < data.Length; i++)
+			{
+				var x = i / (double)data.Length * width;
+				var y = height - data[i] / 255.5 * height;
+
+				if (i == 0)
+				{
+					startX = x;
+					startY = y;
+					sb.Append($"M{x},{y} ");
+				}
+				else
+					sb.Append($"L{x},{y} ");
+
+				/*if (i == data.Length - 1)
+				{
+					sb.Append($"L{x},{startY} ");
+					sb.Append($"L{startX},{startY} ");
+				}*/
+			}
+
+			VisualGeometry = Geometry.Parse(sb.ToString());
 		}
 
 		private bool CheckValidName(string name)

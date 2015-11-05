@@ -29,6 +29,12 @@ namespace Leiftur
 		float VelocityAmount;
 		
 	private:
+
+		float attack;
+		float hold;
+		float decay;
+		float release;
+
 		int samplerate;
 		int section;
 		float iterator;
@@ -48,7 +54,7 @@ namespace Leiftur
 		inline float GetOutput() { return output * (1 - VelocityAmount + Velocity * VelocityAmount); }
 		void Silence();
 		void Reset();
-
+		std::vector<uint8_t> GetVisual();
 	};
 }
 

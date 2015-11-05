@@ -19,9 +19,7 @@ namespace Leiftur
 		int Note;
 		bool Gate;
 
-	private:
 		shared_ptr<WavetableManager> wavetableManager;
-
 		ModMatrix modMatrix;
 		MixerSettings mixer;
 		bool moduleSwitches[20];
@@ -46,6 +44,7 @@ namespace Leiftur
 		Envelope ampEnv;
 		Envelope filterEnv;
 
+	private:
 		float* signalMixL;
 		float* signalMixR;
 

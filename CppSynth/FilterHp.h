@@ -3,6 +3,7 @@
 
 #include "AudioLib/Biquad.h"
 #include "Parameters.h"
+#include "CvFreq.h"
 
 namespace Leiftur
 {
@@ -21,6 +22,7 @@ namespace Leiftur
 		int modulationUpdateRate;
 		int updateCounter;
 		AudioLib::Biquad biquad;
+		CvFreq cvToFreq;
 
 	public:
 		FilterHp();

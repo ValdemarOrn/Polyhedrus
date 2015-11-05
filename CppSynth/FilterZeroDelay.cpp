@@ -1,5 +1,3 @@
-#define _USE_MATH_DEFINES
-
 #include "FilterZeroDelay.h"
 #include "AudioLib/ValueTables.h"
 #include "AudioLib/Utils.h"
@@ -27,6 +25,7 @@ namespace Leiftur
 	void FilterZeroDelay::Initialize(int samplerate, int bufferSize, int modulationUpdateRate)
 	{
 		buffer = new float[bufferSize];
+		cvToFreq.Initialize(samplerate);
 		this->modulationUpdateRate = modulationUpdateRate;
 		this->samplerate = samplerate;
 		T = 1.0f / (Oversample * samplerate);
@@ -54,7 +53,8 @@ namespace Leiftur
 				updateCounter = modulationUpdateRate;
 			}
 
-			float x = ProcessSample(input[i]);
+			float x = ProcessSample(input[i]);
+
 			buffer[i] = x * gInv;
 			updateCounter--;
 		}
@@ -70,7 +70,10 @@ namespace Leiftur
 			x = AudioLib::Utils::TanhPoly(input * gain - fb);
 
 			x = lp1.Process(x);
-			x = lp2.Process(x);			x = lp3.Process(x);			x = lp4.Process(x);			feedback = AudioLib::Utils::TanhPoly(x);
+			x = lp2.Process(x);
+			x = lp3.Process(x);
+			x = lp4.Process(x);
+			feedback = AudioLib::Utils::TanhPoly(x);
 		}
 
 		return x;
@@ -87,9 +90,8 @@ namespace Leiftur
 		float voltage = 10.3 * Cutoff + CutoffMod;
 		voltage = AudioLib::Utils::Limit(voltage, 0.0f, 10.3f);
 
-		float freq = FilterZeroDelay::GetCvFreq(voltage);
-		float omegaCWarped = freq * 2 * M_PI;
-		float omegaC = 2 / T * std::tan(omegaCWarped * T / 2);
+		float freq = cvToFreq.GetFreq(voltage);
+		float omegaC = cvToFreq.GetFreqWarped(voltage) * 2 * M_PI;
 
 		totalResonance = Resonance + ResonanceMod;
 		totalResonance = totalResonance * std::sqrt(8000 / (freq + 8000)); // fudge factor 
