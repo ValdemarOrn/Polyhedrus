@@ -142,12 +142,12 @@ namespace Leiftur
 		auto setEnv = [&](Module module)
 		{
 			preset.Values[Synth::PackParameter(module, (int)EnvParameters::Attack)] = 0.1;
-			preset.Values[Synth::PackParameter(module, (int)EnvParameters::AttackCurve)] = 0.5;
+			preset.Values[Synth::PackParameter(module, (int)EnvParameters::AttackCurve)] = 0.0;
 			preset.Values[Synth::PackParameter(module, (int)EnvParameters::Decay)] = 0.5;
-			preset.Values[Synth::PackParameter(module, (int)EnvParameters::DecayCurve)] = 0.5;
+			preset.Values[Synth::PackParameter(module, (int)EnvParameters::DecayCurve)] = -0.5;
 			preset.Values[Synth::PackParameter(module, (int)EnvParameters::Hold)] = 0.0;
 			preset.Values[Synth::PackParameter(module, (int)EnvParameters::Release)] = 0.2;
-			preset.Values[Synth::PackParameter(module, (int)EnvParameters::ReleaseCurve)] = 0.5;
+			preset.Values[Synth::PackParameter(module, (int)EnvParameters::ReleaseCurve)] = -0.5;
 			preset.Values[Synth::PackParameter(module, (int)EnvParameters::Retrigger)] = 0;
 			preset.Values[Synth::PackParameter(module, (int)EnvParameters::Sustain)] = 0.8;
 			preset.Values[Synth::PackParameter(module, (int)EnvParameters::Velocity)] = 0.0;

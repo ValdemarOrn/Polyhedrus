@@ -1,6 +1,8 @@
 #ifndef LEIFTUR_ENVELOPE
 #define LEIFTUR_ENVELOPE
 
+#include <memory>
+
 #include "Parameters.h"
 #include "AudioLib/ValueTables.h"
 
@@ -17,8 +19,10 @@ namespace Leiftur
 		static const int SectionSustain = 3;
 		static const int SectionRelease = 4;
 		static const int SectionPostRelease = 5;
-		static const float MaxTimeSeconds; // defined in body
 
+		static const int TableSize = 200;
+		static const float MaxTimeSeconds; // defined in body
+		
 		static inline double GetDecayTime(double input)
 		{
 			return ValueTables::Get(input, ValueTables::Response3Dec) * MaxTimeSeconds;
@@ -29,6 +33,10 @@ namespace Leiftur
 		float VelocityAmount;
 		
 	private:
+
+		float attackCurve[200];
+		float decayCurve[200];
+		float releaseCurve[200];
 
 		float attack;
 		float hold;
@@ -45,6 +53,21 @@ namespace Leiftur
 		float releaseInc;
 		float output;
 
+		float attackLevel;
+		float releaseLevel;
+
+		inline float Lookup(float* table, float phase)
+		{
+			float idx = phase * (TableSize - 0.001);
+			int x0 = (int)idx;
+			int x1 = idx;
+			if (x1 >= TableSize) x1 = TableSize - 1;
+			float mix = idx - x0;
+
+			float value = table[x0] * (1 - mix) + table[x1] * mix;
+			return value;
+		}
+
 	public:
 		Envelope();
 		~Envelope();
@@ -55,6 +78,7 @@ namespace Leiftur
 		void Silence();
 		void Reset();
 		std::vector<uint8_t> GetVisual();
+		void CreateCurve(float* table, double expo);
 	};
 }
 

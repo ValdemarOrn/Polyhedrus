@@ -1,4 +1,9 @@
 #include "Envelope.h"
+#include "AudioLib/Utils.h"
+
+#include <cmath>
+
+using namespace std;
 
 namespace Leiftur
 {
@@ -18,6 +23,10 @@ namespace Leiftur
 		decayInc = 0.01;
 		sustain = 0.5;
 		releaseInc = 0.01;
+
+		CreateCurve(attackCurve, 0.0);
+		CreateCurve(decayCurve, 0.0);
+		CreateCurve(releaseCurve, 0.0);
 	}
 
 	Envelope::~Envelope()
@@ -64,6 +73,15 @@ namespace Leiftur
 		case EnvParameters::Velocity:
 			VelocityAmount = value;
 			break;
+		case EnvParameters::AttackCurve:
+			CreateCurve(attackCurve, value);
+			break;
+		case EnvParameters::DecayCurve:
+			CreateCurve(decayCurve, value);
+			break;
+		case EnvParameters::ReleaseCurve:
+			CreateCurve(releaseCurve, value);
+			break;
 		}
 	}
 
@@ -72,12 +90,14 @@ namespace Leiftur
 		if (Gate && section >= SectionRelease)
 		{
 			section = SectionAttack;
-			iterator = sqrt(output);
+			attackLevel = output;
+			iterator = 0;
 		}
 		else if (!Gate && section < SectionRelease)
 		{
 			section = SectionRelease;
-			iterator = sqrt(output);
+			releaseLevel = output;
+			iterator = 1;
 		}
 
 		switch (section)
@@ -85,7 +105,7 @@ namespace Leiftur
 		case SectionAttack:
 			iterator += attackInc * samples;
 			iterator = (iterator < 1.0) ? iterator : 1.0;
-			output = iterator * iterator;
+			output = attackLevel + Lookup(attackCurve, iterator) * (1 - attackLevel);
 			if (iterator >= 1.0)
 			{
 				iterator = 0.0;
@@ -105,7 +125,7 @@ namespace Leiftur
 		case SectionDecay:
 			iterator -= decayInc * samples;
 			iterator = (iterator > 0.0) ? iterator : 0.0;
-			output = sustain + (iterator * iterator) * (1.0 - sustain);
+			output = sustain + Lookup(decayCurve, iterator) * (1.0 - sustain);
 			if (iterator <= 0.0)
 			{
 				iterator = 0.0;
@@ -118,7 +138,7 @@ namespace Leiftur
 		case SectionRelease:
 			iterator -= releaseInc * samples;
 			iterator = (iterator > 0.0) ? iterator : 0.0;
-			output = iterator * iterator;
+			output = Lookup(releaseCurve, iterator) * releaseLevel;
 			if (iterator <= 0.0)
 			{
 				iterator = 0.0;
@@ -144,6 +164,7 @@ namespace Leiftur
 	{
 		iterator = 0;
 		section = 0;
+		attackLevel = 0;
 	}
 
 	std::vector<uint8_t> Envelope::GetVisual()
@@ -151,19 +172,22 @@ namespace Leiftur
 		std::vector<uint8_t> output;
 		int len = 100;
 
-		output.push_back(0);
-
 		int stageLen = attack * len;
+		if (stageLen == 0)
+			output.push_back(0);
+
 		for (int i = 0; i < stageLen; i++)
 		{
 			float fval = i / (float)stageLen;
+			fval = Lookup(attackCurve, fval);
 			uint8_t val = (int)(fval * 255.999);
 			output.push_back(val);
 		}
 
-		output.push_back(255);
-
 		stageLen = hold * len;
+		if (stageLen == 0 && (int)(decay * len) == 0)
+			output.push_back(255);
+
 		for (int i = 0; i < stageLen; i++)
 		{
 			output.push_back(255);
@@ -172,7 +196,9 @@ namespace Leiftur
 		stageLen = decay * len;
 		for (int i = 0; i < stageLen; i++)
 		{
-			float fval = (1 - i / (float)stageLen) * (1 - sustain) + sustain;
+			float fval = (1 - i / (float)stageLen);
+			fval = Lookup(decayCurve, fval) * (1 - sustain) + sustain;
+
 			uint8_t val = (int)(fval * 255.999);
 			output.push_back(val);
 		}
@@ -188,12 +214,40 @@ namespace Leiftur
 		stageLen = release * len;
 		for (int i = 0; i < stageLen; i++)
 		{
-			float fval = sustain * (1 - (i / (float)stageLen));
+			float fval = (1 - i / (float)stageLen);
+			fval = Lookup(releaseCurve, fval) * sustain;
+
 			uint8_t val = (int)(fval * 255.999);
 			output.push_back(val);
 		}
 
 		return output;
+	}
+
+	void Envelope::CreateCurve(float* table, double expo)
+	{
+		expo = AudioLib::Utils::Limit(expo, -1, 1);
+		int N = TableSize;
+
+		if (abs(expo) < 0.001)
+			expo = 0.001;
+
+		double expAbs = abs(expo);
+		bool isNeg = expo < 0.0;
+		double min = pow(10, -2 * expAbs);
+		double decayN = std::log2(min);
+		double decay = -decayN / N;
+
+		double minVal = pow(2, -decay * (N - 1));
+		double scale = 1 - minVal;
+
+		for (int i = 0; i < N; i++)
+		{
+			if (isNeg)
+				table[i] = (pow(2, -decay * (N - i - 1)) - minVal) / scale;
+			else
+				table[i] = 1 - (pow(2, -decay * i) - minVal) / scale;
+		}
 	}
 
 }
