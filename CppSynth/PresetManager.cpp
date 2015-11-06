@@ -232,7 +232,7 @@ namespace Leiftur
 			preset.Values[Synth::PackParameter(module, (int)VoiceParameters::Detune)] = 0.0;
 			preset.Values[Synth::PackParameter(module, (int)VoiceParameters::Glide)] = 0.0;
 			preset.Values[Synth::PackParameter(module, (int)VoiceParameters::Master)] = 1.0;
-			preset.Values[Synth::PackParameter(module, (int)VoiceParameters::Polyphony)] = 6;
+			preset.Values[Synth::PackParameter(module, (int)VoiceParameters::Polyphony)] = 1;
 			preset.Values[Synth::PackParameter(module, (int)VoiceParameters::Spread)] = 0.0;
 			preset.Values[Synth::PackParameter(module, (int)VoiceParameters::Unison)] = 1;
 			preset.Values[Synth::PackParameter(module, (int)VoiceParameters::VoiceMode)] = (int)VoiceMode::PolyRoundRobin;

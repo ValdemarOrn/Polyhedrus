@@ -27,8 +27,8 @@ namespace Leiftur
 		{
 			return ValueTables::Get(input, ValueTables::Response3Dec) * MaxTimeSeconds;
 		}
-
-		bool Gate;
+		
+		bool Retrigger;
 		float Velocity;
 		float VelocityAmount;
 		
@@ -38,6 +38,7 @@ namespace Leiftur
 		float decayCurve[200];
 		float releaseCurve[200];
 
+		bool gate;
 		float attack;
 		float hold;
 		float decay;
@@ -75,6 +76,7 @@ namespace Leiftur
 		void SetParameter(EnvParameters parameter, double value);
 		float Process(int samples);
 		inline float GetOutput() { return output * (1 - VelocityAmount + Velocity * VelocityAmount); }
+		void SetGate(bool gate);
 		void Silence();
 		void Reset();
 		std::vector<uint8_t> GetVisual();

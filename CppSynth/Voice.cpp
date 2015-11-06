@@ -77,8 +77,8 @@ namespace Leiftur
 	void Voice::SetGate(float velocity)
 	{
 		Gate = velocity > 0;
-		ampEnv.Gate = Gate;
-		filterEnv.Gate = Gate;
+		ampEnv.SetGate(Gate);
+		filterEnv.SetGate(Gate);
 		modMatrix.ModSourceValues[(int)ModSource::Gate] = Gate;
 
 		if (Gate)

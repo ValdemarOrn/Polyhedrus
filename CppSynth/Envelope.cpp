@@ -14,7 +14,8 @@ namespace Leiftur
 		output = 0.0;
 		Velocity = 1.0;
 		VelocityAmount = 0.0;
-		Gate = false;
+		Retrigger = false;
+		gate = false;
 		section = SectionPostRelease;
 		iterator = 0.0;
 
@@ -82,18 +83,20 @@ namespace Leiftur
 		case EnvParameters::ReleaseCurve:
 			CreateCurve(releaseCurve, value);
 			break;
+		case EnvParameters::Retrigger:
+			Retrigger = value >= 0.5;
 		}
 	}
 
 	float Envelope::Process(int samples)
 	{
-		if (Gate && section >= SectionRelease)
+		if (gate && section >= SectionRelease)
 		{
 			section = SectionAttack;
 			attackLevel = output;
 			iterator = 0;
 		}
-		else if (!Gate && section < SectionRelease)
+		else if (!gate && section < SectionRelease)
 		{
 			section = SectionRelease;
 			releaseLevel = output;
@@ -152,6 +155,13 @@ namespace Leiftur
 		}
 
 		return GetOutput();
+	}
+
+	void Envelope::SetGate(bool gate)
+	{
+		this->gate = gate;
+		if (Retrigger)
+			Reset();
 	}
 
 	void Envelope::Silence()
