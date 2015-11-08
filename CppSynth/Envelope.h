@@ -23,9 +23,9 @@ namespace Leiftur
 		static const int TableSize = 200;
 		static const float MaxTimeSeconds; // defined in body
 		
-		static inline double GetDecayTime(double input)
+		static inline float GetDecayTime(float input)
 		{
-			return ValueTables::Get(input, ValueTables::Response3Dec) * MaxTimeSeconds;
+			return (float)ValueTables::Get(input, ValueTables::Response3Dec) * MaxTimeSeconds;
 		}
 		
 		bool Retrigger;
@@ -59,9 +59,9 @@ namespace Leiftur
 
 		inline float Lookup(float* table, float phase)
 		{
-			float idx = phase * (TableSize - 0.001);
+			float idx = (float)(phase * (TableSize - 0.001));
 			int x0 = (int)idx;
-			int x1 = idx;
+			int x1 = x0 + 1;
 			if (x1 >= TableSize) x1 = TableSize - 1;
 			float mix = idx - x0;
 

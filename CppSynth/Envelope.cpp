@@ -19,11 +19,11 @@ namespace Leiftur
 		section = SectionPostRelease;
 		iterator = 0.0;
 
-		attackInc = 0.01;
-		holdInc = 0.01;
-		decayInc = 0.01;
-		sustain = 0.5;
-		releaseInc = 0.01;
+		attackInc = 0.01f;
+		holdInc = 0.01f;
+		decayInc = 0.01f;
+		sustain = 0.5f;
+		releaseInc = 0.01f;
 
 		CreateCurve(attackCurve, 0.0);
 		CreateCurve(decayCurve, 0.0);
@@ -41,38 +41,38 @@ namespace Leiftur
 
 	void Envelope::SetParameter(EnvParameters parameter, double value)
 	{
-		auto transform = [=](float input) 
+		auto transform = [=](double input) 
 		{ 
-			float sampleLength = GetDecayTime(input) * samplerate;
-			return 1.0 / (sampleLength + 1);
+			float sampleLength = GetDecayTime((float)input) * samplerate;
+			return 1.0f / (sampleLength + 1);
 		};
 
 		switch (parameter)
 		{
 		case EnvParameters::Attack:
-			attack = value;
+			attack = (float)value;
 			attackInc = transform(value);
 			break;
 		case EnvParameters::Hold:
-			hold = value;
+			hold = (float)value;
 			if (value == 0)
 				holdInc = 1.0;
 			else
 				holdInc = transform(value);
 			break;
 		case EnvParameters::Decay:
-			decay = value;
+			decay = (float)value;
 			decayInc = transform(value);
 			break;
 		case EnvParameters::Sustain:
-			sustain = value;
+			sustain = (float)value;
 			break;
 		case EnvParameters::Release:
-			release = value;
+			release = (float)value;
 			releaseInc = transform(value);
 			break;
 		case EnvParameters::Velocity:
-			VelocityAmount = value;
+			VelocityAmount = (float)value;
 			break;
 		case EnvParameters::AttackCurve:
 			CreateCurve(attackCurve, value);
@@ -107,7 +107,7 @@ namespace Leiftur
 		{
 		case SectionAttack:
 			iterator += attackInc * samples;
-			iterator = (iterator < 1.0) ? iterator : 1.0;
+			iterator = (iterator < 1.0) ? iterator : 1.0f;
 			output = attackLevel + Lookup(attackCurve, iterator) * (1 - attackLevel);
 			if (iterator >= 1.0)
 			{
@@ -117,7 +117,7 @@ namespace Leiftur
 			break;
 		case SectionHold:
 			iterator += holdInc * samples;
-			iterator = (iterator < 1.0) ? iterator : 1.0;
+			iterator = (iterator < 1.0) ? iterator : 1.0f;
 			output = 1.0;
 			if (iterator >= 1.0)
 			{
@@ -127,8 +127,8 @@ namespace Leiftur
 			break;
 		case SectionDecay:
 			iterator -= decayInc * samples;
-			iterator = (iterator > 0.0) ? iterator : 0.0;
-			output = sustain + Lookup(decayCurve, iterator) * (1.0 - sustain);
+			iterator = (iterator > 0.0) ? iterator : 0.0f;
+			output = sustain + Lookup(decayCurve, iterator) * (1.0f - sustain);
 			if (iterator <= 0.0)
 			{
 				iterator = 0.0;
@@ -140,7 +140,7 @@ namespace Leiftur
 			break;
 		case SectionRelease:
 			iterator -= releaseInc * samples;
-			iterator = (iterator > 0.0) ? iterator : 0.0;
+			iterator = (iterator > 0.0) ? iterator : 0.0f;
 			output = Lookup(releaseCurve, iterator) * releaseLevel;
 			if (iterator <= 0.0)
 			{
@@ -182,7 +182,7 @@ namespace Leiftur
 		std::vector<uint8_t> output;
 		int len = 100;
 
-		int stageLen = attack * len;
+		int stageLen = (int)(attack * len);
 		if (stageLen == 0)
 			output.push_back(0);
 
@@ -194,7 +194,7 @@ namespace Leiftur
 			output.push_back(val);
 		}
 
-		stageLen = hold * len;
+		stageLen = (int)(hold * len);
 		if (stageLen == 0 && (int)(decay * len) == 0)
 			output.push_back(255);
 
@@ -203,7 +203,7 @@ namespace Leiftur
 			output.push_back(255);
 		}
 
-		stageLen = decay * len;
+		stageLen = (int)(decay * len);
 		for (int i = 0; i < stageLen; i++)
 		{
 			float fval = (1 - i / (float)stageLen);
@@ -221,7 +221,7 @@ namespace Leiftur
 			output.push_back(val);
 		}
 
-		stageLen = release * len;
+		stageLen = (int)(release * len);
 		for (int i = 0; i < stageLen; i++)
 		{
 			float fval = (1 - i / (float)stageLen);
@@ -239,7 +239,7 @@ namespace Leiftur
 
 	void Envelope::CreateCurve(float* table, double expo)
 	{
-		expo = AudioLib::Utils::Limit(expo, -1, 1);
+		expo = AudioLib::Utils::Limit((float)expo, -1.0f, 1.0f);
 		int N = TableSize;
 
 		if (abs(expo) < 0.001)
@@ -257,9 +257,9 @@ namespace Leiftur
 		for (int i = 0; i < N; i++)
 		{
 			if (isNeg)
-				table[i] = (pow(2, -decay * (N - i - 1)) - minVal) / scale;
+				table[i] = (float)((pow(2, -decay * (N - i - 1)) - minVal) / scale);
 			else
-				table[i] = 1 - (pow(2, -decay * i) - minVal) / scale;
+				table[i] = (float)(1 - (pow(2, -decay * i) - minVal) / scale);
 		}
 	}
 

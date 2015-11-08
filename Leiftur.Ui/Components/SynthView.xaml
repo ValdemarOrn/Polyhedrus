@@ -312,21 +312,20 @@
 
                 <Rectangle Style="{StaticResource SectionLine}" />
 
-                <ToggleButton Grid.Column="0" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding DelayVisible}">Delay</ToggleButton>
-                <ToggleButton Grid.Column="1" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding ChorusVisible}">Chorus</ToggleButton>
+                <ToggleButton Grid.Column="0" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding ChorusVisible}">Chorus</ToggleButton>
+                <ToggleButton Grid.Column="1" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding DelayVisible}">Delay</ToggleButton>
 
-
-                <ToggleButton Grid.Column="3" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/DelayOn"
-                              Visibility="{Binding DelayVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}"/>
                 <ToggleButton Grid.Column="3" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/ChorusOn"
                               Visibility="{Binding ChorusVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}"/>
+                <ToggleButton Grid.Column="3" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/DelayOn"
+                              Visibility="{Binding DelayVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}"/>
             </Grid>
-
-            <components:DelaySection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="114" Background="{StaticResource ModuleBackground}" 
-                                     Visibility="{Binding DelayVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
 
             <components:ChorusSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="114" Background="{StaticResource ModuleBackground}" 
                                      Visibility="{Binding ChorusVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
+            
+            <components:DelaySection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="114" Background="{StaticResource ModuleBackground}" 
+                                     Visibility="{Binding DelayVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
 
             <Button Width="50" Height="10" Opacity="0.1" Click="Button_Click" HorizontalAlignment="Right">Go</Button>
         </StackPanel>

@@ -47,19 +47,19 @@ namespace Leiftur
 		switch (parameter)
 		{
 		case CharacterParameters::Bottom:
-			Bottom = value;
+			Bottom = (float)value;
 			break;
 		case CharacterParameters::Clip:
-			Clip = value;
+			Clip = (float)value;
 			break;
 		case CharacterParameters::Decimate:
-			Decimate = value;
+			Decimate = (float)value;
 			break;
 		case CharacterParameters::Reduce:
-			Reduce = value;
+			Reduce = (float)value;
 			break;
 		case CharacterParameters::Top:
-			Top = value;
+			Top = (float)value;
 			break;
 		}
 	}
@@ -118,9 +118,9 @@ namespace Leiftur
 
 		// formula: 2 ^ (-8*x) / (2^(-7))
 		// goes from 32 oct/second to 0.5 oct/second
-		float divisor = std::pow(2, -7);
-		float octavesPerSecond = std::pow(2, -8 * value) / divisor;
-		float notesPerSample = octavesPerSecond * 12.0 / samplerate;
+		float divisor = (float)std::pow(2, -7);
+		float octavesPerSecond = (float)std::pow(2, -8 * value) / divisor;
+		float notesPerSample = octavesPerSecond * 12.0f / samplerate;
 		glideRate = notesPerSample;
 	}
 
@@ -135,21 +135,21 @@ namespace Leiftur
 		{
 			currentPitch += glideRate * modulationUpdateRate;
 			if (currentPitch > Note)
-				currentPitch = Note;
+				currentPitch = (float)Note;
 		}
 		else if (currentPitch > Note)
 		{
 			currentPitch -= glideRate * modulationUpdateRate;
 			if (currentPitch < Note)
-				currentPitch = Note;
+				currentPitch = (float)Note;
 		}
 
-		bqBottom.Frequency = Utils::Note2Freq(currentPitch) * 1.5;
-		bqTop.Frequency = Utils::Note2Freq(currentPitch) * 10;
-		if (bqBottom.Frequency > 1000) bqTop.Frequency = 1000;
-		if (bqTop.Frequency > 8000) bqTop.Frequency = 8000;
-		bqBottom.SetGain(1 + btm);
-		bqTop.SetGain(1 + top);
+		bqBottom.Frequency = Utils::Note2Freq(currentPitch) * 1.5f;
+		bqTop.Frequency = Utils::Note2Freq(currentPitch) * 10.0f;
+		if (bqBottom.Frequency > 1000) bqTop.Frequency = 1000.0f;
+		if (bqTop.Frequency > 8000) bqTop.Frequency = 8000.0f;
+		bqBottom.SetGain(1.0f + btm);
+		bqTop.SetGain(1.0f + top);
 		bqBottom.Update();
 		bqTop.Update();
 
@@ -159,14 +159,14 @@ namespace Leiftur
 		float reduce = Utils::Limit(Reduce + ReduceMod, 0, 1);
 		reduceOn = Reduce > 0.0001;
 
-		decimateFactor = std::pow(2, decimate * 4);
-		bitReduceFactor = (1 - reduce) * (1 - reduce) * 256;
-		if (bitReduceFactor < 2) bitReduceFactor = 2;
-		bitReduceFactorInv = 1.0 / bitReduceFactor;
+		decimateFactor = (float)std::pow(2, decimate * 4);
+		bitReduceFactor = (1.0f - reduce) * (1.0f - reduce) * 256.0f;
+		if (bitReduceFactor < 2) bitReduceFactor = 2.0f;
+		bitReduceFactorInv = 1.0f / bitReduceFactor;
 
 		// ------------ Set Clip ---------------------
 
-		clip = Utils::Limit(Clip + ClipMod, 0, 0.9) + 0.1;
+		clip = Utils::Limit(Clip + ClipMod, 0.0f, 0.9f) + 0.1f;
 		clipOn = Clip > 0.0001;
 	}
 }

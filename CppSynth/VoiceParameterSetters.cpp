@@ -15,13 +15,13 @@ namespace Leiftur
 				osc->Semi = Parameters::FloorToInt(value);
 				break;
 			case OscParameters::Cent:
-				osc->Cent = value;
+				osc->Cent = (float)value;
 				break;
 			case OscParameters::Phase:
-				osc->Phase = value;
+				osc->Phase = (float)value;
 				break;
 			case OscParameters::Shape:
-				osc->Shape = value;
+				osc->Shape = (float)value;
 				break;
 			case OscParameters::Waveform:
 				osc->SetWavetable(wavetableManager->LoadWavetable(Parameters::FloorToInt(value)));
@@ -32,9 +32,9 @@ namespace Leiftur
 		if (module == Module::Osc1)
 		{
 			if (parameter == OscParameters::Pan)
-				mixer.Osc1Pan = value;
+				mixer.Osc1Pan = (float)value;
 			else if (parameter == OscParameters::Volume)
-				mixer.Osc1Volume = value;
+				mixer.Osc1Volume = (float)value;
 			else if (parameter == OscParameters::Routing)
 				mixer.Osc1Routing = (RoutingStage)Parameters::FloorToInt(value);
 			else if (parameter == OscParameters::Slop)
@@ -47,9 +47,9 @@ namespace Leiftur
 		else if (module == Module::Osc2)
 		{
 			if (parameter == OscParameters::Pan)
-				mixer.Osc2Pan = value;
+				mixer.Osc2Pan = (float)value;
 			else if (parameter == OscParameters::Volume)
-				mixer.Osc2Volume = value;
+				mixer.Osc2Volume = (float)value;
 			else if (parameter == OscParameters::Routing)
 				mixer.Osc2Routing = (RoutingStage)Parameters::FloorToInt(value);
 			else if (parameter == OscParameters::Slop)
@@ -62,9 +62,9 @@ namespace Leiftur
 		else if (module == Module::Osc3)
 		{
 			if (parameter == OscParameters::Pan)
-				mixer.Osc3Pan = value;
+				mixer.Osc3Pan = (float)value;
 			else if (parameter == OscParameters::Volume)
-				mixer.Osc3Volume = value;
+				mixer.Osc3Volume = (float)value;
 			else if (parameter == OscParameters::Routing)
 				mixer.Osc3Routing = (RoutingStage)Parameters::FloorToInt(value);
 			else if (parameter == OscParameters::Slop)
@@ -81,25 +81,25 @@ namespace Leiftur
 		switch (parameter)
 		{
 		case MixerParameters::Am12:
-			mixer.Am12 = value;
+			mixer.Am12 = (float)value;
 			break;
 		case MixerParameters::Am23:
-			mixer.Am23 = value;
+			mixer.Am23 = (float)value;
 			break;
 		case MixerParameters::Color:
 			mixer.Color = Parameters::RoundToInt(value);
 			break;
 		case MixerParameters::Fm12:
-			mixer.Fm12 = value;
+			mixer.Fm12 = (float)value;
 			break;
 		case MixerParameters::Fm13:
-			mixer.Fm13 = value;
+			mixer.Fm13 = (float)value;
 			break;
 		case MixerParameters::Fm23:
-			mixer.Fm23 = value;
+			mixer.Fm23 = (float)value;
 			break;
 		case MixerParameters::Noise:
-			mixer.Noise = value;
+			mixer.Noise = (float)value;
 			break;
 		}
 	}
@@ -135,9 +135,9 @@ namespace Leiftur
 	void Voice::SetFilterHpParameter(Module module, FilterHpParameters parameter, double value)
 	{
 		if (parameter == FilterHpParameters::Env)
-			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterHpEnv].Amount = 10 * value;
+			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterHpEnv].Amount = (float)(10 * value);
 		else if (parameter == FilterHpParameters::Keytrack)
-			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterHpKeytrack].Amount = value;
+			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterHpKeytrack].Amount = (float)value;
 		else
 		{
 			hpFilterL.SetParameter(parameter, value);
@@ -148,9 +148,9 @@ namespace Leiftur
 	void Voice::SetFilterMainParameter(Module module, FilterMainParameters parameter, double value)
 	{
 		if (parameter == FilterMainParameters::Env)
-			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterMainEnv].Amount = 10 * value;
+			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterMainEnv].Amount = (float)(10 * value);
 		else if (parameter == FilterMainParameters::Keytrack)
-			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterMainKeytrack].Amount = value;
+			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterMainKeytrack].Amount = (float)value;
 		else
 		{
 			mainFilterL.SetParameter(parameter, value);
@@ -171,20 +171,20 @@ namespace Leiftur
 		switch (parameter)
 		{
 		case VoiceParameters::Bend:
-			modMatrix.FixedRoutes[ModMatrix::FixedRouteOscAllPitchbend].Amount = Parameters::FloorToInt(value) / 24.0;
+			modMatrix.FixedRoutes[ModMatrix::FixedRouteOscAllPitchbend].Amount = (float)(Parameters::FloorToInt(value) / 24.0);
 			break;
 		case VoiceParameters::Detune:
-			modMatrix.FixedRoutes[ModMatrix::FixedRouteOscAllUnisonDetune].Amount = value / 12.0;
+			modMatrix.FixedRoutes[ModMatrix::FixedRouteOscAllUnisonDetune].Amount = (float)(value / 12.0);
 			break;
 		case VoiceParameters::Spread:
-			modMatrix.FixedRoutes[ModMatrix::FixedRouteOscAllUnisonSpread].Amount = value;
+			modMatrix.FixedRoutes[ModMatrix::FixedRouteOscAllUnisonSpread].Amount = (float)value;
 			break;
 		case VoiceParameters::Glide:
-			osc1.SetGlide(value);
-			osc2.SetGlide(value);
-			osc3.SetGlide(value);
-			characterL.SetGlide(value);
-			characterR.SetGlide(value);
+			osc1.SetGlide((float)value);
+			osc2.SetGlide((float)value);
+			osc3.SetGlide((float)value);
+			characterL.SetGlide((float)value);
+			characterR.SetGlide((float)value);
 			break;
 		}
 	}

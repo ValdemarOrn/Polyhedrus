@@ -300,11 +300,11 @@ namespace Leiftur
 
 		// we need to store the waveform selector (the string), as the ID can change when wav files are added and deleted
 		currentPreset.Metadata[PresetManager::Osc1Waveform]
-			= wavetableManager->WavetableFiles[currentPreset.Values[PackParameter(Module::Osc1, (int)OscParameters::Waveform)]].Selector;
+			= wavetableManager->WavetableFiles[Parameters::FloorToInt(currentPreset.Values[PackParameter(Module::Osc1, (int)OscParameters::Waveform)])].Selector;
 		currentPreset.Metadata[PresetManager::Osc2Waveform]
-			= wavetableManager->WavetableFiles[currentPreset.Values[PackParameter(Module::Osc2, (int)OscParameters::Waveform)]].Selector;
+			= wavetableManager->WavetableFiles[Parameters::FloorToInt(currentPreset.Values[PackParameter(Module::Osc2, (int)OscParameters::Waveform)])].Selector;
 		currentPreset.Metadata[PresetManager::Osc3Waveform]
-			= wavetableManager->WavetableFiles[currentPreset.Values[PackParameter(Module::Osc3, (int)OscParameters::Waveform)]].Selector;
+			= wavetableManager->WavetableFiles[Parameters::FloorToInt(currentPreset.Values[PackParameter(Module::Osc3, (int)OscParameters::Waveform)])].Selector;
 
 		presetManager.SavePreset(&currentPreset);
 		OscMessage msg("/Control/PresetsChanged");
@@ -355,7 +355,7 @@ namespace Leiftur
 		}
 		else if (parameter == VoiceParameters::Master)
 		{
-			masterVol = value;
+			masterVol = (float)value;
 		}
 		else if (parameter == VoiceParameters::Polyphony)
 		{

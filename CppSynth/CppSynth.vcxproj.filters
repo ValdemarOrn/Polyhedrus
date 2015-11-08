@@ -134,6 +134,9 @@
     <ClInclude Include="SynthDefines.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Delay.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Synth.cpp">
@@ -233,6 +236,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="VoiceAllocator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Delay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

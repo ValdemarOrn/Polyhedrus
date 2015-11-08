@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:components="clr-namespace:Leiftur.Ui.Components"
+             xmlns:ui="clr-namespace:Leiftur.Ui"
              mc:Ignorable="d" 
              d:DesignHeight="120" d:DesignWidth="300">
     <UserControl.Resources>
@@ -34,12 +35,12 @@
         <Label Grid.Row="1" Grid.Column="4">Diffuse</Label>
         <Label Grid.Row="1" Grid.Column="5">Sync</Label>
 
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="4" />
-        <ToggleButton Style="{StaticResource CircleToggleButton}" Grid.Row="0" Grid.Column="5" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" ui:OscAddress.Address="/Delay/DelayL" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" ui:OscAddress.Address="/Delay/FeedbackL" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" ui:OscAddress.Address="/Delay/Lowpass" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" ui:OscAddress.Address="/Delay/Saturate" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="4" ui:OscAddress.Address="/Delay/Diffuse" />
+        <ToggleButton Style="{StaticResource CircleToggleButton}" Grid.Row="0" Grid.Column="5" ui:OscAddress.Address="/Delay/Sync" />
         
         <Label Grid.Row="3" Grid.Column="0">Delay R</Label>
         <Label Grid.Row="3" Grid.Column="1">Feedb R</Label>
@@ -47,11 +48,11 @@
         <Label Grid.Row="3" Grid.Column="3">Crossfeed</Label>
         <Label Grid.Row="3" Grid.Column="4">Wet</Label>
 
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="3" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="4" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" ui:OscAddress.Address="/Delay/DelayR" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" ui:OscAddress.Address="/Delay/FeedbackR" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" ui:OscAddress.Address="/Delay/Highpass" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="3" ui:OscAddress.Address="/Delay/Crossfeed" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="4" ui:OscAddress.Address="/Delay/Wet" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="5" Visibility="Hidden" /> <!-- Sizer -->
     </Grid>
 </UserControl>

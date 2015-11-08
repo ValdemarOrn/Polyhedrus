@@ -21,7 +21,7 @@ namespace Leiftur
 	void FilterHp::Initialize(int samplerate, int bufferSize, int modulationUpdateRate)
 	{
 		buffer = new float[bufferSize];
-		cvToFreq.Initialize(samplerate);
+		cvToFreq.Initialize((float)samplerate);
 
 		this->modulationUpdateRate = modulationUpdateRate;
 		this->samplerate = samplerate;
@@ -41,7 +41,7 @@ namespace Leiftur
 			break;
 		case FilterHpParameters::Resonance:
 			Resonance = (float)value;
-			biquad.SetQ(0.5 + value * 10);
+			biquad.SetQ((float)(0.5 + value * 10));
 			break;
 		}
 	}
@@ -68,14 +68,14 @@ namespace Leiftur
 		}
 	}
 
-	float * FilterHp::GetOutput()
+	float* FilterHp::GetOutput()
 	{
 		return buffer;
 	}
 
 	void FilterHp::Update()
 	{
-		float cv = 10.3 * Cutoff + CutoffMod;
+		float cv = (float)(10.3 * Cutoff + CutoffMod);
 		auto freq = cvToFreq.GetFreq(cv);
 
 		biquad.Frequency = freq;

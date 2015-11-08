@@ -66,8 +66,8 @@ namespace Leiftur
 			int nextVoiceIndex = FindNextVoice();
 			voiceCounters[nextVoiceIndex] = voiceCounter++;
 
-			float unisonMin = effectiveUnison == 1 ? 0 : -1;
-			float unisonMap = effectiveUnison == 1 ? 0 : 2 * i / (float)(effectiveUnison - 1);
+			float unisonMin = effectiveUnison == 1 ? 0.0f : -1.0f;
+			float unisonMap = effectiveUnison == 1 ? 0.0f : 2.0f * i / (float)(effectiveUnison - 1);
 			float unisonValue = unisonMin + unisonMap;
 
 			voices[nextVoiceIndex].SetUnisonValue(unisonValue);

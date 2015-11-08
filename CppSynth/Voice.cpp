@@ -111,8 +111,8 @@ namespace Leiftur
 		osc3.Note = note;
 		characterL.Note = note;
 		characterR.Note = note;
-		modMatrix.ModSourceValues[(int)ModSource::KeyTrack] = (note - 60) / 12.0;
-		modMatrix.ModSourceValues[(int)ModSource::KeyTrackUnipolar] = note / 12.0;
+		modMatrix.ModSourceValues[(int)ModSource::KeyTrack] = (float)((note - 60) / 12.0);
+		modMatrix.ModSourceValues[(int)ModSource::KeyTrackUnipolar] = (float)(note / 12.0);
 	}
 
 	void Voice::SetPitchWheel(float pitchbend)

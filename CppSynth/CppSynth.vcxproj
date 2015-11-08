@@ -28,6 +28,7 @@
     <ClInclude Include="Character.h" />
     <ClInclude Include="CvFreq.h" />
     <ClInclude Include="Default.h" />
+    <ClInclude Include="Delay.h" />
     <ClInclude Include="Envelope.h" />
     <ClInclude Include="Fft\BitReverse.h" />
     <ClInclude Include="Fft\Complex.h" />
@@ -66,6 +67,7 @@
     <ClCompile Include="AudioLib\WaveFile.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="CvFreq.cpp" />
+    <ClCompile Include="Delay.cpp" />
     <ClCompile Include="Envelope.cpp" />
     <ClCompile Include="Exports.cpp" />
     <ClCompile Include="Fft\BitReverse.cpp" />

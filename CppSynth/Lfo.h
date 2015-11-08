@@ -56,7 +56,7 @@ namespace Leiftur
 
 		inline static float GetFrequency(float value)
 		{
-			return ValueTables::Get(value, ValueTables::Response4Dec) * MaxFreq;
+			return (float)(ValueTables::Get(value, ValueTables::Response4Dec) * MaxFreq);
 		}
 
 	private:

@@ -52,7 +52,7 @@ namespace AudioLib
 		void Update();
 		float GetResponse(float freq);
 		
-		double inline Process(float x)
+		float inline Process(float x)
 		{
 			y = b0 * x + b1 * x1 + b2 * x2 - a1 * y1 - a2 * y2;
 			x2 = x1;

@@ -16,7 +16,7 @@ namespace AudioLib
 		SetSamplerate(samplerate);
 
 		SetGainDb(0.0);
-		Frequency = samplerate / 4;
+		Frequency = (float)(samplerate / 4.0);
 		SetQ(0.5);
 		ClearBuffers();
 	}
@@ -45,7 +45,7 @@ namespace AudioLib
 
 	void Biquad::SetGainDb(float value)
 	{
-		SetGain(std::pow(10, value / 20));
+		SetGain(std::pow(10.0f, value / 20.0f));
 	}
 
 	float Biquad::GetGain()
@@ -55,8 +55,8 @@ namespace AudioLib
 
 	void Biquad::SetGain(float value)
 	{
-		if (value < 0.001)
-			value = 0.001; // -60dB
+		if (value < 0.001f)
+			value = 0.001f; // -60dB
 		
 		gain = value;
 	}
@@ -68,8 +68,8 @@ namespace AudioLib
 
 	void Biquad::SetQ(float value)
 	{
-		if (value < 0.001)
-			value = 0.001;
+		if (value < 0.001f)
+			value = 0.001f;
 		_q = value;
 	}
 
@@ -86,7 +86,7 @@ namespace AudioLib
 
 	void Biquad::Update()
 	{
-		float omega = 2 * M_PI * Frequency / samplerate;
+		float omega = (float)(2 * M_PI * Frequency / samplerate);
 		float sinOmega = Utils::FastSin(omega);
 		float cosOmega = Utils::FastCos(omega);
 
@@ -175,7 +175,7 @@ namespace AudioLib
 	float Biquad::GetResponse(float freq)
 	{
 		double phi = std::pow((std::sin(2 * M_PI * freq / (2.0 * samplerate))), 2);
-		return (std::pow(b0 + b1 + b2, 2.0) - 4.0 * (b0 * b1 + 4.0 * b0 * b2 + b1 * b2) * phi + 16.0 * b0 * b2 * phi * phi) / (std::pow(1.0 + a1 + a2, 2.0) - 4.0 * (a1 + 4.0 * a2 + a1 * a2) * phi + 16.0 * a2 * phi * phi);
+		return (float)((std::pow(b0 + b1 + b2, 2.0) - 4.0 * (b0 * b1 + 4.0 * b0 * b2 + b1 * b2) * phi + 16.0 * b0 * b2 * phi * phi) / (std::pow(1.0 + a1 + a2, 2.0) - 4.0 * (a1 + 4.0 * a2 + a1 * a2) * phi + 16.0 * a2 * phi * phi));
 	}
 
 	void Biquad::ClearBuffers() 

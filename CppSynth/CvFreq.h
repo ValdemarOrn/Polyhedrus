@@ -18,13 +18,13 @@ namespace Leiftur
 		void Initialize(float samplerate);
 		float inline GetFreq(float cv)
 		{
-			cv = AudioLib::Utils::Limit(cv, 0, 10.3);
+			cv = AudioLib::Utils::Limit(cv, 0.0f, 10.3f);
 			return CvToFreq[(int)(cv * 999.99)];
 		}
 
 		float inline GetFreqWarped(float cv)
 		{
-			cv = AudioLib::Utils::Limit(cv, 0, 10.3);
+			cv = AudioLib::Utils::Limit(cv, 0.0f, 10.3f);
 			return CvToFreqWarped[(int)(cv * 999.99)];
 		}
 
