@@ -68,6 +68,7 @@ namespace Leiftur
 		void SetModWheel(float value);
 		void SetKeyPressure(float value);
 		void SetChannelPressure(float value);
+		void SetUnisonValue(float value);
 		void Process(int bufferSize);
 		float** GetOutput();
 		inline int GetState()

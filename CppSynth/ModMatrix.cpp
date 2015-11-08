@@ -27,21 +27,23 @@ namespace Leiftur
 		{
 			ApplyRoute(&Matrix[i]);
 		}
+
+		SumOscAllRoutes();
 	}
 
 	void ModMatrix::CreateFixedRoutes()
 	{
-		FixedRoutes[FixedRouteOsc1Pitchbend].Source = ModSource::Pitchbend;
-		FixedRoutes[FixedRouteOsc1Pitchbend].Amount = 2 / 24.0;
-		FixedRoutes[FixedRouteOsc1Pitchbend].Destination = ModDest::Osc1Pitch;
+		FixedRoutes[FixedRouteOscAllPitchbend].Source = ModSource::Pitchbend;
+		FixedRoutes[FixedRouteOscAllPitchbend].Amount = 2 / 24.0;
+		FixedRoutes[FixedRouteOscAllPitchbend].Destination = ModDest::OscAllPitch;
 		
-		FixedRoutes[FixedRouteOsc2Pitchbend].Source = ModSource::Pitchbend;
-		FixedRoutes[FixedRouteOsc2Pitchbend].Amount = 2 / 24.0;
-		FixedRoutes[FixedRouteOsc2Pitchbend].Destination = ModDest::Osc2Pitch;
+		FixedRoutes[FixedRouteOscAllUnisonDetune].Source = ModSource::UnisonIndex;
+		FixedRoutes[FixedRouteOscAllUnisonDetune].Amount = 0.2 / 12.0;
+		FixedRoutes[FixedRouteOscAllUnisonDetune].Destination = ModDest::OscAllPitch;
 
-		FixedRoutes[FixedRouteOsc3Pitchbend].Source = ModSource::Pitchbend;
-		FixedRoutes[FixedRouteOsc3Pitchbend].Amount = 2 / 24.0;
-		FixedRoutes[FixedRouteOsc3Pitchbend].Destination = ModDest::Osc3Pitch;
+		FixedRoutes[FixedRouteOscAllUnisonSpread].Source = ModSource::UnisonIndex;
+		FixedRoutes[FixedRouteOscAllUnisonSpread].Amount = 0.5;
+		FixedRoutes[FixedRouteOscAllUnisonSpread].Destination = ModDest::OscAllPan;
 
 		FixedRoutes[FixedRouteFilterHpKeytrack].Source = ModSource::KeyTrack;
 		FixedRoutes[FixedRouteFilterHpKeytrack].Amount = 1.0;
@@ -66,5 +68,24 @@ namespace Leiftur
 		auto viaSource = ModSourceValues[(int)route->ViaSource];
 		auto modValue = source * ((1 - route->ViaAmount) + viaSource * route->ViaAmount);
 		ModDestinationValues[(int)route->Destination] += modValue * route->Amount;
+	}
+
+	__inline_always void ModMatrix::SumOscAllRoutes()
+	{
+		ModDestinationValues[(int)ModDest::Osc1Pan] += ModDestinationValues[(int)ModDest::OscAllPan];
+		ModDestinationValues[(int)ModDest::Osc2Pan] += ModDestinationValues[(int)ModDest::OscAllPan];
+		ModDestinationValues[(int)ModDest::Osc3Pan] += ModDestinationValues[(int)ModDest::OscAllPan];
+
+		ModDestinationValues[(int)ModDest::Osc1Pitch] += ModDestinationValues[(int)ModDest::OscAllPitch];
+		ModDestinationValues[(int)ModDest::Osc2Pitch] += ModDestinationValues[(int)ModDest::OscAllPitch];
+		ModDestinationValues[(int)ModDest::Osc3Pitch] += ModDestinationValues[(int)ModDest::OscAllPitch];
+
+		ModDestinationValues[(int)ModDest::Osc1Shape] += ModDestinationValues[(int)ModDest::OscAllShape];
+		ModDestinationValues[(int)ModDest::Osc2Shape] += ModDestinationValues[(int)ModDest::OscAllShape];
+		ModDestinationValues[(int)ModDest::Osc3Shape] += ModDestinationValues[(int)ModDest::OscAllShape];
+
+		ModDestinationValues[(int)ModDest::Osc1Volume] += ModDestinationValues[(int)ModDest::OscAllVolume];
+		ModDestinationValues[(int)ModDest::Osc2Volume] += ModDestinationValues[(int)ModDest::OscAllVolume];
+		ModDestinationValues[(int)ModDest::Osc3Volume] += ModDestinationValues[(int)ModDest::OscAllVolume];
 	}
 }

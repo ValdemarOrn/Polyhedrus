@@ -131,6 +131,11 @@ namespace Leiftur
 		modMatrix.ModSourceValues[(int)ModSource::ChannelPressure] = value;
 	}
 
+	void Voice::SetUnisonValue(float value)
+	{
+		modMatrix.ModSourceValues[(int)ModSource::UnisonIndex] = value;
+	}
+
 	void Voice::Process(int totalBufferSize)
 	{
 		int i = 0;

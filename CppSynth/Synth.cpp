@@ -376,12 +376,12 @@ namespace Leiftur
 	// ------------------------------------------------------------------------------
 
 
-	void Synth::NoteOn(char note, float velocity)
+	void Synth::NoteOn(uint8_t note, float velocity)
 	{
 		voiceAllocator.NoteOn(note, velocity);
 	}
 
-	void Synth::NoteOff(char note)
+	void Synth::NoteOff(uint8_t note)
 	{
 		voiceAllocator.NoteOff(note);
 	}

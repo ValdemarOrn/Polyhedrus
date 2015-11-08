@@ -33,61 +33,65 @@ enum class ModDest
 {
 	Off = 0,
 
-	Osc1Pitch = 10,
-	Osc1Shape = 11,
-	Osc1Pan = 12,
-	Osc1Volume = 13,
+	OscAllPitch = 10,
+	OscAllShape = 11,
+	OscAllPan = 12,
+	OscAllVolume = 13,
 
-	Osc2Pitch = 20,
-	Osc2Shape = 21,
-	Osc2Pan = 22,
-	Osc2Volume = 23,
+	Osc1Pitch = 20,
+	Osc1Shape = 21,
+	Osc1Pan = 22,
+	Osc1Volume = 23,
 
-	Osc3Pitch = 30,
-	Osc3Shape = 31,
-	Osc3Pan = 32,
-	Osc3Volume = 33,
+	Osc2Pitch = 30,
+	Osc2Shape = 31,
+	Osc2Pan = 32,
+	Osc2Volume = 33,
 
-	MixerAm12 = 40,
-	MixerAm23 = 41,
-	MixerFm12 = 42,
-	MixerFm13 = 43,
-	MixerFm23 = 44,
-	MixerNoise = 45,
-	MixerOutput = 46,
+	Osc3Pitch = 40,
+	Osc3Shape = 41,
+	Osc3Pan = 42,
+	Osc3Volume = 43,
 
-	//CharacterBottom = 50,
-	//CharacterTop = 51,
-	//CharacterDecimate = 52,
-	//CharacterReduce = 53,
-	//CharacterClip = 54,
+	MixerAm12 = 60,
+	MixerAm23 = 61,
+	MixerFm12 = 62,
+	MixerFm13 = 63,
+	MixerFm23 = 64,
+	MixerNoise = 65,
+	MixerOutput = 66,
 
-	FilterHpCutoff = 60,
+	//CharacterBottom = 70,
+	//CharacterTop = 71,
+	//CharacterDecimate = 72,
+	//CharacterReduce = 73,
+	//CharacterClip = 74,
 
-	FilterMainCutoff = 70,
-	FilterMainDrive = 71,
-	FilterMainResonance = 72,
+	FilterHpCutoff = 80,
 
-	//EnvAmp = 80
-	//EnvFilter = 90
-	//EnvMod = 100
+	FilterMainCutoff = 90,
+	FilterMainDrive = 91,
+	FilterMainResonance = 92,
 
-	/*Lfo1Phase = 110,
-	Lfo1Freq = 111,
-	Lfo1Attack = 112,
-	Lfo1Decay = 113,
-	Lfo1Sustain = 114,
+	//EnvAmp = 100
+	//EnvFilter = 110
 
-	Lfo2Phase = 120,
-	Lfo2Freq = 121,
-	Lfo2Attack = 122,
-	Lfo2Decay = 123,
-	Lfo2Sustain = 124,
+	/*Lfo1Phase = 120,
+	Lfo1Freq = 121,
+	Lfo1Attack = 122,
+	Lfo1Decay = 123,
+	Lfo1Sustain = 124,
 
-	ArpGate = 130,
-	ArpTempo = 131,*/
+	Lfo2Phase = 130,
+	Lfo2Freq = 131,
+	Lfo2Attack = 132,
+	Lfo2Decay = 133,
+	Lfo2Sustain = 134,
 
-	Count = 132
+	ArpGate = 140,
+	ArpTempo = 141,*/
+
+	Count = 150
 
 };
 

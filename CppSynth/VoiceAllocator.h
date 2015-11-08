@@ -16,8 +16,8 @@ namespace Leiftur
 		VoiceAllocator();
 		void Initialize(Voice* voices);
 		void UpdateVoiceStates();
-		void NoteOn(char note, float velocity);
-		void NoteOff(char note);
+		void NoteOn(uint8_t note, float velocity);
+		void NoteOff(uint8_t note);
 
 		inline int GetVoiceCount()
 		{

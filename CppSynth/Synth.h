@@ -78,8 +78,8 @@ namespace Leiftur
 		void SendBackParameter(Module module, int parameter);
 		void SetGlobalVoiceParameter(VoiceParameters parameter, double value);
 
-		void NoteOn(char note, float velocity);
-		void NoteOff(char note);
+		void NoteOn(uint8_t note, float velocity);
+		void NoteOff(uint8_t note);
 		void MidiCC(uint8_t byte1, uint8_t byte2);
 		void MidiProgram(uint8_t program);
 		void PitchWheel(float pitchbend);

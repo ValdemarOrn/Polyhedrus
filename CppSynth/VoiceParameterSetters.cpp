@@ -171,9 +171,13 @@ namespace Leiftur
 		switch (parameter)
 		{
 		case VoiceParameters::Bend:
-			modMatrix.FixedRoutes[ModMatrix::FixedRouteOsc1Pitchbend].Amount = Parameters::FloorToInt(value) / 24.0;
-			modMatrix.FixedRoutes[ModMatrix::FixedRouteOsc2Pitchbend].Amount = Parameters::FloorToInt(value) / 24.0;
-			modMatrix.FixedRoutes[ModMatrix::FixedRouteOsc3Pitchbend].Amount = Parameters::FloorToInt(value) / 24.0;
+			modMatrix.FixedRoutes[ModMatrix::FixedRouteOscAllPitchbend].Amount = Parameters::FloorToInt(value) / 24.0;
+			break;
+		case VoiceParameters::Detune:
+			modMatrix.FixedRoutes[ModMatrix::FixedRouteOscAllUnisonDetune].Amount = value / 12.0;
+			break;
+		case VoiceParameters::Spread:
+			modMatrix.FixedRoutes[ModMatrix::FixedRouteOscAllUnisonSpread].Amount = value;
 			break;
 		}
 	}

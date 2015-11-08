@@ -48,7 +48,7 @@ namespace Leiftur
 		effectiveVoiceMode = voiceMode;
 	}
 
-	void VoiceAllocator::NoteOn(char note, float velocity)
+	void VoiceAllocator::NoteOn(uint8_t note, float velocity)
 	{
 		noteCounters[note] = noteCounter++;
 		int newNote = voiceMode == VoiceMode::PolyRoundRobin ? note : FindNextMonoNote();
@@ -66,16 +66,17 @@ namespace Leiftur
 			int nextVoiceIndex = FindNextVoice();
 			voiceCounters[nextVoiceIndex] = voiceCounter++;
 
-			int unisonMin = -(effectiveUnison / 2);
-			int unisonMap = unisonMin + i;
-			float unisonValue = -unisonMin / (float)unisonMap;
+			float unisonMin = effectiveUnison == 1 ? 0 : -1;
+			float unisonMap = effectiveUnison == 1 ? 0 : 2 * i / (float)(effectiveUnison - 1);
+			float unisonValue = unisonMin + unisonMap;
 
+			voices[nextVoiceIndex].SetUnisonValue(unisonValue);
 			voices[nextVoiceIndex].SetNote(note);
 			voices[nextVoiceIndex].SetGate(velocity);
 		}
 	}
 
-	void VoiceAllocator::NoteOff(char note)
+	void VoiceAllocator::NoteOff(uint8_t note)
 	{
 		noteCounters[note] = 0;
 		int nextNote = voiceMode == VoiceMode::PolyRoundRobin ? -1 : FindNextMonoNote();

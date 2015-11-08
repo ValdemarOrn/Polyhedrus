@@ -22,9 +22,9 @@ namespace Leiftur
 		static const int FixedRouteCount = 7;
 		static const int MatrixCount = 16;
 
-		static const int FixedRouteOsc1Pitchbend       = 0;
-		static const int FixedRouteOsc2Pitchbend       = 1;
-		static const int FixedRouteOsc3Pitchbend       = 2;
+		static const int FixedRouteOscAllPitchbend     = 0;
+		static const int FixedRouteOscAllUnisonDetune  = 1;
+		static const int FixedRouteOscAllUnisonSpread  = 2;
 		static const int FixedRouteFilterHpKeytrack    = 3;
 		static const int FixedRouteFilterMainKeytrack  = 4;
 		static const int FixedRouteFilterHpEnv         = 5;
@@ -43,6 +43,7 @@ namespace Leiftur
 	private:
 		void CreateFixedRoutes();
 		void ApplyRoute(ModRoute* route);
+		void SumOscAllRoutes();
 	};
 }
 #endif
