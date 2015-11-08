@@ -61,6 +61,8 @@ namespace Leiftur.Ui
 			};
 
 			ModuleRoutings = Enum.GetValues(typeof(RoutingStage)).Cast<RoutingStage>().ToDictionary(x => (int)x, x => x.ToString());
+			ModSources = Enum.GetValues(typeof(ModSource)).Cast<ModSource>().ToDictionary(x => (int)x, x => x.ToString());
+			ModDestinations = Enum.GetValues(typeof(ModDest)).Cast<ModDest>().ToDictionary(x => (int)x, x => x.ToString());
 			VoiceModes = new Dictionary<int, string>
 			{
 				{ (int)VoiceMode.MonoHighest, "Mono - Highest" },
@@ -72,7 +74,6 @@ namespace Leiftur.Ui
 			waveforms = new Dictionary<int, string>();
 			presetBanks = new Dictionary<string, List<string>> { { "Default Bank", new List<string>() } };
 			controlManager = new ControlManager(this);
-            ModRoutes = Enumerable.Range(0, 8).Select(x => new ModRoute()).ToArray();
 			formattedParameters = new Dictionary<int, string>();
 			announcerCaption = "";
 			announcerValue = "";
@@ -119,10 +120,11 @@ namespace Leiftur.Ui
 		}
 
 		public Dictionary<int, string> ModuleRoutings { get; set; }
-
 		public Dictionary<int, string> VoiceModes { get; set; }
+		public Dictionary<int, string> ModSources { get; set; }
+		public Dictionary<int, string> ModDestinations { get; set; }
 
-        public string SelectedBank
+		public string SelectedBank
 		{
 			get { return selectedBank; }
 			set
@@ -167,7 +169,7 @@ namespace Leiftur.Ui
 			set { visualGeometry = value; NotifyPropertyChanged(); }
 		}
 
-		public ModRoute[] ModRoutes { get; set; }
+		
 
 		public bool Osc1Visible
 		{

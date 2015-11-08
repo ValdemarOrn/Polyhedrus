@@ -1,6 +1,7 @@
 #ifndef LEIFTUR_DELAY
 #define LEIFTUR_DELAY
 
+#include "AudioLib/OnePoleFilters.h"
 #include "Parameters.h"
 
 namespace Leiftur
@@ -30,12 +31,18 @@ namespace Leiftur
 		float SaturateMod;
 
 	private:
+		AudioLib::Lp1 lpL;
+		AudioLib::Lp1 lpR;
+		AudioLib::Hp1 hpL;
+		AudioLib::Hp1 hpR;
+
 		int delayBufferSize;
 		float* bufferL;
 		float* bufferR;
 		float* delayLineL;
 		float* delayLineR;
 		int samplerate;
+		float T;
 		int modulationUpdateRate;
 		int updateCounter;
 		int samplePos;
@@ -45,6 +52,8 @@ namespace Leiftur
 		float totalFeedbackL;
 		float totalFeedbackR;
 		float totalSaturate;
+		float satInner;
+		float satOuter;
 
 	public:
 		Delay();

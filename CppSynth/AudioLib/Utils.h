@@ -106,10 +106,10 @@ namespace AudioLib
 			float sign = (float)(-1.0 + 2 * (x >= 0));
 
 			x = x * sign;
-			if (x > 1)
-				return x * sign;
+			if (x > 2)
+				return sign;
 			
-			float part = 1 - x;
+			float part = 1 - x * 0.5;
 			return (1 - part * part) * sign;
 		}
 

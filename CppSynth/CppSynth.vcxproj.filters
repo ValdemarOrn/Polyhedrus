@@ -137,6 +137,9 @@
     <ClInclude Include="Delay.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="AudioLib\OnePoleFilters.h">
+      <Filter>Source Files\AudioLib</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Synth.cpp">

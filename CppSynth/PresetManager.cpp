@@ -202,8 +202,8 @@ namespace Leiftur
 
 		auto setDelay = [&](Module module)
 		{
-			preset.Values[Synth::PackParameter(module, (int)DelayParameters::DelayL)] = 0.5;
-			preset.Values[Synth::PackParameter(module, (int)DelayParameters::DelayR)] = 0.5;
+			preset.Values[Synth::PackParameter(module, (int)DelayParameters::DelayL)] = 0.8;
+			preset.Values[Synth::PackParameter(module, (int)DelayParameters::DelayR)] = 0.8;
 			preset.Values[Synth::PackParameter(module, (int)DelayParameters::FeedbackL)] = 0.5;
 			preset.Values[Synth::PackParameter(module, (int)DelayParameters::FeedbackR)] = 0.5;
 			preset.Values[Synth::PackParameter(module, (int)DelayParameters::Lowpass)] = 1.0;

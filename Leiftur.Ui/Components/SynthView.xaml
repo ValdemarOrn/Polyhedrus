@@ -222,11 +222,13 @@
             </Grid>
 
             <components:MatrixSection Height="201" HorizontalAlignment="Center" VerticalAlignment="Top" Background="{StaticResource ModuleBackground}" Padding="0,10"
-                                      Visibility="{Binding Matrix1Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
+                                      StartIndex="1"
+                                      Visibility="{Binding Matrix1Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
             <components:MatrixSection Height="201" HorizontalAlignment="Center" VerticalAlignment="Top" Background="{StaticResource ModuleBackground}" Padding="0,10"
+                                      StartIndex="9"
                                       Visibility="{Binding Matrix2Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
             <components:MacroControls Height="201" HorizontalContentAlignment="Center" VerticalAlignment="Top" Padding="0,10" Background="{StaticResource ModuleBackground}"
-                                      Visibility="{Binding MacrosVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
+                                      Visibility="{Binding MacrosVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
         
         </StackPanel>
 

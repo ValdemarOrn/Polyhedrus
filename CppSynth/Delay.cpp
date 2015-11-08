@@ -34,6 +34,7 @@ namespace Leiftur
 		delayLineL = 0;
 		delayLineR = 0;
 		samplerate = 48000;
+		T = 1.0f / 48000.0f;
 		modulationUpdateRate = 8;
 		updateCounter = 0;
 		samplePos = 0;
@@ -44,6 +45,8 @@ namespace Leiftur
 		totalFeedbackR = 0;
 		totalSaturate = 0;
 		delayBufferSize = 0;
+		satInner = 1.0f;
+		satOuter = 1.0f;
 	}
 
 	Delay::~Delay()
@@ -63,6 +66,13 @@ namespace Leiftur
 		delayLineR = new float[delayBufferSize];
 		this->modulationUpdateRate = modulationUpdateRate;
 		this->samplerate = samplerate;
+		this->T = 1.0f / samplerate;
+
+		for (int i = 0; i < delayBufferSize; i++)
+		{
+			delayLineL[i] = 0.0;
+			delayLineR[i] = 0.0;
+		}
 	}
 
 	void Delay::SetParameter(DelayParameters parameter, double value)
@@ -125,8 +135,14 @@ namespace Leiftur
 			float outL = delayLineL[GetIndex(delaySamplesL)];
 			float outR = delayLineR[GetIndex(delaySamplesR)];
 
-			delayLineL[samplePos] = Utils::QuickNonlin(inputL[i] + outL * totalFeedbackL);
-			delayLineR[samplePos] = Utils::QuickNonlin(inputR[i] + outR * totalFeedbackR);
+			outL = hpL.Process(outL);
+			outL = lpL.Process(outL);
+			
+			outR = hpR.Process(outR);
+			outR = lpR.Process(outR);
+			
+			delayLineL[samplePos] = Utils::QuickNonlin(satInner * (inputL[i] + outL * totalFeedbackL)) * satOuter;
+			delayLineR[samplePos] = Utils::QuickNonlin(satInner * (inputR[i] + outR * totalFeedbackR)) * satOuter;
 
 			samplePos--;
 			if (samplePos < 0)
@@ -150,17 +166,24 @@ namespace Leiftur
 
 	void Delay::Update()
 	{
-		delaySamplesL = (float)ValueTables::Get(Utils::Limit(DelayL + DelayLMod, 0, 1), AudioLib::ValueTables::Response3Dec) * samplerate;
-		delaySamplesR = (float)ValueTables::Get(Utils::Limit(DelayR + DelayRMod, 0, 1), AudioLib::ValueTables::Response3Dec) * samplerate;
-		totalFeedbackL = Utils::Limit(FeedbackL + FeedbackLMod, 0, 2);
-		totalFeedbackR = Utils::Limit(FeedbackR + FeedbackRMod, 0, 2);
+		delaySamplesL = (float)ValueTables::Get(Utils::Limit(DelayL + DelayLMod, 0, 1), AudioLib::ValueTables::Response2Dec) * samplerate;
+		delaySamplesR = (float)ValueTables::Get(Utils::Limit(DelayR + DelayRMod, 0, 1), AudioLib::ValueTables::Response2Dec) * samplerate;
+		totalFeedbackL = Utils::Limit(FeedbackL + FeedbackLMod, 0, 1.1);
+		totalFeedbackR = Utils::Limit(FeedbackR + FeedbackRMod, 0, 1.1);
 		totalSaturate = Utils::Limit(Saturate + SaturateMod, 0, 1);
+		satInner = 0.1f + totalSaturate * 1.9f;
+		satOuter = satInner < 1 ? 1.0f / satInner : 1.0f; // we use 0.5x outer gain, because the saturation lookup table has a gain factor of 2x built in
+
+		lpL.SetFc((float)ValueTables::Get(Utils::Limit(Lowpass + LowpassMod, 0, 1), AudioLib::ValueTables::Response4Oct) * 0.5);
+		lpR.SetFc((float)ValueTables::Get(Utils::Limit(Lowpass + LowpassMod, 0, 1), AudioLib::ValueTables::Response4Oct) * 0.5);
+		hpL.SetFc((float)ValueTables::Get(Utils::Limit(Highpass + HighpassMod, 0, 1), AudioLib::ValueTables::Response4Oct) * 0.5);
+		hpR.SetFc((float)ValueTables::Get(Utils::Limit(Highpass + HighpassMod, 0, 1), AudioLib::ValueTables::Response4Oct) * 0.5);
 	}
 
 	inline int Delay::GetIndex(int offset)
 	{
 		int idx = samplePos + offset;
-		idx = idx - (idx > delayBufferSize) * delayBufferSize;
+		idx = idx % delayBufferSize;
 		return idx;
 	}
 }

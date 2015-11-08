@@ -22,6 +22,7 @@
     <ClInclude Include="AudioLib\Biquad.h" />
     <ClInclude Include="AudioLib\FastSin.h" />
     <ClInclude Include="AudioLib\Noise.h" />
+    <ClInclude Include="AudioLib\OnePoleFilters.h" />
     <ClInclude Include="AudioLib\Utils.h" />
     <ClInclude Include="AudioLib\ValueTables.h" />
     <ClInclude Include="AudioLib\WaveFile.h" />

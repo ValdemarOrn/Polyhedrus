@@ -38,9 +38,6 @@ namespace Leiftur
 
 	void Synth::Initialize(int samplerate, int udpListenPort, int udpSendPort)
 	{
-		wavetableManager->Setup(PlatformSpecific::GetDllDir());
-		presetManager.Initialize(PlatformSpecific::GetDllDir());
-		
 		if (udpListenPort != 0)
 		{
 			delete udpTranceiver;
@@ -48,6 +45,10 @@ namespace Leiftur
 			messageListenerThread = thread(&Synth::MessageListener, this);
 		}
 
+		wavetableManager->Setup(PlatformSpecific::GetDllDir());
+		presetManager.Initialize(PlatformSpecific::GetDllDir());
+		Delay.Initialize(samplerate, BufferSize, ModulationUpdateRate);
+		
 		this->Samplerate = samplerate;
 		for (size_t i = 0; i < MaxVoiceCount; i++)
 		{
@@ -55,6 +56,7 @@ namespace Leiftur
 		}
 
 		LoadPreset(presetManager.GetDefaultPreset());
+		isReady = true;
 	}
 
 	void Synth::SetParameter(int key, double value)
@@ -124,6 +126,10 @@ namespace Leiftur
 				Utils::GainAndSum(output[1], rightOut, masterVol, bufSize);
 			}
 
+			Delay.Process(leftOut, rightOut, bufSize);
+			Utils::Copy(Delay.GetOutputL(), leftOut, bufSize);
+			Utils::Copy(Delay.GetOutputR(), rightOut, bufSize);
+
 			n += bufSize;
 		}
 	}
@@ -144,6 +150,9 @@ namespace Leiftur
 			{
 				while (true)
 				{
+					if (!isReady)
+						break;
+
 					auto data = udpTranceiver->Receive();
 					if (data.size() == 0)
 						break;
@@ -338,10 +347,17 @@ namespace Leiftur
 
 		if (module == Module::Voices)
 			SetGlobalVoiceParameter((VoiceParameters)parameter, value);
-		
-		for (size_t i = 0; i < MaxVoiceCount; i++)
+
+		if (module == Module::Delay)
 		{
-			Voices[i].SetParameter(module, parameter, value);
+			Delay.SetParameter((DelayParameters)parameter, value);
+		}
+		else
+		{
+			for (size_t i = 0; i < MaxVoiceCount; i++)
+			{
+				Voices[i].SetParameter(module, parameter, value);
+			}
 		}
 	}
 

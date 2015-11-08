@@ -12,6 +12,7 @@
 #include "PresetManager.h"
 #include "SynthDefines.h"
 #include "VoiceAllocator.h"
+#include "Delay.h"
 
 #include <map>
 #include <memory>
@@ -24,6 +25,7 @@ namespace Leiftur
 	{
 	public:
 		Voice Voices[MaxVoiceCount];
+		Delay Delay;
 		int Samplerate;
 
 	private:
@@ -36,6 +38,7 @@ namespace Leiftur
 		std::thread messageListenerThread;
 		VoiceAllocator voiceAllocator;
 		float masterVol;
+		bool isReady;
 
 	public:
 		Synth();

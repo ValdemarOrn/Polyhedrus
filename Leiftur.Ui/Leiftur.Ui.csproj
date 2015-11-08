@@ -115,7 +115,7 @@
     <Compile Include="Components\ModKnob.xaml.cs">
       <DependentUpon>ModKnob.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ModRoute.cs" />
+    <Compile Include="ModSourceDesc.cs" />
     <Compile Include="OscAddress.cs" />
     <Compile Include="Components\OscSection.xaml.cs">
       <DependentUpon>OscSection.xaml</DependentUpon>
