@@ -70,6 +70,13 @@ namespace Leiftur
 		void SetChannelPressure(float value);
 		void Process(int bufferSize);
 		float** GetOutput();
+		inline int GetState()
+		{
+			if (this->Gate == true)
+				return 2;
+			return ampEnv.GetOutput() > 0 ? 1 : 0;
+		}
+
 	private:
 		void ProcessModulation();
 		void MixSignals(int bufferSize, RoutingStage stage);

@@ -45,11 +45,14 @@ namespace Leiftur
 		std::thread messageListenerThread;
 		VoiceMode voiceMode;
 		int polyphony;
+		int effectivePolyphony;
+		int effectiveUnison;
 		int unison;
-		int nextVoiceIndex;
-		int noteCounters[128];
+		int noteCounters[128]; // used to track newest/oldest notes in mono mode
+		int voiceCounters[128]; // used to track least recently triggered voice in poly mode
 		int noteCounter;
-		float lastVelocity;
+		int voiceCounter;
+		float currentVelocity;
 		float masterVol;
 
 	public:
@@ -103,7 +106,8 @@ namespace Leiftur
 		void SetChannelPressure(float pressure);
 
 		void UpdateVoiceStates();
-		int FindNextMonoNote();		
+		int FindNextMonoNote();
+		int FindNextVoice();
 	};
 }
 

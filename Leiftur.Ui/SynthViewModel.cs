@@ -542,6 +542,10 @@ namespace Leiftur.Ui
 					{
 						((ToggleButton)control).IsChecked = value > 0.5;
 					}
+					else if (control is Spinner)
+					{
+						((Spinner)control).Value = value;
+					}
 				}
 				finally
 				{
@@ -615,6 +619,13 @@ namespace Leiftur.Ui
 				{
 					DependencyPropertyDescriptor.FromProperty(ToggleButton.IsCheckedProperty, typeof(ToggleButton))
 						.AddValueChanged(toggle, (s, e) => SendValue(address, toggle.IsChecked.GetValueOrDefault() ? 1 : 0));
+				}
+
+				var spinner = control as Spinner;
+				if (spinner != null)
+				{
+					DependencyPropertyDescriptor.FromProperty(Spinner.ValueProperty, typeof(Spinner))
+						.AddValueChanged(spinner, (s, e) => SendValue(address, spinner.Value));
 				}
 			}
 		}

@@ -23,17 +23,18 @@ namespace Leiftur
 		isClosing = false;
 		polyphony = 1;
 		unison = 1;
-		nextVoiceIndex = 0;
 		masterVol = 1.0;
 		udpTranceiver = 0;
-		lastVelocity = 0;
+		currentVelocity = 0;
 
 		for (size_t i = 0; i < 128; i++)
 		{
 			noteCounters[i] = 0;
+			voiceCounters[i] = 0;
 		}
 
 		noteCounter = 1;
+		voiceCounter = 1;
 	}
 
 	Synth::~Synth()
@@ -126,7 +127,7 @@ namespace Leiftur
 			ZeroBuffer(leftOut, bufSize);
 			ZeroBuffer(rightOut, bufSize);
 
-			for (int i = 0; i < polyphony; i++)
+			for (int i = 0; i < effectivePolyphony; i++)
 			{
 				Voices[i].Process(bufSize);
 				auto output = Voices[i].GetOutput();
@@ -365,6 +366,7 @@ namespace Leiftur
 		{
 			int val = Parameters::FloorToInt(value);
 			unison = val < 1 ? 1 : val;
+			UpdateVoiceStates();
 		}
 		else if (parameter == VoiceParameters::Master)
 		{
@@ -400,24 +402,20 @@ namespace Leiftur
 				return; // already playing
 		}
 
-		lastVelocity = velocity;
-		int unisonActual = (unison > polyphony) ? polyphony : unison;
+		currentVelocity = velocity;
 
-		for (int i = 0; i < unisonActual; i++)
+		for (int i = 0; i < effectiveUnison; i++)
 		{
-			int unisonMin = -(unisonActual / 2);
+			int nextVoiceIndex = FindNextVoice();
+			voiceCounters[nextVoiceIndex] = voiceCounter++;
+
+			int unisonMin = -(effectiveUnison / 2);
 			int unisonMap = unisonMin + i;
 			float unisonValue = -unisonMin / (float)unisonMap;
+			
 			Voices[nextVoiceIndex].SetNote(note);
 			Voices[nextVoiceIndex].SetGate(velocity);
-			
-			nextVoiceIndex++;
-			if (nextVoiceIndex >= polyphony)
-				nextVoiceIndex = 0;
 		}
-
-		if (voiceMode != VoiceMode::PolyRoundRobin)
-			nextVoiceIndex = 0; // Force Monophonic
 	}
 
 	void Synth::NoteOff(char note)
@@ -427,14 +425,18 @@ namespace Leiftur
 
 		if (nextNote != -1)
 		{
-			NoteOn(nextNote, lastVelocity);
+			NoteOn(nextNote, currentVelocity);
 		}
 		if (nextNote == -1)
 		{
 			for (int i = 0; i < polyphony; i++)
 			{
+				// there can be multiple voices for the same note, when using unison
 				if (Voices[i].Note == note)
+				{
 					Voices[i].SetGate(0);
+					voiceCounters[i] = voiceCounter++;
+				}
 			}
 		}
 	}
@@ -495,6 +497,14 @@ namespace Leiftur
 				Voices[i].TurnOff();
 			}
 		}
+
+		effectiveUnison = (unison > polyphony) ? polyphony : unison;
+
+		// if mono, then effective poly is the number of unison voice
+		// otherwise, the round robin algo takes care of allocating voices using specified polyphony
+		effectivePolyphony = voiceMode == VoiceMode::PolyRoundRobin
+			? polyphony
+			: effectiveUnison;
 	}
 
 	int Synth::FindNextMonoNote()
@@ -539,6 +549,40 @@ namespace Leiftur
 		}
 
 		return -1;
+	}
+
+	int Synth::FindNextVoice()
+	{
+		int minCounter = INT32_MAX;
+		int voice = -1;
+
+		// first, check only released and off voices
+		for (int i = 0; i < effectivePolyphony; i++)
+		{
+			if (Voices[i].GetState() < 2)
+			{
+				if (voiceCounters[i] < minCounter)
+				{
+					minCounter = voiceCounters[i];
+					voice = i;
+				}
+			}
+		}
+
+		if (voice != -1) // if we found an unused voice, return it
+			return voice;
+
+		// if none found, we need to steal an active voice
+		for (int i = 0; i < effectivePolyphony; i++)
+		{
+			if (voiceCounters[i] < minCounter)
+			{
+				minCounter = voiceCounters[i];
+				voice = i;
+			}
+		}
+
+		return voice;
 	}
 
 }
