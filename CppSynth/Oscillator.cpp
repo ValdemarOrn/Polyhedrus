@@ -40,10 +40,16 @@ namespace Leiftur
 
 	void Oscillator::SetGlide(float value)
 	{
-		// formula: 2 ^ (-6*x) / (2^(-5))
+		if (value < 0.0001)
+		{
+			glideRate = 10000;
+			return;
+		}
+
+		// formula: 2 ^ (-8*x) / (2^(-7))
 		// goes from 32 oct/second to 0.5 oct/second
-		float divisor = std::pow(2, -5);
-		float octavesPerSecond = std::pow(2, -6 * value) / divisor;
+		float divisor = std::pow(2, -7);
+		float octavesPerSecond = std::pow(2, -8 * value) / divisor;
 		float notesPerSample = octavesPerSecond * 12.0 / samplerate;
 		glideRate = notesPerSample;
 	}

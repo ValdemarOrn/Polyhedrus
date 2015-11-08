@@ -62,6 +62,8 @@ namespace Leiftur
 			SetOscParameter(module, (OscParameters)parameter, value);
 		else if (module == Module::Mixer)
 			SetMixerParameter(module, (MixerParameters)parameter, value);
+		else if (module == Module::Character)
+			SetCharacterParameter(module, (CharacterParameters)parameter, value);
 		else if (module == Module::ModuleSwitches)
 			SetModuleSwitchParameter(module, (ModuleSwitchParameters)parameter, value);
 		else if (module == Module::Character)
@@ -107,6 +109,8 @@ namespace Leiftur
 		osc1.Note = note;
 		osc2.Note = note;
 		osc3.Note = note;
+		characterL.Note = note;
+		characterR.Note = note;
 		modMatrix.ModSourceValues[(int)ModSource::KeyTrack] = (note - 60) / 12.0;
 		modMatrix.ModSourceValues[(int)ModSource::KeyTrackUnipolar] = note / 12.0;
 	}

@@ -183,6 +183,8 @@ namespace Leiftur
 			osc1.SetGlide(value);
 			osc2.SetGlide(value);
 			osc3.SetGlide(value);
+			characterL.SetGlide(value);
+			characterR.SetGlide(value);
 			break;
 		}
 	}
