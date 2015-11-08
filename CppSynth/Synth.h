@@ -10,6 +10,9 @@
 #include "Osc/OscMessage.h"
 #include "Parameters.h"
 #include "PresetManager.h"
+#include "SynthDefines.h"
+#include "VoiceAllocator.h"
+
 #include <map>
 #include <memory>
 
@@ -17,18 +20,6 @@ using std::shared_ptr;
 
 namespace Leiftur
 {
-	const int MaxVoiceCount = 32;
-	const int ModulationUpdateRate = 8;
-	const int BufferSize = 64;
-
-	enum class VoiceMode
-	{
-		MonoHighest = 0,
-		MonoLowest = 1,
-		MonoNewest = 2,
-		PolyRoundRobin = 3,
-	};
-
 	class Synth
 	{
 	public:
@@ -43,16 +34,7 @@ namespace Leiftur
 		Preset currentPreset;
 		UdpTranceiver* udpTranceiver;
 		std::thread messageListenerThread;
-		VoiceMode voiceMode;
-		int polyphony;
-		int effectivePolyphony;
-		int effectiveUnison;
-		int unison;
-		int noteCounters[128]; // used to track newest/oldest notes in mono mode
-		int voiceCounters[128]; // used to track least recently triggered voice in poly mode
-		int noteCounter;
-		int voiceCounter;
-		float currentVelocity;
+		VoiceAllocator voiceAllocator;
 		float masterVol;
 
 	public:
@@ -104,10 +86,6 @@ namespace Leiftur
 		void SetModWheel(float value);
 		void SetKeyPressure(int note, float pressure);
 		void SetChannelPressure(float pressure);
-
-		void UpdateVoiceStates();
-		int FindNextMonoNote();
-		int FindNextVoice();
 	};
 }
 

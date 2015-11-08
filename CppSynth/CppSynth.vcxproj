@@ -48,11 +48,13 @@
     <ClInclude Include="Parameters.h" />
     <ClInclude Include="PresetManager.h" />
     <ClInclude Include="Synth.h" />
+    <ClInclude Include="SynthDefines.h" />
     <ClInclude Include="UnitTests\OscTests.h" />
     <ClInclude Include="UnitTests\WaveTests.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Vca.h" />
     <ClInclude Include="Voice.h" />
+    <ClInclude Include="VoiceAllocator.h" />
     <ClInclude Include="WavetableManager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -86,6 +88,7 @@
     <ClCompile Include="UnitTests\WaveTests.cpp" />
     <ClCompile Include="Vca.cpp" />
     <ClCompile Include="Voice.cpp" />
+    <ClCompile Include="VoiceAllocator.cpp" />
     <ClCompile Include="VoiceParameterSetters.cpp" />
     <ClCompile Include="WavetableManager.cpp" />
   </ItemGroup>
