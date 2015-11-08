@@ -146,6 +146,7 @@ namespace Leiftur
 
 		bqBottom.Frequency = AudioLib::Utils::Note2Freq(currentPitch) * 1.5;
 		bqTop.Frequency = AudioLib::Utils::Note2Freq(currentPitch) * 10;
+		if (bqBottom.Frequency > 1000) bqTop.Frequency = 1000;
 		if (bqTop.Frequency > 8000) bqTop.Frequency = 8000;
 		bqBottom.SetGain(1 + btm);
 		bqTop.SetGain(1 + top);

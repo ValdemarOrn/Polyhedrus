@@ -2,8 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Leiftur.Ui.Components"
                     xmlns:components="clr-namespace:Leiftur.Ui.Components"
-                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
+                    xmlns:ui="clr-namespace:LowProfile.Core.Ui;assembly=LowProfile.Core">
 
+    <ui:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     <SolidColorBrush x:Key="ForegroundBase" Color="#ccc" />
     <SolidColorBrush x:Key="ForegroundBlue" Color="#07ddff" />
     <SolidColorBrush x:Key="ForegroundBlueHighlight" Color="#57E8FF" />
@@ -309,6 +311,8 @@
                     <Grid>
                         <Ellipse HorizontalAlignment="Center" Width="12" Height="12" Fill="#90000000"></Ellipse>
                         <Ellipse HorizontalAlignment="Center" Width="10" Height="10" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}" />
+                        <Ellipse HorizontalAlignment="Center" Width="13" Height="13" Opacity="0.7" StrokeThickness="2" Stroke="{StaticResource ForegroundBlueHighlight}" 
+                                 Visibility="{Binding Path=IsMouseOver, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}"></Ellipse>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -317,9 +321,9 @@
             <Trigger Property="IsChecked" Value="True">
                 <Setter Property="Foreground" Value="{StaticResource ForegroundBlue}" />
             </Trigger>
-            <Trigger Property="IsMouseOver" Value="True">
+            <!--<Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Foreground" Value="#50ffffff" />
-            </Trigger>
+            </Trigger>-->
             </Style.Triggers>
     </Style>
 
