@@ -113,17 +113,28 @@ namespace Leiftur
 		}
 	}
 
-	void Synth::ProcessAudio(float** buffer, int bufferSize)
+	void Synth::ProcessAudio(float** buffer, int bufferLen)
 	{
-		ZeroBuffer(buffer[0], BufferSize);
-		ZeroBuffer(buffer[1], BufferSize);
-
-		for (int i = 0; i < polyphony; i++)
+		int n = 0;
+		while (n < bufferLen)
 		{
-			Voices[i].Process(bufferSize);
-			auto output = Voices[i].GetOutput();
-			GainAndSum(output[0], buffer[0], 1.0, BufferSize);
-			GainAndSum(output[1], buffer[1], 1.0, BufferSize);
+			auto bufSize = bufferLen - n > BufferSize ? BufferSize : bufferLen - n;
+
+			float* leftOut = &buffer[0][n];
+			float* rightOut = &buffer[1][n];
+
+			ZeroBuffer(leftOut, bufSize);
+			ZeroBuffer(rightOut, bufSize);
+
+			for (int i = 0; i < polyphony; i++)
+			{
+				Voices[i].Process(bufSize);
+				auto output = Voices[i].GetOutput();
+				GainAndSum(output[0], leftOut, masterVol, bufSize);
+				GainAndSum(output[1], rightOut, masterVol, bufSize);
+			}
+
+			n += bufSize;
 		}
 	}
 
@@ -367,8 +378,8 @@ namespace Leiftur
 		}
 		else if (parameter == VoiceParameters::VoiceMode)
 		{
-			UpdateVoiceStates();
 			voiceMode = (VoiceMode)(int)Parameters::FloorToInt(value);
+			UpdateVoiceStates();
 		}
 	}
 

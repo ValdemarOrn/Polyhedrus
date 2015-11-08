@@ -231,6 +231,9 @@ namespace Leiftur
 			output.push_back(val);
 		}
 
+		if (output.at(output.size() - 1) != 0)
+			output.push_back(0);
+
 		return output;
 	}
 

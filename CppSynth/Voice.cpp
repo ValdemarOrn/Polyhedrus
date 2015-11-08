@@ -72,6 +72,8 @@ namespace Leiftur
 			SetFilterMainParameter(module, (FilterMainParameters)parameter, value);
 		else if (module == Module::EnvAmp || module == Module::EnvFilter)
 			SetEnvParameter(module, (EnvParameters)parameter, value);
+		else if (module == Module::Voices)
+			SetVoiceParameter(module, (VoiceParameters)parameter, value);
 	}
 
 	void Voice::SetGate(float velocity)

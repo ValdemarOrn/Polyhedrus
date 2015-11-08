@@ -18,7 +18,7 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -27,24 +27,34 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Label Grid.Row="1" Grid.Column="0">AM 1-2</Label>
-        <Label Grid.Row="1" Grid.Column="1">AM 2-3</Label>
-        <Label Grid.Row="1" Grid.Column="2">FM 1-2</Label>
-        <Label Grid.Row="1" Grid.Column="3">FM 1-3</Label>
-        <Label Grid.Row="1" Grid.Column="4">FM 2-3</Label>
-
+        
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" ui:OscAddress.Address="/Mixer/Am12" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" ui:OscAddress.Address="/Mixer/Am23" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" ui:OscAddress.Address="/Mixer/Fm12" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" ui:OscAddress.Address="/Mixer/Fm13" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="4" ui:OscAddress.Address="/Mixer/Fm23" />
 
-        <Label Grid.Row="3" Grid.Column="0">Noise</Label>
-        <Label Grid.Row="3" Grid.Column="1">Color</Label>
-        <Label Grid.Row="3" Grid.Column="2">Output</Label>
+        <Label Grid.Row="1" Grid.Column="0">AM 1-2</Label>
+        <Label Grid.Row="1" Grid.Column="1">AM 2-3</Label>
+        <Label Grid.Row="1" Grid.Column="2">FM 1-2</Label>
+        <Label Grid.Row="1" Grid.Column="3">FM 1-3</Label>
+        <Label Grid.Row="1" Grid.Column="4">FM 2-3</Label>
 
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" ui:OscAddress.Address="/Mixer/Noise" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" Min="0" Max="2.999" ui:OscAddress.Address="/Mixer/Color" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" DefaultValue="1" ui:OscAddress.Address="/Mixer/Output" />
+        <components:MenuSelector Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" Style="{StaticResource MenuSelectorStyle}" Margin="3,10,6,10" Width="89"
+                                 ItemsSource="{Binding ModuleRoutings}" ui:OscAddress.Address="/Mixer/NoiseRouting">
+        </components:MenuSelector>
+
+        <Label Grid.Row="3" Grid.Column="0">Noise</Label>
+        <Label Grid.Row="3" Grid.Column="1">Color</Label>
+        <Label Grid.Row="3" Grid.Column="2">Output</Label>
+        
+        <StackPanel Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="3,-4,0,0">
+            <Rectangle Width="19" Height="0.5" Fill="#50ffffff" Margin="0,1,10,0" />
+            <Label Padding="0">Routing</Label>
+            <Rectangle Width="19" Height="0.5" Fill="#50ffffff" Margin="10,1,0,0" />
+        </StackPanel>
     </Grid>
 </UserControl>

@@ -57,6 +57,7 @@ namespace Leiftur
 			if (parameterString == "Noise") return (int)MixerParameters::Noise;
 			if (parameterString == "Color") return (int)MixerParameters::Color;
 			if (parameterString == "Output") return (int)MixerParameters::Output;
+			if (parameterString == "NoiseRouting") return (int)MixerParameters::NoiseRouting;
 		}
 		else if (module == Module::ModuleSwitches)
 		{

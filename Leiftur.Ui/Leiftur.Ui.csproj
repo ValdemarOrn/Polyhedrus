@@ -129,6 +129,7 @@
     <Compile Include="Components\VoicesSection.xaml.cs">
       <DependentUpon>VoicesSection.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VoiceMode.cs" />
     <Page Include="Components\ArpeggiatorSection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -59,7 +59,7 @@ namespace Leiftur
 		void Initialize(int samplerate, int udpListenPort, int udpSendPort);
 		void SetParameter(int key, double value);
 		void ProcessMidi(uint8_t* message);
-		void ProcessAudio(float** buffer, int bufferSize);
+		void ProcessAudio(float** buffer, int bufferLen);
 
 		inline static void UnpackParameter(const int key, Module* module, int* parameter)
 		{

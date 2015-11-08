@@ -52,25 +52,25 @@
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" ui:OscAddress.Address="/*/Phase" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" ui:OscAddress.Address="/*/Shape" />
 
-        <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="right" Margin="0,5,3,0">
+        <components:MenuSelector Style="{StaticResource MenuSelectorStyle}" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" 
+                                 Margin="6,10,3,10" ui:OscAddress.Address="/*/Waveform" ItemsSource="{Binding WaveformList}">
+        </components:MenuSelector>
+
+        <components:MenuSelector Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2" Style="{StaticResource MenuSelectorStyle}" Margin="3,10,6,10"
+                                 ItemsSource="{Binding ModuleRoutings}" ui:OscAddress.Address="/*/Routing">
+        </components:MenuSelector>
+
+        <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="right" Margin="0,0,3,0">
             <Rectangle Width="39" Height="0.5" Fill="#50ffffff" Margin="0,1,10,0" />
             <Label Padding="0">Waveform</Label>
             <Rectangle Width="39" Height="0.5" Fill="#50ffffff" Margin="10,1,0,0" />
         </StackPanel>
 
-        <StackPanel Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="3,5,0,0">
+        <StackPanel Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="3,0,0,0">
             <Rectangle Width="19" Height="0.5" Fill="#50ffffff" Margin="0,1,10,0" />
             <Label Padding="0">Routing</Label>
             <Rectangle Width="19" Height="0.5" Fill="#50ffffff" Margin="10,1,0,0" />
         </StackPanel>
-
-        <components:MenuSelector Style="{StaticResource MenuSelectorStyle}" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" 
-                                 Margin="6,10,3,10" ui:OscAddress.Address="/*/Waveform" ItemsSource="{Binding WaveformList}">
-        </components:MenuSelector>
-
-        <components:MenuSelector Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="2" Style="{StaticResource MenuSelectorStyle}" Margin="3,10,6,10"
-                                 ItemsSource="{Binding ModuleRoutings}" ui:OscAddress.Address="/*/Routing">
-        </components:MenuSelector>
 
     </Grid>
 </components:BaseControl>

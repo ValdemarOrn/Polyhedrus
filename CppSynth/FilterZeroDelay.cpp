@@ -86,18 +86,16 @@ namespace Leiftur
 
 		gain = (0.5f + 1.5f * driveTotal * driveTotal);
 
-		// Voltage is 1V/OCt, C0 = 16.3516Hz
+		// Voltage is 1V/OCt, C0 = 0V = 16.3516Hz
 		float voltage = 10.3 * Cutoff + CutoffMod;
-		voltage = AudioLib::Utils::Limit(voltage, 0.0f, 10.3f);
-
-		float freq = cvToFreq.GetFreq(voltage);
-		float omegaC = cvToFreq.GetFreqWarped(voltage) * 2 * M_PI;
+		float fc = cvToFreq.GetFreqWarped(voltage);
 
 		totalResonance = Resonance + ResonanceMod;
-		totalResonance = totalResonance * std::sqrt(8000 / (freq + 8000)); // fudge factor 
+		totalResonance = totalResonance * std::sqrt(8000 / (fc + 8000)); // fudge factor 
 		totalResonance = AudioLib::Utils::Limit(totalResonance, 0.0f, 0.999f);
 
-		float g = omegaC * T / 2;
+		//float g = omegaC * T / 2;
+		float g = fc * M_PI * T;
 		lp1.g = g;
 		lp2.g = g;
 		lp3.g = g;

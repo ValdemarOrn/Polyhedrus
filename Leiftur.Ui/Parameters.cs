@@ -65,6 +65,7 @@ namespace Leiftur.Ui
 		Noise = 6,
 		Color = 7,
 		Output = 8,
+		NoiseRouting = 9,
 	}
 
 	enum ModuleSwitchParameters

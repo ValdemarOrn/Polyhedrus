@@ -165,4 +165,16 @@ namespace Leiftur
 		else if (module == Module::EnvFilter)
 			filterEnv.SetParameter(parameter, value);
 	}
+
+	void Voice::SetVoiceParameter(Module module, VoiceParameters parameter, double value)
+	{
+		switch (parameter)
+		{
+		case VoiceParameters::Bend:
+			modMatrix.FixedRoutes[ModMatrix::FixedRouteOsc1Pitchbend].Amount = Parameters::FloorToInt(value) / 24.0;
+			modMatrix.FixedRoutes[ModMatrix::FixedRouteOsc2Pitchbend].Amount = Parameters::FloorToInt(value) / 24.0;
+			modMatrix.FixedRoutes[ModMatrix::FixedRouteOsc3Pitchbend].Amount = Parameters::FloorToInt(value) / 24.0;
+			break;
+		}
+	}
 }

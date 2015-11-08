@@ -36,7 +36,7 @@
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" local:OscAddress.Address="/Voices/Detune" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" local:OscAddress.Address="/Voices/Spread" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" local:OscAddress.Address="/Voices/Glide" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" Min="0" Max="12" local:OscAddress.Address="/Voices/Bend" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" Min="0" Max="24" local:OscAddress.Address="/Voices/Bend" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="4" local:OscAddress.Address="/Voices/Master" />
 
         <Label Grid.Row="3" Grid.Column="0">Voices</Label>
@@ -48,11 +48,7 @@
         <components:Spinner HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" Value="1" Min="1" Max="32" Delta="20" Quantize="1" Formatter="{}0" 
                        local:OscAddress.Address="/Voices/Unison" />
 
-        <components:MenuSelector Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" Style="{StaticResource MenuSelectorStyle}" SelectedItem="Poly - Round Robin" >
-            <system:String>Mono - Lowest</system:String>
-            <system:String>Mono - Highest</system:String>
-            <system:String>Mono - Newest</system:String>
-            <system:String>Poly - Round Robin</system:String>
-        </components:MenuSelector>
+        <components:MenuSelector Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" Style="{StaticResource MenuSelectorStyle}"
+                                 ItemsSource="{Binding VoiceModes}" local:OscAddress.Address="/Voices/VoiceMode" />
     </Grid>
 </UserControl>

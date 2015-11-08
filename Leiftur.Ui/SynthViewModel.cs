@@ -22,7 +22,6 @@ namespace Leiftur.Ui
 		private readonly Dictionary<string, List<string>> presetBanks;
 		private readonly Dictionary<int, string> waveforms;
 
-		private ModRoute[] modRoutes;
 		private Module? activeModule;
 		private int? activeParameter;
 		private UIElement currentControl;
@@ -62,6 +61,13 @@ namespace Leiftur.Ui
 			};
 
 			ModuleRoutings = Enum.GetValues(typeof(RoutingStage)).Cast<RoutingStage>().ToDictionary(x => (int)x, x => x.ToString());
+			VoiceModes = new Dictionary<int, string>
+			{
+				{ (int)VoiceMode.MonoHighest, "Mono - Highest" },
+				{ (int)VoiceMode.MonoLowest, "Mono - Lowest" },
+				{ (int)VoiceMode.MonoNewest, "Mono - Newest" },
+				{ (int)VoiceMode.PolyRoundRobin, "Poly - Round Robin" }
+			};
 
 			waveforms = new Dictionary<int, string>();
 			presetBanks = new Dictionary<string, List<string>> { { "Default Bank", new List<string>() } };
@@ -114,7 +120,9 @@ namespace Leiftur.Ui
 
 		public Dictionary<int, string> ModuleRoutings { get; set; }
 
-		public string SelectedBank
+		public Dictionary<int, string> VoiceModes { get; set; }
+
+        public string SelectedBank
 		{
 			get { return selectedBank; }
 			set
@@ -159,11 +167,7 @@ namespace Leiftur.Ui
 			set { visualGeometry = value; NotifyPropertyChanged(); }
 		}
 
-		public ModRoute[] ModRoutes
-		{
-			get { return modRoutes; }
-			set { modRoutes = value; }
-		}
+		public ModRoute[] ModRoutes { get; set; }
 
 		public bool Osc1Visible
 		{
@@ -453,7 +457,6 @@ namespace Leiftur.Ui
 				}
 
 				WaveformList = waveforms.ToDictionary(x => x.Key, x => x.Value);
-				//Parent.Dispatcher.Invoke(UpdateWaveformList);
 			}
 			else if (msg.Address == "/Control/Banks")
 			{
@@ -577,45 +580,6 @@ namespace Leiftur.Ui
 		{
 			controlManager.SendOscControlMessage("/Control/LoadPreset", SelectedBank, SelectedPreset);
 		}
-		
-		/*private void UpdateWaveformList()
-		{
-			var splitters = new [] { '/', '\\' };
-            var mainMenu = new MenuItem();
-			var allItems = waveforms
-				.Where(x => !string.IsNullOrWhiteSpace(x))
-				.Select(x => splitters.Contains(x[0]) ? x.Substring(1) : x)
-				.ToArray();
-
-            var maxLevel = allItems.Max(x => x.Split(splitters).Length);
-
-			Action<string[], MenuItem, int> populateMenu = null;
-			populateMenu = (items, menu, depth) =>
-			{
-				if (depth == maxLevel - 1)
-				{
-					foreach (var item in items)
-					{
-						var menuItem = new MenuItem { Header = item.Split(splitters).Last(), CommandParameter = item };
-                        menu.Items.Add(menuItem);
-					}
-				}
-				else
-				{
-					var groups = items.GroupBy(x => x.Split(splitters)[depth]);
-					foreach (var group in groups)
-					{
-						var subMenu = new MenuItem { Header = group.Key };
-						menu.Items.Add(subMenu);
-						populateMenu(group.ToArray(), subMenu, depth + 1);
-					}
-				}
-			};
-
-			populateMenu(allItems, mainMenu, 0);
-
-			WaveformMenu = mainMenu;
-		}*/
 
 		private void RegisterControls(Dictionary<DependencyObject, string> controlDict)
 		{
@@ -729,9 +693,6 @@ namespace Leiftur.Ui
 			var height = 80;
 
 			var sb = new StringBuilder();
-			var startX = 0.0;
-			var startY = 0.0;
-
 			for (int i = 0; i < data.Length; i++)
 			{
 				var x = i / (double)data.Length * width;
@@ -739,18 +700,10 @@ namespace Leiftur.Ui
 
 				if (i == 0)
 				{
-					startX = x;
-					startY = y;
 					sb.Append($"M{x},{y} ");
 				}
 				else
 					sb.Append($"L{x},{y} ");
-
-				/*if (i == data.Length - 1)
-				{
-					sb.Append($"L{x},{startY} ");
-					sb.Append($"L{startX},{startY} ");
-				}*/
 			}
 
 			VisualGeometry = Geometry.Parse(sb.ToString());
