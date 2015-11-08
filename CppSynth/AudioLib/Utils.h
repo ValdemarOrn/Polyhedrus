@@ -5,10 +5,30 @@
 
 namespace AudioLib
 {
-	namespace Utils
+	class Utils
 	{
-		void Initialize();
-		float Note2Freq(float note);
+	private:
+		static const int TableSize = 20000;
+		static float note2Freq[12800];
+		static float sintable[TableSize];
+		static float costable[TableSize];
+		static float tableScaler;
+
+	public:
+		static void Initialize();
+		static float Note2Freq(float note);
+
+		static inline float FastSin(float x)
+		{
+			int idx = ((int)(x * tableScaler) + 100 * TableSize) % TableSize;
+			return sintable[idx];
+		}
+
+		static inline float FastCos(float x)
+		{
+			int idx = ((int)(x * tableScaler) + 100 * TableSize) % TableSize;
+			return costable[idx];
+		}
 
 		static inline void ZeroBuffer(float* buffer, int len)
 		{
@@ -86,7 +106,7 @@ namespace AudioLib
 			for (int i = 0; i < len; i++)
 				dest[i] += source[i] * gain;
 		}
-	}
+	};
 }
 
 #endif

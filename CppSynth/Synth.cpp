@@ -10,7 +10,7 @@
 #include "PlatformSpecific.h"
 
 using namespace std;
-using namespace AudioLib::Utils;
+using namespace AudioLib;
 
 namespace Leiftur
 {
@@ -112,16 +112,16 @@ namespace Leiftur
 			float* leftOut = &buffer[0][n];
 			float* rightOut = &buffer[1][n];
 
-			ZeroBuffer(leftOut, bufSize);
-			ZeroBuffer(rightOut, bufSize);
+			Utils::ZeroBuffer(leftOut, bufSize);
+			Utils::ZeroBuffer(rightOut, bufSize);
 			int voiceCount = voiceAllocator.GetVoiceCount();
 
 			for (int i = 0; i < voiceCount; i++)
 			{
 				Voices[i].Process(bufSize);
 				auto output = Voices[i].GetOutput();
-				GainAndSum(output[0], leftOut, masterVol, bufSize);
-				GainAndSum(output[1], rightOut, masterVol, bufSize);
+				Utils::GainAndSum(output[0], leftOut, masterVol, bufSize);
+				Utils::GainAndSum(output[1], rightOut, masterVol, bufSize);
 			}
 
 			n += bufSize;

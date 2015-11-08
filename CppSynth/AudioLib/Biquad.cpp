@@ -1,6 +1,7 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include "Biquad.h"
+#include "Utils.h"
 
 namespace AudioLib
 {
@@ -86,8 +87,8 @@ namespace AudioLib
 	void Biquad::Update()
 	{
 		float omega = 2 * M_PI * Frequency / samplerate;
-		float sinOmega = std::sin(omega);
-		float cosOmega = std::cos(omega);
+		float sinOmega = Utils::FastSin(omega);
+		float cosOmega = Utils::FastCos(omega);
 
 		float sqrtGain = 0.0;
 		float alpha = 0.0;

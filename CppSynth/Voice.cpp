@@ -1,7 +1,7 @@
 #include "Voice.h"
 #include "AudioLib/Utils.h"
 
-using namespace AudioLib::Utils;
+using namespace AudioLib;
 
 namespace Leiftur
 {
@@ -237,42 +237,42 @@ namespace Leiftur
 	{
 		mixer.ComputeOscVols();
 
-		PreventDenormal(signalMixL, bufferSize);
-		PreventDenormal(signalMixR, bufferSize);
+		Utils::PreventDenormal(signalMixL, bufferSize);
+		Utils::PreventDenormal(signalMixR, bufferSize);
 
 		if (stage == RoutingStage::HpFilter)
 		{
-			Copy(characterL.GetOutput(), signalMixL, bufferSize);
-			Copy(characterR.GetOutput(), signalMixR, bufferSize);
+			Utils::Copy(characterL.GetOutput(), signalMixL, bufferSize);
+			Utils::Copy(characterR.GetOutput(), signalMixR, bufferSize);
 		}
 		else if (stage == RoutingStage::MainFilter)
 		{
-			Copy(hpFilterL.GetOutput(), signalMixL, bufferSize);
-			Copy(hpFilterR.GetOutput(), signalMixR, bufferSize);
+			Utils::Copy(hpFilterL.GetOutput(), signalMixL, bufferSize);
+			Utils::Copy(hpFilterR.GetOutput(), signalMixR, bufferSize);
 		}
 		else if (stage == RoutingStage::Direct)
 		{
-			Copy(mainFilterL.GetOutput(), signalMixL, bufferSize);
-			Copy(mainFilterR.GetOutput(), signalMixR, bufferSize);
+			Utils::Copy(mainFilterL.GetOutput(), signalMixL, bufferSize);
+			Utils::Copy(mainFilterR.GetOutput(), signalMixR, bufferSize);
 		}
 
 
 		if (IsEnabled(ModuleSwitchParameters::Osc1On) && mixer.Osc1Routing == stage)
 		{
-			GainAndSum(osc1.GetOutput(), signalMixL, mixer.Osc1VolL, bufferSize);
-			GainAndSum(osc1.GetOutput(), signalMixR, mixer.Osc1VolR, bufferSize);
+			Utils::GainAndSum(osc1.GetOutput(), signalMixL, mixer.Osc1VolL, bufferSize);
+			Utils::GainAndSum(osc1.GetOutput(), signalMixR, mixer.Osc1VolR, bufferSize);
 		}
 
 		if (IsEnabled(ModuleSwitchParameters::Osc2On) && mixer.Osc2Routing == stage)
 		{
-			GainAndSum(osc2.GetOutput(), signalMixL, mixer.Osc2VolL, bufferSize);
-			GainAndSum(osc2.GetOutput(), signalMixR, mixer.Osc2VolR, bufferSize);
+			Utils::GainAndSum(osc2.GetOutput(), signalMixL, mixer.Osc2VolL, bufferSize);
+			Utils::GainAndSum(osc2.GetOutput(), signalMixR, mixer.Osc2VolR, bufferSize);
 		}
 
 		if (IsEnabled(ModuleSwitchParameters::Osc3On) && mixer.Osc3Routing == stage)
 		{
-			GainAndSum(osc3.GetOutput(), signalMixL, mixer.Osc3VolL, bufferSize);
-			GainAndSum(osc3.GetOutput(), signalMixR, mixer.Osc3VolR, bufferSize);
+			Utils::GainAndSum(osc3.GetOutput(), signalMixL, mixer.Osc3VolL, bufferSize);
+			Utils::GainAndSum(osc3.GetOutput(), signalMixR, mixer.Osc3VolR, bufferSize);
 		}
 	}
 

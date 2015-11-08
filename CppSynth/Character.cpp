@@ -1,7 +1,7 @@
 #include "Character.h"
 #include "AudioLib/Utils.h"
 
-using namespace AudioLib::Utils;
+using AudioLib::Utils;
 
 namespace Leiftur
 {
@@ -93,7 +93,7 @@ namespace Leiftur
 			if (clipOn)
 			{
 				val = clip * 10 * val;
-				val = Limit(val, -1, 1);
+				val = Utils::Limit(val, -1, 1);
 			}
 
 			buffer[i] = val;
@@ -128,8 +128,8 @@ namespace Leiftur
 	{
 		// ----------- Set bottom and Top -------------
 
-		float btm = Limit(Bottom + BottomMod, 0, 1);
-		float top = Limit(Top + TopMod, 0, 1);
+		float btm = Utils::Limit(Bottom + BottomMod, 0, 1);
+		float top = Utils::Limit(Top + TopMod, 0, 1);
 
 		if (currentPitch < Note)
 		{
@@ -144,8 +144,8 @@ namespace Leiftur
 				currentPitch = Note;
 		}
 
-		bqBottom.Frequency = AudioLib::Utils::Note2Freq(currentPitch) * 1.5;
-		bqTop.Frequency = AudioLib::Utils::Note2Freq(currentPitch) * 10;
+		bqBottom.Frequency = Utils::Note2Freq(currentPitch) * 1.5;
+		bqTop.Frequency = Utils::Note2Freq(currentPitch) * 10;
 		if (bqBottom.Frequency > 1000) bqTop.Frequency = 1000;
 		if (bqTop.Frequency > 8000) bqTop.Frequency = 8000;
 		bqBottom.SetGain(1 + btm);
@@ -155,8 +155,8 @@ namespace Leiftur
 
 		// ------------ Set decimate and reduce --------------
 
-		float decimate = Limit(Decimate + DecimateMod, 0, 1);
-		float reduce = Limit(Reduce + ReduceMod, 0, 1);
+		float decimate = Utils::Limit(Decimate + DecimateMod, 0, 1);
+		float reduce = Utils::Limit(Reduce + ReduceMod, 0, 1);
 		reduceOn = Reduce > 0.0001;
 
 		decimateFactor = std::pow(2, decimate * 4);
@@ -166,7 +166,7 @@ namespace Leiftur
 
 		// ------------ Set Clip ---------------------
 
-		clip = Limit(Clip + ClipMod, 0, 0.9) + 0.1;
+		clip = Utils::Limit(Clip + ClipMod, 0, 0.9) + 0.1;
 		clipOn = Clip > 0.0001;
 	}
 }
