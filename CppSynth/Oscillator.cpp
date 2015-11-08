@@ -38,6 +38,16 @@ namespace Leiftur
 		Update();
 	}
 
+	void Oscillator::SetGlide(float value)
+	{
+		// formula: 2 ^ (-6*x) / (2^(-5))
+		// goes from 32 oct/second to 0.5 oct/second
+		float divisor = std::pow(2, -5);
+		float octavesPerSecond = std::pow(2, -6 * value) / divisor;
+		float notesPerSample = octavesPerSecond * 12.0 / samplerate;
+		glideRate = notesPerSample;
+	}
+
 	void Oscillator::Reset()
 	{
 		if (Phase < 0.999) // Phase = 1.0 := Free phase
@@ -69,8 +79,22 @@ namespace Leiftur
 	void Oscillator::Update()
 	{
 		float waveIndex = (Shape + ShapeMod) * wavetable->Count;
+		float basePitch = Note + 12.0f * Octave + Semi + 0.01f * Cent;
 
-		float pitch = Note + 12.0f * Octave + Semi + 0.01f * Cent + 24.0f * PitchMod;
+		if (currentPitch < basePitch)
+		{
+			currentPitch += glideRate * modulationUpdateRate;
+			if (currentPitch > basePitch)
+				currentPitch = basePitch;
+		}
+		else if (currentPitch > basePitch)
+		{
+			currentPitch -= glideRate * modulationUpdateRate;
+			if (currentPitch < basePitch)
+				currentPitch = basePitch;
+		}
+
+		float pitch = currentPitch + 24.0f * PitchMod;
 		pitch = AudioLib::Utils::Limit(pitch, 0.0, 127.9999);
 		int partialIndex = wavetable->WavetableIndex[(int)pitch];
 		waveMix = waveIndex - (int)waveIndex;

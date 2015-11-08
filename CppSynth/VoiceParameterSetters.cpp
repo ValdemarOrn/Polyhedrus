@@ -179,6 +179,11 @@ namespace Leiftur
 		case VoiceParameters::Spread:
 			modMatrix.FixedRoutes[ModMatrix::FixedRouteOscAllUnisonSpread].Amount = value;
 			break;
+		case VoiceParameters::Glide:
+			osc1.SetGlide(value);
+			osc2.SetGlide(value);
+			osc3.SetGlide(value);
+			break;
 		}
 	}
 }

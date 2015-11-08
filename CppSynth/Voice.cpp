@@ -35,9 +35,9 @@ namespace Leiftur
 		this->samplerate = samplerate;
 		this->modulationUpdateRate = modulationUpdateRate;
 
-		osc1.Initialize(samplerate, modulationUpdateRate, bufferSize);
-		osc2.Initialize(samplerate, modulationUpdateRate, bufferSize);
-		osc3.Initialize(samplerate, modulationUpdateRate, bufferSize);
+		osc1.Initialize(samplerate, bufferSize, modulationUpdateRate);
+		osc2.Initialize(samplerate, bufferSize, modulationUpdateRate);
+		osc3.Initialize(samplerate, bufferSize, modulationUpdateRate);
 
 		characterL.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		characterR.Initialize(samplerate, bufferSize, modulationUpdateRate);

@@ -19,7 +19,7 @@ namespace Leiftur
 		float Phase;
 		float Shape;
 		float ShapeMod;
-
+		
 	private:
 		float* buffer;
 		std::shared_ptr<Wavetable> wavetable;
@@ -33,11 +33,15 @@ namespace Leiftur
 		float* waveA;
 		float* waveB;
 
+		float glideRate;
+		float currentPitch;
+
 	public:
 		Oscillator();
 		~Oscillator();
 		void Initialize(int samplerate, int bufferSize, int modulationUpdateRate);
 		void SetWavetable(std::shared_ptr<Wavetable> wavetable);
+		void SetGlide(float value);
 		void Reset();
 		void Process(int count);
 		float* GetOutput();
