@@ -76,6 +76,8 @@ namespace Leiftur
 			SetEnvParameter(module, (EnvParameters)parameter, value);
 		else if (module == Module::Voices)
 			SetVoiceParameter(module, (VoiceParameters)parameter, value);
+		else if (module == Module::ModMatrix)
+			SetModMatrixParameter(module, (ModMatrixParameters)parameter, value);
 	}
 
 	void Voice::SetGate(float velocity)

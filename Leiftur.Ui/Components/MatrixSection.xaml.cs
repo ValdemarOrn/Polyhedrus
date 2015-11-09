@@ -37,6 +37,8 @@ namespace Leiftur.Ui.Components
 					var newVal = currentVal.Replace("*", index.ToString());
 					OscAddress.SetAddress(child.Key, newVal);
 				}
+
+				index++;
 			}
 		}
 	}

@@ -188,4 +188,30 @@ namespace Leiftur
 			break;
 		}
 	}
+
+	void Voice::SetModMatrixParameter(Module module, ModMatrixParameters parameter, double value)
+	{
+		int route = ((int)parameter) / 10 - 1;
+		int subIdx = ((int)parameter) % 10;
+
+		switch (subIdx)
+		{
+		case 0:
+			this->modMatrix.Matrix[route].Source = (ModSource)Parameters::FloorToInt(value);
+			break;
+		case 1:
+			this->modMatrix.Matrix[route].Destination = (ModDest)Parameters::FloorToInt(value);
+			break;
+		case 2:
+			this->modMatrix.Matrix[route].ViaSource = (ModSource)Parameters::FloorToInt(value);
+			break;
+		case 3:
+			this->modMatrix.Matrix[route].Amount = value;
+			break;
+		case 4:
+			this->modMatrix.Matrix[route].ViaAmount = value;
+			break;
+		}
+
+	}
 }

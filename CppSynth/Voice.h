@@ -91,6 +91,7 @@ namespace Leiftur
 		void SetFilterMainParameter(Module module, FilterMainParameters parameter, double value);
 		void SetEnvParameter(Module module, EnvParameters parameter, double value);
 		void SetVoiceParameter(Module module, VoiceParameters parameter, double value);
+		void SetModMatrixParameter(Module module, ModMatrixParameters parameter, double value);
 	};
 }
 
