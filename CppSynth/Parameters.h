@@ -204,8 +204,8 @@ namespace Leiftur
 		Lowpass = 5,
 		Highpass = 6,
 		Saturate = 7,
-		Crossfeed = 8,
-		Diffuse = 9,
+		DiffuseAmount = 8,
+		DiffuseSize = 9,
 		Wet = 10,
 		Sync = 11,
 	};

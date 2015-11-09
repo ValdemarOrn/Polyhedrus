@@ -19,8 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AllpassDiffuser.h" />
     <ClInclude Include="AudioLib\Biquad.h" />
     <ClInclude Include="AudioLib\FastSin.h" />
+    <ClInclude Include="AudioLib\LcgRandom.h" />
     <ClInclude Include="AudioLib\Noise.h" />
     <ClInclude Include="AudioLib\OnePoleFilters.h" />
     <ClInclude Include="AudioLib\Utils.h" />
@@ -60,6 +62,7 @@
     <ClInclude Include="WavetableManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AllpassDiffuser.cpp" />
     <ClCompile Include="AudioLib\Biquad.cpp" />
     <ClCompile Include="AudioLib\FastSin.cpp" />
     <ClCompile Include="AudioLib\Noise.cpp" />

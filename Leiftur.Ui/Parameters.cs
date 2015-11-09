@@ -196,14 +196,14 @@ namespace Leiftur.Ui
 	enum DelayParameters
 	{
 		DelayL = 1,
-		DelayR  = 2,
+		DelayR = 2,
 		FeedbackL = 3,
 		FeedbackR = 4,
 		Lowpass = 5,
 		Highpass = 6,
 		Saturate = 7,
-		Crossfeed = 8,
-		Diffuse = 9,
+		DiffuseAmount = 8,
+		DiffuseSize = 9,
 		Wet = 10,
 		Sync = 11,
 	}

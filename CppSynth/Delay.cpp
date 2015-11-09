@@ -8,10 +8,9 @@ namespace Leiftur
 {
 	Delay::Delay()
 	{
-		Crossfeed = 0;
+		DiffuseAmount = 0;
 		DelayL = 0;
 		DelayR = 0;
-		Diffuse = 0;
 		FeedbackL = 0;
 		FeedbackR = 0;
 		Highpass = 0;
@@ -68,6 +67,13 @@ namespace Leiftur
 		this->samplerate = samplerate;
 		this->T = 1.0f / samplerate;
 
+		diffuserL.Initialize(bufferSize, samplerate);
+		diffuserR.Initialize(bufferSize, samplerate);
+		
+		// I call this only on diffuserL so that the random number generators are out of sync
+		// this gives different diffusion on each channel, widening the sound
+		diffuserL.UpdateParameters(1000, 0.7);
+
 		for (int i = 0; i < delayBufferSize; i++)
 		{
 			delayLineL[i] = 0.0;
@@ -79,17 +85,18 @@ namespace Leiftur
 	{
 		switch (parameter)
 		{
-		case DelayParameters::Crossfeed:
-			Crossfeed = (float)value;
+		case DelayParameters::DiffuseAmount:
+			DiffuseAmount = (float)value;
+			break;
+		case DelayParameters::DiffuseSize:
+			diffuserL.UpdateParameters(value * samplerate * 0.025, 0.7f);
+			diffuserR.UpdateParameters(value * samplerate * 0.025, 0.7f);
 			break;
 		case DelayParameters::DelayL:
 			DelayL = (float)value;
 			break;
 		case DelayParameters::DelayR:
 			DelayR = (float)value;
-			break;
-		case DelayParameters::Diffuse:
-			Diffuse = (float)value;
 			break;
 		case DelayParameters::FeedbackL:
 			FeedbackL = (float)value;
@@ -140,6 +147,9 @@ namespace Leiftur
 			
 			outR = hpR.Process(outR);
 			outR = lpR.Process(outR);
+
+			outL = outL * (1 - DiffuseAmount) + diffuserL.Process(outL) * DiffuseAmount;
+			outR = outR * (1 - DiffuseAmount) + diffuserR.Process(outR) * DiffuseAmount;
 			
 			delayLineL[samplePos] = Utils::QuickNonlin(satInner * (inputL[i] + outL * totalFeedbackL)) * satOuter;
 			delayLineR[samplePos] = Utils::QuickNonlin(satInner * (inputR[i] + outR * totalFeedbackR)) * satOuter;
@@ -148,8 +158,8 @@ namespace Leiftur
 			if (samplePos < 0)
 				samplePos += delayBufferSize;
 
-			bufferL[i] = inputL[i] + Wet * outL;
-			bufferR[i] = inputR[i] + Wet * outR;
+			bufferL[i] = dryGain * inputL[i] + wetGain * outL;
+			bufferR[i] = dryGain * inputR[i] + wetGain * outR;
 			updateCounter--;
 		}
 	}
@@ -166,13 +176,16 @@ namespace Leiftur
 
 	void Delay::Update()
 	{
+		wetGain = Utils::Limit(2 * Wet, 0.0f, 1.0f);
+		dryGain = Utils::Limit(2 - 2 * Wet, 0.0f, 1.0f);
+
 		delaySamplesL = (float)ValueTables::Get(Utils::Limit(DelayL + DelayLMod, 0, 1), AudioLib::ValueTables::Response2Dec) * samplerate;
 		delaySamplesR = (float)ValueTables::Get(Utils::Limit(DelayR + DelayRMod, 0, 1), AudioLib::ValueTables::Response2Dec) * samplerate;
 		totalFeedbackL = Utils::Limit(FeedbackL + FeedbackLMod, 0, 1.1);
 		totalFeedbackR = Utils::Limit(FeedbackR + FeedbackRMod, 0, 1.1);
 		totalSaturate = Utils::Limit(Saturate + SaturateMod, 0, 1);
 		satInner = 0.1f + totalSaturate * 1.9f;
-		satOuter = satInner < 1 ? 1.0f / satInner : 1.0f; // we use 0.5x outer gain, because the saturation lookup table has a gain factor of 2x built in
+		satOuter = satInner < 1 ? 1.0f / satInner : 1.0f;
 
 		lpL.SetFc((float)ValueTables::Get(Utils::Limit(Lowpass + LowpassMod, 0, 1), AudioLib::ValueTables::Response4Oct) * 0.5);
 		lpR.SetFc((float)ValueTables::Get(Utils::Limit(Lowpass + LowpassMod, 0, 1), AudioLib::ValueTables::Response4Oct) * 0.5);

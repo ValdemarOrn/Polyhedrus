@@ -293,8 +293,8 @@ namespace Leiftur
 			case DelayParameters::Lowpass:
 			case DelayParameters::Highpass:
 			case DelayParameters::Saturate:
-			case DelayParameters::Crossfeed:
-			case DelayParameters::Diffuse:
+			case DelayParameters::DiffuseAmount:
+			case DelayParameters::DiffuseSize:
 			case DelayParameters::Wet:
 				return FormatPercent(value);
 			case DelayParameters::Sync:

@@ -3,16 +3,16 @@
 
 #include "AudioLib/OnePoleFilters.h"
 #include "Parameters.h"
+#include "AllpassDiffuser.h"
 
 namespace Leiftur
 {
 	class Delay
 	{
 	public:
-		float Crossfeed;
+		float DiffuseAmount;
 		float DelayL;
 		float DelayR;
-		float Diffuse;
 		float FeedbackL;
 		float FeedbackR;
 		float Highpass;
@@ -36,6 +36,9 @@ namespace Leiftur
 		AudioLib::Hp1 hpL;
 		AudioLib::Hp1 hpR;
 
+		AllpassDiffuser diffuserL;
+		AllpassDiffuser diffuserR;
+
 		int delayBufferSize;
 		float* bufferL;
 		float* bufferR;
@@ -54,6 +57,8 @@ namespace Leiftur
 		float totalSaturate;
 		float satInner;
 		float satOuter;
+		float dryGain;
+		float wetGain;
 
 	public:
 		Delay();

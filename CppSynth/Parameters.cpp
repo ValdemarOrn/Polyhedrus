@@ -181,8 +181,8 @@ namespace Leiftur
 			if (parameterString == "Lowpass") return (int)DelayParameters::Lowpass;
 			if (parameterString == "Highpass") return (int)DelayParameters::Highpass;
 			if (parameterString == "Saturate") return (int)DelayParameters::Saturate;
-			if (parameterString == "Crossfeed") return (int)DelayParameters::Crossfeed;
-			if (parameterString == "Diffuse") return (int)DelayParameters::Diffuse;
+			if (parameterString == "DiffuseAmount") return (int)DelayParameters::DiffuseAmount;
+			if (parameterString == "DiffuseSize") return (int)DelayParameters::DiffuseSize;
 			if (parameterString == "Wet") return (int)DelayParameters::Wet;
 			if (parameterString == "Sync") return (int)DelayParameters::Sync;
 		}

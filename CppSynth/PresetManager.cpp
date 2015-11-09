@@ -209,8 +209,8 @@ namespace Leiftur
 			preset.Values[Synth::PackParameter(module, (int)DelayParameters::Lowpass)] = 1.0;
 			preset.Values[Synth::PackParameter(module, (int)DelayParameters::Highpass)] = 0.0;
 			preset.Values[Synth::PackParameter(module, (int)DelayParameters::Saturate)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)DelayParameters::Crossfeed)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)DelayParameters::Diffuse)] = 0.0;
+			preset.Values[Synth::PackParameter(module, (int)DelayParameters::DiffuseAmount)] = 0.0;
+			preset.Values[Synth::PackParameter(module, (int)DelayParameters::DiffuseSize)] = 0.5;
 			preset.Values[Synth::PackParameter(module, (int)DelayParameters::Wet)] = 0.5;
 			preset.Values[Synth::PackParameter(module, (int)DelayParameters::Sync)] = 0;
 		};
