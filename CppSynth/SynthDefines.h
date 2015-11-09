@@ -4,7 +4,7 @@
 namespace Leiftur
 {
 
-	const int MaxVoiceCount = 32;
+	const int MaxVoiceCount = 24;
 	const int ModulationUpdateRate = 8;
 	const int BufferSize = 64;
 

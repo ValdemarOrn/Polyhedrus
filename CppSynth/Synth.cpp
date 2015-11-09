@@ -23,6 +23,9 @@ namespace Leiftur
 		masterVol = 1.0;
 		udpTranceiver = 0;
 		voiceAllocator.Initialize(Voices);
+
+		for (int i = 0; i < MaxVoiceCount; i++)
+			VoiceStates.push_back(0);
 	}
 
 	Synth::~Synth()
@@ -142,7 +145,7 @@ namespace Leiftur
 
 	void Synth::MessageListener()
 	{
-		auto sleepTime = chrono::milliseconds(20);
+		auto sleepTime = chrono::milliseconds(2);
 
 		while (!isClosing)
 		{
@@ -189,6 +192,8 @@ namespace Leiftur
 						}
 					}
 				}
+
+				SendVoiceStates();
 			}
 			catch (exception ex)
 			{
@@ -339,6 +344,27 @@ namespace Leiftur
 		}
 	}
 
+	void Synth::SendVoiceStates()
+	{
+		bool shouldSend = false;
+
+		for (int i = 0; i < MaxVoiceCount; i++)
+		{
+			int state = Voices[i].GetState();
+			if (state != VoiceStates[i])
+				shouldSend = true;
+
+			VoiceStates[i] = state;
+		}
+
+		if (shouldSend)
+		{
+			OscMessage msg("/Control/VoiceState");
+			msg.SetBlob(VoiceStates);
+			udpTranceiver->Send(msg.GetBytes());
+		}
+	}
+
 	void Synth::SetParameterInner(Module module, int parameter, double value)
 	{
 		int idx = PackParameter(module, parameter);
@@ -376,7 +402,9 @@ namespace Leiftur
 		else if (parameter == VoiceParameters::Polyphony)
 		{
 			int val = Parameters::FloorToInt(value);
-			voiceAllocator.polyphony = val < 1 ? 1 : val;
+			if (val < 1) val = 1;
+			if (val > MaxVoiceCount) val = MaxVoiceCount;
+			voiceAllocator.polyphony = val;
 			voiceAllocator.UpdateVoiceStates();
 		}
 		else if (parameter == VoiceParameters::VoiceMode)

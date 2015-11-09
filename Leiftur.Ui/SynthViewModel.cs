@@ -25,8 +25,9 @@ namespace Leiftur.Ui
 		private Module? activeModule;
 		private int? activeParameter;
 		private UIElement currentControl;
+		private int[] voiceState;
 
-		private bool osc1Visible;
+        private bool osc1Visible;
 		private bool osc2Visible;
 		private bool osc3Visible;
 		private bool arpeggiatorVisible;
@@ -60,6 +61,7 @@ namespace Leiftur.Ui
 				e.Handled = true;
 			};
 
+			voiceState = new int[24];
 			ModuleRoutings = Enum.GetValues(typeof(RoutingStage)).Cast<RoutingStage>().ToDictionary(x => (int)x, x => x.ToString());
 			ModSources = Enum.GetValues(typeof(ModSource)).Cast<ModSource>().ToDictionary(x => (int)x, x => x.ToString());
 			ModDestinations = Enum.GetValues(typeof(ModDest)).Cast<ModDest>().ToDictionary(x => (int)x, x => x.ToString());
@@ -123,6 +125,11 @@ namespace Leiftur.Ui
 		public Dictionary<int, string> VoiceModes { get; set; }
 		public Dictionary<int, string> ModSources { get; set; }
 		public Dictionary<int, string> ModDestinations { get; set; }
+
+		public int[] VoiceState
+		{
+			get { return voiceState.Select(x => x).ToArray(); }
+		}
 
 		public string SelectedBank
 		{
@@ -504,8 +511,12 @@ namespace Leiftur.Ui
 			{
 				UpdateVisual((byte[])msg.Arguments[0]);
 			}
+			else if (msg.Address == "/Control/VoiceState")
+			{
+				SetVoiceState((byte[])msg.Arguments[0]);
+			}
         }
-
+		
 		private void ProcessParameterUpdate(Module module, int parameter, double value, string formattedParameter)
 		{
 			var key = Parameters.Pack(module, parameter);
@@ -720,6 +731,17 @@ namespace Leiftur.Ui
 			}
 
 			VisualGeometry = Geometry.Parse(sb.ToString());
+		}
+
+		private void SetVoiceState(byte[] state)
+		{
+			for (int i = 0; i < state.Length; i++)
+			{
+				if (i < voiceState.Length)
+					voiceState[i] = state[i];
+			}
+
+			NotifyPropertyChanged(nameof(VoiceState));
 		}
 
 		private bool CheckValidName(string name)

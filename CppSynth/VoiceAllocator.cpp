@@ -7,6 +7,7 @@ namespace Leiftur
 		polyphony = 1;
 		unison = 1;
 		currentVelocity = 0;
+		lastAllocatedVoice = -1;
 
 		for (size_t i = 0; i < 128; i++)
 		{
@@ -90,7 +91,7 @@ namespace Leiftur
 			for (int i = 0; i < polyphony; i++)
 			{
 				// there can be multiple voices for the same note, when using unison
-				if (voices[i].Note == note)
+				if (voices[i].Note == note && voices[i].Gate)
 				{
 					voices[i].SetGate(0);
 					voiceCounters[i] = voiceCounter++;
@@ -148,32 +149,44 @@ namespace Leiftur
 		int minCounter = INT32_MAX;
 		int voice = -1;
 
+		// reset all completely Off voices to zero counter
+		for (int i = 0; i < effectivePolyphony; i++)
+		{
+			if (voices[i].GetState() == 0)
+				voiceCounters[i] = 0;
+		}
+
 		// first, check only released and off voices
 		for (int i = 0; i < effectivePolyphony; i++)
 		{
-			if (voices[i].GetState() < 2)
+			int idx = (lastAllocatedVoice + i + 1) % effectivePolyphony;
+
+			if (voices[idx].GetState() < 2)
 			{
-				if (voiceCounters[i] < minCounter)
+				if (voiceCounters[idx] < minCounter)
 				{
-					minCounter = voiceCounters[i];
-					voice = i;
+					minCounter = voiceCounters[idx];
+					voice = idx;
 				}
 			}
 		}
 
-		if (voice != -1) // if we found an unused voice, return it
-			return voice;
-
-		// if none found, we need to steal an active voice
-		for (int i = 0; i < effectivePolyphony; i++)
+		if (voice == -1)
 		{
-			if (voiceCounters[i] < minCounter)
+			// if none found, we need to steal an active voice
+			for (int i = 0; i < effectivePolyphony; i++)
 			{
-				minCounter = voiceCounters[i];
-				voice = i;
+				int idx = (lastAllocatedVoice + i + 1) % effectivePolyphony;
+
+				if (voiceCounters[idx] < minCounter)
+				{
+					minCounter = voiceCounters[idx];
+					voice = idx;
+				}
 			}
 		}
 
+		lastAllocatedVoice = voice;
 		return voice;
 	}
 }

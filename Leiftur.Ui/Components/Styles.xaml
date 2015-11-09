@@ -304,6 +304,12 @@
         </Style.Triggers>
     </Style>
 
+    <Style TargetType="local:VoiceIndicator">
+        <Setter Property="Width" Value="12" />
+        <Setter Property="Height" Value="12" />
+        <Setter Property="Margin" Value="4" />
+    </Style>
+    
     <Style TargetType="ToggleButton" x:Key="CircleToggleButton">
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Foreground">

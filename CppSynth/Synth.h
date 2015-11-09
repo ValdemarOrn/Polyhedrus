@@ -25,6 +25,7 @@ namespace Leiftur
 	{
 	public:
 		Voice Voices[MaxVoiceCount];
+		vector<uint8_t> VoiceStates;
 		Delay Delay;
 		int Samplerate;
 
@@ -76,11 +77,12 @@ namespace Leiftur
 		void SendPresetsToEditor(std::string bankName);
 		void SavePreset(std::string bankName, std::string presetName);
 		void SendVisual(Module module);
+		void SendVoiceStates();
 		void SetParameterInner(Module module, int parameter, double value);
 		std::string FormatParameter(Module module, int parameter, double value);
 		void SendBackParameter(Module module, int parameter);
 		void SetGlobalVoiceParameter(VoiceParameters parameter, double value);
-
+		
 		void NoteOn(uint8_t note, float velocity);
 		void NoteOff(uint8_t note);
 		void MidiCC(uint8_t byte1, uint8_t byte2);

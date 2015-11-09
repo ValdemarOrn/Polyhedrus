@@ -31,6 +31,7 @@ namespace Leiftur
 		int effectivePolyphony;
 		int effectiveUnison;
 		VoiceMode effectiveVoiceMode;
+		int lastAllocatedVoice;
 
 		int noteCounters[128]; // used to track newest/oldest notes in mono mode
 		int voiceCounters[128]; // used to track least recently triggered voice in poly mode
