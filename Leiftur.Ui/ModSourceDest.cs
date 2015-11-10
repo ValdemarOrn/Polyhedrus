@@ -12,10 +12,15 @@ namespace Leiftur.Ui
 		EnvAmp = 1,
 		EnvFilter = 2,
 
-		Lfo1 = 10,
-		Lfo2 = 11,
-		Lfo1Unipolar = 12,
-		Lfo2Unipolar = 13,
+		Mod1 = 10,
+		Mod2 = 11,
+		Mod3 = 12,
+		Mod1Unipolar = 13,
+		Mod2Unipolar = 14,
+		Mod3Unipolar = 15,
+		Mod1Env = 16,
+		Mod2Env = 17,
+		Mod3Env = 18,
 
 		KeyTrack = 20,
 		KeyTrackUnipolar = 21,
@@ -23,7 +28,7 @@ namespace Leiftur.Ui
 
 		Velocity = 30,
 		Gate = 31,
-		
+
 		ModWheel = 40,
 		KeyPressure = 41,
 		ChannelPressure = 42,

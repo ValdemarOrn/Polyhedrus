@@ -92,9 +92,6 @@
     <ClInclude Include="MixerSettings.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Lfo.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="AudioLib\Noise.h">
       <Filter>Source Files\AudioLib</Filter>
     </ClInclude>
@@ -145,6 +142,9 @@
     </ClInclude>
     <ClInclude Include="AudioLib\LcgRandom.h">
       <Filter>Source Files\AudioLib</Filter>
+    </ClInclude>
+    <ClInclude Include="Modulator.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -211,9 +211,6 @@
     <ClCompile Include="SynthParameters.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Lfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AudioLib\Noise.cpp">
       <Filter>Source Files\AudioLib</Filter>
     </ClCompile>
@@ -251,6 +248,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AllpassDiffuser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Modulator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

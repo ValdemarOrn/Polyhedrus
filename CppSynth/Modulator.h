@@ -1,9 +1,10 @@
-#ifndef LEIFTUR_LFO
-#define LEIFTUR_LFO
+#ifndef LEIFTUR_MODULATOR
+#define LEIFTUR_MODULATOR
 
 #include "Envelope.h"
 #include "Parameters.h"
 #include "AudioLib/ValueTables.h"
+#include "AudioLib/LcgRandom.h"
 
 namespace Leiftur
 {
@@ -21,39 +22,63 @@ namespace Leiftur
 		Count = 8
 	};
 
-	class Lfo
+	class Modulator
 	{
 	public:
-		static const int MaxFreq = 100;
+		static const int MaxFreq = 400;
+
+		float Delay;
+		float Attack;
+		float Hold;
+		float Decay;
+		float Sustain;
+		float Release;
+
+		float DelayMod;
+		float AttackMod;
+		float HoldMod;
+		float DecayMod;
+		float SustainMod;
+		float ReleaseMod;
+		
+		LfoShape Shape;
+
+		float Phase;
+		float Freq;
+		float Slew;
+		int Steps;
+		bool Sync;
+
 		float FreqMod;
-		float PhaseMod;
+		float SlewMod;
+		float StepsMod;
+
+		float Output;
+		float EnvOutput;
 
 	private:
 		Envelope env;
 		int samplerate;
-		float output;
 
 		uint32_t iterator;
 		uint32_t increment;
 		bool gate;
-		float phase;
-		float freq;
-		bool sync;
-		LfoShape shape;
+		float slewPerSample;
+		int stepCount;
 	
 		// for noise
-		uint32_t updatedAt;
-		int randIdx;
+		uint32_t prevIterator;
+		float currentSh;
+		AudioLib::LcgRandom random;
 
 	public:
-		Lfo();
-		~Lfo();
+		Modulator();
+		~Modulator();
 		void Initialize(int samplerate);
 		void SetParameter(ModParameters parameter, double value);
 		float Process(int samples);
-		inline float GetOutput() { return output; }
 		void Reset();
-
+		inline void SetGate(bool gate) { env.SetGate(gate); }
 		inline static float GetFrequency(float value)
 		{
 			return (float)(ValueTables::Get(value, ValueTables::Response4Dec) * MaxFreq);

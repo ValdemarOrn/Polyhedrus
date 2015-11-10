@@ -54,6 +54,10 @@ namespace Leiftur
 
 		ampEnv.Initialize(samplerate);
 		filterEnv.Initialize(samplerate);
+
+		mod1.Initialize(samplerate);
+		mod2.Initialize(samplerate);
+		mod3.Initialize(samplerate);
 	}
 
 	void Voice::SetParameter(Module module, int parameter, double value)
@@ -74,6 +78,8 @@ namespace Leiftur
 			SetFilterMainParameter(module, (FilterMainParameters)parameter, value);
 		else if (module == Module::EnvAmp || module == Module::EnvFilter)
 			SetEnvParameter(module, (EnvParameters)parameter, value);
+		else if (module == Module::Mod1 || module == Module::Mod2 || module == Module::Mod3)
+			SetModParameter(module, (ModParameters)parameter, value);
 		else if (module == Module::Voices)
 			SetVoiceParameter(module, (VoiceParameters)parameter, value);
 		else if (module == Module::ModMatrix)
@@ -85,6 +91,9 @@ namespace Leiftur
 		Gate = velocity > 0;
 		ampEnv.SetGate(Gate);
 		filterEnv.SetGate(Gate);
+		mod1.SetGate(Gate);
+		mod2.SetGate(Gate);
+		mod3.SetGate(Gate);
 		modMatrix.ModSourceValues[(int)ModSource::Gate] = Gate;
 
 		if (Gate)
@@ -95,6 +104,9 @@ namespace Leiftur
 			osc1.Reset();
 			osc2.Reset();
 			osc3.Reset();
+			mod1.Reset();
+			mod2.Reset();
+			mod3.Reset();
 			modMatrix.ModSourceValues[(int)ModSource::Velocity] = velocity;
 		}
 	}
@@ -147,11 +159,6 @@ namespace Leiftur
 		int i = 0;
 		int bufferSize = modulationUpdateRate;
 
-		if (Gate)
-		{
-			int k = 23;
-		}
-
 		while (i < totalBufferSize)
 		{
 			ProcessModulation();
@@ -192,8 +199,23 @@ namespace Leiftur
 
 	void Voice::ProcessModulation()
 	{
-		modMatrix.ModSourceValues[(int)ModSource::EnvAmp] = ampEnv.Process(modulationUpdateRate);
-		modMatrix.ModSourceValues[(int)ModSource::EnvFilter] = filterEnv.Process(modulationUpdateRate);
+		mod1.Process(modulationUpdateRate);
+		//mod2.Process(modulationUpdateRate);
+		//mod3.Process(modulationUpdateRate);
+		ampEnv.Process(modulationUpdateRate);
+		filterEnv.Process(modulationUpdateRate);
+
+		modMatrix.ModSourceValues[(int)ModSource::EnvAmp] = ampEnv.GetOutput();
+		modMatrix.ModSourceValues[(int)ModSource::EnvFilter] = filterEnv.GetOutput();
+		modMatrix.ModSourceValues[(int)ModSource::Mod1] = mod1.Output;
+		modMatrix.ModSourceValues[(int)ModSource::Mod2] = mod2.Output;
+		modMatrix.ModSourceValues[(int)ModSource::Mod3] = mod3.Output;
+		modMatrix.ModSourceValues[(int)ModSource::Mod1Unipolar] = 1 + 0.5 * mod1.Output;
+		modMatrix.ModSourceValues[(int)ModSource::Mod2Unipolar] = 1 + 0.5 * mod2.Output;
+		modMatrix.ModSourceValues[(int)ModSource::Mod3Unipolar] = 1 + 0.5 * mod3.Output;
+		modMatrix.ModSourceValues[(int)ModSource::Mod1Env] = mod1.EnvOutput;
+		modMatrix.ModSourceValues[(int)ModSource::Mod2Env] = mod2.EnvOutput;
+		modMatrix.ModSourceValues[(int)ModSource::Mod3Env] = mod3.EnvOutput;
 
 		modMatrix.Process();
 

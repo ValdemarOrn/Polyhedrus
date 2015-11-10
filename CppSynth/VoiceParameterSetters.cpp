@@ -166,6 +166,16 @@ namespace Leiftur
 			filterEnv.SetParameter(parameter, value);
 	}
 
+	void Voice::SetModParameter(Module module, ModParameters parameter, double value)
+	{
+		if (module == Module::Mod1)
+			mod1.SetParameter(parameter, value);
+		else if (module == Module::Mod2)
+			mod2.SetParameter(parameter, value);
+		else if(module == Module::Mod3)
+			mod3.SetParameter(parameter, value);
+	}
+
 	void Voice::SetVoiceParameter(Module module, VoiceParameters parameter, double value)
 	{
 		switch (parameter)

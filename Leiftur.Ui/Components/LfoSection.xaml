@@ -35,9 +35,9 @@
         <Label Grid.Row="1" Grid.Column="4">Sustain</Label>
         <Label Grid.Row="1" Grid.Column="5">Release</Label>
 
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" local:OscAddress.Address="/*/Delay" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" local:OscAddress.Address="/*/Attack" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" local:OscAddress.Address="/*/Hold" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" local:OscAddress.Address="/*/Decay" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="4" local:OscAddress.Address="/*/Sustain" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="5" local:OscAddress.Address="/*/Release" />
@@ -51,9 +51,9 @@
 
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" local:OscAddress.Address="/*/Phase" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" local:OscAddress.Address="/*/Freq" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" local:OscAddress.Address="/*/Shape" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="3" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="4" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" Min="0" Max="7" Steps="8" local:OscAddress.Address="/*/Shape" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="3" local:OscAddress.Address="/*/Slew" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="4" local:OscAddress.Address="/*/Steps" />
         <ToggleButton Style="{StaticResource CircleToggleButton}" Grid.Row="2" Grid.Column="5" local:OscAddress.Address="/*/Sync" />
     </Grid>
 </components:BaseControl>

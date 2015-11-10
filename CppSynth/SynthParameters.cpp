@@ -1,7 +1,7 @@
 #include "Synth.h"
 #include "Osc/OscMessage.h"
 #include "FilterCascade.h"
-#include "Lfo.h"
+#include "Modulator.h"
 #include "Envelope.h"
 #include "MixerSettings.h"
 
@@ -63,7 +63,7 @@ namespace Leiftur
 
 	std::string FormatLfoFreq(double value)
 	{
-		auto freq = Lfo::GetFrequency((float)value);
+		auto freq = Modulator::GetFrequency((float)value);
 		return FormatDecimal2(freq) + " Hz";
 	}
 

@@ -10,6 +10,7 @@
 #include "ModMatrix.h"
 #include "MixerSettings.h"
 #include "Character.h"
+#include "Modulator.h"
 
 namespace Leiftur
 {
@@ -43,6 +44,9 @@ namespace Leiftur
 
 		Envelope ampEnv;
 		Envelope filterEnv;
+		Modulator mod1;
+		Modulator mod2;
+		Modulator mod3;
 
 	private:
 		float* signalMixL;
@@ -90,6 +94,7 @@ namespace Leiftur
 		void SetFilterHpParameter(Module module, FilterHpParameters parameter, double value);
 		void SetFilterMainParameter(Module module, FilterMainParameters parameter, double value);
 		void SetEnvParameter(Module module, EnvParameters parameter, double value);
+		void SetModParameter(Module module, ModParameters parameter, double value);
 		void SetVoiceParameter(Module module, VoiceParameters parameter, double value);
 		void SetModMatrixParameter(Module module, ModMatrixParameters parameter, double value);
 	};

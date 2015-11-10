@@ -1,7 +1,7 @@
 #include "PresetManager.h"
 #include "Parameters.h"
 #include "Synth.h"
-#include "Lfo.h"
+#include "Modulator.h"
 #include "ModMatrix.h"
 #include "ModSourceDest.h"
 #include "Utils.h"
