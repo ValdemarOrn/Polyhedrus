@@ -13,6 +13,7 @@
 #include "SynthDefines.h"
 #include "VoiceAllocator.h"
 #include "Delay.h"
+#include "AudioLib/Decimator.h"
 
 #include <map>
 #include <memory>
@@ -27,9 +28,11 @@ namespace Leiftur
 		Voice Voices[MaxVoiceCount];
 		vector<uint8_t> VoiceStates;
 		Delay Delay;
-		int Samplerate;
 
 	private:
+		int samplerate;
+		int oversampling;
+
 		std::map<int, std::string> formattedParameters;
 		volatile bool isClosing;
 		PresetManager presetManager;
@@ -38,6 +41,10 @@ namespace Leiftur
 		UdpTranceiver* udpTranceiver;
 		std::thread messageListenerThread;
 		VoiceAllocator voiceAllocator;
+		AudioLib::Decimator decimatorL;
+		AudioLib::Decimator decimatorR;
+		float* outputBufferL;
+		float* outputBufferR;
 		float masterVol;
 		bool isReady;
 
@@ -45,7 +52,7 @@ namespace Leiftur
 		Synth();
 		~Synth();
 
-		void Initialize(int samplerate, int udpListenPort, int udpSendPort);
+		void Initialize(int samplerate, bool oversample, int udpListenPort, int udpSendPort);
 		void SetParameter(int key, double value);
 		void ProcessMidi(uint8_t* message);
 		void ProcessAudio(float** buffer, int bufferLen);

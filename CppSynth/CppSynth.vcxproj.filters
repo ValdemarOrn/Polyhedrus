@@ -146,6 +146,9 @@
     <ClInclude Include="Modulator.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="AudioLib\Decimator.h">
+      <Filter>Source Files\AudioLib</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Synth.cpp">
@@ -252,6 +255,9 @@
     </ClCompile>
     <ClCompile Include="Modulator.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioLib\Decimator.cpp">
+      <Filter>Source Files\AudioLib</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

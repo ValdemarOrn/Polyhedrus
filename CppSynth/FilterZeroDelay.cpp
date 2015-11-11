@@ -22,13 +22,15 @@ namespace Leiftur
 		delete buffer;
 	}
 
-	void FilterZeroDelay::Initialize(int samplerate, int bufferSize, int modulationUpdateRate)
+	void FilterZeroDelay::Initialize(int samplerate, int oversampling, int bufferSize, int modulationUpdateRate)
 	{
+		this->oversample = oversampling;
+		this->oversampleInv = 1.0f / oversample;
 		buffer = new float[bufferSize];
 		cvToFreq.Initialize(samplerate);
 		this->modulationUpdateRate = modulationUpdateRate;
 		this->samplerate = samplerate;
-		T = 1.0f / (Oversample * samplerate);
+		T = 1.0f / (oversample * samplerate);
 
 		Cutoff = 1;
 		updateCounter = 0;
@@ -62,21 +64,25 @@ namespace Leiftur
 
 	float FilterZeroDelay::ProcessSample(float input)
 	{
-		float x = 0.0;
+		input *= gain;
+		float value = 0.0;
+		float output = 0.0;
 		
-		for (int i = 0; i < Oversample; i++)
+		for (int i = 0; i < oversample; i++)
 		{
-			auto fb = totalResonance * 5.5 * feedback;
-			x = AudioLib::Utils::TanhPoly(input * gain - fb);
+			//input = AudioLib::Utils::TanhPoly(input);
+			auto fb = totalResonance * 5.5 * (feedback - 0.5 * input);
+			value = AudioLib::Utils::TanhPoly(input - fb);
 
-			x = lp1.Process(x);
-			x = lp2.Process(x);
-			x = lp3.Process(x);
-			x = lp4.Process(x);
-			feedback = AudioLib::Utils::TanhPoly(x);
+			value = lp1.Process(value);
+			value = lp2.Process(value);
+			value = lp3.Process(value);
+			value = lp4.Process(value);
+			feedback = AudioLib::Utils::TanhPoly(value);
+			output += feedback;
 		}
 
-		return x;
+		return output * oversampleInv;
 	}
 
 	void FilterZeroDelay::Update()
@@ -84,7 +90,7 @@ namespace Leiftur
 		driveTotal = Drive + DriveMod;
 		driveTotal = AudioLib::Utils::Limit(driveTotal, 0.0f, 1.0f);
 
-		gain = (0.5f + 1.5f * driveTotal * driveTotal);
+		gain = (0.5f + 2.5f * driveTotal * driveTotal);
 
 		// Voltage is 1V/OCt, C0 = 0V = 16.3516Hz
 		float voltage = 10.3 * Cutoff + CutoffMod;

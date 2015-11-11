@@ -22,6 +22,8 @@ namespace Leiftur
 		isClosing = false;
 		masterVol = 1.0;
 		udpTranceiver = 0;
+		outputBufferL = 0;
+		outputBufferR = 0;
 		voiceAllocator.Initialize(Voices);
 
 		for (int i = 0; i < MaxVoiceCount; i++)
@@ -31,7 +33,9 @@ namespace Leiftur
 	Synth::~Synth()
 	{
 		isClosing = true;
-		
+		delete outputBufferL;
+		delete outputBufferR;
+
 		if (messageListenerThread.joinable())
 			messageListenerThread.join();
 
@@ -39,7 +43,7 @@ namespace Leiftur
 		udpTranceiver = 0;
 	}
 
-	void Synth::Initialize(int samplerate, int udpListenPort, int udpSendPort)
+	void Synth::Initialize(int samplerate, bool oversample, int udpListenPort, int udpSendPort)
 	{
 		if (udpListenPort != 0)
 		{
@@ -48,14 +52,17 @@ namespace Leiftur
 			messageListenerThread = thread(&Synth::MessageListener, this);
 		}
 
+		this->samplerate = samplerate;
+		this->oversampling = oversample ? 2 : 1;
+		outputBufferL = new float[BufferSize];
+		outputBufferR = new float[BufferSize];
 		wavetableManager->Setup(PlatformSpecific::GetDllDir());
 		presetManager.Initialize(PlatformSpecific::GetDllDir());
-		Delay.Initialize(samplerate, BufferSize, ModulationUpdateRate);
-		
-		this->Samplerate = samplerate;
+		Delay.Initialize(samplerate * oversampling, BufferSize, ModulationUpdateRate);
+				
 		for (size_t i = 0; i < MaxVoiceCount; i++)
 		{
-			Voices[i].Initialize(samplerate, ModulationUpdateRate, BufferSize, wavetableManager);
+			Voices[i].Initialize(samplerate * oversampling, ModulationUpdateRate, BufferSize, wavetableManager);
 		}
 
 		LoadPreset(presetManager.GetDefaultPreset());
@@ -107,31 +114,44 @@ namespace Leiftur
 		}
 	}
 
-	void Synth::ProcessAudio(float** buffer, int bufferLen)
+	void Synth::ProcessAudio(float** buffer, int outputBufferLen)
 	{
 		int n = 0;
-		while (n < bufferLen)
+		int totalOversampledToProcess = outputBufferLen * oversampling;
+		while (n < totalOversampledToProcess)
 		{
-			auto bufSize = bufferLen - n > BufferSize ? BufferSize : bufferLen - n;
+			int bufSize = BufferSize;
+			if ((totalOversampledToProcess - n) < bufSize)
+				bufSize = totalOversampledToProcess - n;
 
-			float* leftOut = &buffer[0][n];
-			float* rightOut = &buffer[1][n];
-
-			Utils::ZeroBuffer(leftOut, bufSize);
-			Utils::ZeroBuffer(rightOut, bufSize);
 			int voiceCount = voiceAllocator.GetVoiceCount();
+			
+			Utils::ZeroBuffer(outputBufferL, bufSize);
+			Utils::ZeroBuffer(outputBufferR, bufSize);
 
 			for (int i = 0; i < voiceCount; i++)
 			{
 				Voices[i].Process(bufSize);
 				auto output = Voices[i].GetOutput();
-				Utils::GainAndSum(output[0], leftOut, masterVol, bufSize);
-				Utils::GainAndSum(output[1], rightOut, masterVol, bufSize);
+				Utils::GainAndSum(output[0], outputBufferL, masterVol, bufSize);
+				Utils::GainAndSum(output[1], outputBufferR, masterVol, bufSize);
 			}
 
-			Delay.Process(leftOut, rightOut, bufSize);
-			Utils::Copy(Delay.GetOutputL(), leftOut, bufSize);
-			Utils::Copy(Delay.GetOutputR(), rightOut, bufSize);
+			Delay.Process(outputBufferL, outputBufferR, bufSize);
+			Utils::Copy(Delay.GetOutputL(), outputBufferL, bufSize);
+			Utils::Copy(Delay.GetOutputR(), outputBufferR, bufSize);
+			
+			// Decimate and copy output to out buffer
+			float* leftOut = &buffer[0][n / oversampling];
+			float* rightOut = &buffer[1][n / oversampling];
+			for (int i = 0; i < bufSize / oversampling; i++)
+			{
+				float outL = decimatorL.Process(outputBufferL[2 * i], outputBufferL[2 * i + 1]);
+				float outR = decimatorR.Process(outputBufferR[2 * i], outputBufferR[2 * i + 1]);
+
+				leftOut[i] = outL;
+				rightOut[i] = outR;
+			}
 
 			n += bufSize;
 		}

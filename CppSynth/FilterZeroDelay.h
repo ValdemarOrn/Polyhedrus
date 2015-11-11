@@ -27,8 +27,6 @@ namespace Leiftur
 	class FilterZeroDelay
 	{
 	public:
-		const int Oversample = 4;
-
 		float Drive;
 		float Cutoff;
 		float Resonance;
@@ -48,6 +46,8 @@ namespace Leiftur
 		float driveTotal;
 		float totalResonance;
 		float feedback;
+		int oversample;
+		float oversampleInv;
 
 		int samplerate;
 		float T;
@@ -58,7 +58,7 @@ namespace Leiftur
 		FilterZeroDelay();
 		~FilterZeroDelay();
 
-		void Initialize(int samplerate, int bufferSize, int modulationUpdateRate);
+		void Initialize(int samplerate, int oversampling, int bufferSize, int modulationUpdateRate);
 		void Process(float* input, int len);
 		float* GetOutput();
 

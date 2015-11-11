@@ -21,7 +21,7 @@ namespace Leiftur
 		}
 
 	public:
-		const int Oversample = 4;
+		const int Oversample = 2;
 
 		float Drive;
 		float Cutoff;

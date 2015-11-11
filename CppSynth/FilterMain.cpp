@@ -21,7 +21,7 @@ namespace Leiftur
 		this->samplerate = samplerate;
 		this->modulationUpdateRate = modulationUpdateRate;
 		cascadeFilter.Initialize(samplerate, bufferSize, modulationUpdateRate);
-		zeroDelayFilter.Initialize(samplerate, bufferSize, modulationUpdateRate);
+		zeroDelayFilter.Initialize(samplerate, samplerate >= 96000 ? 2 : 4, bufferSize, modulationUpdateRate);
 	}
 
 	void FilterMain::SetParameter(FilterMainParameters parameter, double value)
@@ -55,9 +55,10 @@ namespace Leiftur
 		}
 
 		if (type == 0)
-			cascadeFilter.Process(input, len);
-		else if (type == 1)
 			zeroDelayFilter.Process(input, len);
+		else if (type == 1)
+			cascadeFilter.Process(input, len);
+			
 	}
 
 	float* FilterMain::GetOutput()
@@ -66,9 +67,9 @@ namespace Leiftur
 			return bypassBuffer;
 
 		if (type == 0)
-			return cascadeFilter.GetOutput();
-		else if (type == 1)
 			return zeroDelayFilter.GetOutput();
+		else if (type == 1)
+			return cascadeFilter.GetOutput();
 
 		return 0;
 	}
