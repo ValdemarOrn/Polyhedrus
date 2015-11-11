@@ -14,6 +14,9 @@ namespace AudioLib
 		static float costable[TableSize];
 		static float tableScaler;
 
+		static const int TanhTableSize = 60000;
+		static float tanhTable[TanhTableSize];
+
 	public:
 		static void Initialize();
 		static float Note2Freq(float note);
@@ -63,6 +66,7 @@ namespace AudioLib
 			}
 		}
 
+		
 		static inline float Limit(float input, float min, float max)
 		{
 			int above = (input > min);
@@ -99,6 +103,16 @@ namespace AudioLib
 			float xCube = xSquare * x;
 			float result = 1.0f - 1.0f / (1.0f + x + xSquare + xCube);
 			return result * sign;
+		}
+
+		static inline float TanhLookup(float x)
+		{
+			int i = x * 10000 + 30000;
+			int overZero = i > 0;
+			int underMax = i < TanhTableSize - 1;
+			i = i * overZero;
+			i = i * underMax + !underMax * (TanhTableSize - 1);
+			return tanhTable[i];
 		}
 
 		static inline float QuickNonlin(float x)

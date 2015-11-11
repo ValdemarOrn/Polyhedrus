@@ -10,6 +10,8 @@ namespace AudioLib
 	float Utils::costable[TableSize];
 	float Utils::tableScaler;
 
+	float Utils::tanhTable[TanhTableSize];
+
 	void Utils::Initialize()
 	{
 		for (int i = 0; i < 12800; i++)
@@ -19,10 +21,15 @@ namespace AudioLib
 
 		tableScaler = (float)(1.0 / (2.0f * M_PI) * TableSize);
 
-		for (int i = 0; i < 20000; i++)
+		for (int i = 0; i < TableSize; i++)
 		{
 			sintable[i] = (float)std::sin(i / (double)TableSize * M_PI);
 			costable[i] = (float)std::cos(i / (double)TableSize * M_PI);
+		}
+
+		for (int i = 0; i < TanhTableSize; i++)
+		{
+			tanhTable[i] = std::tanh(-3.0 + i / 10000.0);
 		}
 	}
 

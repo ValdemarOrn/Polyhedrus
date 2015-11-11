@@ -72,13 +72,13 @@ namespace Leiftur
 		{
 			//input = AudioLib::Utils::TanhPoly(input);
 			auto fb = totalResonance * 5.5 * (feedback - 0.5 * input);
-			value = AudioLib::Utils::TanhPoly(input - fb);
+			value = AudioLib::Utils::TanhLookup(input - fb);
 
 			value = lp1.Process(value);
 			value = lp2.Process(value);
 			value = lp3.Process(value);
 			value = lp4.Process(value);
-			feedback = AudioLib::Utils::TanhPoly(value);
+			feedback = AudioLib::Utils::TanhLookup(value);
 			output += feedback;
 		}
 
@@ -102,10 +102,10 @@ namespace Leiftur
 
 		//float g = omegaC * T / 2;
 		float g = fc * M_PI * T;
-		lp1.g = g;
-		lp2.g = g;
-		lp3.g = g;
-		lp4.g = g;
+		lp1.SetG(g);
+		lp2.SetG(g);
+		lp3.SetG(g);
+		lp4.SetG(g);
 	}
 
 }

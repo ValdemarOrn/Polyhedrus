@@ -148,8 +148,8 @@ namespace Leiftur
 			outR = hpR.Process(outR);
 			outR = lpR.Process(outR);
 
-			outL = outL * (1 - DiffuseAmount) + diffuserL.Process(outL) * DiffuseAmount;
-			outR = outR * (1 - DiffuseAmount) + diffuserR.Process(outR) * DiffuseAmount;
+			//outL = outL * (1 - DiffuseAmount) + diffuserL.Process(outL) * DiffuseAmount;
+			//outR = outR * (1 - DiffuseAmount) + diffuserR.Process(outR) * DiffuseAmount;
 			
 			delayLineL[samplePos] = Utils::QuickNonlin(satInner * (inputL[i] + outL * totalFeedbackL)) * satOuter;
 			delayLineR[samplePos] = Utils::QuickNonlin(satInner * (inputR[i] + outR * totalFeedbackR)) * satOuter;

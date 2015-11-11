@@ -12,15 +12,22 @@ namespace Leiftur
 	struct ZeroDelayLp
 	{
 		float z1_state;
-		float g;
+		//float g;
+		float g2;
 
 		inline float Process(float x)
 		{
 			// perform one sample tick of the lowpass filter
-			float v = (x - z1_state) * g / (1 + g);
+			//float v = (x - z1_state) * g / (1 + g);
+			float v = (x - z1_state) * g2;
 			float y = v + z1_state;
 			z1_state = y + v;
 			return y;
+		}
+
+		inline void SetG(float g)
+		{
+			g2 = g / (1 + g);
 		}
 	};
 

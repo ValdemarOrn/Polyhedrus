@@ -32,6 +32,7 @@ namespace Leiftur
 		int modulationUpdateRate;
 		AudioLib::Biquad bqBottom;
 		AudioLib::Biquad bqTop;
+		int biquadUpdateCounter;
 
 		float decimateCounter;
 		float lastDecimateVal;

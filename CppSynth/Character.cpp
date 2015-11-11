@@ -10,6 +10,7 @@ namespace Leiftur
 		, bqTop(AudioLib::Biquad::FilterType::HighShelf, 48000)
 	{
 		Note = 60;
+		biquadUpdateCounter = 0;
 		glideRate = 1;
 		buffer = 0;
 		decimateCounter = 0;
@@ -87,13 +88,14 @@ namespace Leiftur
 
 			if (reduceOn)
 			{
-				val = ((int)(val * bitReduceFactor)) * bitReduceFactorInv;
+				val = std::floorf((int)(val * bitReduceFactor)) * bitReduceFactorInv;
 			}
 
 			if (clipOn)
 			{
 				val = clip * 10 * val;
 				val = Utils::Limit(val, -1, 1);
+				//val = Utils::QuickNonlin(val);
 			}
 
 			buffer[i] = val;
@@ -128,30 +130,38 @@ namespace Leiftur
 	{
 		// ----------- Set bottom and Top -------------
 
-		float btm = Utils::Limit(Bottom + BottomMod, 0, 1);
-		float top = Utils::Limit(Top + TopMod, 0, 1);
+		// The current shelf biquads are somewhat expensive to update, also this doesn't really need audio rate modulation
+		// update once every 4 update ticks.
+		if (biquadUpdateCounter == 0)
+		{
+			float btm = Utils::Limit(Bottom + BottomMod, 0, 1);
+			float top = Utils::Limit(Top + TopMod, 0, 1);
 
-		if (currentPitch < Note)
-		{
-			currentPitch += glideRate * modulationUpdateRate;
-			if (currentPitch > Note)
-				currentPitch = (float)Note;
-		}
-		else if (currentPitch > Note)
-		{
-			currentPitch -= glideRate * modulationUpdateRate;
 			if (currentPitch < Note)
-				currentPitch = (float)Note;
+			{
+				currentPitch += glideRate * modulationUpdateRate;
+				if (currentPitch > Note)
+					currentPitch = (float)Note;
+			}
+			else if (currentPitch > Note)
+			{
+				currentPitch -= glideRate * modulationUpdateRate;
+				if (currentPitch < Note)
+					currentPitch = (float)Note;
+			}
+
+			bqBottom.Frequency = Utils::Note2Freq(currentPitch) * 1.5f;
+			bqTop.Frequency = 8000.0f; // Utils::Note2Freq(currentPitch) * 10.0f;
+			if (bqBottom.Frequency > 1000) bqTop.Frequency = 1000.0f;
+			//if (bqTop.Frequency > 8000) bqTop.Frequency = 8000.0f;
+			bqBottom.SetGain(1.0f + btm);
+			bqTop.SetGain(1.0f + top);
+			bqBottom.Update();
+			bqTop.Update();
+			biquadUpdateCounter = 4;
 		}
 
-		bqBottom.Frequency = Utils::Note2Freq(currentPitch) * 1.5f;
-		bqTop.Frequency = Utils::Note2Freq(currentPitch) * 10.0f;
-		if (bqBottom.Frequency > 1000) bqTop.Frequency = 1000.0f;
-		if (bqTop.Frequency > 8000) bqTop.Frequency = 8000.0f;
-		bqBottom.SetGain(1.0f + btm);
-		bqTop.SetGain(1.0f + top);
-		bqBottom.Update();
-		bqTop.Update();
+		biquadUpdateCounter--;
 
 		// ------------ Set decimate and reduce --------------
 

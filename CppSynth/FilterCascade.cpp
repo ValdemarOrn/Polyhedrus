@@ -81,7 +81,7 @@ namespace Leiftur
 		for (int i = 0; i < Oversample; i++)
 		{
 			float in = mx * (i * input + (Oversample - i) * oversampledInput); // linear interpolation
-			in = AudioLib::Utils::QuickNonlin(in);
+			in = AudioLib::Utils::TanhPoly(in);
 
 			float fb = totalResonance * 5.0f * (feedback - 0.5f * in);
 			float val = in - fb;
@@ -97,7 +97,7 @@ namespace Leiftur
 			d = (1 - p) * val + p * d;
 			val = d;
 
-			feedback = AudioLib::Utils::QuickNonlin(val);
+			feedback = AudioLib::Utils::TanhPoly(val);
 		}
 
 		oversampledInput = input;

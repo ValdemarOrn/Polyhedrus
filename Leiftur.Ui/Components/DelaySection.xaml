@@ -45,14 +45,14 @@
         <Label Grid.Row="3" Grid.Column="0">Delay R</Label>
         <Label Grid.Row="3" Grid.Column="1">Feedb R</Label>
         <Label Grid.Row="3" Grid.Column="2">HighPass</Label>
-        <Label Grid.Row="3" Grid.Column="3">Diff Amt</Label>
-        <Label Grid.Row="3" Grid.Column="4">Diff Amt</Label>
+        <!--<Label Grid.Row="3" Grid.Column="3">Diff Amt</Label>
+        <Label Grid.Row="3" Grid.Column="4">Diff Size</Label>-->
 
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" ui:OscAddress.Address="/Delay/DelayR" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" ui:OscAddress.Address="/Delay/FeedbackR" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" ui:OscAddress.Address="/Delay/Highpass" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="3" ui:OscAddress.Address="/Delay/DiffuseAmount" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="4" ui:OscAddress.Address="/Delay/DiffuseSize" />
+        <!--<components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="3" ui:OscAddress.Address="/Delay/DiffuseAmount" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="4" ui:OscAddress.Address="/Delay/DiffuseSize" />-->
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="5" Visibility="Hidden" /> <!-- Sizer -->
     </Grid>
 </UserControl>

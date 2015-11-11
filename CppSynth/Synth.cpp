@@ -142,15 +142,28 @@ namespace Leiftur
 			Utils::Copy(Delay.GetOutputR(), outputBufferR, bufSize);
 			
 			// Decimate and copy output to out buffer
-			float* leftOut = &buffer[0][n / oversampling];
-			float* rightOut = &buffer[1][n / oversampling];
-			for (int i = 0; i < bufSize / oversampling; i++)
+			if (oversampling == 2)
 			{
-				float outL = decimatorL.Process(outputBufferL[2 * i], outputBufferL[2 * i + 1]);
-				float outR = decimatorR.Process(outputBufferR[2 * i], outputBufferR[2 * i + 1]);
+				float* leftOut = &buffer[0][n / oversampling];
+				float* rightOut = &buffer[1][n / oversampling];
+				for (int i = 0; i < bufSize / oversampling; i++)
+				{
+					float outL = decimatorL.Process(outputBufferL[2 * i], outputBufferL[2 * i + 1]);
+					float outR = decimatorR.Process(outputBufferR[2 * i], outputBufferR[2 * i + 1]);
 
-				leftOut[i] = outL;
-				rightOut[i] = outR;
+					leftOut[i] = outL;
+					rightOut[i] = outR;
+				}
+			}
+			else
+			{
+				float* leftOut = &buffer[0][n];
+				float* rightOut = &buffer[1][n];
+				for (int i = 0; i < bufSize; i++)
+				{
+					leftOut[i] = outputBufferL[i];
+					rightOut[i] = outputBufferR[i];
+				}
 			}
 
 			n += bufSize;
