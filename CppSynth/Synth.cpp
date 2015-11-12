@@ -62,7 +62,7 @@ namespace Leiftur
 				
 		for (size_t i = 0; i < MaxVoiceCount; i++)
 		{
-			Voices[i].Initialize(samplerate * oversampling, ModulationUpdateRate, BufferSize, wavetableManager);
+			Voices[i].Initialize(samplerate * oversampling, ModulationUpdateRate * oversampling, BufferSize, wavetableManager);
 		}
 
 		LoadPreset(presetManager.GetDefaultPreset());
@@ -137,9 +137,12 @@ namespace Leiftur
 				Utils::GainAndSum(output[1], outputBufferR, masterVol, bufSize);
 			}
 
-			Delay.Process(outputBufferL, outputBufferR, bufSize);
-			Utils::Copy(Delay.GetOutputL(), outputBufferL, bufSize);
-			Utils::Copy(Delay.GetOutputR(), outputBufferR, bufSize);
+			if (moduleSwitches[(int)ModuleSwitchParameters::DelayOn])
+			{
+				Delay.Process(outputBufferL, outputBufferR, bufSize);
+				Utils::Copy(Delay.GetOutputL(), outputBufferL, bufSize);
+				Utils::Copy(Delay.GetOutputR(), outputBufferR, bufSize);
+			}
 			
 			// Decimate and copy output to out buffer
 			if (oversampling == 2)
@@ -406,6 +409,9 @@ namespace Leiftur
 
 		if (module == Module::Voices)
 			SetGlobalVoiceParameter((VoiceParameters)parameter, value);
+		else if (module == Module::ModuleSwitches)
+			SetGlobalModuleSwitchParameter((ModuleSwitchParameters)parameter, value);
+
 
 		if (module == Module::Delay)
 		{
@@ -447,6 +453,10 @@ namespace Leiftur
 		}
 	}
 
+	void Synth::SetGlobalModuleSwitchParameter(ModuleSwitchParameters parameter, double value)
+	{
+		moduleSwitches[(int)parameter] = value >= 0.5;
+	}
 
 	// ------------------------------------------------------------------------------
 	// ------------------------------------------------------------------------------

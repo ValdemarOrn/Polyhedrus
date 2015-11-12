@@ -22,7 +22,7 @@ extern "C"
 
 	_declspec(dllexport) void Initialize(Leiftur::Synth* instance, int samplerate, int udpListenPort, int udpSendPort)
 	{
-		instance->Initialize(samplerate, false, udpListenPort, udpSendPort);
+		instance->Initialize(samplerate, true, udpListenPort, udpSendPort);
 	}
 
 	_declspec(dllexport) void SetParameter(Leiftur::Synth* instance, int parameter, double value)
