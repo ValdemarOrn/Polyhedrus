@@ -11,6 +11,9 @@ namespace Leiftur
 		signalMixR = 0;
 		outputL = 0;
 		outputR = 0;
+		osc1Buffer = 0;
+		osc2Buffer = 0;
+		osc3Buffer = 0;
 	}
 
 	Voice::~Voice()
@@ -19,6 +22,9 @@ namespace Leiftur
 		delete signalMixR;
 		delete outputL;
 		delete outputR;
+		delete osc1Buffer;
+		delete osc2Buffer;
+		delete osc3Buffer;
 	}
 
 	void Voice::Initialize(int samplerate, int modulationUpdateRate, int bufferSize, shared_ptr<WavetableManager> wavetableManager)
@@ -29,6 +35,9 @@ namespace Leiftur
 		signalMixR = new float[bufferSize];
 		outputL = new float[bufferSize];
 		outputR = new float[bufferSize];
+		osc1Buffer = new float[bufferSize];
+		osc2Buffer = new float[bufferSize];
+		osc3Buffer = new float[bufferSize];
 		output[0] = outputL;
 		output[1] = outputR;
 
@@ -38,6 +47,7 @@ namespace Leiftur
 		osc1.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		osc2.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		osc3.Initialize(samplerate, bufferSize, modulationUpdateRate);
+		noise.Initialize(samplerate, bufferSize);
 
 		characterL.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		characterR.Initialize(samplerate, bufferSize, modulationUpdateRate);
@@ -162,6 +172,7 @@ namespace Leiftur
 		while (i < totalBufferSize)
 		{
 			ProcessModulation();
+			mixer.ComputeOscVols();
 
 			if (IsEnabled(ModuleSwitchParameters::Osc1On))
 				osc1.Process(bufferSize);
@@ -169,6 +180,9 @@ namespace Leiftur
 				osc2.Process(bufferSize);
 			if (IsEnabled(ModuleSwitchParameters::Osc3On))
 				osc3.Process(bufferSize);
+
+			noise.Process(bufferSize);
+			ProcessAm(bufferSize);
 
 			MixSignals(bufferSize, RoutingStage::Character);
 			characterL.Process(signalMixL, bufferSize);
@@ -257,10 +271,22 @@ namespace Leiftur
 		vcaOutputR.ControlVoltage = modMatrix.ModSourceValues[(int)ModSource::EnvAmp];
 	}
 
+	void Voice::ProcessAm(int bufferSize)
+	{
+		float* osc1Out = osc1.GetOutput();
+		float* osc2Out = osc2.GetOutput();
+		float* osc3Out = osc3.GetOutput();
+
+		for (int i = 0; i < bufferSize; i++)
+		{
+			osc1Buffer[i] = osc1Out[i];
+			osc2Buffer[i] = osc2Out[i] * (1 - mixer.Am12Total) + osc2Out[i] * osc1Out[i] * mixer.Am12Total;
+			osc3Buffer[i] = osc3Out[i] * (1 - mixer.Am23Total) + osc3Out[i] * osc2Out[i] * mixer.Am23Total;
+		}
+	}
+
 	void Voice::MixSignals(int bufferSize, RoutingStage stage)
 	{
-		mixer.ComputeOscVols();
-
 		Utils::PreventDenormal(signalMixL, bufferSize);
 		Utils::PreventDenormal(signalMixR, bufferSize);
 
@@ -280,23 +306,27 @@ namespace Leiftur
 			Utils::Copy(mainFilterR.GetOutput(), signalMixR, bufferSize);
 		}
 
-
+		if (RoutingStage::Character == stage)
+		{
+			Utils::GainAndSum(noise.GetOutput()[0], signalMixL, mixer.NoiseTotal, bufferSize);
+			Utils::GainAndSum(noise.GetOutput()[1], signalMixR, mixer.NoiseTotal, bufferSize);
+		}
 		if (IsEnabled(ModuleSwitchParameters::Osc1On) && mixer.Osc1Routing == stage)
 		{
-			Utils::GainAndSum(osc1.GetOutput(), signalMixL, mixer.Osc1VolL, bufferSize);
-			Utils::GainAndSum(osc1.GetOutput(), signalMixR, mixer.Osc1VolR, bufferSize);
+			Utils::GainAndSum(osc1Buffer, signalMixL, mixer.Osc1VolL, bufferSize);
+			Utils::GainAndSum(osc1Buffer, signalMixR, mixer.Osc1VolR, bufferSize);
 		}
 
 		if (IsEnabled(ModuleSwitchParameters::Osc2On) && mixer.Osc2Routing == stage)
 		{
-			Utils::GainAndSum(osc2.GetOutput(), signalMixL, mixer.Osc2VolL, bufferSize);
-			Utils::GainAndSum(osc2.GetOutput(), signalMixR, mixer.Osc2VolR, bufferSize);
+			Utils::GainAndSum(osc2Buffer, signalMixL, mixer.Osc2VolL, bufferSize);
+			Utils::GainAndSum(osc2Buffer, signalMixR, mixer.Osc2VolR, bufferSize);
 		}
 
 		if (IsEnabled(ModuleSwitchParameters::Osc3On) && mixer.Osc3Routing == stage)
 		{
-			Utils::GainAndSum(osc3.GetOutput(), signalMixL, mixer.Osc3VolL, bufferSize);
-			Utils::GainAndSum(osc3.GetOutput(), signalMixR, mixer.Osc3VolR, bufferSize);
+			Utils::GainAndSum(osc3Buffer, signalMixL, mixer.Osc3VolL, bufferSize);
+			Utils::GainAndSum(osc3Buffer, signalMixR, mixer.Osc3VolR, bufferSize);
 		}
 	}
 

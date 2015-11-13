@@ -20,6 +20,8 @@ namespace Leiftur
 		RoutingStage Osc2Routing;
 		RoutingStage Osc3Routing;
 
+		// ------------ Input Fields ---------------
+
 		float Osc1Volume;
 		float Osc2Volume;
 		float Osc3Volume;
@@ -51,8 +53,8 @@ namespace Leiftur
 		float Fm23Mod;
 		float NoiseMod;
 		float OutputMod;
-
-		int Color;
+		
+		// --------- Computed Fields ------------
 
 		float Osc1VolL;
 		float Osc1VolR;
@@ -60,6 +62,14 @@ namespace Leiftur
 		float Osc2VolR;
 		float Osc3VolL;
 		float Osc3VolR;
+
+		float Am12Total;
+		float Am23Total;
+		float Fm12Total;
+		float Fm13Total;
+		float Fm23Total;
+		float NoiseTotal;
+		float OutputTotal;
 
 		inline void ComputeOscVols()
 		{
@@ -78,6 +88,14 @@ namespace Leiftur
 
 			Osc3VolL = osc3Vol * AudioLib::Utils::Limit(-osc3Pan + 1, 0.0, 1.0);
 			Osc3VolR = osc3Vol * AudioLib::Utils::Limit(osc3Pan + 1, 0.0, 1.0);
+
+			Am12Total = AudioLib::Utils::Limit(Am12 + Am12Mod, 0.0, 1.0);
+			Am23Total = AudioLib::Utils::Limit(Am23 + Am23Mod, 0.0, 1.0);
+			Fm12Total = AudioLib::Utils::Limit(Fm12 + Fm12Mod, 0.0, 1.0);
+			Fm13Total = AudioLib::Utils::Limit(Fm13 + Fm13Mod, 0.0, 1.0);
+			Fm23Total = AudioLib::Utils::Limit(Fm23 + Fm23Mod, 0.0, 1.0);
+			NoiseTotal = AudioLib::Utils::Limit(Noise + NoiseMod, 0.0, 1.0);
+			OutputTotal = AudioLib::Utils::Limit(Output + OutputMod, 0.0, 1.0);
 		}
 	};
 }

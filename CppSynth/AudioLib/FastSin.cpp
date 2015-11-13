@@ -1,5 +1,5 @@
 
-#define _USE_MATH_DEFINES
+#include "MathDefs.h"
 #include <cmath>
 #include "FastSin.h"
 

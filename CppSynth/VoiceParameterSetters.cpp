@@ -87,7 +87,7 @@ namespace Leiftur
 			mixer.Am23 = (float)value;
 			break;
 		case MixerParameters::Color:
-			mixer.Color = Parameters::RoundToInt(value);
+			noise.Type = (NoiseType)Parameters::RoundToInt(value);
 			break;
 		case MixerParameters::Fm12:
 			mixer.Fm12 = (float)value;
@@ -184,7 +184,7 @@ namespace Leiftur
 			modMatrix.FixedRoutes[ModMatrix::FixedRouteOscAllPitchbend].Amount = (float)(Parameters::FloorToInt(value) / 24.0);
 			break;
 		case VoiceParameters::Detune:
-			modMatrix.FixedRoutes[ModMatrix::FixedRouteOscAllUnisonDetune].Amount = (float)(value / 12.0);
+			modMatrix.FixedRoutes[ModMatrix::FixedRouteOscAllUnisonDetune].Amount = (float)(value / 24.0);
 			break;
 		case VoiceParameters::Spread:
 			modMatrix.FixedRoutes[ModMatrix::FixedRouteOscAllUnisonSpread].Amount = (float)value;

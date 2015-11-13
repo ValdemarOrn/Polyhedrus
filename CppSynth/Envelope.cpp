@@ -168,6 +168,7 @@ namespace Leiftur
 	{
 		iterator = 0;
 		section = SectionPostRelease;
+		output = 0;
 	}
 
 	void Envelope::Reset()

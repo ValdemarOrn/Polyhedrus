@@ -149,6 +149,12 @@
     <ClInclude Include="AudioLib\Decimator.h">
       <Filter>Source Files\AudioLib</Filter>
     </ClInclude>
+    <ClInclude Include="NoiseSimple.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioLib\MathDefs.h">
+      <Filter>Source Files\AudioLib</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Synth.cpp">
@@ -258,6 +264,9 @@
     </ClCompile>
     <ClCompile Include="AudioLib\Decimator.cpp">
       <Filter>Source Files\AudioLib</Filter>
+    </ClCompile>
+    <ClCompile Include="NoiseSimple.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

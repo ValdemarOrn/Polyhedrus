@@ -1,7 +1,7 @@
 #ifndef LEIFTUR_FILTER_ZERO_DELAY
 #define LEIFTUR_FILTER_ZERO_DELAY
 
-#define _USE_MATH_DEFINES
+#include "AudioLib/MathDefs.h"
 #include <cmath>
 
 #include "CvFreq.h"

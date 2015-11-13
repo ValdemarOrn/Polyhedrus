@@ -24,6 +24,7 @@
     <ClInclude Include="AudioLib\Decimator.h" />
     <ClInclude Include="AudioLib\FastSin.h" />
     <ClInclude Include="AudioLib\LcgRandom.h" />
+    <ClInclude Include="AudioLib\MathDefs.h" />
     <ClInclude Include="AudioLib\Noise.h" />
     <ClInclude Include="AudioLib\OnePoleFilters.h" />
     <ClInclude Include="AudioLib\Utils.h" />
@@ -46,6 +47,7 @@
     <ClInclude Include="MixerSettings.h" />
     <ClInclude Include="ModMatrix.h" />
     <ClInclude Include="ModSourceDest.h" />
+    <ClInclude Include="NoiseSimple.h" />
     <ClInclude Include="Oscillator.h" />
     <ClInclude Include="Osc\OscMessage.h" />
     <ClInclude Include="Osc\UdpTranceiver.h" />
@@ -83,6 +85,7 @@
     <ClCompile Include="FilterZeroDelay.cpp" />
     <ClCompile Include="Modulator.cpp" />
     <ClCompile Include="ModMatrix.cpp" />
+    <ClCompile Include="NoiseSimple.cpp" />
     <ClCompile Include="Oscillator.cpp" />
     <ClCompile Include="Osc\OscMessage.cpp" />
     <ClCompile Include="Osc\UdpTranceiver.cpp" />

@@ -1,4 +1,4 @@
-#define _USE_MATH_DEFINES
+#include "AudioLib/MathDefs.h"
 #include <cmath>
 
 #include "CvFreq.h"

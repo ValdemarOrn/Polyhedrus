@@ -1,6 +1,7 @@
 #ifndef LEIFTUR_VOICE
 #define LEIFTUR_VOICE
 
+#include "NoiseSimple.h"
 #include "Parameters.h"
 #include "Oscillator.h"
 #include "FilterHp.h"
@@ -11,6 +12,7 @@
 #include "MixerSettings.h"
 #include "Character.h"
 #include "Modulator.h"
+
 
 namespace Leiftur
 {
@@ -28,6 +30,7 @@ namespace Leiftur
 		Oscillator osc1;
 		Oscillator osc2;
 		Oscillator osc3;
+		NoiseSimple noise;
 
 		Character characterL;
 		Character characterR;
@@ -52,6 +55,9 @@ namespace Leiftur
 		float* signalMixL;
 		float* signalMixR;
 
+		float* osc1Buffer;
+		float* osc2Buffer;
+		float* osc3Buffer;
 		float* outputL;
 		float* outputR;
 		float* output[2];
@@ -84,6 +90,7 @@ namespace Leiftur
 
 	private:
 		void ProcessModulation();
+		void ProcessAm(int bufferSize);
 		void MixSignals(int bufferSize, RoutingStage stage);
 		bool IsEnabled(ModuleSwitchParameters module);
 
