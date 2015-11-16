@@ -8,7 +8,7 @@ Polyhedrus is a wavetable synthesizer, currently in the early stages of developm
 
 * Cross-platform synthesis engine written in C++.
 * Hard real-time audio synthesis algorithms.
-* Portable code based on Boost Libraries (v 1.59)
+* Portable code, uses Boost Libraries (v 1.59) and C++ 11.
 * User Interface and audio engine communicate via Open Sound Control messages via UDP (using Boost.Asio in the sound engine).
 * User interface implemented as a separate process.
 	* Currently using C# WPF.
