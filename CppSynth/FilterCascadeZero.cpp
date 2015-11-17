@@ -59,7 +59,7 @@ namespace Leiftur
 				updateCounter = modulationUpdateRate;
 			}
 
-			float value = ProcessSample(input[i]) * gainInv;
+			float value = ProcessSample(input[i]);
 			buffer[i] = value;
 			updateCounter--;
 		}
@@ -79,17 +79,20 @@ namespace Leiftur
 		for (int i = 0; i < Oversample; i++)
 		{
 			float in = mx * (i * input + (Oversample - i) * oversampledInput); // linear interpolation
-			in = AudioLib::Utils::TanhPoly(in);
-
-			float fb = totalResonance * 5.0f * (feedback - 0.5f * in);
+			
+			float fb = totalResonance * 4.5f * (feedback - 0.5f * in);
 			float value = in - fb;
 			
 			// 4 cascaded low pass stages
 			value = lp1.Process(value);
+			value = AudioLib::Utils::TanhLookup(value);
 			value = lp2.Process(value);
+			value = AudioLib::Utils::TanhLookup(value);
 			value = lp3.Process(value);
+			value = AudioLib::Utils::TanhLookup(value);
 			value = lp4.Process(value);
-			feedback = AudioLib::Utils::TanhPoly(value);
+			value = AudioLib::Utils::TanhLookup(value);
+			feedback = value;
 			output = feedback;
 		}
 
@@ -103,8 +106,7 @@ namespace Leiftur
 		driveTotal = Drive + DriveMod;
 		driveTotal = AudioLib::Utils::Limit(driveTotal, 0.0f, 1.0f);
 
-		gain = (0.1f + 2.0f * driveTotal * driveTotal);
-		gainInv = gain < 1.0 ? 1.0f / gain : 1.0;
+		gain = (0.2f + 1.5f * driveTotal * driveTotal);
 
 		// Voltage is 1V/OCt, C0 = 16.3516Hz
 		float voltage = 10.3 * Cutoff + CutoffMod;

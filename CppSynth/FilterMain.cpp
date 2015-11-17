@@ -22,7 +22,6 @@ namespace Leiftur
 		this->modulationUpdateRate = modulationUpdateRate;
 		cascadeFilter.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		cascadeZeroFilter.Initialize(samplerate, bufferSize, modulationUpdateRate);
-		zeroDelayFilter.Initialize(samplerate, samplerate >= 96000 ? 2 : 4, bufferSize, modulationUpdateRate);
 	}
 
 	void FilterMain::SetParameter(FilterMainParameters parameter, double value)
@@ -32,17 +31,14 @@ namespace Leiftur
 		case FilterMainParameters::Cutoff:
 			cascadeFilter.Cutoff = value;
 			cascadeZeroFilter.Cutoff = value;
-			zeroDelayFilter.Cutoff = value;
 			break;
 		case FilterMainParameters::Drive:
 			cascadeFilter.Drive = value;
 			cascadeZeroFilter.Drive = value;
-			zeroDelayFilter.Drive = value;
 			break;
 		case FilterMainParameters::Resonance:
 			cascadeFilter.Resonance = value;
 			cascadeZeroFilter.Resonance = value;
-			zeroDelayFilter.Resonance = value;
 			break;
 		case FilterMainParameters::Type:
 			type = value;
@@ -59,12 +55,9 @@ namespace Leiftur
 		}
 
 		if (type == 0)
-			zeroDelayFilter.Process(input, len);
-		else if (type == 1)
 			cascadeZeroFilter.Process(input, len);
-		else if (type == 2)
-			cascadeFilter.Process(input, len);
-			
+		else if (type == 1)
+			cascadeFilter.Process(input, len);			
 	}
 
 	float* FilterMain::GetOutput()
@@ -73,10 +66,8 @@ namespace Leiftur
 			return bypassBuffer;
 
 		if (type == 0)
-			return zeroDelayFilter.GetOutput();
-		else if (type == 1)
 			return cascadeZeroFilter.GetOutput();
-		else if (type == 2)
+		else if (type == 1)
 			return cascadeFilter.GetOutput();
 
 		return 0;

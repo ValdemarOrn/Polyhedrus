@@ -45,7 +45,7 @@ namespace Leiftur
 		}
 
 	public:
-		const int Oversample = 2;
+		const int Oversample = 1;
 
 		float Drive;
 		float Cutoff;
@@ -63,7 +63,6 @@ namespace Leiftur
 	private:
 		float* buffer;
 		float gain;
-		float gainInv;
 		float driveTotal;
 		float totalResonance;
 		float oversampledInput;

@@ -107,9 +107,6 @@
     <ClInclude Include="Utils.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="FilterZeroDelay.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="WavetableManager.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -233,9 +230,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PresetManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FilterZeroDelay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WavetableManager.cpp">
