@@ -3,23 +3,28 @@
 
 #include "Default.h"
 #include "WavetableManager.h"
-//#include <memory>
 
 namespace Leiftur
 {
 	struct Oscillator
 	{
 	public:
+		bool Keytrack;
 		int Note;
 		int Octave;
 		int Semi;
 		int Cent;
+		float Linear;
+
 		float PitchMod;
+		float LinearMod;
 
 		float Phase;
 		float Shape;
 		float ShapeMod;
 		
+		float* FmBuffer;
+
 	private:
 		float* buffer;
 		std::shared_ptr<Wavetable> wavetable;

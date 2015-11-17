@@ -7,12 +7,13 @@
              xmlns:components="clr-namespace:Leiftur.Ui.Components"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
-             d:DesignHeight="120" d:DesignWidth="250">
+             d:DesignHeight="120" d:DesignWidth="300">
     <UserControl.Resources>
         <ResourceDictionary Source="Styles.xaml" />
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
@@ -32,12 +33,14 @@
         <Label Grid.Row="1" Grid.Column="2">Glide</Label>
         <Label Grid.Row="1" Grid.Column="3">Bend</Label>
         <Label Grid.Row="1" Grid.Column="4">Master</Label>
+        <Label Grid.Row="1" Grid.Column="5">Hi Quality</Label>
 
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" local:OscAddress.Address="/Voices/Detune" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" local:OscAddress.Address="/Voices/Spread" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" local:OscAddress.Address="/Voices/Glide" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" Min="0" Max="24" local:OscAddress.Address="/Voices/Bend" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="4" local:OscAddress.Address="/Voices/Master" />
+        <ToggleButton Style="{StaticResource CircleToggleButton}" Grid.Row="0" Grid.Column="5" local:OscAddress.Address="/*/Oversample" />
 
         <Label Grid.Row="3" Grid.Column="0">Voices</Label>
         <Label Grid.Row="3" Grid.Column="1">Unison</Label>
@@ -50,5 +53,7 @@
 
         <components:MenuSelector Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" Style="{StaticResource MenuSelectorStyle}"
                                  ItemsSource="{Binding VoiceModes}" local:OscAddress.Address="/Voices/VoiceMode" />
+
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="5" Visibility="Hidden" />
     </Grid>
 </UserControl>

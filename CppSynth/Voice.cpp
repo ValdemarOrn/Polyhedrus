@@ -168,6 +168,7 @@ namespace Leiftur
 	{
 		int i = 0;
 		int bufferSize = modulationUpdateRate;
+		float fmScaler = M_PI;
 
 		while (i < totalBufferSize)
 		{
@@ -177,9 +178,18 @@ namespace Leiftur
 			if (IsEnabled(ModuleSwitchParameters::Osc1On))
 				osc1.Process(bufferSize);
 			if (IsEnabled(ModuleSwitchParameters::Osc2On))
+			{
+				Utils::ZeroBuffer(osc2.FmBuffer, bufferSize);
+				Utils::GainAndSum(osc1.GetOutput(), osc2.FmBuffer, mixer.Fm12Total * fmScaler, bufferSize);
 				osc2.Process(bufferSize);
+			}
 			if (IsEnabled(ModuleSwitchParameters::Osc3On))
+			{
+				Utils::ZeroBuffer(osc3.FmBuffer, bufferSize);
+				Utils::GainAndSum(osc1.GetOutput(), osc3.FmBuffer, mixer.Fm13Total * fmScaler, bufferSize);
+				Utils::GainAndSum(osc2.GetOutput(), osc3.FmBuffer, mixer.Fm23Total * fmScaler, bufferSize);
 				osc3.Process(bufferSize);
+			}
 
 			noise.Process(bufferSize);
 			ProcessAm(bufferSize);
@@ -254,7 +264,9 @@ namespace Leiftur
 		mixer.Fm13Mod = modMatrix.ModDestinationValues[(int)ModDest::MixerFm13];
 		mixer.Fm23Mod = modMatrix.ModDestinationValues[(int)ModDest::MixerFm23];
 		mixer.NoiseMod = modMatrix.ModDestinationValues[(int)ModDest::MixerNoise];
-		mixer.OutputMod = modMatrix.ModDestinationValues[(int)ModDest::MixerOutput];
+		mixer.CharacterOutMod = modMatrix.ModDestinationValues[(int)ModDest::MixerCharacterOut];
+		mixer.FilterHpOutMod = modMatrix.ModDestinationValues[(int)ModDest::MixerFilterHpOut];
+		mixer.FilterMainOutMod = modMatrix.ModDestinationValues[(int)ModDest::MixerFilterMainOut];
 
 		hpFilterL.CutoffMod = modMatrix.ModDestinationValues[(int)ModDest::FilterHpCutoff];
 		hpFilterR.CutoffMod = modMatrix.ModDestinationValues[(int)ModDest::FilterHpCutoff];
@@ -292,21 +304,21 @@ namespace Leiftur
 
 		if (stage == RoutingStage::HpFilter)
 		{
-			Utils::Copy(characterL.GetOutput(), signalMixL, bufferSize);
-			Utils::Copy(characterR.GetOutput(), signalMixR, bufferSize);
+			Utils::GainAndSum(characterL.GetOutput(), signalMixL, mixer.CharacterOutTotal, bufferSize);
+			Utils::GainAndSum(characterR.GetOutput(), signalMixR, mixer.CharacterOutTotal, bufferSize);
 		}
 		else if (stage == RoutingStage::MainFilter)
 		{
-			Utils::Copy(hpFilterL.GetOutput(), signalMixL, bufferSize);
-			Utils::Copy(hpFilterR.GetOutput(), signalMixR, bufferSize);
+			Utils::GainAndSum(hpFilterL.GetOutput(), signalMixL, mixer.FilterHpOutTotal, bufferSize);
+			Utils::GainAndSum(hpFilterR.GetOutput(), signalMixR, mixer.FilterHpOutTotal, bufferSize);
 		}
 		else if (stage == RoutingStage::Direct)
 		{
-			Utils::Copy(mainFilterL.GetOutput(), signalMixL, bufferSize);
-			Utils::Copy(mainFilterR.GetOutput(), signalMixR, bufferSize);
+			Utils::GainAndSum(mainFilterL.GetOutput(), signalMixL, mixer.FilterMainOutTotal, bufferSize);
+			Utils::GainAndSum(mainFilterR.GetOutput(), signalMixR, mixer.FilterMainOutTotal, bufferSize);
 		}
 
-		if (RoutingStage::Character == stage)
+		if (mixer.NoiseRouting == stage)
 		{
 			Utils::GainAndSum(noise.GetOutput()[0], signalMixL, mixer.NoiseTotal, bufferSize);
 			Utils::GainAndSum(noise.GetOutput()[1], signalMixR, mixer.NoiseTotal, bufferSize);
@@ -316,13 +328,11 @@ namespace Leiftur
 			Utils::GainAndSum(osc1Buffer, signalMixL, mixer.Osc1VolL, bufferSize);
 			Utils::GainAndSum(osc1Buffer, signalMixR, mixer.Osc1VolR, bufferSize);
 		}
-
 		if (IsEnabled(ModuleSwitchParameters::Osc2On) && mixer.Osc2Routing == stage)
 		{
 			Utils::GainAndSum(osc2Buffer, signalMixL, mixer.Osc2VolL, bufferSize);
 			Utils::GainAndSum(osc2Buffer, signalMixR, mixer.Osc2VolR, bufferSize);
 		}
-
 		if (IsEnabled(ModuleSwitchParameters::Osc3On) && mixer.Osc3Routing == stage)
 		{
 			Utils::GainAndSum(osc3Buffer, signalMixL, mixer.Osc3VolL, bufferSize);

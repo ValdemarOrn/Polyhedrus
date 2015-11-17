@@ -59,7 +59,7 @@ namespace Leiftur
 				updateCounter = modulationUpdateRate;
 			}
 
-			float value = ProcessSample(input[i]);
+			float value = ProcessSample(input[i]) * gainInv;
 			buffer[i] = value;
 			updateCounter--;
 		}
@@ -80,7 +80,7 @@ namespace Leiftur
 		{
 			float in = mx * (i * input + (Oversample - i) * oversampledInput); // linear interpolation
 			
-			float fb = totalResonance * 4.5f * (feedback - 0.5f * in);
+			float fb = totalResonance * 4.8f * (feedback - 0.5f * in);
 			float value = in - fb;
 			
 			// 4 cascaded low pass stages
@@ -106,7 +106,8 @@ namespace Leiftur
 		driveTotal = Drive + DriveMod;
 		driveTotal = AudioLib::Utils::Limit(driveTotal, 0.0f, 1.0f);
 
-		gain = (0.2f + 1.5f * driveTotal * driveTotal);
+		gain = (0.2f + 1.8f * driveTotal * driveTotal);
+		gainInv = gain < 1.0 ? std::sqrt(1.0 / gain) : 1.0;
 
 		// Voltage is 1V/OCt, C0 = 16.3516Hz
 		float voltage = 10.3 * Cutoff + CutoffMod;

@@ -1,0 +1,18 @@
+
+wt.initialize = function(N, K) {
+    wavetableCountTextBox.value = "1";
+    wavetableSizeTextBox.value = "2048";
+    downloadLink.download = "Sine-Pure.wav";
+}
+
+wt.makeWave = function (k, N, K) {
+		output = [];
+     for (var i = 0; i < N; i++) {
+        var value = Math.sin(i / N * 2 * Math.PI);
+        output[i] = value;
+    }
+
+    return output;
+}
+
+        

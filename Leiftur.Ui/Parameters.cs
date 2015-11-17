@@ -41,18 +41,20 @@ namespace Leiftur.Ui
 
 	enum OscParameters
 	{
-		Octave = 1,
-		Semi = 2,
-		Cent = 3,
-		Pan = 4,
-		Volume = 5,
+		Linear = 1,
+		Octave = 2,
+		Semi = 3,
+		Cent = 4,
+		Pan = 5,
+		Volume = 6,
 
-		Slop = 6,
-		Phase = 7,
-		Shape = 8,
+		Keytrack = 7,
+		Slop = 8,
+		Phase = 9,
+		Shape = 10,
 
-		Waveform = 9,
-		Routing = 10
+		Waveform = 11,
+		Routing = 12
 	}
 
 	enum MixerParameters
@@ -62,10 +64,14 @@ namespace Leiftur.Ui
 		Fm12 = 3,
 		Fm13 = 4,
 		Fm23 = 5,
-		Noise = 6,
-		Color = 7,
-		Output = 8,
-		NoiseRouting = 9,
+		Color = 6,
+
+		CharacterOut = 7,
+		FilterHpOut = 8,
+		FilterMainOut = 8,
+
+		NoiseRouting = 10,
+		Noise = 11,
 	}
 
 	enum ModuleSwitchParameters
@@ -175,9 +181,10 @@ namespace Leiftur.Ui
 		Glide = 3,
 		Bend = 4,
 		Master = 5,
-		Polyphony = 6,
-		Unison = 7,
-		VoiceMode = 8,
+		HiQuality = 6,
+		Polyphony = 7,
+		Unison = 8,
+		VoiceMode = 9,
 	}
 
 	enum ChorusParameters

@@ -45,6 +45,8 @@ namespace Leiftur
 			if (parameterString == "Shape") return (int)OscParameters::Shape;
 			if (parameterString == "Waveform") return (int)OscParameters::Waveform;
 			if (parameterString == "Routing") return (int)OscParameters::Routing;
+			if (parameterString == "Linear") return (int)OscParameters::Linear;
+			if (parameterString == "Keytrack") return (int)OscParameters::Keytrack;
 			
 		}
 		else if (module == Module::Mixer)
@@ -56,7 +58,9 @@ namespace Leiftur
 			if (parameterString == "Fm23") return (int)MixerParameters::Fm23;
 			if (parameterString == "Noise") return (int)MixerParameters::Noise;
 			if (parameterString == "Color") return (int)MixerParameters::Color;
-			if (parameterString == "Output") return (int)MixerParameters::Output;
+			if (parameterString == "CharacterOut") return (int)MixerParameters::CharacterOut;
+			if (parameterString == "FilterHpOut") return (int)MixerParameters::FilterHpOut;
+			if (parameterString == "FilterMainOut") return (int)MixerParameters::FilterMainOut;
 			if (parameterString == "NoiseRouting") return (int)MixerParameters::NoiseRouting;
 		}
 		else if (module == Module::ModuleSwitches)
@@ -156,6 +160,7 @@ namespace Leiftur
 			if (parameterString == "Glide") return (int)VoiceParameters::Glide;
 			if (parameterString == "Bend") return (int)VoiceParameters::Bend;
 			if (parameterString == "Master") return (int)VoiceParameters::Master;
+			if (parameterString == "HiQuality") return (int)VoiceParameters::HiQuality;
 			if (parameterString == "Polyphony") return (int)VoiceParameters::Polyphony;
 			if (parameterString == "Unison") return (int)VoiceParameters::Unison;
 			if (parameterString == "VoiceMode") return (int)VoiceParameters::VoiceMode;

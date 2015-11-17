@@ -32,44 +32,48 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="1" Grid.Column="0">Octave</Label>
-        <Label Grid.Row="1" Grid.Column="1">Semi</Label>
-        <Label Grid.Row="1" Grid.Column="2">Cent</Label>
-        <Label Grid.Row="1" Grid.Column="3">Pan</Label>
-        <Label Grid.Row="1" Grid.Column="4">Volume</Label>
+        <Label Grid.Row="1" Grid.Column="0">Linear</Label>
+        <Label Grid.Row="1" Grid.Column="1">Octave</Label>
+        <Label Grid.Row="1" Grid.Column="2">Semi</Label>
+        <Label Grid.Row="1" Grid.Column="3">Cent</Label>
+        <Label Grid.Row="1" Grid.Column="4">Pan</Label>
+        <Label Grid.Row="1" Grid.Column="5">Volume</Label>
 
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" Steps="5" Min="-2" Max="2" DefaultValue="0" ui:OscAddress.Address="/*/Octave" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" Steps="25" Min="-12" Max="12" DefaultValue="0" ui:OscAddress.Address="/*/Semi" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" Steps="101" Min="-50" Max="50" DefaultValue="0" ui:OscAddress.Address="/*/Cent" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" Min="-1" Max="1" DefaultValue="0" ui:OscAddress.Address="/*/Pan" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="4" ui:OscAddress.Address="/*/Volume" />
-        
-        <Label Grid.Row="3" Grid.Column="0">Slop</Label>
-        <Label Grid.Row="3" Grid.Column="1">Phase</Label>
-        <Label Grid.Row="3" Grid.Column="2">Shape</Label>
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" Min="-1" Max="1" DefaultValue="0" ui:OscAddress.Address="/*/Linear" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" Steps="7" Min="-3" Max="3" DefaultValue="0" ui:OscAddress.Address="/*/Octave" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" Steps="25" Min="-12" Max="12" DefaultValue="0" ui:OscAddress.Address="/*/Semi" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" Steps="101" Min="-50" Max="50" DefaultValue="0" ui:OscAddress.Address="/*/Cent" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="4" Min="-1" Max="1" DefaultValue="0" ui:OscAddress.Address="/*/Pan" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="5" ui:OscAddress.Address="/*/Volume" />
 
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" DefaultValue="0" ui:OscAddress.Address="/*/Slop" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" ui:OscAddress.Address="/*/Phase" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" ui:OscAddress.Address="/*/Shape" />
+        <Label Grid.Row="3" Grid.Column="0">Key Track</Label>
+        <Label Grid.Row="3" Grid.Column="1">Slop</Label>
+        <Label Grid.Row="3" Grid.Column="2">Phase</Label>
+        <Label Grid.Row="3" Grid.Column="3">Shape</Label>
 
-        <components:MenuSelector Style="{StaticResource MenuSelectorStyle}" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" 
-                                 Margin="6,10,3,10" ui:OscAddress.Address="/*/Waveform" ItemsSource="{Binding WaveformList}">
+        <ToggleButton Style="{StaticResource CircleToggleButton}" Grid.Row="2" Grid.Column="0" ui:OscAddress.Address="/*/Keytrack" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" DefaultValue="0" ui:OscAddress.Address="/*/Slop" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" ui:OscAddress.Address="/*/Phase" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="3" ui:OscAddress.Address="/*/Shape" />
+
+        <components:MenuSelector Style="{StaticResource MenuSelectorStyle}" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" 
+                                 Width="187" Margin="6,10,3,10" ui:OscAddress.Address="/*/Waveform" ItemsSource="{Binding WaveformList}">
         </components:MenuSelector>
 
-        <components:MenuSelector Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2" Style="{StaticResource MenuSelectorStyle}" Margin="3,10,6,10"
-                                 ItemsSource="{Binding ModuleRoutings}" ui:OscAddress.Address="/*/Routing">
+        <components:MenuSelector Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" Style="{StaticResource MenuSelectorStyle}" 
+                                 Width="89" Margin="3,10,6,10" ItemsSource="{Binding ModuleRoutings}" ui:OscAddress.Address="/*/Routing">
         </components:MenuSelector>
 
-        <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="right" Margin="0,0,3,0">
-            <Rectangle Width="39" Height="0.5" Fill="#50ffffff" Margin="0,1,10,0" />
+        <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,3,0">
+            <Rectangle Width="63" Height="0.5" Fill="#50ffffff" Margin="0,1,10,0" />
             <Label Padding="0">Waveform</Label>
-            <Rectangle Width="39" Height="0.5" Fill="#50ffffff" Margin="10,1,0,0" />
+            <Rectangle Width="63" Height="0.5" Fill="#50ffffff" Margin="10,1,0,0" />
         </StackPanel>
 
-        <StackPanel Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="3,0,0,0">
-            <Rectangle Width="19" Height="0.5" Fill="#50ffffff" Margin="0,1,10,0" />
+        <StackPanel Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="3,0,0,0">
+            <Rectangle Width="20" Height="0.5" Fill="#50ffffff" Margin="0,1,10,0" />
             <Label Padding="0">Routing</Label>
-            <Rectangle Width="19" Height="0.5" Fill="#50ffffff" Margin="10,1,0,0" />
+            <Rectangle Width="20" Height="0.5" Fill="#50ffffff" Margin="10,1,0,0" />
         </StackPanel>
 
     </Grid>

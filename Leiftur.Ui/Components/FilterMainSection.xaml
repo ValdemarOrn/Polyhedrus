@@ -31,7 +31,7 @@
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" ui:OscAddress.Address="/FilterMain/Cutoff" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" ui:OscAddress.Address="/FilterMain/Resonance" />
 
-        <Label Grid.Row="3" Grid.Column="0">Keytack</Label>
+        <Label Grid.Row="3" Grid.Column="0">Key Track</Label>
         <Label Grid.Row="3" Grid.Column="1">Envelope</Label>
         <Label Grid.Row="3" Grid.Column="2">Type</Label>
 

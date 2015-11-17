@@ -63,6 +63,7 @@ namespace Leiftur
 	private:
 		float* buffer;
 		float gain;
+		float gainInv;
 		float driveTotal;
 		float totalResonance;
 		float oversampledInput;

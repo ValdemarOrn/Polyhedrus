@@ -204,6 +204,8 @@ copy $(TargetDir)$(TargetFileName) $(SolutionDir)Leiftur.Tests\bin\$(Configurati
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>C:\dev\boost_1_59_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

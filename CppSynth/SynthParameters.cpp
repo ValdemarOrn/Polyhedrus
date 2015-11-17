@@ -89,6 +89,10 @@ namespace Leiftur
 			case OscParameters::Semi:
 			case OscParameters::Cent:
 				return FormatIntFloor(value);
+			case OscParameters::Linear:
+				return FormatDecimal2(value * 10);
+			case OscParameters::Keytrack:
+				return FormatOnOff(value);
 			case OscParameters::Shape:
 				return FormatPercentPrecise(value);
 			case OscParameters::Phase:

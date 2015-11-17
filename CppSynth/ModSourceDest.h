@@ -64,7 +64,9 @@ enum class ModDest
 	MixerFm13 = 63,
 	MixerFm23 = 64,
 	MixerNoise = 65,
-	MixerOutput = 66,
+	MixerCharacterOut = 66,
+	MixerFilterHpOut = 67,
+	MixerFilterMainOut = 68,
 
 	//CharacterBottom = 70,
 	//CharacterTop = 71,

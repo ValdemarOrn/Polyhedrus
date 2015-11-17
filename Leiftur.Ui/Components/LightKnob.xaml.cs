@@ -26,7 +26,7 @@ namespace Leiftur.Ui.Components
 				new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
 		static internal DependencyProperty StepsProperty = DependencyProperty.Register("Steps", typeof(int), typeof(LightKnob),
-				new FrameworkPropertyMetadata(1000, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+				new FrameworkPropertyMetadata(100000, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
 		static internal DependencyProperty MinProperty = DependencyProperty.Register("Min", typeof(double), typeof(LightKnob),
 				new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));

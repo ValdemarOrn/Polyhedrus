@@ -16,6 +16,7 @@ namespace Leiftur
 	class MixerSettings
 	{
 	public:
+		RoutingStage NoiseRouting;
 		RoutingStage Osc1Routing;
 		RoutingStage Osc2Routing;
 		RoutingStage Osc3Routing;
@@ -44,7 +45,9 @@ namespace Leiftur
 		float Fm13;
 		float Fm23;
 		float Noise;
-		float Output;
+		float CharacterOut;
+		float FilterHpOut;
+		float FilterMainOut;
 
 		float Am12Mod;
 		float Am23Mod;
@@ -52,8 +55,10 @@ namespace Leiftur
 		float Fm13Mod;
 		float Fm23Mod;
 		float NoiseMod;
-		float OutputMod;
-		
+		float CharacterOutMod;
+		float FilterHpOutMod;
+		float FilterMainOutMod;
+
 		// --------- Computed Fields ------------
 
 		float Osc1VolL;
@@ -69,7 +74,9 @@ namespace Leiftur
 		float Fm13Total;
 		float Fm23Total;
 		float NoiseTotal;
-		float OutputTotal;
+		float CharacterOutTotal;
+		float FilterHpOutTotal;
+		float FilterMainOutTotal;
 
 		inline void ComputeOscVols()
 		{
@@ -95,7 +102,9 @@ namespace Leiftur
 			Fm13Total = AudioLib::Utils::Limit(Fm13 + Fm13Mod, 0.0, 1.0);
 			Fm23Total = AudioLib::Utils::Limit(Fm23 + Fm23Mod, 0.0, 1.0);
 			NoiseTotal = AudioLib::Utils::Limit(Noise + NoiseMod, 0.0, 1.0);
-			OutputTotal = AudioLib::Utils::Limit(Output + OutputMod, 0.0, 1.0);
+			CharacterOutTotal = AudioLib::Utils::Limit(CharacterOut + CharacterOutMod, 0.0, 1.0);
+			FilterHpOutTotal = AudioLib::Utils::Limit(FilterHpOut + FilterHpOutMod, 0.0, 1.0);
+			FilterMainOutTotal = AudioLib::Utils::Limit(FilterMainOut + FilterMainOutMod, 0.0, 1.0);
 		}
 	};
 }

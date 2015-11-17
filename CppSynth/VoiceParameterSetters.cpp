@@ -23,6 +23,12 @@ namespace Leiftur
 			case OscParameters::Shape:
 				osc->Shape = (float)value;
 				break;
+			case OscParameters::Keytrack:
+				osc->Keytrack = value >= 0.5;
+				break;
+			case OscParameters::Linear:
+				osc->Linear = value * 10;
+				break;
 			case OscParameters::Waveform:
 				osc->SetWavetable(wavetableManager->LoadWavetable(Parameters::FloorToInt(value)));
 				break;
@@ -87,7 +93,7 @@ namespace Leiftur
 			mixer.Am23 = (float)value;
 			break;
 		case MixerParameters::Color:
-			noise.Type = (NoiseType)Parameters::RoundToInt(value);
+			noise.Type = (NoiseType)Parameters::FloorToInt(value);
 			break;
 		case MixerParameters::Fm12:
 			mixer.Fm12 = (float)value;
@@ -100,6 +106,18 @@ namespace Leiftur
 			break;
 		case MixerParameters::Noise:
 			mixer.Noise = (float)value;
+			break;
+		case MixerParameters::NoiseRouting:
+			mixer.NoiseRouting = (RoutingStage)Parameters::FloorToInt(value);
+			break;
+		case MixerParameters::CharacterOut:
+			mixer.CharacterOut = (float)value;
+			break;
+		case MixerParameters::FilterHpOut:
+			mixer.FilterHpOut = (float)value;
+			break;
+		case MixerParameters::FilterMainOut:
+			mixer.FilterMainOut = (float)value;
 			break;
 		}
 	}

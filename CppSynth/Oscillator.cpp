@@ -7,7 +7,10 @@ namespace Leiftur
 	Oscillator::Oscillator()
 	{
 		buffer = 0;
-
+		FmBuffer = 0;
+		Keytrack = true;
+		Linear = 0;
+		LinearMod = 0;
 		Note = 60;
 		Octave = 0;
 		Semi = 0;
@@ -23,11 +26,13 @@ namespace Leiftur
 	Oscillator::~Oscillator()
 	{
 		delete buffer;
+		delete FmBuffer;
 	}
 
 	void Oscillator::Initialize(int samplerate, int bufferSize, int modulationUpdateRate)
 	{
 		this->buffer = new float[bufferSize];
+		this->FmBuffer = new float[bufferSize];
 		this->modulationUpdateRate = modulationUpdateRate;
 		this->samplerate = samplerate;
 	}
@@ -70,7 +75,9 @@ namespace Leiftur
 				updateCounter = modulationUpdateRate;
 			}
 
-			buffer[i] = waveA[iterator >> shiftValue] * (1 - waveMix) + waveB[iterator >> shiftValue] * waveMix;
+			uint32_t iterWithFm = (iterator + (uint32_t)(FmBuffer[i] * UINT32_MAX)) >> shiftValue;
+
+			buffer[i] = waveA[iterWithFm] * (1 - waveMix) + waveB[iterWithFm] * waveMix;
 			iterator += increment;
 
 			updateCounter--;
@@ -85,7 +92,7 @@ namespace Leiftur
 	void Oscillator::Update()
 	{
 		float waveIndex = (Shape + ShapeMod) * wavetable->Count;
-		float basePitch = Note + 12.0f * Octave + Semi + 0.01f * Cent;
+		float basePitch = (Keytrack ? Note : 60) + 12.0f * Octave + Semi + 0.01f * Cent;
 
 		if (currentPitch < basePitch)
 		{
@@ -111,7 +118,7 @@ namespace Leiftur
 
 		shiftValue = (32 - (int)(log2(wavetable->WavetableSize[partialIndex]) + 0.01)); // how many bits of the iterator are used to address the table
 
-		float freq = AudioLib::Utils::Note2Freq(pitch);
+		float freq = AudioLib::Utils::Note2Freq(pitch) + (Linear + LinearMod);
 		float samplesPerCycle = samplerate / freq;
 		increment = (uint32_t)((1.0f / samplesPerCycle) * UINT32_MAX);
 	}

@@ -72,6 +72,8 @@ namespace Leiftur
 			preset.Values[Synth::PackParameter(module, (int)OscParameters::Slop)] = 0.0;
 			preset.Values[Synth::PackParameter(module, (int)OscParameters::Volume)] = 0.0;
 			preset.Values[Synth::PackParameter(module, (int)OscParameters::Waveform)] = 0;
+			preset.Values[Synth::PackParameter(module, (int)OscParameters::Linear)] = 0;
+			preset.Values[Synth::PackParameter(module, (int)OscParameters::Keytrack)] = 1;
 		};
 
 		auto setMixer = [&](Module module)
@@ -83,7 +85,9 @@ namespace Leiftur
 			preset.Values[Synth::PackParameter(module, (int)MixerParameters::Fm13)] = 0.0;
 			preset.Values[Synth::PackParameter(module, (int)MixerParameters::Fm23)] = 0.0;
 			preset.Values[Synth::PackParameter(module, (int)MixerParameters::Noise)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)MixerParameters::Output)] = 1.0;
+			preset.Values[Synth::PackParameter(module, (int)MixerParameters::CharacterOut)] = 1.0;
+			preset.Values[Synth::PackParameter(module, (int)MixerParameters::FilterHpOut)] = 1.0;
+			preset.Values[Synth::PackParameter(module, (int)MixerParameters::FilterMainOut)] = 1.0;
 			preset.Values[Synth::PackParameter(module, (int)MixerParameters::NoiseRouting)] = (int)RoutingStage::Character;
 		};
 
@@ -236,6 +240,7 @@ namespace Leiftur
 			preset.Values[Synth::PackParameter(module, (int)VoiceParameters::Polyphony)] = 6;
 			preset.Values[Synth::PackParameter(module, (int)VoiceParameters::Spread)] = 0.0;
 			preset.Values[Synth::PackParameter(module, (int)VoiceParameters::Unison)] = 1;
+			preset.Values[Synth::PackParameter(module, (int)VoiceParameters::HiQuality)] = 0;
 			preset.Values[Synth::PackParameter(module, (int)VoiceParameters::VoiceMode)] = (int)VoiceMode::PolyRoundRobin;
 		};
 

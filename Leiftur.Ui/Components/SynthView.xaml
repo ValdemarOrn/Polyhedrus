@@ -7,7 +7,7 @@
              xmlns:components="clr-namespace:Leiftur.Ui.Components"
              xmlns:ui="clr-namespace:Leiftur.Ui"
              mc:Ignorable="d" 
-             d:DesignHeight="570" d:DesignWidth="1035">
+             d:DesignHeight="570" d:DesignWidth="1084">
     <UserControl.Background>
         <ImageBrush ImageSource="Background.jpg" >
         </ImageBrush>
@@ -82,7 +82,7 @@
         </StackPanel>
         
         <StackPanel Grid.Row="1" Grid.Column="1" Grid.RowSpan="3">
-            <Grid Style="{StaticResource SectionTitle}" HorizontalAlignment="Left" Width="245">
+            <Grid Style="{StaticResource SectionTitle}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
@@ -104,11 +104,11 @@
                 
             </Grid>
 
-            <components:OscSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="245" Height="171" Background="{StaticResource ModuleBackground}"
+            <components:OscSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="171" Background="{StaticResource ModuleBackground}"
                               ModuleAddress="Osc1" Visibility="{Binding Osc1Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
-            <components:OscSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="245" Height="171" Background="{StaticResource ModuleBackground}"
+            <components:OscSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="171" Background="{StaticResource ModuleBackground}"
                               ModuleAddress="Osc2" Visibility="{Binding Osc2Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
-            <components:OscSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="245" Height="171" Background="{StaticResource ModuleBackground}"
+            <components:OscSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="171" Background="{StaticResource ModuleBackground}"
                               ModuleAddress="Osc3" Visibility="{Binding Osc3Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
 
             <Grid Style="{StaticResource SectionTitle}">
@@ -120,7 +120,7 @@
                 <Rectangle Style="{StaticResource SectionLine}" />
             </Grid>
 
-            <components:MixerSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="245" Height="114" Background="{StaticResource ModuleBackground}" />
+            <components:MixerSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="114" Background="{StaticResource ModuleBackground}" />
 
             <Grid Style="{StaticResource SectionTitle}">
                 <Grid.ColumnDefinitions>
@@ -131,7 +131,7 @@
                 <Rectangle Style="{StaticResource SectionLine}" />
             </Grid>
 
-            <components:VoicesSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="245" Height="114" Background="{StaticResource ModuleBackground}" />
+            <components:VoicesSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="114" Background="{StaticResource ModuleBackground}" />
         </StackPanel>
         
         <Grid Grid.Row="1" Grid.Column="3" Style="{StaticResource SectionTitle}">
