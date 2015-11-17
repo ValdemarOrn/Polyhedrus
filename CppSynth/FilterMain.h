@@ -2,6 +2,7 @@
 #define LEIFTUR_FILTER_MAIN
 
 #include "FilterCascade.h"
+#include "FilterCascadeZero.h"
 #include "FilterZeroDelay.h"
 #include "Parameters.h"
 
@@ -13,6 +14,7 @@ namespace Leiftur
 		int samplerate;
 		int modulationUpdateRate;
 		FilterCascade cascadeFilter;
+		FilterCascadeZero cascadeZeroFilter;
 		FilterZeroDelay zeroDelayFilter;
 		float* bypassBuffer;
 		int type;
@@ -29,18 +31,21 @@ namespace Leiftur
 		inline void SetCutoffMod(float modAmount)
 		{
 			cascadeFilter.CutoffMod = modAmount;
+			cascadeZeroFilter.CutoffMod = modAmount;
 			zeroDelayFilter.CutoffMod = modAmount;
 		}
 
 		inline void SetDriveMod(float modAmount)
 		{
 			cascadeFilter.DriveMod = modAmount;
+			cascadeZeroFilter.DriveMod = modAmount;
 			zeroDelayFilter.DriveMod = modAmount;
 		}
 
 		inline void SetResonanceMod(float modAmount)
 		{
 			cascadeFilter.ResonanceMod = modAmount;
+			cascadeZeroFilter.ResonanceMod = modAmount;
 			zeroDelayFilter.ResonanceMod = modAmount;
 		}
 	};

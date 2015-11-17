@@ -197,7 +197,8 @@ namespace Leiftur
 		auto file = WavetableFiles.at(wtNum);
 		auto dat = AudioLib::WaveFile::ReadWaveFile(file.FilePath);
 		auto data = dat.at(0);
-		auto wavetable = ConvertTable(&data[0], 2048, 256);
+		int tableSize = data.size() / 2048;
+		auto wavetable = ConvertTable(&data[0], 2048, tableSize);
 		Normalize(wavetable);
 		loadedWavetables[wtNum] = wavetable;
 		return wavetable;

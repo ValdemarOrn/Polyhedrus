@@ -155,6 +155,9 @@
     <ClInclude Include="AudioLib\MathDefs.h">
       <Filter>Source Files\AudioLib</Filter>
     </ClInclude>
+    <ClInclude Include="FilterCascadeZero.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Synth.cpp">
@@ -266,6 +269,9 @@
       <Filter>Source Files\AudioLib</Filter>
     </ClCompile>
     <ClCompile Include="NoiseSimple.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FilterCascadeZero.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

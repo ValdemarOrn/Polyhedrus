@@ -40,6 +40,7 @@
     <ClInclude Include="Fft\FastFFT.h" />
     <ClInclude Include="Fft\TwiddleFactors.h" />
     <ClInclude Include="FilterCascade.h" />
+    <ClInclude Include="FilterCascadeZero.h" />
     <ClInclude Include="FilterHp.h" />
     <ClInclude Include="FilterMain.h" />
     <ClInclude Include="FilterZeroDelay.h" />
@@ -80,6 +81,7 @@
     <ClCompile Include="Exports.cpp" />
     <ClCompile Include="Fft\BitReverse.cpp" />
     <ClCompile Include="FilterCascade.cpp" />
+    <ClCompile Include="FilterCascadeZero.cpp" />
     <ClCompile Include="FilterHp.cpp" />
     <ClCompile Include="FilterMain.cpp" />
     <ClCompile Include="FilterZeroDelay.cpp" />
