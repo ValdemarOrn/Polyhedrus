@@ -1,82 +1,8 @@
 #include "Synth.h"
-#include "Osc/OscMessage.h"
-#include "FilterCascade.h"
-#include "Modulator.h"
-#include "Envelope.h"
-#include "MixerSettings.h"
+#include "ParameterFormatters.h"
 
 namespace Leiftur
 {
-	std::string SPrint(const char* formatter, double value)
-	{
-		char buffer[256];
-		sprintf(buffer, formatter, value);
-		return std::string(buffer);
-	}
-
-	std::string FormatPercent(double value)
-	{
-		return SPrint("%.0f", value * 100) + " %";
-	}
-
-	std::string FormatPercentPrecise(double value)
-	{
-		return SPrint("%.2f", value * 100) + "%";
-	}
-
-	std::string FormatDecimal1(double value)
-	{
-		return SPrint("%.1f", value);
-	}
-
-	std::string FormatDecimal2(double value)
-	{
-		return SPrint("%.2f", value);
-	}
-
-	std::string FormatDecimal3(double value)
-	{
-		return SPrint("%.3f", value);
-	}
-
-	std::string FormatIntFloor(double value)
-	{
-		return SPrint("%0.0f", Parameters::FloorToInt(value));
-	}
-
-	std::string FormatIntRounded(double value)
-	{
-		return SPrint("%0.0f", Parameters::RoundToInt(value));
-	}
-
-	std::string FormatExp2(double value, double scale)
-	{
-		auto val = std::pow(2, value * scale);
-		return FormatDecimal2(val);
-	}
-
-	std::string FormatFilterCutoff(double value)
-	{
-		auto freq = FilterCascade::GetCvFreq((float)(value * 10.3));
-		return FormatIntRounded(freq) + " Hz";
-	}
-
-	std::string FormatLfoFreq(double value)
-	{
-		auto freq = Modulator::GetFrequency((float)value);
-		return FormatDecimal2(freq) + " Hz";
-	}
-
-	std::string FormatTime(double value)
-	{
-		return FormatDecimal2(value) + " Sec";
-	}
-
-	std::string FormatOnOff(double value)
-	{
-		return std::string(value < 0.5 ? "Off" : "On");
-	}
-
 	std::string Synth::FormatParameter(Module module, int parameter, double value)
 	{
 		if (module == Module::Osc1 || module == Module::Osc2 || module == Module::Osc3)
@@ -84,21 +10,21 @@ namespace Leiftur
 			switch ((OscParameters)parameter)
 			{
 			case OscParameters::Pan:
-				return FormatPercent(value);
+				return ParameterFormatters::FormatPercent(value);
 			case OscParameters::Octave:
 			case OscParameters::Semi:
 			case OscParameters::Cent:
-				return FormatIntFloor(value);
+				return ParameterFormatters::FormatIntFloor(value);
 			case OscParameters::Linear:
-				return FormatDecimal2(value * 10);
+				return ParameterFormatters::FormatDecimal2(value * 10);
 			case OscParameters::Keytrack:
-				return FormatOnOff(value);
+				return ParameterFormatters::FormatOnOff(value);
 			case OscParameters::Shape:
-				return FormatPercentPrecise(value);
+				return ParameterFormatters::FormatPercentPrecise(value);
 			case OscParameters::Phase:
-				return value >= 0.999 ? "Free" : FormatIntRounded(value * 360) + " Deg";
+				return value >= 0.999 ? "Free" : ParameterFormatters::FormatIntRounded(value * 360) + " Deg";
 			case OscParameters::Waveform:
-				return FormatIntFloor(value);
+				return ParameterFormatters::FormatIntFloor(value);
 			case OscParameters::Routing:
 				if (RoutingStage::Character == (RoutingStage)Parameters::FloorToInt(value))
 					return "Character";
@@ -117,7 +43,7 @@ namespace Leiftur
 			switch ((MixerParameters)parameter)
 			{
 			case MixerParameters::Color:
-				return FormatIntFloor(value);
+				return ParameterFormatters::FormatIntFloor(value);
 			}
 		}
 		else if (module == Module::Character)
@@ -125,13 +51,13 @@ namespace Leiftur
 			switch ((CharacterParameters)parameter)
 			{
 			case CharacterParameters::Decimate:
-				return FormatExp2(value, 4);
+				return ParameterFormatters::FormatExp2(value, 4);
 			case CharacterParameters::Reduce:
-				return FormatExp2(1.0 - value, 4);
+				return ParameterFormatters::FormatExp2(1.0 - value, 4);
 			case CharacterParameters::Bottom:
 			case CharacterParameters::Top:
 			case CharacterParameters::Clip:
-				return FormatPercent(value);
+				return ParameterFormatters::FormatPercent(value);
 			}
 		}
 		else if (module == Module::FilterHp)
@@ -139,11 +65,11 @@ namespace Leiftur
 			switch ((FilterHpParameters)parameter)
 			{
 			case FilterHpParameters::Cutoff:
-				return FormatFilterCutoff(value);
+				return ParameterFormatters::FormatFilterCutoff(value);
 			case FilterHpParameters::Resonance:
 			case FilterHpParameters::Keytrack:
 			case FilterHpParameters::Env:
-				return FormatPercent(value);
+				return ParameterFormatters::FormatPercent(value);
 			}
 		}
 		else if (module == Module::FilterMain)
@@ -151,14 +77,14 @@ namespace Leiftur
 			switch ((FilterMainParameters)parameter)
 			{
 			case FilterMainParameters::Cutoff:
-				return FormatFilterCutoff(value);
+				return ParameterFormatters::FormatFilterCutoff(value);
 			case FilterMainParameters::Drive:
 			case FilterMainParameters::Resonance:
 			case FilterMainParameters::Keytrack:
 			case FilterMainParameters::Env:
-				return FormatPercent(value);
+				return ParameterFormatters::FormatPercent(value);
 			case FilterMainParameters::Type:
-				return FormatIntFloor(value);
+				return ParameterFormatters::FormatIntFloor(value);
 			}
 		}
 		else if (module == Module::Drive)
@@ -166,15 +92,15 @@ namespace Leiftur
 			switch ((DriveParameters)parameter)
 			{
 			case DriveParameters::Gain:
-				return FormatPercent(value);
+				return ParameterFormatters::FormatPercent(value);
 			case DriveParameters::Bias:
-				return FormatDecimal2(value);
+				return ParameterFormatters::FormatDecimal2(value);
 			case DriveParameters::Post:
 				return value >= 0.5 ? "Post" : "Pre";
 			case DriveParameters::Type:
-				return FormatIntFloor(value);
+				return ParameterFormatters::FormatIntFloor(value);
 			case DriveParameters::Mellow:
-				return FormatPercent(value);
+				return ParameterFormatters::FormatPercent(value);
 			}
 		}
 		else if (module == Module::EnvAmp || module == Module::EnvFilter)
@@ -185,16 +111,16 @@ namespace Leiftur
 			case EnvParameters::Hold:
 			case EnvParameters::Decay:
 			case EnvParameters::Release:
-				return FormatTime(Envelope::GetDecayTime(value));
+				return ParameterFormatters::FormatTime(Envelope::GetDecayTime(value));
 			case EnvParameters::Sustain:
 			case EnvParameters::Velocity:
-				return FormatPercent(value);
+				return ParameterFormatters::FormatPercent(value);
 			case EnvParameters::Retrigger:
-				return FormatOnOff(value);
+				return ParameterFormatters::FormatOnOff(value);
 			case EnvParameters::AttackCurve:
 			case EnvParameters::DecayCurve:
 			case EnvParameters::ReleaseCurve:
-				return FormatDecimal2(value);
+				return ParameterFormatters::FormatDecimal2(value);
 			}
 		}
 		else if (module == Module::Mod1 || module == Module::Mod2 || module == Module::Mod3)
@@ -205,23 +131,23 @@ namespace Leiftur
 			case ModParameters::Hold:
 			case ModParameters::Decay:
 			case ModParameters::Release:
-				return FormatTime(Envelope::GetDecayTime(value));
+				return ParameterFormatters::FormatTime(Envelope::GetDecayTime(value));
 			case ModParameters::Freq:
-				return FormatLfoFreq(value);
+				return ParameterFormatters::FormatLfoFreq(value);
 			case ModParameters::Phase:
-				return value >= 0.999 ? "Free" : FormatIntRounded(value * 360) + " Deg";
+				return value >= 0.999 ? "Free" : ParameterFormatters::FormatIntRounded(value * 360) + " Deg";
 			case ModParameters::Shape:
-				return FormatIntFloor(value);
+				return ParameterFormatters::FormatIntFloor(value);
 			case ModParameters::Sustain:
 			case ModParameters::Slew:
 			case ModParameters::Steps:
-				return FormatPercent(value);
+				return ParameterFormatters::FormatPercent(value);
 			case ModParameters::Sync:
-				return FormatOnOff(value);
+				return ParameterFormatters::FormatOnOff(value);
 			case ModParameters::AttackCurve:
 			case ModParameters::DecayCurve:
 			case ModParameters::ReleaseCurve:
-				return FormatDecimal2(value);
+				return ParameterFormatters::FormatDecimal2(value);
 			}
 		}
 		else if (module == Module::Arp)
@@ -229,19 +155,19 @@ namespace Leiftur
 			switch ((ArpParameters)parameter)
 			{
 			case ArpParameters::Bpm:
-				return FormatIntRounded(value);
+				return ParameterFormatters::FormatIntRounded(value);
 			case ArpParameters::Divide:
-				return FormatIntFloor(value * 16);
+				return ParameterFormatters::FormatIntFloor(value * 16);
 			case ArpParameters::Gate:
-				return FormatPercent(value);
+				return ParameterFormatters::FormatPercent(value);
 			case ArpParameters::NotePtn:
-				return FormatIntFloor(value);
+				return ParameterFormatters::FormatIntFloor(value);
 			case ArpParameters::OctavePtn:
-				return FormatIntFloor(value);
+				return ParameterFormatters::FormatIntFloor(value);
 			case ArpParameters::Range:
-				return FormatIntFloor(value);
+				return ParameterFormatters::FormatIntFloor(value);
 			case ArpParameters::Sync:
-				return FormatOnOff(value);
+				return ParameterFormatters::FormatOnOff(value);
 			}
 		}
 		else if (module == Module::Voices)
@@ -249,21 +175,21 @@ namespace Leiftur
 			switch ((VoiceParameters)parameter)
 			{
 			case VoiceParameters::Bend:
-				return FormatIntFloor(value);
+				return ParameterFormatters::FormatIntFloor(value);
 			case VoiceParameters::Detune:
-				return FormatPercent(value);
+				return ParameterFormatters::FormatPercent(value);
 			case VoiceParameters::Glide:
-				return FormatPercent(value);
+				return ParameterFormatters::FormatPercent(value);
 			case VoiceParameters::Master:
-				return FormatDecimal3(value);
+				return ParameterFormatters::FormatDecimal3(value);
 			case VoiceParameters::Polyphony:
-				return FormatIntFloor(value);
+				return ParameterFormatters::FormatIntFloor(value);
 			case VoiceParameters::Spread:
-				return FormatPercent(value);
+				return ParameterFormatters::FormatPercent(value);
 			case VoiceParameters::Unison:
-				return FormatIntFloor(value);
+				return ParameterFormatters::FormatIntFloor(value);
 			case VoiceParameters::VoiceMode:
-				return FormatIntFloor(value);
+				return ParameterFormatters::FormatIntFloor(value);
 			}
 		}
 		else if (module == Module::Chorus)
@@ -272,16 +198,16 @@ namespace Leiftur
 			{
 			case ChorusParameters::Enable1:
 			case ChorusParameters::Enable2:
-				return FormatOnOff(value);
+				return ParameterFormatters::FormatOnOff(value);
 			case ChorusParameters::Rate1:
 			case ChorusParameters::Rate2:
-				return FormatLfoFreq(value);
+				return ParameterFormatters::FormatLfoFreq(value);
 			case ChorusParameters::Depth1:
 			case ChorusParameters::Depth2:
 			case ChorusParameters::Width:
 			case ChorusParameters::Quality:
 			case ChorusParameters::Wet:
-				return FormatPercent(value);
+				return ParameterFormatters::FormatPercent(value);
 			}
 		}
 		else if (module == Module::Delay)
@@ -290,27 +216,27 @@ namespace Leiftur
 			{
 			case DelayParameters::DelayL:
 			case DelayParameters::DelayR:
-				return FormatPercent(value);
+				return ParameterFormatters::FormatPercent(value);
 			case DelayParameters::FeedbackL:
 			case DelayParameters::FeedbackR:
-				return FormatPercent(value);
+				return ParameterFormatters::FormatPercent(value);
 			case DelayParameters::Lowpass:
 			case DelayParameters::Highpass:
 			case DelayParameters::Saturate:
 			case DelayParameters::DiffuseAmount:
 			case DelayParameters::DiffuseSize:
 			case DelayParameters::Wet:
-				return FormatPercent(value);
+				return ParameterFormatters::FormatPercent(value);
 			case DelayParameters::Sync:
-				return FormatOnOff(value);
+				return ParameterFormatters::FormatOnOff(value);
 			}
 		}
 		else if (module == Module::Macros)
 		{
-			return FormatDecimal2(value);
+			return ParameterFormatters::FormatDecimal2(value);
 		}
 
-		return FormatDecimal3(value);
+		return ParameterFormatters::FormatDecimal3(value);
 	}
 
 	void Synth::SendBackParameter(Module module, int parameter)

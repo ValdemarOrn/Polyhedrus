@@ -51,6 +51,7 @@
     <ClInclude Include="Oscillator.h" />
     <ClInclude Include="Osc\OscMessage.h" />
     <ClInclude Include="Osc\UdpTranceiver.h" />
+    <ClInclude Include="ParameterFormatters.h" />
     <ClInclude Include="PlatformSpecific.h" />
     <ClInclude Include="Parameters.h" />
     <ClInclude Include="PresetManager.h" />
