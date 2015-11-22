@@ -107,7 +107,7 @@ namespace AudioLib
 
 		static inline float TanhLookup(float x)
 		{
-			int i = x * 10000 + 30000;
+			int i = (int)(x * 10000 + 30000);
 			int overZero = i > 0;
 			int underMax = i < TanhTableSize - 1;
 			i = i * overZero;
@@ -123,7 +123,7 @@ namespace AudioLib
 			if (x > 2)
 				return sign;
 			
-			float part = 1 - x * 0.5;
+			float part = 1.0f - x * 0.5f;
 			return (1 - part * part) * sign;
 		}
 

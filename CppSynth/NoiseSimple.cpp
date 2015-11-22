@@ -27,6 +27,9 @@ namespace Leiftur
 		bufferR = new float[bufferSize];
 		output[0] = bufferL;
 		output[1] = bufferR;
+
+		lpL.SetFc(0.01f);
+		lpR.SetFc(0.01f);
 	}
 
 
@@ -45,8 +48,8 @@ namespace Leiftur
 		{
 			for (int i = 0; i < bufferSize; i++)
 			{
-				float rl = (2 * random.NextFloat() - 1);
-				float rr = (2 * random.NextFloat() - 1);
+				float rl = (2.0f * random.NextFloat() - 1.0f);
+				float rr = (2.0f * random.NextFloat() - 1.0f);
 				L -= L * hpRolloff;
 				R -= R * hpRolloff;
 				L += rl;
@@ -55,18 +58,16 @@ namespace Leiftur
 				if (L > 32 || L < -32) L -= rl;
 				if (R > 32 || R < -32) R -= rr;
 
-				bufferL[i] = 0.03125 * L;
-				bufferR[i] = 0.03125 * R;
+				bufferL[i] = 0.03125f * L;
+				bufferR[i] = 0.03125f * R;
 			}
 		}
 		else if (Type == NoiseType::Pink)
 		{
-			lpL.SetFc(0.01);
-			lpR.SetFc(0.01);
 			for (int i = 0; i < bufferSize; i++)
 			{
-				bufferL[i] = lpL.Process(random.NextFloat()) * 2;
-				bufferR[i] = lpR.Process(random.NextFloat()) * 2;
+				bufferL[i] = lpL.Process(random.NextFloat()) * 2.0f;
+				bufferR[i] = lpR.Process(random.NextFloat()) * 2.0f;
 			}
 		}
 	}

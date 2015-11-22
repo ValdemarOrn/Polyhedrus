@@ -4,6 +4,10 @@
 #include <string>
 #include <vector>
 #include <cmath>
+#include <functional>
+#include <map>
+
+#include "Utils.h"
 
 namespace Leiftur
 {
@@ -328,8 +332,47 @@ namespace Leiftur
 		ViaAmount_16 = 164,
 	};
 
+	struct ParameterInfo
+	{
+		int ParameterIndex;
+		std::string ParameterName;
+		std::string FormattedName;
+		double DefaultValue;
+		double MinValue;
+		double MaxValue;
+		std::function<std::string(double)> Formatter;
+
+		inline ParameterInfo()
+		{
+			ParameterIndex = 0;
+			ParameterName = "";
+			FormattedName = "";
+			DefaultValue = 0.0;
+			MinValue = 0.0;
+			MaxValue = 1.0;
+			Formatter = [](double val) -> std::string { return SPrint("%.3f", val); };
+		}
+
+		inline ParameterInfo(int parameterIndex, const char* parameterName, const char* formattedName, double defaultValue, double minValue, double maxValue, std::function<std::string(double)> formatter)
+		{
+			this->ParameterIndex = parameterIndex;
+			this->ParameterName = std::string(parameterName);
+			this->FormattedName = formattedName == 0 ? std::string(parameterName) : std::string(formattedName);
+			this->DefaultValue = defaultValue;
+			this->MinValue = minValue;
+			this->MaxValue = maxValue;
+			this->Formatter = formatter == 0
+				? [](double val) -> std::string { return SPrint("%.3f", val); }
+				: formatter;
+		}
+	};
+
 	class Parameters
 	{
+	private:
+		static std::map<Module, std::map<int, ParameterInfo>> parameterInfo;
+		static void Init();
+		
 	private:
 		static Module GetModule(std::string moduleString);
 		static int GetParameter(std::string parameterString, Module module);

@@ -29,19 +29,19 @@ namespace Leiftur
 		switch (parameter)
 		{
 		case FilterMainParameters::Cutoff:
-			cascadeFilter.Cutoff = value;
-			cascadeZeroFilter.Cutoff = value;
+			cascadeFilter.Cutoff = (float)value;
+			cascadeZeroFilter.Cutoff = (float)value;
 			break;
 		case FilterMainParameters::Drive:
-			cascadeFilter.Drive = value;
-			cascadeZeroFilter.Drive = value;
+			cascadeFilter.Drive = (float)value;
+			cascadeZeroFilter.Drive = (float)value;
 			break;
 		case FilterMainParameters::Resonance:
-			cascadeFilter.Resonance = value;
-			cascadeZeroFilter.Resonance = value;
+			cascadeFilter.Resonance = (float)value;
+			cascadeZeroFilter.Resonance = (float)value;
 			break;
 		case FilterMainParameters::Type:
-			type = value;
+			type = Parameters::FloorToInt(value);
 			break;
 		}
 	}

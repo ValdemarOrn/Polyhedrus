@@ -88,7 +88,7 @@ namespace Leiftur
 
 			if (reduceOn)
 			{
-				val = std::floorf((int)(val * bitReduceFactor)) * bitReduceFactorInv;
+				val = std::floorf(val * bitReduceFactor) * bitReduceFactorInv;
 			}
 
 			if (clipOn)

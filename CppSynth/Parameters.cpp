@@ -3,9 +3,18 @@
 #include <vector>
 #include "Parameters.h"
 #include "Utils.h"
+#include "ParameterFormatters.h"
 
 namespace Leiftur
 {
+	std::map<Module, std::map<int, ParameterInfo>> Parameters::parameterInfo;
+
+	void Parameters::Init()
+	{
+		std::map<int, ParameterInfo> modMap = parameterInfo[Module::Osc1];
+		modMap[(int)OscParameters::Cent] = ParameterInfo((int)OscParameters::Cent, "Cent", nullptr, 0, -50, 50, ParameterFormatters::FormatIntFloor);
+	}
+
 	Module Parameters::GetModule(std::string moduleString)
 	{
 		if (moduleString == "Control") return Module::Control;
@@ -29,6 +38,8 @@ namespace Leiftur
 		if (moduleString == "Delay") return Module::Delay;
 		if (moduleString == "Macros") return Module::Macros;
 		if (moduleString == "ModMatrix") return Module::ModMatrix;
+
+		return Module::Control;
 	}
 
 	int Parameters::GetParameter(std::string parameterString, Module module)

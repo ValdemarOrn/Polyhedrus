@@ -28,7 +28,7 @@ namespace Leiftur
 		Phase = 0.0f;
 		Freq = 0.5f;
 		Slew = 0.0f;
-		Steps = 1.0f;
+		Steps = 1;
 		Sync = false;
 
 		FreqMod = 0.0f;
@@ -88,16 +88,16 @@ namespace Leiftur
 			Phase = (float)value;
 			return;
 		case ModParameters::Freq:
-			Freq = value;
+			Freq = (float)value;
 			return;
 		case ModParameters::Shape:
 			Shape = (LfoShape)Parameters::FloorToInt(value);
 			return;
 		case ModParameters::Slew:
-			Slew = value;
+			Slew = (float)value;
 			return;
 		case ModParameters::Steps:
-			Steps = value;
+			Steps = (int)value;
 			return;
 		case ModParameters::Sync:
 			Sync = value >= 0.5;
@@ -148,13 +148,13 @@ namespace Leiftur
 		increment = (uint32_t)((1.0f / samplesPerCycle) * UINT32_MAX);
 
 
-		float slew = 1 - Utils::Limit(Slew + SlewMod, 0.0f, 1.0f);
+		double slew = 1 - Utils::Limit(Slew + SlewMod, 0.0f, 1.0f);
 		// Todo: Convert to lookup table
-		float slewVSec = std::pow(2, 12 * slew) / 64.0;
-		slewPerSample = slewVSec / samplerate;
+		double slewVSec = std::pow(2, 12 * slew) / 64.0;
+		slewPerSample = (float)(slewVSec / samplerate);
 
 
-		stepCount = ValueTables::Get(Utils::Limit(Steps + StepsMod, 0.0f, 1.0f), ValueTables::Response3Oct) * 256;
+		stepCount = (int)(ValueTables::Get(Utils::Limit(Steps + StepsMod, 0.0f, 1.0f), ValueTables::Response3Oct) * 256);
 		if (stepCount == 256) stepCount = 100000;
 	}
 
@@ -165,25 +165,27 @@ namespace Leiftur
 		switch (Shape)
 		{
 		case LfoShape::Pulse1:
-			return ph < 0.2 ? 1.0 : -1.0;
+			return ph < 0.2 ? 1.0f : -1.0f;
 		case LfoShape::Pulse2:
-			return ph < 0.33333 ? 1.0 : -1.0;
+			return ph < 0.33333 ? 1.0f : -1.0f;
 		case LfoShape::Ramp:
-			return -1.0 + 2 * ph;
+			return -1.0f + 2.0f * ph;
 		case LfoShape::SampleHold:
 			if (iterator < prevIterator) // overflow
 				currentSh = random.NextFloat();
 			return currentSh;
 		case LfoShape::Saw:
-			return 1.0 - 2 * ph;
+			return 1.0f - 2 * ph;
 		case LfoShape::Sine:
-			return AudioLib::FastSin::Get(ph);
+			return (float)AudioLib::FastSin::Get(ph);
 		case LfoShape::Square:
-			return ph < 0.5 ? 1.0 : -1.0;
+			return ph < 0.5 ? 1.0f : -1.0f;
 		case LfoShape::Triangle:
-			if (ph < 0.25) return ph * 4.0;
-			else if (ph < 0.75) return 1.0 - (ph - 0.25) * 4.0;
-			else return -1 + (ph - 0.75) * 4.0;
+			if (ph < 0.25) return ph * 4.0f;
+			else if (ph < 0.75) return 1.0f - (ph - 0.25f) * 4.0f;
+			else return -1 + (ph - 0.75f) * 4.0f;
+		default:
+			return 0.0f;
 		}
 	}
 }

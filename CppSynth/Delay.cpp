@@ -72,7 +72,7 @@ namespace Leiftur
 		
 		// I call this only on diffuserL so that the random number generators are out of sync
 		// this gives different diffusion on each channel, widening the sound
-		diffuserL.UpdateParameters(1000, 0.7);
+		diffuserL.UpdateParameters(1000.0f, 0.7f);
 
 		for (int i = 0; i < delayBufferSize; i++)
 		{
@@ -89,8 +89,8 @@ namespace Leiftur
 			DiffuseAmount = (float)value;
 			break;
 		case DelayParameters::DiffuseSize:
-			diffuserL.UpdateParameters(value * samplerate * 0.025, 0.7f);
-			diffuserR.UpdateParameters(value * samplerate * 0.025, 0.7f);
+			diffuserL.UpdateParameters((float)(value * samplerate * 0.025), 0.7f);
+			diffuserR.UpdateParameters((float)(value * samplerate * 0.025), 0.7f);
 			break;
 		case DelayParameters::DelayL:
 			DelayL = (float)value;

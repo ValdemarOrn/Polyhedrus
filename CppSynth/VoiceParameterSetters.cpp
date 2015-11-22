@@ -15,7 +15,7 @@ namespace Leiftur
 				osc->Semi = Parameters::FloorToInt(value);
 				break;
 			case OscParameters::Cent:
-				osc->Cent = (float)value;
+				osc->Cent = (int)value;
 				break;
 			case OscParameters::Phase:
 				osc->Phase = (float)value;
@@ -27,7 +27,7 @@ namespace Leiftur
 				osc->Keytrack = value >= 0.5;
 				break;
 			case OscParameters::Linear:
-				osc->Linear = value * 10;
+				osc->Linear = (float)(value * 10);
 				break;
 			case OscParameters::Waveform:
 				osc->SetWavetable(wavetableManager->LoadWavetable(Parameters::FloorToInt(value)));
@@ -234,10 +234,10 @@ namespace Leiftur
 			this->modMatrix.Matrix[route].ViaSource = (ModSource)Parameters::FloorToInt(value);
 			break;
 		case 3:
-			this->modMatrix.Matrix[route].Amount = value;
+			this->modMatrix.Matrix[route].Amount = (float)value;
 			break;
 		case 4:
-			this->modMatrix.Matrix[route].ViaAmount = value;
+			this->modMatrix.Matrix[route].ViaAmount = (float)value;
 			break;
 		}
 

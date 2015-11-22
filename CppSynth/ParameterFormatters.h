@@ -3,6 +3,7 @@
 
 #include <string>
 
+#include "Utils.h"
 #include "Osc/OscMessage.h"
 #include "FilterCascade.h"
 #include "Modulator.h"
@@ -14,13 +15,6 @@ namespace Leiftur
 	class ParameterFormatters
 	{
 	public:
-
-		static inline std::string SPrint(const char* formatter, double value)
-		{
-			char buffer[256];
-			sprintf(buffer, formatter, value);
-			return std::string(buffer);
-		}
 
 		static inline std::string FormatPercent(double value)
 		{

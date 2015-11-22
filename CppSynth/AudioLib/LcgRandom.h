@@ -33,7 +33,7 @@ namespace AudioLib
 			uint64_t axc = a * x + c;
 			//x = axc % m;
 			x = axc & 0xFFFFFFFF;
-			return x;
+			return (uint32_t)x;
 		}
 
 		inline double NextDouble()
@@ -42,7 +42,7 @@ namespace AudioLib
 			return n * doubleInv;
 		}
 
-		inline double NextFloat()
+		inline float NextFloat()
 		{
 			auto n = NextInt();
 			return n * floatInv;

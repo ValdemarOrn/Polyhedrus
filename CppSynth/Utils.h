@@ -20,6 +20,13 @@ namespace Leiftur
 		}
 		return elems;
 	}
+
+	inline std::string SPrint(const char* formatter, double value)
+	{
+		char buffer[256];
+		sprintf(buffer, formatter, value);
+		return std::string(buffer);
+	}
 }
 
 #endif

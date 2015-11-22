@@ -41,7 +41,7 @@ namespace Leiftur
 		this->modulationUpdateRate = modulationUpdateRate;
 		this->samplerate = samplerate;
 		fsinv = 1.0f / (Oversample * samplerate);
-		cvToFreq.Initialize(samplerate);
+		cvToFreq.Initialize((float)samplerate);
 
 		Cutoff = 1;
 		updateCounter = 0;

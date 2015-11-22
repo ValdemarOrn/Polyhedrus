@@ -111,7 +111,7 @@ namespace Leiftur
 			case EnvParameters::Hold:
 			case EnvParameters::Decay:
 			case EnvParameters::Release:
-				return ParameterFormatters::FormatTime(Envelope::GetDecayTime(value));
+				return ParameterFormatters::FormatTime(Envelope::GetDecayTime((float)value));
 			case EnvParameters::Sustain:
 			case EnvParameters::Velocity:
 				return ParameterFormatters::FormatPercent(value);
@@ -131,7 +131,7 @@ namespace Leiftur
 			case ModParameters::Hold:
 			case ModParameters::Decay:
 			case ModParameters::Release:
-				return ParameterFormatters::FormatTime(Envelope::GetDecayTime(value));
+				return ParameterFormatters::FormatTime(Envelope::GetDecayTime((float)value));
 			case ModParameters::Freq:
 				return ParameterFormatters::FormatLfoFreq(value);
 			case ModParameters::Phase:

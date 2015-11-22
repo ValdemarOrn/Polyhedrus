@@ -54,8 +54,8 @@ namespace Leiftur
 		// formula: 2 ^ (-8*x) / (2^(-7))
 		// goes from 32 oct/second to 0.5 oct/second
 		float divisor = std::pow(2, -7);
-		float octavesPerSecond = std::pow(2, -8 * value) / divisor;
-		float notesPerSample = octavesPerSecond * 12.0 / samplerate;
+		float octavesPerSecond = (float)std::pow(2, -8 * value) / divisor;
+		float notesPerSample = (float)(octavesPerSecond * 12.0 / samplerate);
 		glideRate = notesPerSample;
 	}
 
@@ -108,7 +108,7 @@ namespace Leiftur
 		}
 
 		float pitch = currentPitch + 24.0f * PitchMod;
-		pitch = AudioLib::Utils::Limit(pitch, 0.0, 127.9999);
+		pitch = AudioLib::Utils::Limit(pitch, 0.0f, 127.999f);
 		int partialIndex = wavetable->WavetableIndex[(int)pitch];
 		waveMix = waveIndex - (int)waveIndex;
 

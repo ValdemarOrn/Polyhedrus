@@ -27,7 +27,7 @@ namespace AudioLib
 		inline void SetFc(float fcRel)
 		{
 			//this->g = fcRel * M_PI;
-			float g = fcRel * M_PI;
+			float g = (float)(fcRel * M_PI);
 			g2 = g / (1 + g);
 		}
 	};
@@ -53,7 +53,7 @@ namespace AudioLib
 		inline void SetFc(float fcRel)
 		{
 			//this->g = fcRel * M_PI;
-			float g = fcRel * M_PI;
+			float g = (float)(fcRel * M_PI);
 			g2 = g / (1 + g);
 		}
 	};

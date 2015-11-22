@@ -168,7 +168,7 @@ namespace Leiftur
 	{
 		int i = 0;
 		int bufferSize = modulationUpdateRate;
-		float fmScaler = M_PI;
+		float fmScaler = (float)M_PI;
 
 		while (i < totalBufferSize)
 		{
@@ -234,9 +234,9 @@ namespace Leiftur
 		modMatrix.ModSourceValues[(int)ModSource::Mod1] = mod1.Output;
 		modMatrix.ModSourceValues[(int)ModSource::Mod2] = mod2.Output;
 		modMatrix.ModSourceValues[(int)ModSource::Mod3] = mod3.Output;
-		modMatrix.ModSourceValues[(int)ModSource::Mod1Unipolar] = 1 + 0.5 * mod1.Output;
-		modMatrix.ModSourceValues[(int)ModSource::Mod2Unipolar] = 1 + 0.5 * mod2.Output;
-		modMatrix.ModSourceValues[(int)ModSource::Mod3Unipolar] = 1 + 0.5 * mod3.Output;
+		modMatrix.ModSourceValues[(int)ModSource::Mod1Unipolar] = 1.0f + 0.5f * mod1.Output;
+		modMatrix.ModSourceValues[(int)ModSource::Mod2Unipolar] = 1.0f + 0.5f * mod2.Output;
+		modMatrix.ModSourceValues[(int)ModSource::Mod3Unipolar] = 1.0f + 0.5f * mod3.Output;
 		modMatrix.ModSourceValues[(int)ModSource::Mod1Env] = mod1.EnvOutput;
 		modMatrix.ModSourceValues[(int)ModSource::Mod2Env] = mod2.EnvOutput;
 		modMatrix.ModSourceValues[(int)ModSource::Mod3Env] = mod3.EnvOutput;
