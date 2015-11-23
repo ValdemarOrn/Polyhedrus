@@ -56,7 +56,7 @@ namespace Leiftur
 
 		if (type == 0)
 			cascadeZeroFilter.Process(input, len);
-		else if (type == 1)
+		else// if (type == 1)
 			cascadeFilter.Process(input, len);			
 	}
 
@@ -67,7 +67,7 @@ namespace Leiftur
 
 		if (type == 0)
 			return cascadeZeroFilter.GetOutput();
-		else if (type == 1)
+		else// if (type == 1)
 			return cascadeFilter.GetOutput();
 
 		return 0;

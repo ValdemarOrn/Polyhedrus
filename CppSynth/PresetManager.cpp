@@ -86,85 +86,58 @@ namespace Leiftur
 
 		auto setCharacter = [&](Module module)
 		{
-			preset.Values[Synth::PackParameter(module, (int)CharacterParameters::Bottom)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)CharacterParameters::Clip)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)CharacterParameters::Decimate)] = 0;
-			preset.Values[Synth::PackParameter(module, (int)CharacterParameters::Reduce)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)CharacterParameters::Top)] = 0.0;
+			for (auto param : Parameters::ParamInfo[module])
+			{
+				preset.Values[Synth::PackParameter(module, param.first)] = param.second.DefaultValue;
+			}
 		};
 
 		auto setFilterHp = [&](Module module)
 		{
-			preset.Values[Synth::PackParameter(module, (int)FilterHpParameters::Cutoff)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)FilterHpParameters::Env)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)FilterHpParameters::Keytrack)] = 0;
-			preset.Values[Synth::PackParameter(module, (int)FilterHpParameters::Resonance)] = 0.0;
+			for (auto param : Parameters::ParamInfo[module])
+			{
+				preset.Values[Synth::PackParameter(module, param.first)] = param.second.DefaultValue;
+			}
 		};
 
 		auto setFilterMain = [&](Module module)
 		{
-			preset.Values[Synth::PackParameter(module, (int)FilterMainParameters::Drive)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)FilterMainParameters::Cutoff)] = 1.0;
-			preset.Values[Synth::PackParameter(module, (int)FilterMainParameters::Env)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)FilterMainParameters::Keytrack)] = 0;
-			preset.Values[Synth::PackParameter(module, (int)FilterMainParameters::Resonance)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)FilterMainParameters::Type)] = 0;
+			for (auto param : Parameters::ParamInfo[module])
+			{
+				preset.Values[Synth::PackParameter(module, param.first)] = param.second.DefaultValue;
+			}
 		};
 
 		auto setDrive = [&](Module module)
 		{
-			preset.Values[Synth::PackParameter(module, (int)DriveParameters::Bias)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)DriveParameters::Gain)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)DriveParameters::Mellow)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)DriveParameters::Post)] = 1;
-			preset.Values[Synth::PackParameter(module, (int)DriveParameters::Type)] = 0;
+			for (auto param : Parameters::ParamInfo[module])
+			{
+				preset.Values[Synth::PackParameter(module, param.first)] = param.second.DefaultValue;
+			}
 		};
 
 		auto setEnv = [&](Module module)
 		{
-			preset.Values[Synth::PackParameter(module, (int)EnvParameters::Attack)] = 0.1;
-			preset.Values[Synth::PackParameter(module, (int)EnvParameters::AttackCurve)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)EnvParameters::Decay)] = 0.5;
-			preset.Values[Synth::PackParameter(module, (int)EnvParameters::DecayCurve)] = -0.5;
-			preset.Values[Synth::PackParameter(module, (int)EnvParameters::Hold)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)EnvParameters::Release)] = 0.2;
-			preset.Values[Synth::PackParameter(module, (int)EnvParameters::ReleaseCurve)] = -0.5;
-			preset.Values[Synth::PackParameter(module, (int)EnvParameters::Retrigger)] = 0;
-			preset.Values[Synth::PackParameter(module, (int)EnvParameters::Sustain)] = 0.8;
-			preset.Values[Synth::PackParameter(module, (int)EnvParameters::Velocity)] = 0.0;
+			for (auto param : Parameters::ParamInfo[module])
+			{
+				preset.Values[Synth::PackParameter(module, param.first)] = param.second.DefaultValue;
+			}
 		};
 
 		auto setMod = [&](Module module)
 		{
-			preset.Values[Synth::PackParameter(module, (int)ModParameters::Delay)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)ModParameters::Attack)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)ModParameters::Hold)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)ModParameters::Decay)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)ModParameters::Sustain)] = 1.0;
-			preset.Values[Synth::PackParameter(module, (int)ModParameters::Release)] = 1.0;
-
-			preset.Values[Synth::PackParameter(module, (int)ModParameters::Phase)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)ModParameters::Freq)] = 0.5;
-			preset.Values[Synth::PackParameter(module, (int)ModParameters::Shape)] = (int)LfoShape::Triangle;
-			preset.Values[Synth::PackParameter(module, (int)ModParameters::Slew)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)ModParameters::Steps)] = 1.0;
-			preset.Values[Synth::PackParameter(module, (int)ModParameters::Sync)] = 0.0;
-
-			preset.Values[Synth::PackParameter(module, (int)ModParameters::AttackCurve)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)ModParameters::DecayCurve)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)ModParameters::ReleaseCurve)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)ModParameters::Retrigger)] = 0;
+			for (auto param : Parameters::ParamInfo[module])
+			{
+				preset.Values[Synth::PackParameter(module, param.first)] = param.second.DefaultValue;
+			}
 		};
 
 		auto setArp = [&](Module module)
 		{
-			preset.Values[Synth::PackParameter(module, (int)ArpParameters::Bpm)] = 120.0;
-			preset.Values[Synth::PackParameter(module, (int)ArpParameters::Divide)] = 16.0;
-			preset.Values[Synth::PackParameter(module, (int)ArpParameters::Gate)] = 0.99;
-			preset.Values[Synth::PackParameter(module, (int)ArpParameters::NotePtn)] = 0;
-			preset.Values[Synth::PackParameter(module, (int)ArpParameters::OctavePtn)] = 0;
-			preset.Values[Synth::PackParameter(module, (int)ArpParameters::Range)] = 3;
-			preset.Values[Synth::PackParameter(module, (int)ArpParameters::Sync)] = 0;
+			for (auto param : Parameters::ParamInfo[module])
+			{
+				preset.Values[Synth::PackParameter(module, param.first)] = param.second.DefaultValue;
+			}
 		};
 
 		auto setChorus = [&](Module module)

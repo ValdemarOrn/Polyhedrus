@@ -105,6 +105,166 @@ namespace Leiftur
 			ParameterFormatters::FormatOnOff);
 
 		ParamInfo[Module::ModuleSwitches] = modMap;
+
+		// ----------------- Character -----------------------
+
+		modMap = std::map<int, ParameterInfo>();
+
+		modMap[(int)CharacterParameters::Bottom] = ParameterInfo((int)CharacterParameters::Bottom, "Bottom", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatPercent);
+		modMap[(int)CharacterParameters::Top] = ParameterInfo((int)CharacterParameters::Top, "Top", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatPercent);
+		modMap[(int)CharacterParameters::Decimate] = ParameterInfo((int)CharacterParameters::Decimate, "Decimate", nullptr, 0, 0, 1, 
+			[](double value) -> std::string { return ParameterFormatters::FormatExp2(value, 4); });
+		modMap[(int)CharacterParameters::Reduce] = ParameterInfo((int)CharacterParameters::Reduce, "Reduce", nullptr, 0, 0, 1, 
+			[](double value) -> std::string { return ParameterFormatters::FormatExp2(1.0 - value, 4); });
+		modMap[(int)CharacterParameters::Clip] = ParameterInfo((int)CharacterParameters::Clip, "Clip", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatPercent);
+
+		ParamInfo[Module::Character] = modMap;
+
+		// --------------- Filter HP ---------------------
+
+		modMap = std::map<int, ParameterInfo>();
+
+		modMap[(int)FilterHpParameters::Cutoff] = ParameterInfo((int)FilterHpParameters::Cutoff, "Cutoff", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatFilterCutoff);
+		modMap[(int)FilterHpParameters::Resonance] = ParameterInfo((int)FilterHpParameters::Resonance, "Resonance", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatPercent);
+		modMap[(int)FilterHpParameters::Keytrack] = ParameterInfo((int)FilterHpParameters::Keytrack, "Keytrack", nullptr, 0, -1, 1, 
+			ParameterFormatters::FormatPercent);
+		modMap[(int)FilterHpParameters::Env] = ParameterInfo((int)FilterHpParameters::Env, "Env", nullptr, 0, -1, 1,
+			ParameterFormatters::FormatPercent);
+
+		ParamInfo[Module::FilterHp] = modMap;
+
+		// --------------- Filter Main -------------------------
+
+		modMap = std::map<int, ParameterInfo>();
+
+		modMap[(int)FilterMainParameters::Drive] = ParameterInfo((int)FilterMainParameters::Drive, "Drive", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatPercent);
+		modMap[(int)FilterMainParameters::Cutoff] = ParameterInfo((int)FilterMainParameters::Cutoff, "Cutoff", nullptr, 1, 0, 1, 
+			ParameterFormatters::FormatFilterCutoff);
+		modMap[(int)FilterMainParameters::Resonance] = ParameterInfo((int)FilterMainParameters::Resonance, "Resonance", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatPercent);
+		modMap[(int)FilterMainParameters::Keytrack] = ParameterInfo((int)FilterMainParameters::Keytrack, "Keytrack", nullptr, 0, -1, 1, 
+			ParameterFormatters::FormatPercent);
+		modMap[(int)FilterMainParameters::Env] = ParameterInfo((int)FilterMainParameters::Env, "Env", nullptr, 0, -1, 1,
+			ParameterFormatters::FormatPercent);
+		modMap[(int)FilterMainParameters::Type] = ParameterInfo((int)FilterMainParameters::Type, "Type", nullptr, 0, 0, 6,
+			ParameterFormatters::FormatIntFloor);
+
+		ParamInfo[Module::FilterMain] = modMap;
+
+		// ------------------- Drive --------------------------------
+
+		modMap = std::map<int, ParameterInfo>();
+
+		modMap[(int)DriveParameters::Gain] = ParameterInfo((int)DriveParameters::Gain, "Gain", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatPercent);
+		modMap[(int)DriveParameters::Bias] = ParameterInfo((int)DriveParameters::Bias, "Bias", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatDecimal2);
+		modMap[(int)DriveParameters::Post] = ParameterInfo((int)DriveParameters::Post, "Post", nullptr, 1, 0, 1,
+			[](double value) -> std::string { return value >= 0.5 ? "Post" : "Pre"; });
+		modMap[(int)DriveParameters::Type] = ParameterInfo((int)DriveParameters::Type, "Type", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatIntFloor);
+		modMap[(int)DriveParameters::Mellow] = ParameterInfo((int)DriveParameters::Mellow, "Mellow", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatPercent);
+
+		ParamInfo[Module::Drive] = modMap;
+
+		// ------------------------- Env -------------------------------
+
+		modMap = std::map<int, ParameterInfo>();
+
+		modMap[(int)EnvParameters::Attack] = ParameterInfo((int)EnvParameters::Attack, "Attack", nullptr, 0.1, 0, 1,
+			ParameterFormatters::FormatEnvTime);
+		modMap[(int)EnvParameters::Hold] = ParameterInfo((int)EnvParameters::Hold, "Hold", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatEnvTime);
+		modMap[(int)EnvParameters::Decay] = ParameterInfo((int)EnvParameters::Decay, "Decay", nullptr, 0.5, 0, 1,
+			ParameterFormatters::FormatEnvTime);
+		modMap[(int)EnvParameters::Sustain] = ParameterInfo((int)EnvParameters::Sustain, "Sustain", nullptr, 0.8, 0, 1, 
+			ParameterFormatters::FormatPercent);
+		modMap[(int)EnvParameters::Release] = ParameterInfo((int)EnvParameters::Release, "Release", nullptr, 0.2, 0, 1,
+			ParameterFormatters::FormatEnvTime);
+		modMap[(int)EnvParameters::Velocity] = ParameterInfo((int)EnvParameters::Velocity, "Velocity", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatPercent);
+		modMap[(int)EnvParameters::AttackCurve] = ParameterInfo((int)EnvParameters::AttackCurve, "AttackCurve", nullptr, 0, -1, 1, 
+			ParameterFormatters::FormatDecimal2);
+		modMap[(int)EnvParameters::DecayCurve] = ParameterInfo((int)EnvParameters::DecayCurve, "DecayCurve", nullptr, -0.5, -1, 1, 
+			ParameterFormatters::FormatDecimal2);
+		modMap[(int)EnvParameters::ReleaseCurve] = ParameterInfo((int)EnvParameters::ReleaseCurve, "ReleaseCurve", nullptr, -0.5, -1, 1, 
+			ParameterFormatters::FormatDecimal2);
+		modMap[(int)EnvParameters::Retrigger] = ParameterInfo((int)EnvParameters::Retrigger, "Retrigger", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatOnOff);
+
+		ParamInfo[Module::EnvAmp] = modMap;
+		ParamInfo[Module::EnvFilter] = modMap;
+
+		// ------------------------- Mod -------------------------------------
+
+		modMap = std::map<int, ParameterInfo>();
+
+		modMap[(int)ModParameters::Delay] = ParameterInfo((int)ModParameters::Delay, "Delay", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatEnvTime);
+		modMap[(int)ModParameters::Attack] = ParameterInfo((int)ModParameters::Attack, "Attack", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatEnvTime);
+		modMap[(int)ModParameters::Hold] = ParameterInfo((int)ModParameters::Hold, "Hold", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatEnvTime);
+		modMap[(int)ModParameters::Decay] = ParameterInfo((int)ModParameters::Decay, "Decay", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatEnvTime);
+		modMap[(int)ModParameters::Sustain] = ParameterInfo((int)ModParameters::Sustain, "Sustain", nullptr, 1, 0, 1, 
+			ParameterFormatters::FormatPercent);
+		modMap[(int)ModParameters::Release] = ParameterInfo((int)ModParameters::Release, "Release", nullptr, 1, 0, 1,
+			ParameterFormatters::FormatEnvTime);
+		modMap[(int)ModParameters::Phase] = ParameterInfo((int)ModParameters::Phase, "Phase", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatPhase);
+		modMap[(int)ModParameters::Freq] = ParameterInfo((int)ModParameters::Freq, "Freq", nullptr, 0.5, 0, 1,
+			ParameterFormatters::FormatLfoFreq);
+		modMap[(int)ModParameters::Shape] = ParameterInfo((int)ModParameters::Shape, "Shape", nullptr, (int)LfoShape::Triangle, 0, (int)LfoShape::Count - 0.0001,
+			ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModParameters::Slew] = ParameterInfo((int)ModParameters::Slew, "Slew", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatPercent);
+		modMap[(int)ModParameters::Steps] = ParameterInfo((int)ModParameters::Steps, "Steps", nullptr, 1, 0, 1,
+			ParameterFormatters::FormatPercent);
+		modMap[(int)ModParameters::Sync] = ParameterInfo((int)ModParameters::Sync, "Sync", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatOnOff);
+		modMap[(int)ModParameters::AttackCurve] = ParameterInfo((int)ModParameters::AttackCurve, "AttackCurve", nullptr, 0, -1, 1, 
+			ParameterFormatters::FormatDecimal2);
+		modMap[(int)ModParameters::DecayCurve] = ParameterInfo((int)ModParameters::DecayCurve, "DecayCurve", nullptr, 0, -1, 1,
+			ParameterFormatters::FormatDecimal2);
+		modMap[(int)ModParameters::ReleaseCurve] = ParameterInfo((int)ModParameters::ReleaseCurve, "ReleaseCurve", nullptr, 0, -1, 1,
+			ParameterFormatters::FormatDecimal2);
+		modMap[(int)ModParameters::Retrigger] = ParameterInfo((int)ModParameters::Retrigger, "Retrigger", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatOnOff);
+
+		ParamInfo[Module::Mod1] = modMap;
+		ParamInfo[Module::Mod2] = modMap;
+		ParamInfo[Module::Mod3] = modMap;
+
+		// ---------------------- Arp ---------------------------
+
+		modMap = std::map<int, ParameterInfo>();
+
+		modMap[(int)ArpParameters::Range] = ParameterInfo((int)ArpParameters::Range, "Range", nullptr, 1, 1, 4.999,
+			ParameterFormatters::FormatIntFloor);
+		modMap[(int)ArpParameters::NotePtn] = ParameterInfo((int)ArpParameters::NotePtn, "NotePtn", nullptr, 0, 0, 4.999,
+			ParameterFormatters::FormatIntFloor);
+		modMap[(int)ArpParameters::OctavePtn] = ParameterInfo((int)ArpParameters::OctavePtn, "OctavePtn", nullptr, 0, 0, 4.999,
+			ParameterFormatters::FormatIntFloor);
+		modMap[(int)ArpParameters::Gate] = ParameterInfo((int)ArpParameters::Gate, "Gate", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatPercent);
+		modMap[(int)ArpParameters::Divide] = ParameterInfo((int)ArpParameters::Divide, "Divide", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatDecimal2);
+		modMap[(int)ArpParameters::Bpm] = ParameterInfo((int)ArpParameters::Bpm, "Bpm", nullptr, 120, 10, 250, 
+			ParameterFormatters::FormatIntRounded);
+		modMap[(int)ArpParameters::Sync] = ParameterInfo((int)ArpParameters::Sync, "Sync", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatOnOff);
+
+		ParamInfo[Module::Arp] = modMap;
+
+
 	}
 
 	Module Parameters::GetModule(std::string moduleString)
@@ -136,103 +296,16 @@ namespace Leiftur
 
 	int Parameters::GetParameter(std::string parameterString, Module module)
 	{
-		if (module == Module::Osc1 || module == Module::Osc2 || module == Module::Osc3 || module == Module::Mixer)
+		if (module == Module::Osc1 || module == Module::Osc2 || module == Module::Osc3 || module == Module::Mixer
+			|| module == Module::ModuleSwitches || module == Module::Character || module == Module::FilterHp 
+			|| module == Module::FilterMain || module == Module::Drive || module == Module::EnvAmp || module == Module::EnvFilter
+			|| module == Module::Mod1 || module == Module::Mod2 || module == Module::Mod3 || module == Module::Arp)
 		{
 			for (auto param : ParamInfo[module])
 			{
 				if (param.second.ParameterName == parameterString)
 					return param.second.ParameterIndex;
 			}
-		}
-		else if (module == Module::ModuleSwitches)
-		{
-			if (parameterString == "ArpOn") return (int)ModuleSwitchParameters::ArpOn;
-			if (parameterString == "CharacterOn") return (int)ModuleSwitchParameters::CharacterOn;
-			if (parameterString == "ChorusOn") return (int)ModuleSwitchParameters::ChorusOn;
-			if (parameterString == "DelayOn") return (int)ModuleSwitchParameters::DelayOn;
-			if (parameterString == "DriveOn") return (int)ModuleSwitchParameters::DriveOn;
-			if (parameterString == "FilterHpOn") return (int)ModuleSwitchParameters::FilterHpOn;
-			if (parameterString == "FilterMainOn") return (int)ModuleSwitchParameters::FilterMainOn;
-			if (parameterString == "Mod1On") return (int)ModuleSwitchParameters::Mod1On;
-			if (parameterString == "Mod2On") return (int)ModuleSwitchParameters::Mod2On;
-			if (parameterString == "Mod3On") return (int)ModuleSwitchParameters::Mod3On;
-			if (parameterString == "Osc1On") return (int)ModuleSwitchParameters::Osc1On;
-			if (parameterString == "Osc2On") return (int)ModuleSwitchParameters::Osc2On;
-			if (parameterString == "Osc3On") return (int)ModuleSwitchParameters::Osc3On;
-		}
-		else if (module == Module::Character)
-		{
-			if (parameterString == "Bottom") return (int)CharacterParameters::Bottom;
-			if (parameterString == "Clip") return (int)CharacterParameters::Clip;
-			if (parameterString == "Decimate") return (int)CharacterParameters::Decimate;
-			if (parameterString == "Reduce") return (int)CharacterParameters::Reduce;
-			if (parameterString == "Top") return (int)CharacterParameters::Top;
-		}
-		else if (module == Module::FilterHp)
-		{
-			if (parameterString == "Cutoff") return (int)FilterHpParameters::Cutoff;
-			if (parameterString == "Resonance") return (int)FilterHpParameters::Resonance;
-			if (parameterString == "Keytrack") return (int)FilterHpParameters::Keytrack;
-			if (parameterString == "Env") return (int)FilterHpParameters::Env;
-		}
-		else if (module == Module::FilterMain)
-		{
-			if (parameterString == "Drive") return (int)FilterMainParameters::Drive;
-			if (parameterString == "Cutoff") return (int)FilterMainParameters::Cutoff;
-			if (parameterString == "Resonance") return (int)FilterMainParameters::Resonance;
-			if (parameterString == "Keytrack") return (int)FilterMainParameters::Keytrack;
-			if (parameterString == "Env") return (int)FilterMainParameters::Env;
-			if (parameterString == "Type") return (int)FilterMainParameters::Type;
-		}
-		else if (module == Module::Drive)
-		{
-			if (parameterString == "Bias") return (int)DriveParameters::Bias;
-			if (parameterString == "Gain") return (int)DriveParameters::Gain;
-			if (parameterString == "Mellow") return (int)DriveParameters::Mellow;
-			if (parameterString == "Post") return (int)DriveParameters::Post;
-			if (parameterString == "Type") return (int)DriveParameters::Type;
-		}
-		else if (module == Module::EnvAmp || module == Module::EnvFilter)
-		{
-			if (parameterString == "Attack") return (int)EnvParameters::Attack;
-			if (parameterString == "Hold") return (int)EnvParameters::Hold;
-			if (parameterString == "Decay") return (int)EnvParameters::Decay;
-			if (parameterString == "Sustain") return (int)EnvParameters::Sustain;
-			if (parameterString == "Release") return (int)EnvParameters::Release;
-			if (parameterString == "Velocity") return (int)EnvParameters::Velocity;
-			if (parameterString == "AttackCurve") return (int)EnvParameters::AttackCurve;
-			if (parameterString == "DecayCurve") return (int)EnvParameters::DecayCurve;
-			if (parameterString == "ReleaseCurve") return (int)EnvParameters::ReleaseCurve;
-			if (parameterString == "Retrigger") return (int)EnvParameters::Retrigger;
-		}
-		else if (module == Module::Mod1 || module == Module::Mod2 || module == Module::Mod3)
-		{
-			if (parameterString == "Attack") return (int)ModParameters::Attack;
-			if (parameterString == "AttackCurve") return (int)ModParameters::AttackCurve;
-			if (parameterString == "Decay") return (int)ModParameters::Decay;
-			if (parameterString == "DecayCurve") return (int)ModParameters::DecayCurve;
-			if (parameterString == "Delay") return (int)ModParameters::Delay;
-			if (parameterString == "Freq") return (int)ModParameters::Freq;
-			if (parameterString == "Hold") return (int)ModParameters::Hold;
-			if (parameterString == "Phase") return (int)ModParameters::Phase;
-			if (parameterString == "Release") return (int)ModParameters::Release;
-			if (parameterString == "ReleaseCurve") return (int)ModParameters::ReleaseCurve;
-			if (parameterString == "Retrigger") return (int)ModParameters::Retrigger;
-			if (parameterString == "Shape") return (int)ModParameters::Shape;
-			if (parameterString == "Slew") return (int)ModParameters::Slew;
-			if (parameterString == "Steps") return (int)ModParameters::Steps;
-			if (parameterString == "Sustain") return (int)ModParameters::Sustain;
-			if (parameterString == "Sync") return (int)ModParameters::Sync;
-		}
-		else if (module == Module::Arp)
-		{
-			if (parameterString == "Range") return (int)ArpParameters::Range;
-			if (parameterString == "NotePtn") return (int)ArpParameters::NotePtn;
-			if (parameterString == "OctavePtn") return (int)ArpParameters::OctavePtn;
-			if (parameterString == "Gate") return (int)ArpParameters::Gate;
-			if (parameterString == "Divide") return (int)ArpParameters::Divide;
-			if (parameterString == "Bpm") return (int)ArpParameters::Bpm;
-			if (parameterString == "Sync") return (int)ArpParameters::Sync;
 		}
 		else if (module == Module::Voices)
 		{

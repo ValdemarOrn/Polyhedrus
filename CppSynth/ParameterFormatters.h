@@ -100,6 +100,11 @@ namespace Leiftur
 			return FormatDecimal2(freq) + " Hz";
 		}
 
+		static inline std::string FormatEnvTime(double value)
+		{
+			return FormatDecimal2(Envelope::GetDecayTime((float)value)) + " Sec";
+		}
+
 		static inline std::string FormatTime(double value)
 		{
 			return FormatDecimal2(value) + " Sec";
