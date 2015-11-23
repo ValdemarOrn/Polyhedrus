@@ -62,18 +62,10 @@ namespace Leiftur
 
 		auto setOsc = [&](Module module)
 		{
-			preset.Values[Synth::PackParameter(module, (int)OscParameters::Cent)] = 0;
-			preset.Values[Synth::PackParameter(module, (int)OscParameters::Octave)] = 0;
-			preset.Values[Synth::PackParameter(module, (int)OscParameters::Pan)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)OscParameters::Phase)] = 1.0;
-			preset.Values[Synth::PackParameter(module, (int)OscParameters::Routing)] = (int)RoutingStage::Character;
-			preset.Values[Synth::PackParameter(module, (int)OscParameters::Semi)] = 0;
-			preset.Values[Synth::PackParameter(module, (int)OscParameters::Shape)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)OscParameters::Slop)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)OscParameters::Volume)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)OscParameters::Waveform)] = 0;
-			preset.Values[Synth::PackParameter(module, (int)OscParameters::Linear)] = 0;
-			preset.Values[Synth::PackParameter(module, (int)OscParameters::Keytrack)] = 1;
+			for (auto param : Parameters::ParamInfo[module])
+			{
+				preset.Values[Synth::PackParameter(module, param.first)] = param.second.DefaultValue;
+			}
 		};
 
 		auto setMixer = [&](Module module)

@@ -369,13 +369,14 @@ namespace Leiftur
 
 	class Parameters
 	{
-	private:
-		static std::map<Module, std::map<int, ParameterInfo>> parameterInfo;
+	public:
+		static std::map<Module, std::map<int, ParameterInfo>> ParamInfo;
 		static void Init();
-		
+
 	private:
 		static Module GetModule(std::string moduleString);
 		static int GetParameter(std::string parameterString, Module module);
+	
 	public:
 		static void ParseAddress(std::string address, Module* module, int* parameter);
 

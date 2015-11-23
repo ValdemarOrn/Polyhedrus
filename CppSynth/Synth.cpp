@@ -403,6 +403,8 @@ namespace Leiftur
 
 	void Synth::SetParameterInner(Module module, int parameter, double value)
 	{
+		auto paramInfo = Parameters::ParamInfo[module][parameter];
+		value = Utils::Limit(value, paramInfo.MinValue, paramInfo.MaxValue);
 		int idx = PackParameter(module, parameter);
 		currentPreset.Values[idx] = value;
 		SendBackParameter(module, parameter);

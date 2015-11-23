@@ -7,12 +7,40 @@
 
 namespace Leiftur
 {
-	std::map<Module, std::map<int, ParameterInfo>> Parameters::parameterInfo;
+	std::map<Module, std::map<int, ParameterInfo>> Parameters::ParamInfo;
 
 	void Parameters::Init()
 	{
-		std::map<int, ParameterInfo> modMap = parameterInfo[Module::Osc1];
-		modMap[(int)OscParameters::Cent] = ParameterInfo((int)OscParameters::Cent, "Cent", nullptr, 0, -50, 50, ParameterFormatters::FormatIntFloor);
+		auto modMap = std::map<int, ParameterInfo>();
+
+		modMap[(int)OscParameters::Cent] = ParameterInfo((int)OscParameters::Cent, "Cent", nullptr, 0, -50, 50, 
+			ParameterFormatters::FormatIntFloor);
+		modMap[(int)OscParameters::Keytrack] = ParameterInfo((int)OscParameters::Keytrack, "Keytrack", nullptr, 1, 0, 1, 
+			ParameterFormatters::FormatOnOff);
+		modMap[(int)OscParameters::Linear] = ParameterInfo((int)OscParameters::Linear, "Linear", nullptr, 0, -1, 1, 
+			ParameterFormatters::FormatDecimal2);
+		modMap[(int)OscParameters::Octave] = ParameterInfo((int)OscParameters::Octave, "Octave", nullptr, 0, -3, 3, 
+			ParameterFormatters::FormatIntFloor);
+		modMap[(int)OscParameters::Pan] = ParameterInfo((int)OscParameters::Pan, "Pan", nullptr, 0, -1, 1, 
+			ParameterFormatters::FormatPercent);
+		modMap[(int)OscParameters::Phase] = ParameterInfo((int)OscParameters::Phase, "Phase", nullptr, 1, 0, 1, 
+			ParameterFormatters::FormatPhase);
+		modMap[(int)OscParameters::Routing] = ParameterInfo((int)OscParameters::Routing, "Routing", nullptr, (int)RoutingStage::Character, 0, (int)RoutingStage::Direct,
+			ParameterFormatters::FormatRouting);
+		modMap[(int)OscParameters::Semi] = ParameterInfo((int)OscParameters::Semi, "Semi", nullptr, 0, -12, 12, 
+			ParameterFormatters::FormatIntFloor);
+		modMap[(int)OscParameters::Shape] = ParameterInfo((int)OscParameters::Shape, "Shape", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatPercentPrecise);
+		modMap[(int)OscParameters::Slop] = ParameterInfo((int)OscParameters::Slop, "Slop", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatIntFloor);
+		modMap[(int)OscParameters::Volume] = ParameterInfo((int)OscParameters::Volume, "Volume", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatPercent);
+		modMap[(int)OscParameters::Waveform] = ParameterInfo((int)OscParameters::Waveform, "Waveform", nullptr, 0, 0, 999999, 
+			ParameterFormatters::FormatIntFloor);
+
+		ParamInfo[Module::Osc1] = modMap;
+		ParamInfo[Module::Osc2] = modMap;
+		ParamInfo[Module::Osc3] = modMap;
 	}
 
 	Module Parameters::GetModule(std::string moduleString)
@@ -46,19 +74,11 @@ namespace Leiftur
 	{
 		if (module == Module::Osc1 || module == Module::Osc2 || module == Module::Osc3)
 		{
-			if (parameterString == "Octave") return (int)OscParameters::Octave;
-			if (parameterString == "Semi") return (int)OscParameters::Semi;
-			if (parameterString == "Cent") return (int)OscParameters::Cent;
-			if (parameterString == "Pan") return (int)OscParameters::Pan;
-			if (parameterString == "Volume") return (int)OscParameters::Volume;
-			if (parameterString == "Slop") return (int)OscParameters::Slop;
-			if (parameterString == "Phase") return (int)OscParameters::Phase;
-			if (parameterString == "Shape") return (int)OscParameters::Shape;
-			if (parameterString == "Waveform") return (int)OscParameters::Waveform;
-			if (parameterString == "Routing") return (int)OscParameters::Routing;
-			if (parameterString == "Linear") return (int)OscParameters::Linear;
-			if (parameterString == "Keytrack") return (int)OscParameters::Keytrack;
-			
+			for (auto param : ParamInfo[module])
+			{
+				if (param.second.ParameterName == parameterString)
+					return param.second.ParameterIndex;
+			}
 		}
 		else if (module == Module::Mixer)
 		{

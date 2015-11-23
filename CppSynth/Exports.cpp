@@ -1,5 +1,6 @@
 
 #include "Synth.h"
+#include "Parameters.h"
 #include "AudioLib/Utils.h"
 #include "AudioLib/Noise.h"
 #include "AudioLib/ValueTables.h"
@@ -11,6 +12,7 @@ extern "C"
 {
 	_declspec(dllexport) Leiftur::Synth* Create()
 	{
+		Leiftur::Parameters::Init();
 		AudioLib::ValueTables::Init();
 		AudioLib::Utils::Initialize();
 		AudioLib::Noise::Initialize();

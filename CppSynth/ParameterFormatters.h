@@ -41,6 +41,25 @@ namespace Leiftur
 			return SPrint("%.3f", value);
 		}
 
+		static inline std::string FormatRouting(double value)
+		{
+			if (RoutingStage::Character == (RoutingStage)Parameters::FloorToInt(value))
+				return "Character";
+			if (RoutingStage::Direct == (RoutingStage)Parameters::FloorToInt(value))
+				return "Direct";
+			if (RoutingStage::HpFilter == (RoutingStage)Parameters::FloorToInt(value))
+				return "HP Filter";
+			if (RoutingStage::MainFilter == (RoutingStage)Parameters::FloorToInt(value))
+				return "Main Filter";
+			else
+				return "---";
+		}
+
+		static inline std::string FormatPhase(double value)
+		{
+			return value >= 0.999 ? "Free" : ParameterFormatters::FormatIntRounded(value * 360) + " Deg";
+		}
+
 		static inline std::string FormatIntFloor(double value)
 		{
 			return SPrint("%0.0f", Parameters::FloorToInt(value));

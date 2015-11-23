@@ -5,38 +5,11 @@ namespace Leiftur
 {
 	std::string Synth::FormatParameter(Module module, int parameter, double value)
 	{
+		auto info = Parameters::ParamInfo[module][parameter];
+
 		if (module == Module::Osc1 || module == Module::Osc2 || module == Module::Osc3)
 		{
-			switch ((OscParameters)parameter)
-			{
-			case OscParameters::Pan:
-				return ParameterFormatters::FormatPercent(value);
-			case OscParameters::Octave:
-			case OscParameters::Semi:
-			case OscParameters::Cent:
-				return ParameterFormatters::FormatIntFloor(value);
-			case OscParameters::Linear:
-				return ParameterFormatters::FormatDecimal2(value * 10);
-			case OscParameters::Keytrack:
-				return ParameterFormatters::FormatOnOff(value);
-			case OscParameters::Shape:
-				return ParameterFormatters::FormatPercentPrecise(value);
-			case OscParameters::Phase:
-				return value >= 0.999 ? "Free" : ParameterFormatters::FormatIntRounded(value * 360) + " Deg";
-			case OscParameters::Waveform:
-				return ParameterFormatters::FormatIntFloor(value);
-			case OscParameters::Routing:
-				if (RoutingStage::Character == (RoutingStage)Parameters::FloorToInt(value))
-					return "Character";
-				if (RoutingStage::Direct == (RoutingStage)Parameters::FloorToInt(value))
-					return "Direct";
-				if (RoutingStage::HpFilter == (RoutingStage)Parameters::FloorToInt(value))
-					return "HP Filter";
-				if (RoutingStage::MainFilter == (RoutingStage)Parameters::FloorToInt(value))
-					return "Main Filter";
-				else
-					return "---";
-			}
+			return info.Formatter(value);
 		}
 		else if (module == Module::Mixer)
 		{
