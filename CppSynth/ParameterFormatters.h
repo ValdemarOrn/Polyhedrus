@@ -9,6 +9,7 @@
 #include "Modulator.h"
 #include "Envelope.h"
 #include "MixerSettings.h"
+#include "NoiseSimple.h"
 
 namespace Leiftur
 {
@@ -58,6 +59,17 @@ namespace Leiftur
 		static inline std::string FormatPhase(double value)
 		{
 			return value >= 0.999 ? "Free" : ParameterFormatters::FormatIntRounded(value * 360) + " Deg";
+		}
+
+		static inline std::string FormatNoiseType(double value)
+		{
+			int val = Parameters::FloorToInt(value);
+			if (val == (int)NoiseType::White)
+				return "White";
+			if (val == (int)NoiseType::Pink)
+				return "Pink";
+			if (val == (int)NoiseType::Brown)
+				return "Brown";
 		}
 
 		static inline std::string FormatIntFloor(double value)

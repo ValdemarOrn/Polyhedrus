@@ -70,34 +70,18 @@ namespace Leiftur
 
 		auto setMixer = [&](Module module)
 		{
-			preset.Values[Synth::PackParameter(module, (int)MixerParameters::Am12)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)MixerParameters::Am23)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)MixerParameters::Color)] = 0;
-			preset.Values[Synth::PackParameter(module, (int)MixerParameters::Fm12)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)MixerParameters::Fm13)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)MixerParameters::Fm23)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)MixerParameters::Noise)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)MixerParameters::CharacterOut)] = 1.0;
-			preset.Values[Synth::PackParameter(module, (int)MixerParameters::FilterHpOut)] = 1.0;
-			preset.Values[Synth::PackParameter(module, (int)MixerParameters::FilterMainOut)] = 1.0;
-			preset.Values[Synth::PackParameter(module, (int)MixerParameters::NoiseRouting)] = (int)RoutingStage::Character;
+			for (auto param : Parameters::ParamInfo[module])
+			{
+				preset.Values[Synth::PackParameter(module, param.first)] = param.second.DefaultValue;
+			}
 		};
 
 		auto setSwitches = [&](Module module)
 		{
-			preset.Values[Synth::PackParameter(module, (int)ModuleSwitchParameters::ArpOn)] = 0;
-			preset.Values[Synth::PackParameter(module, (int)ModuleSwitchParameters::CharacterOn)] = 1;
-			preset.Values[Synth::PackParameter(module, (int)ModuleSwitchParameters::ChorusOn)] = 0;
-			preset.Values[Synth::PackParameter(module, (int)ModuleSwitchParameters::DelayOn)] = 0;
-			preset.Values[Synth::PackParameter(module, (int)ModuleSwitchParameters::DriveOn)] = 0;
-			preset.Values[Synth::PackParameter(module, (int)ModuleSwitchParameters::FilterHpOn)] = 1;
-			preset.Values[Synth::PackParameter(module, (int)ModuleSwitchParameters::FilterMainOn)] = 1;
-			preset.Values[Synth::PackParameter(module, (int)ModuleSwitchParameters::Mod1On)] = 1;
-			preset.Values[Synth::PackParameter(module, (int)ModuleSwitchParameters::Mod2On)] = 0;
-			preset.Values[Synth::PackParameter(module, (int)ModuleSwitchParameters::Mod3On)] = 0;
-			preset.Values[Synth::PackParameter(module, (int)ModuleSwitchParameters::Osc1On)] = 1;
-			preset.Values[Synth::PackParameter(module, (int)ModuleSwitchParameters::Osc2On)] = 0;
-			preset.Values[Synth::PackParameter(module, (int)ModuleSwitchParameters::Osc3On)] = 0;
+			for (auto param : Parameters::ParamInfo[module])
+			{
+				preset.Values[Synth::PackParameter(module, param.first)] = param.second.DefaultValue;
+			}
 		};
 
 		auto setCharacter = [&](Module module)

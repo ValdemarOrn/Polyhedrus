@@ -68,7 +68,7 @@ namespace Leiftur.Ui
 
 		CharacterOut = 7,
 		FilterHpOut = 8,
-		FilterMainOut = 8,
+		FilterMainOut = 9,
 
 		NoiseRouting = 10,
 		Noise = 11,

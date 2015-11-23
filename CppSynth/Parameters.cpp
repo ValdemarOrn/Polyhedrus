@@ -11,6 +11,8 @@ namespace Leiftur
 
 	void Parameters::Init()
 	{
+		// --------------- Osc ----------------------
+
 		auto modMap = std::map<int, ParameterInfo>();
 
 		modMap[(int)OscParameters::Cent] = ParameterInfo((int)OscParameters::Cent, "Cent", nullptr, 0, -50, 50, 
@@ -41,6 +43,68 @@ namespace Leiftur
 		ParamInfo[Module::Osc1] = modMap;
 		ParamInfo[Module::Osc2] = modMap;
 		ParamInfo[Module::Osc3] = modMap;
+
+		// --------------- Mixer ----------------------
+
+		modMap = std::map<int, ParameterInfo>();
+
+		modMap[(int)MixerParameters::Am12] = ParameterInfo((int)MixerParameters::Am12, "Am12", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatDecimal2);
+		modMap[(int)MixerParameters::Am23] = ParameterInfo((int)MixerParameters::Am23, "Am23", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatDecimal2);
+		modMap[(int)MixerParameters::Fm12] = ParameterInfo((int)MixerParameters::Fm12, "Fm12", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatDecimal2);
+		modMap[(int)MixerParameters::Fm13] = ParameterInfo((int)MixerParameters::Fm13, "Fm13", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatDecimal2);
+		modMap[(int)MixerParameters::Fm23] = ParameterInfo((int)MixerParameters::Fm23, "Fm23", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatDecimal2);
+		modMap[(int)MixerParameters::Color] = ParameterInfo((int)MixerParameters::Color, "Color", nullptr, 0, 0, 2, 
+			ParameterFormatters::FormatNoiseType);
+		modMap[(int)MixerParameters::CharacterOut] = ParameterInfo((int)MixerParameters::CharacterOut, "CharacterOut", nullptr, 1, 0, 1,
+			ParameterFormatters::FormatPercent);
+		modMap[(int)MixerParameters::FilterHpOut] = ParameterInfo((int)MixerParameters::FilterHpOut, "FilterHpOut", nullptr, 1, 0, 1, 
+			ParameterFormatters::FormatPercent);
+		modMap[(int)MixerParameters::FilterMainOut] = ParameterInfo((int)MixerParameters::FilterMainOut, "FilterMainOut", nullptr, 1, 0, 1,
+			ParameterFormatters::FormatPercent);
+		modMap[(int)MixerParameters::NoiseRouting] = ParameterInfo((int)MixerParameters::NoiseRouting, "NoiseRouting", nullptr, (int)RoutingStage::Character, 0, (int)RoutingStage::Direct, 
+			ParameterFormatters::FormatRouting);
+		modMap[(int)MixerParameters::Noise] = ParameterInfo((int)MixerParameters::Noise, "Noise", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatPercent);
+
+		ParamInfo[Module::Mixer] = modMap;
+
+		// --------------- Switches ----------------------
+
+		modMap = std::map<int, ParameterInfo>();
+
+		modMap[(int)ModuleSwitchParameters::Osc1On] = ParameterInfo((int)ModuleSwitchParameters::Osc1On, "Osc1On", nullptr, 1, 0, 1, 
+			ParameterFormatters::FormatOnOff);
+		modMap[(int)ModuleSwitchParameters::Osc2On] = ParameterInfo((int)ModuleSwitchParameters::Osc2On, "Osc2On", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatOnOff);
+		modMap[(int)ModuleSwitchParameters::Osc3On] = ParameterInfo((int)ModuleSwitchParameters::Osc3On, "Osc3On", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatOnOff);
+		modMap[(int)ModuleSwitchParameters::CharacterOn] = ParameterInfo((int)ModuleSwitchParameters::CharacterOn, "CharacterOn", nullptr, 1, 0, 1, 
+			ParameterFormatters::FormatOnOff);
+		modMap[(int)ModuleSwitchParameters::FilterHpOn] = ParameterInfo((int)ModuleSwitchParameters::FilterHpOn, "FilterHpOn", nullptr, 1, 0, 1, 
+			ParameterFormatters::FormatOnOff);
+		modMap[(int)ModuleSwitchParameters::FilterMainOn] = ParameterInfo((int)ModuleSwitchParameters::FilterMainOn, "FilterMainOn", nullptr, 1, 0, 1, 
+			ParameterFormatters::FormatOnOff);
+		modMap[(int)ModuleSwitchParameters::DriveOn] = ParameterInfo((int)ModuleSwitchParameters::DriveOn, "DriveOn", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatOnOff);
+		modMap[(int)ModuleSwitchParameters::Mod1On] = ParameterInfo((int)ModuleSwitchParameters::Mod1On, "Mod1On", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatOnOff);
+		modMap[(int)ModuleSwitchParameters::Mod2On] = ParameterInfo((int)ModuleSwitchParameters::Mod2On, "Mod2On", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatOnOff);
+		modMap[(int)ModuleSwitchParameters::Mod3On] = ParameterInfo((int)ModuleSwitchParameters::Mod3On, "Mod3On", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatOnOff);
+		modMap[(int)ModuleSwitchParameters::ArpOn] = ParameterInfo((int)ModuleSwitchParameters::ArpOn, "ArpOn", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatOnOff);
+		modMap[(int)ModuleSwitchParameters::ChorusOn] = ParameterInfo((int)ModuleSwitchParameters::ChorusOn, "ChorusOn", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatOnOff);
+		modMap[(int)ModuleSwitchParameters::DelayOn] = ParameterInfo((int)ModuleSwitchParameters::DelayOn, "DelayOn", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatOnOff);
+
+		ParamInfo[Module::ModuleSwitches] = modMap;
 	}
 
 	Module Parameters::GetModule(std::string moduleString)
@@ -72,27 +136,13 @@ namespace Leiftur
 
 	int Parameters::GetParameter(std::string parameterString, Module module)
 	{
-		if (module == Module::Osc1 || module == Module::Osc2 || module == Module::Osc3)
+		if (module == Module::Osc1 || module == Module::Osc2 || module == Module::Osc3 || module == Module::Mixer)
 		{
 			for (auto param : ParamInfo[module])
 			{
 				if (param.second.ParameterName == parameterString)
 					return param.second.ParameterIndex;
 			}
-		}
-		else if (module == Module::Mixer)
-		{
-			if (parameterString == "Am12") return (int)MixerParameters::Am12;
-			if (parameterString == "Am23") return (int)MixerParameters::Am23;
-			if (parameterString == "Fm12") return (int)MixerParameters::Fm12;
-			if (parameterString == "Fm13") return (int)MixerParameters::Fm13;
-			if (parameterString == "Fm23") return (int)MixerParameters::Fm23;
-			if (parameterString == "Noise") return (int)MixerParameters::Noise;
-			if (parameterString == "Color") return (int)MixerParameters::Color;
-			if (parameterString == "CharacterOut") return (int)MixerParameters::CharacterOut;
-			if (parameterString == "FilterHpOut") return (int)MixerParameters::FilterHpOut;
-			if (parameterString == "FilterMainOut") return (int)MixerParameters::FilterMainOut;
-			if (parameterString == "NoiseRouting") return (int)MixerParameters::NoiseRouting;
 		}
 		else if (module == Module::ModuleSwitches)
 		{

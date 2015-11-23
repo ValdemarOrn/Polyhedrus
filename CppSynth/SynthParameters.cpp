@@ -7,17 +7,9 @@ namespace Leiftur
 	{
 		auto info = Parameters::ParamInfo[module][parameter];
 
-		if (module == Module::Osc1 || module == Module::Osc2 || module == Module::Osc3)
+		if (module == Module::Osc1 || module == Module::Osc2 || module == Module::Osc3 || module == Module::Mixer || module == Module::ModuleSwitches)
 		{
 			return info.Formatter(value);
-		}
-		else if (module == Module::Mixer)
-		{
-			switch ((MixerParameters)parameter)
-			{
-			case MixerParameters::Color:
-				return ParameterFormatters::FormatIntFloor(value);
-			}
 		}
 		else if (module == Module::Character)
 		{
