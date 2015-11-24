@@ -35,7 +35,7 @@
         <Label Grid.Row="3" Grid.Column="0">Type</Label>
         <Label Grid.Row="3" Grid.Column="1">Mellow</Label>
 
-        <local:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" Min="-1" Max="1" DefaultValue="0.0" />
-        <local:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" Min="-1" Max="1" DefaultValue="0.0" />
+        <local:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" Min="0" Max="4" DefaultValue="0.0" />
+        <local:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" DefaultValue="0.0" />
     </Grid>
 </UserControl>

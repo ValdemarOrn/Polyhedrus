@@ -4,6 +4,8 @@
 #include "Parameters.h"
 #include "Utils.h"
 #include "ParameterFormatters.h"
+#include "SynthDefines.h"
+#include "ModSourceDest.h"
 
 namespace Leiftur
 {
@@ -58,7 +60,7 @@ namespace Leiftur
 			ParameterFormatters::FormatDecimal2);
 		modMap[(int)MixerParameters::Fm23] = ParameterInfo((int)MixerParameters::Fm23, "Fm23", nullptr, 0, 0, 1, 
 			ParameterFormatters::FormatDecimal2);
-		modMap[(int)MixerParameters::Color] = ParameterInfo((int)MixerParameters::Color, "Color", nullptr, 0, 0, 2, 
+		modMap[(int)MixerParameters::Color] = ParameterInfo((int)MixerParameters::Color, "Color", nullptr, 0, 0, 2.999, 
 			ParameterFormatters::FormatNoiseType);
 		modMap[(int)MixerParameters::CharacterOut] = ParameterInfo((int)MixerParameters::CharacterOut, "CharacterOut", nullptr, 1, 0, 1,
 			ParameterFormatters::FormatPercent);
@@ -167,7 +169,7 @@ namespace Leiftur
 			ParameterFormatters::FormatDecimal2);
 		modMap[(int)DriveParameters::Post] = ParameterInfo((int)DriveParameters::Post, "Post", nullptr, 1, 0, 1,
 			[](double value) -> std::string { return value >= 0.5 ? "Post" : "Pre"; });
-		modMap[(int)DriveParameters::Type] = ParameterInfo((int)DriveParameters::Type, "Type", nullptr, 0, 0, 1,
+		modMap[(int)DriveParameters::Type] = ParameterInfo((int)DriveParameters::Type, "Type", nullptr, 0, 0, 4,
 			ParameterFormatters::FormatIntFloor);
 		modMap[(int)DriveParameters::Mellow] = ParameterInfo((int)DriveParameters::Mellow, "Mellow", nullptr, 0, 0, 1,
 			ParameterFormatters::FormatPercent);
@@ -264,6 +266,209 @@ namespace Leiftur
 
 		ParamInfo[Module::Arp] = modMap;
 
+		// -------------------- Voices ---------------------------
+
+		modMap = std::map<int, ParameterInfo>();
+
+		modMap[(int)VoiceParameters::Detune] = ParameterInfo((int)VoiceParameters::Detune, "Detune", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatPercent);
+		modMap[(int)VoiceParameters::Spread] = ParameterInfo((int)VoiceParameters::Spread, "Spread", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatPercent);
+		modMap[(int)VoiceParameters::Glide] = ParameterInfo((int)VoiceParameters::Glide, "Glide", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatPercent);
+		modMap[(int)VoiceParameters::Bend] = ParameterInfo((int)VoiceParameters::Bend, "Bend", nullptr, 2, 0, 24, 
+			ParameterFormatters::FormatIntFloor);
+		modMap[(int)VoiceParameters::Master] = ParameterInfo((int)VoiceParameters::Master, "Master", nullptr, 0.5, 0, 1,
+			ParameterFormatters::FormatDecimal3);
+		modMap[(int)VoiceParameters::HiQuality] = ParameterInfo((int)VoiceParameters::HiQuality, "HiQuality", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatPercent);
+		modMap[(int)VoiceParameters::Polyphony] = ParameterInfo((int)VoiceParameters::Polyphony, "Polyphony", nullptr, 6, 1, 32,
+			ParameterFormatters::FormatIntFloor);
+		modMap[(int)VoiceParameters::Unison] = ParameterInfo((int)VoiceParameters::Unison, "Unison", nullptr, 1, 1, 32,
+			ParameterFormatters::FormatIntFloor);
+		modMap[(int)VoiceParameters::VoiceMode] = ParameterInfo((int)VoiceParameters::VoiceMode, "VoiceMode", nullptr, (int)VoiceMode::PolyRoundRobin, 0, (int)VoiceMode::PolyRoundRobin,
+			ParameterFormatters::FormatIntFloor);
+
+		ParamInfo[Module::Voices] = modMap;
+
+		// ------------------- Chorus ------------------------
+
+		modMap = std::map<int, ParameterInfo>();
+
+		modMap[(int)ChorusParameters::Enable1] = ParameterInfo((int)ChorusParameters::Enable1, "Enable1", nullptr, 1, 0, 1, 
+			ParameterFormatters::FormatOnOff);
+		modMap[(int)ChorusParameters::Enable2] = ParameterInfo((int)ChorusParameters::Enable2, "Enable2", nullptr, 1, 0, 1, 
+			ParameterFormatters::FormatOnOff);
+		modMap[(int)ChorusParameters::Rate1] = ParameterInfo((int)ChorusParameters::Rate1, "Rate1", nullptr, 0.3123, 0, 1,
+			ParameterFormatters::FormatLfoFreq);
+		modMap[(int)ChorusParameters::Rate2] = ParameterInfo((int)ChorusParameters::Rate2, "Rate2", nullptr, 0.6687, 0, 1,
+			ParameterFormatters::FormatLfoFreq);
+		modMap[(int)ChorusParameters::Depth1] = ParameterInfo((int)ChorusParameters::Depth1, "Depth1", nullptr, 0.4, 0, 1, 
+			ParameterFormatters::FormatPercent);
+		modMap[(int)ChorusParameters::Depth2] = ParameterInfo((int)ChorusParameters::Depth2, "Depth2", nullptr, 0.6, 0, 1, 
+			ParameterFormatters::FormatPercent);
+		modMap[(int)ChorusParameters::Width] = ParameterInfo((int)ChorusParameters::Width, "Width", nullptr, 1, 0, 1, 
+			ParameterFormatters::FormatPercent);
+		modMap[(int)ChorusParameters::Quality] = ParameterInfo((int)ChorusParameters::Quality, "Quality", nullptr, 0.5, 0, 1,
+			ParameterFormatters::FormatPercent);
+		modMap[(int)ChorusParameters::Wet] = ParameterInfo((int)ChorusParameters::Wet, "Wet", nullptr, 0.5, 0, 1,
+			ParameterFormatters::FormatPercent);
+
+		ParamInfo[Module::Chorus] = modMap;
+
+		// -------------------- Delay ---------------------------
+
+		modMap = std::map<int, ParameterInfo>();
+
+		modMap[(int)DelayParameters::DelayL] = ParameterInfo((int)DelayParameters::DelayL, "DelayL", nullptr, 0.8, 0, 1, 
+			ParameterFormatters::FormatPercent);
+		modMap[(int)DelayParameters::DelayR] = ParameterInfo((int)DelayParameters::DelayR, "DelayR", nullptr, 0.8, 0, 1, 
+			ParameterFormatters::FormatPercent);
+		modMap[(int)DelayParameters::FeedbackL] = ParameterInfo((int)DelayParameters::FeedbackL, "FeedbackL", nullptr, 0.5, 0, 1, 
+			ParameterFormatters::FormatPercent);
+		modMap[(int)DelayParameters::FeedbackR] = ParameterInfo((int)DelayParameters::FeedbackR, "FeedbackR", nullptr, 0.5, 0, 1, 
+			ParameterFormatters::FormatPercent);
+		modMap[(int)DelayParameters::Lowpass] = ParameterInfo((int)DelayParameters::Lowpass, "Lowpass", nullptr, 1, 0, 1, 
+			ParameterFormatters::FormatPercent);
+		modMap[(int)DelayParameters::Highpass] = ParameterInfo((int)DelayParameters::Highpass, "Highpass", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatPercent);
+		modMap[(int)DelayParameters::Saturate] = ParameterInfo((int)DelayParameters::Saturate, "Saturate", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatPercent);
+		modMap[(int)DelayParameters::DiffuseAmount] = ParameterInfo((int)DelayParameters::DiffuseAmount, "DiffuseAmount", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatPercent);
+		modMap[(int)DelayParameters::DiffuseSize] = ParameterInfo((int)DelayParameters::DiffuseSize, "DiffuseSize", nullptr, 0.5, 0, 1, 
+			ParameterFormatters::FormatPercent);
+		modMap[(int)DelayParameters::Wet] = ParameterInfo((int)DelayParameters::Wet, "Wet", nullptr, 0.3, 0, 1, 
+			ParameterFormatters::FormatPercent);
+		modMap[(int)DelayParameters::Sync] = ParameterInfo((int)DelayParameters::Sync, "Sync", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatOnOff);
+
+		ParamInfo[Module::Delay] = modMap;
+
+		// --------------- Macros ---------------------
+
+		modMap = std::map<int, ParameterInfo>();
+
+		modMap[(int)MacroParameters::Macro1] = ParameterInfo((int)MacroParameters::Macro1, "Macro1", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatDecimal2);
+		modMap[(int)MacroParameters::Macro2] = ParameterInfo((int)MacroParameters::Macro2, "Macro2", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatDecimal2);
+		modMap[(int)MacroParameters::Macro3] = ParameterInfo((int)MacroParameters::Macro3, "Macro3", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatDecimal2);
+		modMap[(int)MacroParameters::Macro4] = ParameterInfo((int)MacroParameters::Macro4, "Macro4", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatDecimal2);
+		modMap[(int)MacroParameters::Macro5] = ParameterInfo((int)MacroParameters::Macro5, "Macro5", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatDecimal2);
+		modMap[(int)MacroParameters::Macro6] = ParameterInfo((int)MacroParameters::Macro6, "Macro6", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatDecimal2);
+		modMap[(int)MacroParameters::Macro7] = ParameterInfo((int)MacroParameters::Macro7, "Macro7", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatDecimal2);
+		modMap[(int)MacroParameters::Macro8] = ParameterInfo((int)MacroParameters::Macro8, "Macro8", nullptr, 0, 0, 1, 
+			ParameterFormatters::FormatDecimal2);
+
+		ParamInfo[Module::Macros] = modMap;
+
+		// --------------------- Matrix ---------------------------
+
+		modMap = std::map<int, ParameterInfo>();
+
+		modMap[(int)ModMatrixParameters::Source_1] = ParameterInfo((int)ModMatrixParameters::Source_1, "Source_1", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Dest_1] = ParameterInfo((int)ModMatrixParameters::Dest_1, "Dest_1", nullptr, 0, 0, (int)ModDest::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Via_1] = ParameterInfo((int)ModMatrixParameters::Via_1, "Via_1", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Amount_1] = ParameterInfo((int)ModMatrixParameters::Amount_1, "Amount_1", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		modMap[(int)ModMatrixParameters::ViaAmount_1] = ParameterInfo((int)ModMatrixParameters::ViaAmount_1, "ViaAmount_1", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		
+		modMap[(int)ModMatrixParameters::Source_2] = ParameterInfo((int)ModMatrixParameters::Source_2, "Source_2", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Dest_2] = ParameterInfo((int)ModMatrixParameters::Dest_2, "Dest_2", nullptr, 0, 0, (int)ModDest::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Via_2] = ParameterInfo((int)ModMatrixParameters::Via_2, "Via_2", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Amount_2] = ParameterInfo((int)ModMatrixParameters::Amount_2, "Amount_2", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		modMap[(int)ModMatrixParameters::ViaAmount_2] = ParameterInfo((int)ModMatrixParameters::ViaAmount_2, "ViaAmount_2", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		
+		modMap[(int)ModMatrixParameters::Source_3] = ParameterInfo((int)ModMatrixParameters::Source_3, "Source_3", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Dest_3] = ParameterInfo((int)ModMatrixParameters::Dest_3, "Dest_3", nullptr, 0, 0, (int)ModDest::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Via_3] = ParameterInfo((int)ModMatrixParameters::Via_3, "Via_3", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Amount_3] = ParameterInfo((int)ModMatrixParameters::Amount_3, "Amount_3", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		modMap[(int)ModMatrixParameters::ViaAmount_3] = ParameterInfo((int)ModMatrixParameters::ViaAmount_3, "ViaAmount_3", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		
+		modMap[(int)ModMatrixParameters::Source_4] = ParameterInfo((int)ModMatrixParameters::Source_4, "Source_4", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Dest_4] = ParameterInfo((int)ModMatrixParameters::Dest_4, "Dest_4", nullptr, 0, 0, (int)ModDest::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Via_4] = ParameterInfo((int)ModMatrixParameters::Via_4, "Via_4", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Amount_4] = ParameterInfo((int)ModMatrixParameters::Amount_4, "Amount_4", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		modMap[(int)ModMatrixParameters::ViaAmount_4] = ParameterInfo((int)ModMatrixParameters::ViaAmount_4, "ViaAmount_4", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		
+		modMap[(int)ModMatrixParameters::Source_5] = ParameterInfo((int)ModMatrixParameters::Source_5, "Source_5", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Dest_5] = ParameterInfo((int)ModMatrixParameters::Dest_5, "Dest_5", nullptr, 0, 0, (int)ModDest::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Via_5] = ParameterInfo((int)ModMatrixParameters::Via_5, "Via_5", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Amount_5] = ParameterInfo((int)ModMatrixParameters::Amount_5, "Amount_5", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		modMap[(int)ModMatrixParameters::ViaAmount_5] = ParameterInfo((int)ModMatrixParameters::ViaAmount_5, "ViaAmount_5", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		
+		modMap[(int)ModMatrixParameters::Source_6] = ParameterInfo((int)ModMatrixParameters::Source_6, "Source_6", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Dest_6] = ParameterInfo((int)ModMatrixParameters::Dest_6, "Dest_6", nullptr, 0, 0, (int)ModDest::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Via_6] = ParameterInfo((int)ModMatrixParameters::Via_6, "Via_6", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Amount_6] = ParameterInfo((int)ModMatrixParameters::Amount_6, "Amount_6", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		modMap[(int)ModMatrixParameters::ViaAmount_6] = ParameterInfo((int)ModMatrixParameters::ViaAmount_6, "ViaAmount_6", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		
+		modMap[(int)ModMatrixParameters::Source_7] = ParameterInfo((int)ModMatrixParameters::Source_7, "Source_7", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Dest_7] = ParameterInfo((int)ModMatrixParameters::Dest_7, "Dest_7", nullptr, 0, 0, (int)ModDest::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Via_7] = ParameterInfo((int)ModMatrixParameters::Via_7, "Via_7", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Amount_7] = ParameterInfo((int)ModMatrixParameters::Amount_7, "Amount_7", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		modMap[(int)ModMatrixParameters::ViaAmount_7] = ParameterInfo((int)ModMatrixParameters::ViaAmount_7, "ViaAmount_7", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		
+		modMap[(int)ModMatrixParameters::Source_8] = ParameterInfo((int)ModMatrixParameters::Source_8, "Source_8", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Dest_8] = ParameterInfo((int)ModMatrixParameters::Dest_8, "Dest_8", nullptr, 0, 0, (int)ModDest::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Via_8] = ParameterInfo((int)ModMatrixParameters::Via_8, "Via_8", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Amount_8] = ParameterInfo((int)ModMatrixParameters::Amount_8, "Amount_8", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		modMap[(int)ModMatrixParameters::ViaAmount_8] = ParameterInfo((int)ModMatrixParameters::ViaAmount_8, "ViaAmount_8", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		
+		modMap[(int)ModMatrixParameters::Source_9] = ParameterInfo((int)ModMatrixParameters::Source_9, "Source_9", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Dest_9] = ParameterInfo((int)ModMatrixParameters::Dest_9, "Dest_9", nullptr, 0, 0, (int)ModDest::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Via_9] = ParameterInfo((int)ModMatrixParameters::Via_9, "Via_9", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Amount_9] = ParameterInfo((int)ModMatrixParameters::Amount_9, "Amount_9", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		modMap[(int)ModMatrixParameters::ViaAmount_9] = ParameterInfo((int)ModMatrixParameters::ViaAmount_9, "ViaAmount_9", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		
+		modMap[(int)ModMatrixParameters::Source_10] = ParameterInfo((int)ModMatrixParameters::Source_10, "Source_10", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Dest_10] = ParameterInfo((int)ModMatrixParameters::Dest_10, "Dest_10", nullptr, 0, 0, (int)ModDest::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Via_10] = ParameterInfo((int)ModMatrixParameters::Via_10, "Via_10", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Amount_10] = ParameterInfo((int)ModMatrixParameters::Amount_10, "Amount_10", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		modMap[(int)ModMatrixParameters::ViaAmount_10] = ParameterInfo((int)ModMatrixParameters::ViaAmount_10, "ViaAmount_10", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		
+		modMap[(int)ModMatrixParameters::Source_11] = ParameterInfo((int)ModMatrixParameters::Source_11, "Source_11", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Dest_11] = ParameterInfo((int)ModMatrixParameters::Dest_11, "Dest_11", nullptr, 0, 0, (int)ModDest::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Via_11] = ParameterInfo((int)ModMatrixParameters::Via_11, "Via_11", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Amount_11] = ParameterInfo((int)ModMatrixParameters::Amount_11, "Amount_11", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		modMap[(int)ModMatrixParameters::ViaAmount_11] = ParameterInfo((int)ModMatrixParameters::ViaAmount_11, "ViaAmount_11", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		
+		modMap[(int)ModMatrixParameters::Source_12] = ParameterInfo((int)ModMatrixParameters::Source_12, "Source_12", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Dest_12] = ParameterInfo((int)ModMatrixParameters::Dest_12, "Dest_12", nullptr, 0, 0, (int)ModDest::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Via_12] = ParameterInfo((int)ModMatrixParameters::Via_12, "Via_12", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Amount_12] = ParameterInfo((int)ModMatrixParameters::Amount_12, "Amount_12", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		modMap[(int)ModMatrixParameters::ViaAmount_12] = ParameterInfo((int)ModMatrixParameters::ViaAmount_12, "ViaAmount_12", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		
+		modMap[(int)ModMatrixParameters::Source_13] = ParameterInfo((int)ModMatrixParameters::Source_13, "Source_13", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Dest_13] = ParameterInfo((int)ModMatrixParameters::Dest_13, "Dest_13", nullptr, 0, 0, (int)ModDest::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Via_13] = ParameterInfo((int)ModMatrixParameters::Via_13, "Via_13", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Amount_13] = ParameterInfo((int)ModMatrixParameters::Amount_13, "Amount_13", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		modMap[(int)ModMatrixParameters::ViaAmount_13] = ParameterInfo((int)ModMatrixParameters::ViaAmount_13, "ViaAmount_13", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		
+		modMap[(int)ModMatrixParameters::Source_14] = ParameterInfo((int)ModMatrixParameters::Source_14, "Source_14", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Dest_14] = ParameterInfo((int)ModMatrixParameters::Dest_14, "Dest_14", nullptr, 0, 0, (int)ModDest::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Via_14] = ParameterInfo((int)ModMatrixParameters::Via_14, "Via_14", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Amount_14] = ParameterInfo((int)ModMatrixParameters::Amount_14, "Amount_14", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		modMap[(int)ModMatrixParameters::ViaAmount_14] = ParameterInfo((int)ModMatrixParameters::ViaAmount_14, "ViaAmount_14", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		
+		modMap[(int)ModMatrixParameters::Source_15] = ParameterInfo((int)ModMatrixParameters::Source_15, "Source_15", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Dest_15] = ParameterInfo((int)ModMatrixParameters::Dest_15, "Dest_15", nullptr, 0, 0, (int)ModDest::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Via_15] = ParameterInfo((int)ModMatrixParameters::Via_15, "Via_15", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Amount_15] = ParameterInfo((int)ModMatrixParameters::Amount_15, "Amount_15", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		modMap[(int)ModMatrixParameters::ViaAmount_15] = ParameterInfo((int)ModMatrixParameters::ViaAmount_15, "ViaAmount_15", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		
+		modMap[(int)ModMatrixParameters::Source_16] = ParameterInfo((int)ModMatrixParameters::Source_16, "Source_16", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Dest_16] = ParameterInfo((int)ModMatrixParameters::Dest_16, "Dest_16", nullptr, 0, 0, (int)ModDest::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Via_16] = ParameterInfo((int)ModMatrixParameters::Via_16, "Via_16", nullptr, 0, 0, (int)ModSource::Count - 0.0001, ParameterFormatters::FormatIntFloor);
+		modMap[(int)ModMatrixParameters::Amount_16] = ParameterInfo((int)ModMatrixParameters::Amount_16, "Amount_16", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+		modMap[(int)ModMatrixParameters::ViaAmount_16] = ParameterInfo((int)ModMatrixParameters::ViaAmount_16, "ViaAmount_16", nullptr, 0, -1, 1, ParameterFormatters::FormatDecimal3);
+
+		ParamInfo[Module::ModMatrix] = modMap;
 
 	}
 
@@ -296,148 +501,10 @@ namespace Leiftur
 
 	int Parameters::GetParameter(std::string parameterString, Module module)
 	{
-		if (module == Module::Osc1 || module == Module::Osc2 || module == Module::Osc3 || module == Module::Mixer
-			|| module == Module::ModuleSwitches || module == Module::Character || module == Module::FilterHp 
-			|| module == Module::FilterMain || module == Module::Drive || module == Module::EnvAmp || module == Module::EnvFilter
-			|| module == Module::Mod1 || module == Module::Mod2 || module == Module::Mod3 || module == Module::Arp)
+		for (auto param : ParamInfo[module])
 		{
-			for (auto param : ParamInfo[module])
-			{
-				if (param.second.ParameterName == parameterString)
-					return param.second.ParameterIndex;
-			}
-		}
-		else if (module == Module::Voices)
-		{
-			if (parameterString == "Detune") return (int)VoiceParameters::Detune;
-			if (parameterString == "Spread") return (int)VoiceParameters::Spread;
-			if (parameterString == "Glide") return (int)VoiceParameters::Glide;
-			if (parameterString == "Bend") return (int)VoiceParameters::Bend;
-			if (parameterString == "Master") return (int)VoiceParameters::Master;
-			if (parameterString == "HiQuality") return (int)VoiceParameters::HiQuality;
-			if (parameterString == "Polyphony") return (int)VoiceParameters::Polyphony;
-			if (parameterString == "Unison") return (int)VoiceParameters::Unison;
-			if (parameterString == "VoiceMode") return (int)VoiceParameters::VoiceMode;
-		}
-		else if (module == Module::Chorus)
-		{
-			if (parameterString == "Depth1") return (int)ChorusParameters::Depth1;
-			if (parameterString == "Depth2") return (int)ChorusParameters::Depth2;
-			if (parameterString == "Enable1") return (int)ChorusParameters::Enable1;
-			if (parameterString == "Enable2") return (int)ChorusParameters::Enable2;
-			if (parameterString == "Quality") return (int)ChorusParameters::Quality;
-			if (parameterString == "Rate1") return (int)ChorusParameters::Rate1;
-			if (parameterString == "Rate2") return (int)ChorusParameters::Rate2;
-			if (parameterString == "Wet") return (int)ChorusParameters::Wet;
-			if (parameterString == "Width") return (int)ChorusParameters::Width;
-		}
-		else if (module == Module::Delay)
-		{
-			if (parameterString == "DelayL") return (int)DelayParameters::DelayL;
-			if (parameterString == "DelayR") return (int)DelayParameters::DelayR;
-			if (parameterString == "FeedbackL") return (int)DelayParameters::FeedbackL;
-			if (parameterString == "FeedbackR") return (int)DelayParameters::FeedbackR;
-			if (parameterString == "Lowpass") return (int)DelayParameters::Lowpass;
-			if (parameterString == "Highpass") return (int)DelayParameters::Highpass;
-			if (parameterString == "Saturate") return (int)DelayParameters::Saturate;
-			if (parameterString == "DiffuseAmount") return (int)DelayParameters::DiffuseAmount;
-			if (parameterString == "DiffuseSize") return (int)DelayParameters::DiffuseSize;
-			if (parameterString == "Wet") return (int)DelayParameters::Wet;
-			if (parameterString == "Sync") return (int)DelayParameters::Sync;
-		}
-		else if (module == Module::Macros)
-		{
-			if (parameterString == "Macro1") return (int)MacroParameters::Macro1;
-			if (parameterString == "Macro2") return (int)MacroParameters::Macro2;
-			if (parameterString == "Macro3") return (int)MacroParameters::Macro3;
-			if (parameterString == "Macro4") return (int)MacroParameters::Macro4;
-			if (parameterString == "Macro5") return (int)MacroParameters::Macro5;
-			if (parameterString == "Macro6") return (int)MacroParameters::Macro6;
-			if (parameterString == "Macro7") return (int)MacroParameters::Macro7;
-			if (parameterString == "Macro8") return (int)MacroParameters::Macro8;
-		}
-		else if (module == Module::ModMatrix)
-		{
-			if (parameterString == "Source_1") return (int)ModMatrixParameters::Source_1;
-			if (parameterString == "Dest_1") return (int)ModMatrixParameters::Dest_1;
-			if (parameterString == "Via_1") return (int)ModMatrixParameters::Via_1;
-			if (parameterString == "Amount_1") return (int)ModMatrixParameters::Amount_1;
-			if (parameterString == "ViaAmount_1") return (int)ModMatrixParameters::ViaAmount_1;
-			if (parameterString == "Source_2") return (int)ModMatrixParameters::Source_2;
-			if (parameterString == "Dest_2") return (int)ModMatrixParameters::Dest_2;
-			if (parameterString == "Via_2") return (int)ModMatrixParameters::Via_2;
-			if (parameterString == "Amount_2") return (int)ModMatrixParameters::Amount_2;
-			if (parameterString == "ViaAmount_2") return (int)ModMatrixParameters::ViaAmount_2;
-			if (parameterString == "Source_3") return (int)ModMatrixParameters::Source_3;
-			if (parameterString == "Dest_3") return (int)ModMatrixParameters::Dest_3;
-			if (parameterString == "Via_3") return (int)ModMatrixParameters::Via_3;
-			if (parameterString == "Amount_3") return (int)ModMatrixParameters::Amount_3;
-			if (parameterString == "ViaAmount_3") return (int)ModMatrixParameters::ViaAmount_3;
-			if (parameterString == "Source_4") return (int)ModMatrixParameters::Source_4;
-			if (parameterString == "Dest_4") return (int)ModMatrixParameters::Dest_4;
-			if (parameterString == "Via_4") return (int)ModMatrixParameters::Via_4;
-			if (parameterString == "Amount_4") return (int)ModMatrixParameters::Amount_4;
-			if (parameterString == "ViaAmount_4") return (int)ModMatrixParameters::ViaAmount_4;
-			if (parameterString == "Source_5") return (int)ModMatrixParameters::Source_5;
-			if (parameterString == "Dest_5") return (int)ModMatrixParameters::Dest_5;
-			if (parameterString == "Via_5") return (int)ModMatrixParameters::Via_5;
-			if (parameterString == "Amount_5") return (int)ModMatrixParameters::Amount_5;
-			if (parameterString == "ViaAmount_5") return (int)ModMatrixParameters::ViaAmount_5;
-			if (parameterString == "Source_6") return (int)ModMatrixParameters::Source_6;
-			if (parameterString == "Dest_6") return (int)ModMatrixParameters::Dest_6;
-			if (parameterString == "Via_6") return (int)ModMatrixParameters::Via_6;
-			if (parameterString == "Amount_6") return (int)ModMatrixParameters::Amount_6;
-			if (parameterString == "ViaAmount_6") return (int)ModMatrixParameters::ViaAmount_6;
-			if (parameterString == "Source_7") return (int)ModMatrixParameters::Source_7;
-			if (parameterString == "Dest_7") return (int)ModMatrixParameters::Dest_7;
-			if (parameterString == "Via_7") return (int)ModMatrixParameters::Via_7;
-			if (parameterString == "Amount_7") return (int)ModMatrixParameters::Amount_7;
-			if (parameterString == "ViaAmount_7") return (int)ModMatrixParameters::ViaAmount_7;
-			if (parameterString == "Source_8") return (int)ModMatrixParameters::Source_8;
-			if (parameterString == "Dest_8") return (int)ModMatrixParameters::Dest_8;
-			if (parameterString == "Via_8") return (int)ModMatrixParameters::Via_8;
-			if (parameterString == "Amount_8") return (int)ModMatrixParameters::Amount_8;
-			if (parameterString == "ViaAmount_8") return (int)ModMatrixParameters::ViaAmount_8;
-			if (parameterString == "Source_9") return (int)ModMatrixParameters::Source_9;
-			if (parameterString == "Dest_9") return (int)ModMatrixParameters::Dest_9;
-			if (parameterString == "Via_9") return (int)ModMatrixParameters::Via_9;
-			if (parameterString == "Amount_9") return (int)ModMatrixParameters::Amount_9;
-			if (parameterString == "ViaAmount_9") return (int)ModMatrixParameters::ViaAmount_9;
-			if (parameterString == "Source_10") return (int)ModMatrixParameters::Source_10;
-			if (parameterString == "Dest_10") return (int)ModMatrixParameters::Dest_10;
-			if (parameterString == "Via_10") return (int)ModMatrixParameters::Via_10;
-			if (parameterString == "Amount_10") return (int)ModMatrixParameters::Amount_10;
-			if (parameterString == "ViaAmount_10") return (int)ModMatrixParameters::ViaAmount_10;
-			if (parameterString == "Source_11") return (int)ModMatrixParameters::Source_11;
-			if (parameterString == "Dest_11") return (int)ModMatrixParameters::Dest_11;
-			if (parameterString == "Via_11") return (int)ModMatrixParameters::Via_11;
-			if (parameterString == "Amount_11") return (int)ModMatrixParameters::Amount_11;
-			if (parameterString == "ViaAmount_11") return (int)ModMatrixParameters::ViaAmount_11;
-			if (parameterString == "Source_12") return (int)ModMatrixParameters::Source_12;
-			if (parameterString == "Dest_12") return (int)ModMatrixParameters::Dest_12;
-			if (parameterString == "Via_12") return (int)ModMatrixParameters::Via_12;
-			if (parameterString == "Amount_12") return (int)ModMatrixParameters::Amount_12;
-			if (parameterString == "ViaAmount_12") return (int)ModMatrixParameters::ViaAmount_12;
-			if (parameterString == "Source_13") return (int)ModMatrixParameters::Source_13;
-			if (parameterString == "Dest_13") return (int)ModMatrixParameters::Dest_13;
-			if (parameterString == "Via_13") return (int)ModMatrixParameters::Via_13;
-			if (parameterString == "Amount_13") return (int)ModMatrixParameters::Amount_13;
-			if (parameterString == "ViaAmount_13") return (int)ModMatrixParameters::ViaAmount_13;
-			if (parameterString == "Source_14") return (int)ModMatrixParameters::Source_14;
-			if (parameterString == "Dest_14") return (int)ModMatrixParameters::Dest_14;
-			if (parameterString == "Via_14") return (int)ModMatrixParameters::Via_14;
-			if (parameterString == "Amount_14") return (int)ModMatrixParameters::Amount_14;
-			if (parameterString == "ViaAmount_14") return (int)ModMatrixParameters::ViaAmount_14;
-			if (parameterString == "Source_15") return (int)ModMatrixParameters::Source_15;
-			if (parameterString == "Dest_15") return (int)ModMatrixParameters::Dest_15;
-			if (parameterString == "Via_15") return (int)ModMatrixParameters::Via_15;
-			if (parameterString == "Amount_15") return (int)ModMatrixParameters::Amount_15;
-			if (parameterString == "ViaAmount_15") return (int)ModMatrixParameters::ViaAmount_15;
-			if (parameterString == "Source_16") return (int)ModMatrixParameters::Source_16;
-			if (parameterString == "Dest_16") return (int)ModMatrixParameters::Dest_16;
-			if (parameterString == "Via_16") return (int)ModMatrixParameters::Via_16;
-			if (parameterString == "Amount_16") return (int)ModMatrixParameters::Amount_16;
-			if (parameterString == "ViaAmount_16") return (int)ModMatrixParameters::ViaAmount_16;
+			if (param.second.ParameterName == parameterString)
+				return param.second.ParameterIndex;
 		}
 
 		return 0;

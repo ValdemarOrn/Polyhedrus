@@ -60,174 +60,17 @@ namespace Leiftur
 		preset.Metadata["Author"] = "Default";
 		preset.PresetName = "Init Preset";
 
-		auto setOsc = [&](Module module)
+		for (auto kvp : Parameters::ParamInfo)
 		{
+			auto module = kvp.first;
+
 			for (auto param : Parameters::ParamInfo[module])
 			{
 				preset.Values[Synth::PackParameter(module, param.first)] = param.second.DefaultValue;
 			}
-		};
-
-		auto setMixer = [&](Module module)
-		{
-			for (auto param : Parameters::ParamInfo[module])
-			{
-				preset.Values[Synth::PackParameter(module, param.first)] = param.second.DefaultValue;
-			}
-		};
-
-		auto setSwitches = [&](Module module)
-		{
-			for (auto param : Parameters::ParamInfo[module])
-			{
-				preset.Values[Synth::PackParameter(module, param.first)] = param.second.DefaultValue;
-			}
-		};
-
-		auto setCharacter = [&](Module module)
-		{
-			for (auto param : Parameters::ParamInfo[module])
-			{
-				preset.Values[Synth::PackParameter(module, param.first)] = param.second.DefaultValue;
-			}
-		};
-
-		auto setFilterHp = [&](Module module)
-		{
-			for (auto param : Parameters::ParamInfo[module])
-			{
-				preset.Values[Synth::PackParameter(module, param.first)] = param.second.DefaultValue;
-			}
-		};
-
-		auto setFilterMain = [&](Module module)
-		{
-			for (auto param : Parameters::ParamInfo[module])
-			{
-				preset.Values[Synth::PackParameter(module, param.first)] = param.second.DefaultValue;
-			}
-		};
-
-		auto setDrive = [&](Module module)
-		{
-			for (auto param : Parameters::ParamInfo[module])
-			{
-				preset.Values[Synth::PackParameter(module, param.first)] = param.second.DefaultValue;
-			}
-		};
-
-		auto setEnv = [&](Module module)
-		{
-			for (auto param : Parameters::ParamInfo[module])
-			{
-				preset.Values[Synth::PackParameter(module, param.first)] = param.second.DefaultValue;
-			}
-		};
-
-		auto setMod = [&](Module module)
-		{
-			for (auto param : Parameters::ParamInfo[module])
-			{
-				preset.Values[Synth::PackParameter(module, param.first)] = param.second.DefaultValue;
-			}
-		};
-
-		auto setArp = [&](Module module)
-		{
-			for (auto param : Parameters::ParamInfo[module])
-			{
-				preset.Values[Synth::PackParameter(module, param.first)] = param.second.DefaultValue;
-			}
-		};
-
-		auto setChorus = [&](Module module)
-		{
-			preset.Values[Synth::PackParameter(module, (int)ChorusParameters::Enable1)] = 1;
-			preset.Values[Synth::PackParameter(module, (int)ChorusParameters::Enable2)] = 1;
-			preset.Values[Synth::PackParameter(module, (int)ChorusParameters::Rate1)] = 0.3123;
-			preset.Values[Synth::PackParameter(module, (int)ChorusParameters::Rate2)] = 0.6687;
-			preset.Values[Synth::PackParameter(module, (int)ChorusParameters::Depth1)] = 0.4;
-			preset.Values[Synth::PackParameter(module, (int)ChorusParameters::Depth2)] = 0.6;
-			preset.Values[Synth::PackParameter(module, (int)ChorusParameters::Width)] = 1.0;
-			preset.Values[Synth::PackParameter(module, (int)ChorusParameters::Quality)] = 0.5;
-			preset.Values[Synth::PackParameter(module, (int)ChorusParameters::Wet)] = 0.5;
-		};
-
-		auto setDelay = [&](Module module)
-		{
-			preset.Values[Synth::PackParameter(module, (int)DelayParameters::DelayL)] = 0.8;
-			preset.Values[Synth::PackParameter(module, (int)DelayParameters::DelayR)] = 0.8;
-			preset.Values[Synth::PackParameter(module, (int)DelayParameters::FeedbackL)] = 0.5;
-			preset.Values[Synth::PackParameter(module, (int)DelayParameters::FeedbackR)] = 0.5;
-			preset.Values[Synth::PackParameter(module, (int)DelayParameters::Lowpass)] = 1.0;
-			preset.Values[Synth::PackParameter(module, (int)DelayParameters::Highpass)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)DelayParameters::Saturate)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)DelayParameters::DiffuseAmount)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)DelayParameters::DiffuseSize)] = 0.5;
-			preset.Values[Synth::PackParameter(module, (int)DelayParameters::Wet)] = 0.5;
-			preset.Values[Synth::PackParameter(module, (int)DelayParameters::Sync)] = 0;
-		};
-
-		auto setMacros = [&](Module module)
-		{
-			preset.Values[Synth::PackParameter(module, (int)MacroParameters::Macro1)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)MacroParameters::Macro2)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)MacroParameters::Macro3)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)MacroParameters::Macro4)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)MacroParameters::Macro5)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)MacroParameters::Macro6)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)MacroParameters::Macro7)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)MacroParameters::Macro8)] = 0.0;
-		};
-
-		auto setVoices = [&](Module module)
-		{
-			preset.Values[Synth::PackParameter(module, (int)VoiceParameters::Bend)] = 2.0;
-			preset.Values[Synth::PackParameter(module, (int)VoiceParameters::Detune)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)VoiceParameters::Glide)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)VoiceParameters::Master)] = 1.0;
-			preset.Values[Synth::PackParameter(module, (int)VoiceParameters::Polyphony)] = 6;
-			preset.Values[Synth::PackParameter(module, (int)VoiceParameters::Spread)] = 0.0;
-			preset.Values[Synth::PackParameter(module, (int)VoiceParameters::Unison)] = 1;
-			preset.Values[Synth::PackParameter(module, (int)VoiceParameters::HiQuality)] = 0;
-			preset.Values[Synth::PackParameter(module, (int)VoiceParameters::VoiceMode)] = (int)VoiceMode::PolyRoundRobin;
-		};
-
-		auto setModMatrix = [&](Module module)
-		{
-			for (int i = 0; i < ModMatrix::MatrixCount; i++)
-			{
-				preset.Values[Synth::PackParameter(module, 10 * (1 + i) + 0)] = (int)ModSource::Off; // Source
-				preset.Values[Synth::PackParameter(module, 10 * (1 + i) + 1)] = (int)ModDest::Off; // Dest
-				preset.Values[Synth::PackParameter(module, 10 * (1 + i) + 2)] = (int)ModDest::Off; // Via
-				preset.Values[Synth::PackParameter(module, 10 * (1 + i) + 3)] = 0.0; // Amount
-				preset.Values[Synth::PackParameter(module, 10 * (1 + i) + 4)] = 0.0; // Via Amount
-			}
-		};
-
-		setOsc(Module::Osc1);
-		setOsc(Module::Osc2);
-		setOsc(Module::Osc3);
-		setMixer(Module::Mixer);
-		setSwitches(Module::ModuleSwitches);
-		setCharacter(Module::Character);
-		setFilterHp(Module::FilterHp);
-		setFilterMain(Module::FilterMain);
-		setDrive(Module::Drive);
-		setEnv(Module::EnvAmp);
-		setEnv(Module::EnvFilter);
-		setMod(Module::Mod1);
-		setMod(Module::Mod2);
-		setMod(Module::Mod3);
-		setArp(Module::Arp);
-		setChorus(Module::Chorus);
-		setDelay(Module::Delay);
-		setMacros(Module::Macros);
-		setVoices(Module::Voices);
-		setModMatrix(Module::ModMatrix);
+		}
 
 		preset.Values[Synth::PackParameter(Module::Osc1, (int)OscParameters::Volume)] = 1.0;
-
 		return preset;
 	}
 
