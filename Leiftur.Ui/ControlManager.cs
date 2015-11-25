@@ -94,7 +94,7 @@ namespace Leiftur.Ui
 					Console.WriteLine(ex.GetTrace());
 				}
 
-				Thread.Sleep(20);
+				Thread.Sleep(2);
 			}
 		}
 		

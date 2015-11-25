@@ -10,7 +10,8 @@ namespace Leiftur
 		Character = 0,
 		HpFilter = 1,
 		MainFilter = 2,
-		Direct = 3,
+		Drive = 3,
+		Direct = 4,
 	};
 	
 	class MixerSettings

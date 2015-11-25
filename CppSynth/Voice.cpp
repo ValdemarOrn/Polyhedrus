@@ -55,6 +55,8 @@ namespace Leiftur
 		hpFilterR.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		mainFilterL.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		mainFilterR.Initialize(samplerate, bufferSize, modulationUpdateRate);
+		driveL.Initialize(samplerate, bufferSize, modulationUpdateRate);
+		driveR.Initialize(samplerate, bufferSize, modulationUpdateRate);
 
 		vcaOsc1.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		vcaOsc2.Initialize(samplerate, bufferSize, modulationUpdateRate);
@@ -86,6 +88,8 @@ namespace Leiftur
 			SetFilterHpParameter(module, (FilterHpParameters)parameter, value);
 		else if (module == Module::FilterMain)
 			SetFilterMainParameter(module, (FilterMainParameters)parameter, value);
+		else if (module == Module::Drive)
+			SetDriveParameter(module, (DriveParameters)parameter, value);
 		else if (module == Module::EnvAmp || module == Module::EnvFilter)
 			SetEnvParameter(module, (EnvParameters)parameter, value);
 		else if (module == Module::Mod1 || module == Module::Mod2 || module == Module::Mod3)
@@ -206,6 +210,10 @@ namespace Leiftur
 			mainFilterL.Process(signalMixL, bufferSize);
 			mainFilterR.Process(signalMixR, bufferSize);
 
+			MixSignals(bufferSize, RoutingStage::Drive);
+			driveL.Process(signalMixL, bufferSize);
+			driveR.Process(signalMixR, bufferSize);
+
 			MixSignals(bufferSize, RoutingStage::Direct);
 			vcaOutputL.Process(signalMixL, bufferSize);
 			vcaOutputR.Process(signalMixR, bufferSize);
@@ -312,10 +320,15 @@ namespace Leiftur
 			Utils::GainAndSum(hpFilterL.GetOutput(), signalMixL, mixer.FilterHpOutTotal, bufferSize);
 			Utils::GainAndSum(hpFilterR.GetOutput(), signalMixR, mixer.FilterHpOutTotal, bufferSize);
 		}
-		else if (stage == RoutingStage::Direct)
+		else if (stage == RoutingStage::Drive)
 		{
 			Utils::GainAndSum(mainFilterL.GetOutput(), signalMixL, mixer.FilterMainOutTotal, bufferSize);
 			Utils::GainAndSum(mainFilterR.GetOutput(), signalMixR, mixer.FilterMainOutTotal, bufferSize);
+		}
+		else if (stage == RoutingStage::Direct)
+		{
+			Utils::GainAndSum(driveL.GetOutput(), signalMixL, 1.0, bufferSize);
+			Utils::GainAndSum(driveR.GetOutput(), signalMixR, 1.0, bufferSize);
 		}
 
 		if (mixer.NoiseRouting == stage)

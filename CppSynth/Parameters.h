@@ -128,9 +128,10 @@ namespace Leiftur
 	{
 		Gain = 1,
 		Bias = 2,
-		Post = 3,
-		Type = 4,
-		Mellow = 5,
+		Volume = 3,
+		Post = 4,
+		Type = 5,
+		Mellow = 6,
 	};
 
 	enum class EnvParameters

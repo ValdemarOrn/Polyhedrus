@@ -176,20 +176,20 @@ namespace Leiftur.Ui
 			set { visualGeometry = value; NotifyPropertyChanged(); }
 		}
 
-		
-
 		public bool Osc1Visible
 		{
 			get { return osc1Visible; }
 			set
 			{
-				if (value == osc1Visible)
+				if (osc1Visible || !value)
 					return;
 
-				Osc2Visible = false;
-				Osc3Visible = false;
-				osc1Visible = value;
-				NotifyPropertyChanged();
+				osc2Visible = false;
+				osc3Visible = false;
+				osc1Visible = true;
+				NotifyPropertyChanged(nameof(Osc1Visible));
+				NotifyPropertyChanged(nameof(Osc2Visible));
+				NotifyPropertyChanged(nameof(Osc3Visible));
 			}
 		}
 
@@ -198,13 +198,15 @@ namespace Leiftur.Ui
 			get { return osc2Visible; }
 			set
 			{
-				if (value == osc2Visible)
+				if (osc2Visible || !value)
 					return;
 
-				Osc1Visible = false;
-				Osc3Visible = false;
-				osc2Visible = value;
-				NotifyPropertyChanged();
+				osc1Visible = false;
+				osc3Visible = false;
+				osc2Visible = true;
+				NotifyPropertyChanged(nameof(Osc1Visible));
+				NotifyPropertyChanged(nameof(Osc2Visible));
+				NotifyPropertyChanged(nameof(Osc3Visible));
 			}
 		}
 
@@ -213,13 +215,15 @@ namespace Leiftur.Ui
 			get { return osc3Visible; }
 			set
 			{
-				if (value == osc3Visible)
+				if (osc3Visible || !value)
 					return;
 
-				Osc1Visible = false;
-				Osc2Visible = false;
-				osc3Visible = value;
-				NotifyPropertyChanged();
+				osc1Visible = false;
+				osc2Visible = false;
+				osc3Visible = true;
+				NotifyPropertyChanged(nameof(Osc1Visible));
+				NotifyPropertyChanged(nameof(Osc2Visible));
+				NotifyPropertyChanged(nameof(Osc3Visible));
 			}
 		}
 
@@ -228,12 +232,13 @@ namespace Leiftur.Ui
 			get { return mainFilterVisible; }
 			set
 			{
-				if (value == MainFilterVisible)
+				if (MainFilterVisible || !value)
 					return;
 
-				DriveVisible = false;
-				mainFilterVisible = value;
-				NotifyPropertyChanged();
+				driveVisible = false;
+				mainFilterVisible = true;
+				NotifyPropertyChanged(nameof(DriveVisible));
+				NotifyPropertyChanged(nameof(MainFilterVisible));
 			}
 		}
 
@@ -242,12 +247,13 @@ namespace Leiftur.Ui
 			get { return driveVisible; }
 			set
 			{
-				if (value == DriveVisible)
+				if (DriveVisible || !value)
 					return;
 				
-				MainFilterVisible = false;
-				driveVisible = value;
-				NotifyPropertyChanged();
+				mainFilterVisible = false;
+				driveVisible = true;
+				NotifyPropertyChanged(nameof(DriveVisible));
+				NotifyPropertyChanged(nameof(MainFilterVisible));
 			}
 		}
 
@@ -256,14 +262,17 @@ namespace Leiftur.Ui
 			get { return mod1Visible; }
 			set
 			{
-				if (value == mod1Visible)
+				if (mod1Visible || !value)
 					return;
 
-				Mod2Visible = false;
-				Mod3Visible = false;
-				ArpeggiatorVisible = false;
-				mod1Visible = value;
-				NotifyPropertyChanged();
+				mod2Visible = false;
+				mod3Visible = false;
+				arpeggiatorVisible = false;
+				mod1Visible = true;
+				NotifyPropertyChanged(nameof(ArpeggiatorVisible));
+				NotifyPropertyChanged(nameof(Mod1Visible));
+				NotifyPropertyChanged(nameof(Mod2Visible));
+				NotifyPropertyChanged(nameof(Mod3Visible));
 			}
 		}
 
@@ -272,14 +281,17 @@ namespace Leiftur.Ui
 			get { return mod2Visible; }
 			set
 			{
-				if (value == mod2Visible)
+				if (mod2Visible || !value)
 					return;
 
-				Mod1Visible = false;
-				Mod3Visible = false;
-				ArpeggiatorVisible = false;
-				mod2Visible = value;
-				NotifyPropertyChanged();
+				mod1Visible = false;
+				mod3Visible = false;
+				arpeggiatorVisible = false;
+				mod2Visible = true;
+				NotifyPropertyChanged(nameof(ArpeggiatorVisible));
+				NotifyPropertyChanged(nameof(Mod1Visible));
+				NotifyPropertyChanged(nameof(Mod2Visible));
+				NotifyPropertyChanged(nameof(Mod3Visible));
 			}
 		}
 
@@ -288,14 +300,17 @@ namespace Leiftur.Ui
 			get { return mod3Visible; }
 			set
 			{
-				if (value == mod3Visible)
+				if (mod3Visible || !value)
 					return;
 
-				Mod1Visible = false;
-				Mod2Visible = false;
-				ArpeggiatorVisible = false;
-				mod3Visible = value;
-				NotifyPropertyChanged();
+				mod1Visible = false;
+				mod2Visible = false;
+				arpeggiatorVisible = false;
+				mod3Visible = true;
+				NotifyPropertyChanged(nameof(ArpeggiatorVisible));
+				NotifyPropertyChanged(nameof(Mod1Visible));
+				NotifyPropertyChanged(nameof(Mod2Visible));
+				NotifyPropertyChanged(nameof(Mod3Visible));
 			}
 		}
 
@@ -304,14 +319,17 @@ namespace Leiftur.Ui
 			get { return arpeggiatorVisible; }
 			set
 			{
-				if (value == arpeggiatorVisible)
+				if (arpeggiatorVisible || !value)
 					return;
 
-				Mod1Visible = false;
-				Mod2Visible = false;
-				Mod3Visible = false;
-				arpeggiatorVisible = value;
-				NotifyPropertyChanged();
+				mod1Visible = false;
+				mod2Visible = false;
+				mod3Visible = false;
+				arpeggiatorVisible = true;
+				NotifyPropertyChanged(nameof(ArpeggiatorVisible));
+				NotifyPropertyChanged(nameof(Mod1Visible));
+				NotifyPropertyChanged(nameof(Mod2Visible));
+				NotifyPropertyChanged(nameof(Mod3Visible));
 			}
 		}
 
@@ -320,12 +338,13 @@ namespace Leiftur.Ui
 			get { return delayVisible; }
 			set
 			{
-				if (value == delayVisible)
+				if (delayVisible || !value)
 					return;
 
-				ChorusVisible = false;
-				delayVisible = value;
-				NotifyPropertyChanged();
+				chorusVisible = false;
+				delayVisible = true;
+				NotifyPropertyChanged(nameof(ChorusVisible));
+				NotifyPropertyChanged(nameof(DelayVisible));
 			}
 		}
 
@@ -334,12 +353,13 @@ namespace Leiftur.Ui
 			get { return chorusVisible; }
 			set
 			{
-				if (value == chorusVisible)
+				if (chorusVisible || !value)
 					return;
 
-				DelayVisible = false;
-				chorusVisible = value;
-				NotifyPropertyChanged();
+				delayVisible = false;
+				chorusVisible = true;
+				NotifyPropertyChanged(nameof(ChorusVisible));
+				NotifyPropertyChanged(nameof(DelayVisible));
 			}
 		}
 
@@ -348,13 +368,15 @@ namespace Leiftur.Ui
 			get { return matrix1Visible; }
 			set
 			{
-				if (value == matrix1Visible)
+				if (matrix1Visible || !value)
 					return;
 
-				Matrix2Visible = false;
-				MacrosVisible = false;
-				matrix1Visible = value;
-				NotifyPropertyChanged();
+				matrix2Visible = false;
+				macrosVisible = false;
+				matrix1Visible = true;
+				NotifyPropertyChanged(nameof(MacrosVisible));
+				NotifyPropertyChanged(nameof(Matrix1Visible));
+				NotifyPropertyChanged(nameof(Matrix2Visible));
 			}
 		}
 
@@ -363,13 +385,15 @@ namespace Leiftur.Ui
 			get { return matrix2Visible; }
 			set
 			{
-				if (value == matrix2Visible)
+				if (matrix2Visible || !value)
 					return;
 
-				Matrix1Visible = false;
-				MacrosVisible = false;
-				matrix2Visible = value;
-				NotifyPropertyChanged();
+				matrix1Visible = false;
+				macrosVisible = false;
+				matrix2Visible = true;
+				NotifyPropertyChanged(nameof(MacrosVisible));
+				NotifyPropertyChanged(nameof(Matrix1Visible));
+				NotifyPropertyChanged(nameof(Matrix2Visible));
 			}
 		}
 
@@ -378,13 +402,15 @@ namespace Leiftur.Ui
 			get { return macrosVisible; }
 			set
 			{
-				if (value == macrosVisible)
+				if (macrosVisible || !value)
 					return;
 
-				Matrix1Visible = false;
-				Matrix2Visible = false;
-				macrosVisible = value;
-				NotifyPropertyChanged();
+				matrix1Visible = false;
+				matrix2Visible = false;
+				macrosVisible = true;
+				NotifyPropertyChanged(nameof(MacrosVisible));
+				NotifyPropertyChanged(nameof(Matrix1Visible));
+				NotifyPropertyChanged(nameof(Matrix2Visible));
 			}
 		}
 

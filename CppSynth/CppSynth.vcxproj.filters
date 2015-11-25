@@ -158,6 +158,9 @@
     <ClInclude Include="ParameterFormatters.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Drive.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Synth.cpp">
@@ -269,6 +272,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FilterCascadeZero.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Drive.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

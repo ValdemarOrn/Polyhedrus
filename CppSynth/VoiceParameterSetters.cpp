@@ -141,6 +141,10 @@ namespace Leiftur
 			mainFilterL.IsEnabled = isEn;
 			mainFilterR.IsEnabled = isEn;
 			break;
+		case ModuleSwitchParameters::DriveOn:
+			driveL.IsEnabled = isEn;
+			driveR.IsEnabled = isEn;
+			break;
 		}
 	}
 
@@ -174,6 +178,12 @@ namespace Leiftur
 			mainFilterL.SetParameter(parameter, value);
 			mainFilterR.SetParameter(parameter, value);
 		}
+	}
+
+	void Voice::SetDriveParameter(Module mdoule, DriveParameters parameter, double value)
+	{
+		driveL.SetParameter(parameter, value);
+		driveR.SetParameter(parameter, value);
 	}
 
 	void Voice::SetEnvParameter(Module module, EnvParameters parameter, double value)

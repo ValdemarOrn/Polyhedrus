@@ -68,11 +68,6 @@ namespace Leiftur
 		}
 	}
 
-	float* FilterHp::GetOutput()
-	{
-		return buffer;
-	}
-
 	void FilterHp::Update()
 	{
 		float cv = (float)(10.3 * Cutoff + CutoffMod);

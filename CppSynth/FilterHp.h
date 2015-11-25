@@ -30,7 +30,7 @@ namespace Leiftur
 		void Initialize(int samplerate, int bufferSize, int modulationUpdateRate);
 		void SetParameter(FilterHpParameters parameter, double value);
 		void Process(float* input, int len);
-		float* GetOutput();
+		inline float* GetOutput() { return buffer; }
 	private:
 		void Update();
 	};

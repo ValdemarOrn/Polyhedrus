@@ -26,16 +26,20 @@
         </Grid.RowDefinitions>
         <Label Grid.Row="1" Grid.Column="0">Gain</Label>
         <Label Grid.Row="1" Grid.Column="1">Bias</Label>
-        <Label Grid.Row="1" Grid.Column="2">Post</Label>
+        <Label Grid.Row="1" Grid.Column="2">Volume</Label>
 
-        <local:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" />
-        <local:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" />
-        <ToggleButton Style="{StaticResource CircleToggleButton}" Grid.Row="0" Grid.Column="2" Width="41" />
+
+        <local:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" ui:OscAddress.Address="/Drive/Gain" />
+        <local:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" Min="-1" Max="1" DefaultValue="0" ui:OscAddress.Address="/Drive/Bias" />
+        <local:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" ui:OscAddress.Address="/Drive/Volume" />
+        
 
         <Label Grid.Row="3" Grid.Column="0">Type</Label>
         <Label Grid.Row="3" Grid.Column="1">Mellow</Label>
+        <Label Grid.Row="3" Grid.Column="2">Post</Label>
 
-        <local:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" Min="0" Max="4" DefaultValue="0.0" />
-        <local:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" DefaultValue="0.0" />
+        <local:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" Min="0" Max="4" DefaultValue="0.0" ui:OscAddress.Address="/Drive/Type" />
+        <local:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" DefaultValue="0.0" ui:OscAddress.Address="/Drive/Mellow" />
+        <ToggleButton Style="{StaticResource CircleToggleButton}" Grid.Row="2" Grid.Column="2" Width="41" ui:OscAddress.Address="/Drive/Post" />
     </Grid>
 </UserControl>

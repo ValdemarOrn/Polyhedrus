@@ -12,7 +12,7 @@
 #include "MixerSettings.h"
 #include "Character.h"
 #include "Modulator.h"
-
+#include "Drive.h"
 
 namespace Leiftur
 {
@@ -38,7 +38,9 @@ namespace Leiftur
 		FilterHp hpFilterR;
 		FilterMain mainFilterL;
 		FilterMain mainFilterR;
-		
+		Drive driveL;
+		Drive driveR;
+
 		Vca vcaOsc1;
 		Vca vcaOsc2;
 		Vca vcaOsc3;
@@ -100,6 +102,7 @@ namespace Leiftur
 		void SetCharacterParameter(Module module, CharacterParameters parameter, double value);
 		void SetFilterHpParameter(Module module, FilterHpParameters parameter, double value);
 		void SetFilterMainParameter(Module module, FilterMainParameters parameter, double value);
+		void SetDriveParameter(Module mdoule, DriveParameters parameter, double value);
 		void SetEnvParameter(Module module, EnvParameters parameter, double value);
 		void SetModParameter(Module module, ModParameters parameter, double value);
 		void SetVoiceParameter(Module module, VoiceParameters parameter, double value);

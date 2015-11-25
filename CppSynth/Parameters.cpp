@@ -165,11 +165,13 @@ namespace Leiftur
 
 		modMap[(int)DriveParameters::Gain] = ParameterInfo((int)DriveParameters::Gain, "Gain", nullptr, 0, 0, 1, 
 			ParameterFormatters::FormatPercent);
-		modMap[(int)DriveParameters::Bias] = ParameterInfo((int)DriveParameters::Bias, "Bias", nullptr, 0, 0, 1,
+		modMap[(int)DriveParameters::Bias] = ParameterInfo((int)DriveParameters::Bias, "Bias", nullptr, 0, -1, 1,
 			ParameterFormatters::FormatDecimal2);
+		modMap[(int)DriveParameters::Volume] = ParameterInfo((int)DriveParameters::Volume, "Volume", nullptr, 1, 0, 1,
+			ParameterFormatters::FormatPercent);
 		modMap[(int)DriveParameters::Post] = ParameterInfo((int)DriveParameters::Post, "Post", nullptr, 1, 0, 1,
 			[](double value) -> std::string { return value >= 0.5 ? "Post" : "Pre"; });
-		modMap[(int)DriveParameters::Type] = ParameterInfo((int)DriveParameters::Type, "Type", nullptr, 0, 0, 4,
+		modMap[(int)DriveParameters::Type] = ParameterInfo((int)DriveParameters::Type, "Type", nullptr, 1, 0, 4,
 			ParameterFormatters::FormatIntFloor);
 		modMap[(int)DriveParameters::Mellow] = ParameterInfo((int)DriveParameters::Mellow, "Mellow", nullptr, 0, 0, 1,
 			ParameterFormatters::FormatPercent);
