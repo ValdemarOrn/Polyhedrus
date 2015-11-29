@@ -25,7 +25,6 @@ namespace Leiftur
 		CutoffMod = 0.0;
 		DriveMod = 0.0;
 		buffer = 0;
-		driveTotal = 0.0;
 		SetMode(InternalFilterMode::Lp24);
 	}
 
@@ -67,11 +66,6 @@ namespace Leiftur
 		}
 	}
 
-	float* FilterCascade::GetOutput()
-	{
-		return buffer;
-	}
-
 	float FilterCascade::ProcessSample(float input)
 	{
 		input *= gain;
@@ -102,7 +96,7 @@ namespace Leiftur
 
 		oversampledInput = input;
 		float sample = (c0 * x + c1 * a + c2 * b + c3 * c + c4 * d) * (1 - totalResonance * 0.5f);
-		return sample;
+		return sample * 4; // gain fudge
 	}
 
 	void FilterCascade::SetMode(InternalFilterMode mode)
@@ -159,7 +153,7 @@ namespace Leiftur
 
 	void FilterCascade::Update()
 	{
-		driveTotal = Drive + DriveMod;
+		float driveTotal = Drive + DriveMod;
 		driveTotal = AudioLib::Utils::Limit(driveTotal, 0.0f, 1.0f);
 
 		gain = (0.1f + 2.0f * driveTotal * driveTotal);

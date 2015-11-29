@@ -3,6 +3,7 @@
 
 #include "FilterCascade.h"
 #include "FilterCascadeZero.h"
+#include "FilterDualSvf.h"
 #include "Parameters.h"
 #include "FilterInternalMode.h"
 #include "AudioLib/OnePoleFilters.h"
@@ -16,6 +17,7 @@ namespace Leiftur
 		int modulationUpdateRate;
 		FilterCascade cascadeFilter;
 		FilterCascadeZero cascadeZeroFilter;
+		FilterDualSvf svfFilter;
 		AudioLib::Hp1 hp;
 		float* bypassBuffer;
 		int type;
@@ -33,18 +35,21 @@ namespace Leiftur
 		{
 			cascadeFilter.CutoffMod = modAmount;
 			cascadeZeroFilter.CutoffMod = modAmount;
+			svfFilter.CutoffMod = modAmount;
 		}
 
 		inline void SetDriveMod(float modAmount)
 		{
 			cascadeFilter.DriveMod = modAmount;
 			cascadeZeroFilter.DriveMod = modAmount;
+			svfFilter.DriveMod = modAmount;
 		}
 
 		inline void SetResonanceMod(float modAmount)
 		{
 			cascadeFilter.ResonanceMod = modAmount;
 			cascadeZeroFilter.ResonanceMod = modAmount;
+			svfFilter.ResonanceMod = modAmount;
 		}
 	};
 }

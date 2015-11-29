@@ -286,7 +286,7 @@ namespace Leiftur
 			ParameterFormatters::FormatDecimal3);
 		modMap[(int)VoiceParameters::HiQuality] = ParameterInfo((int)VoiceParameters::HiQuality, "HiQuality", nullptr, 0, 0, 1, 
 			ParameterFormatters::FormatPercent);
-		modMap[(int)VoiceParameters::Polyphony] = ParameterInfo((int)VoiceParameters::Polyphony, "Polyphony", nullptr, 6, 1, 32,
+		modMap[(int)VoiceParameters::Polyphony] = ParameterInfo((int)VoiceParameters::Polyphony, "Polyphony", nullptr, 1, 1, 32,
 			ParameterFormatters::FormatIntFloor);
 		modMap[(int)VoiceParameters::Unison] = ParameterInfo((int)VoiceParameters::Unison, "Unison", nullptr, 1, 1, 32,
 			ParameterFormatters::FormatIntFloor);

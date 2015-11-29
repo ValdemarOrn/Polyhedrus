@@ -63,7 +63,6 @@ namespace Leiftur
 		float* buffer;
 		float gain;
 		float gainInv;
-		float driveTotal;
 		float totalResonance;
 
 		float k;
@@ -83,7 +82,7 @@ namespace Leiftur
 
 		void Initialize(int samplerate, int bufferSize, int modulationUpdateRate);
 		void Process(float* input, int len);
-		float* GetOutput();
+		inline float* GetOutput() { return buffer; }
 		
 	private:
 		void ProcessSample(float input);

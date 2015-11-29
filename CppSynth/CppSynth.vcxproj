@@ -27,6 +27,7 @@
     <ClInclude Include="AudioLib\MathDefs.h" />
     <ClInclude Include="AudioLib\Noise.h" />
     <ClInclude Include="AudioLib\OnePoleFilters.h" />
+    <ClInclude Include="AudioLib\SvfFilter.h" />
     <ClInclude Include="AudioLib\Utils.h" />
     <ClInclude Include="AudioLib\ValueTables.h" />
     <ClInclude Include="AudioLib\WaveFile.h" />
@@ -42,6 +43,7 @@
     <ClInclude Include="Fft\TwiddleFactors.h" />
     <ClInclude Include="FilterCascade.h" />
     <ClInclude Include="FilterCascadeZero.h" />
+    <ClInclude Include="FilterDualSvf.h" />
     <ClInclude Include="FilterHp.h" />
     <ClInclude Include="FilterInternalMode.h" />
     <ClInclude Include="FilterMain.h" />
@@ -85,6 +87,7 @@
     <ClCompile Include="Fft\BitReverse.cpp" />
     <ClCompile Include="FilterCascade.cpp" />
     <ClCompile Include="FilterCascadeZero.cpp" />
+    <ClCompile Include="FilterDualSvf.cpp" />
     <ClCompile Include="FilterHp.cpp" />
     <ClCompile Include="FilterMain.cpp" />
     <ClCompile Include="Modulator.cpp" />

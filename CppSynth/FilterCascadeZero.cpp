@@ -15,7 +15,6 @@ namespace Leiftur
 		CutoffMod = 0.0;
 		DriveMod = 0.0;
 		buffer = 0;
-		driveTotal = 0.0;
 
 		k = 0;
 		uScaler = 0;
@@ -58,14 +57,9 @@ namespace Leiftur
 			float x = input[i] * gain;
 			ProcessSample(x);
 			float value = lp4.y * gainInv * gainCompensation;
-			buffer[i] = value;
+			buffer[i] = value * 4; // gain fudge;
 			updateCounter--;
 		}
-	}
-
-	float* FilterCascadeZero::GetOutput()
-	{
-		return buffer;
 	}
 
 	__inline_always void FilterCascadeZero::ProcessSample(float x)
@@ -97,7 +91,7 @@ namespace Leiftur
 
 	void FilterCascadeZero::Update()
 	{
-		driveTotal = Drive + DriveMod;
+		float driveTotal = Drive + DriveMod;
 		driveTotal = AudioLib::Utils::Limit(driveTotal, 0.0f, 1.0f);
 
 		gain = (0.2f + 1.8f * driveTotal * driveTotal);

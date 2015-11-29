@@ -9,6 +9,7 @@ namespace Leiftur
 	{
 		// Voltage is 1V/OCt, 0V = C0 = 16.3516Hz
 		// 10.3V = Max = 20614.33hz
+		// goes up to 11V = 33488.07 Hz as some filters need it
 		double freq = (double)(440.0 * std::pow(2, (cv * 12 - 69.0 + 12) / 12));
 		return freq;
 	}
@@ -24,7 +25,7 @@ namespace Leiftur
 
 	void CvFreq::Initialize(float samplerate)
 	{
-		for (int i = 0; i < 10300; i++)
+		for (int i = 0; i < 11000; i++)
 		{
 			double cv = i / 1000.0;
 			auto cvFreq = GetCvFreqHz(cv);

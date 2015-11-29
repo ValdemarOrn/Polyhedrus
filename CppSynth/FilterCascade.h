@@ -36,7 +36,6 @@ namespace Leiftur
 	private:
 		float* buffer;
 		float gain;
-		float driveTotal;
 		float totalResonance;
 		float oversampledInput;
 
@@ -59,7 +58,7 @@ namespace Leiftur
 
 		void Initialize(int samplerate, int bufferSize, int modulationUpdateRate);
 		void Process(float* input, int len);
-		float* GetOutput();
+		inline float* GetOutput() { return buffer; }
 		void SetMode(InternalFilterMode mode);
 
 	private:
