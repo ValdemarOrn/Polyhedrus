@@ -7,6 +7,10 @@
 
 namespace AudioLib
 {
+	// Sources:
+	// https://www.zhdk.ch/fileadmin/data_subsites/data_icst/Downloads/Digital_Sound/Digital_Sound_Generation_2.pdf
+	// http://musicdsp.org/showone.php?id=142
+	// It is HIGHLY recommended to oversample this filter by at least 2x
 	class SvfFilter
 	{
 	public:
@@ -36,9 +40,17 @@ namespace AudioLib
 
 		inline void Update()
 		{
+			// usually the parameter Q is used, and then Q = [0....inf[
+			// and then D = 1 / Q. for Q >= 0.5, this becomes a range [0...2]
 			Resonance = Utils::Limit(Resonance, 0, 1.0f);
-			f = 2 * std::sin(M_PI * Fc / Fs);
 			d = (1 - (Resonance * 0.999)) * 2;
+
+			// adjustment factors from paper
+			// not really needed if oversampling is done
+			//d = std::fmin(d, 2 - Fc);
+			
+			f = 2 * std::sin(M_PI * Fc / Fs);
+			f = f * (1.85 - 0.85 * d * f);
 		}
 
 		inline void Process(float x)
