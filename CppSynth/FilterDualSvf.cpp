@@ -54,13 +54,11 @@ namespace Leiftur
 			svf1.Process(val);
 			svf1.Process(val);
 			val = svf1.Lp;
-			val = AudioLib::Utils::TanhLookup(val);
 
 			// oversample by 2x
 			svf2.Process(val);
 			svf2.Process(val);
 			val = svf2.Lp;
-			val = AudioLib::Utils::TanhLookup(val);
 
 			buffer[i] = val * gainInv;
 			updateCounter--;
@@ -74,6 +72,7 @@ namespace Leiftur
 
 		gain = (0.1f + 2.0f * driveTotal * driveTotal);
 		gainInv = gain < 1.0 ? std::sqrt(1.0f / gain) : 1.0f;
+		gainInv *= 2; // gain fudge;
 
 		totalResonance = Resonance + ResonanceMod;
 		totalResonance = AudioLib::Utils::Limit(totalResonance, 0.0f, 1.0f);

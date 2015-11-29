@@ -17,6 +17,7 @@ namespace AudioLib
 		float Fc;
 		float Resonance;
 		float Fs;
+		bool Nonlinear;
 
 		float Lp;
 		float Bp;
@@ -25,6 +26,7 @@ namespace AudioLib
 
 		inline SvfFilter()
 		{
+			Nonlinear = false;
 			Fc = 0.5;
 			Resonance = 0.5;
 			f = 0.2;
@@ -60,7 +62,11 @@ namespace AudioLib
 			Bp = f * Hp + zState1;
 			No = Hp + Lp;
 
-			zState1 = Bp;
+			if (Nonlinear)
+				zState1 = AudioLib::Utils::TanhLookup(Bp);
+			else
+				zState1 = Bp;
+
 			zState2 = Lp;
 
 		}

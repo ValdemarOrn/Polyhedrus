@@ -57,7 +57,7 @@ namespace Leiftur
 			float x = input[i] * gain;
 			ProcessSample(x);
 			float value = lp4.y * gainInv * gainCompensation;
-			buffer[i] = value * 4; // gain fudge;
+			buffer[i] = value;
 			updateCounter--;
 		}
 	}
@@ -96,6 +96,7 @@ namespace Leiftur
 
 		gain = (0.2f + 1.8f * driveTotal * driveTotal);
 		gainInv = gain < 1.0 ? std::sqrt(1.0f / gain) : 1.0f;
+		gainInv *= 2; // gain fudge;
 
 		// Voltage is 1V/OCt, C0 = 16.3516Hz
 		float voltage = 10.1f * Cutoff + CutoffMod;
