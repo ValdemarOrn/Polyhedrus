@@ -66,8 +66,8 @@ namespace Leiftur
 		{
 			for (int i = 0; i < bufferSize; i++)
 			{
-				bufferL[i] = lpL.Process(random.NextFloat()) * 2.0f;
-				bufferR[i] = lpR.Process(random.NextFloat()) * 2.0f;
+				bufferL[i] = lpL.Process(2.0f * random.NextFloat() - 1.0f);
+				bufferR[i] = lpR.Process(2.0f * random.NextFloat() - 1.0f);
 			}
 		}
 	}

@@ -55,6 +55,7 @@ namespace Leiftur
 		inline static float Clip(float x) { return AudioLib::Utils::Limit(x, -1.0f, 1.0f); }
 		inline static float Tanh(float x) { return AudioLib::Utils::TanhLookup(x); }
 
+		static bool curvesInitialized;
 		static float AsymCurve[300000];
 		static void InitCurves();
 	};

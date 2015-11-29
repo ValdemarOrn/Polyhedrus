@@ -9,22 +9,23 @@ namespace Leiftur
 {
 	struct ZeroDelay2Lp
 	{
-		float z1_state;
+		float z1State;
 		//float g;
-		float g2;
+		double g2;
 
 		inline float Process(float x)
 		{
 			// perform one sample tick of the lowpass filter
-			//float v = (x - z1_state) * g / (1 + g);
-			float v = (x - z1_state) * g2;
-			float y = v + z1_state;
-			z1_state = y + v;
+			//float v = (x - z1State) * g / (1 + g);
+			double v = (x - z1State) * g2;
+			float y = v + z1State;
+			z1State = y + v;
 			return y;
 		}
 
 		inline void SetG(float g)
 		{
+			//this->g = g;
 			g2 = g / (1 + g);
 		}
 	};
@@ -66,12 +67,18 @@ namespace Leiftur
 		float gainInv;
 		float driveTotal;
 		float totalResonance;
-		float oversampledInput;
 
-		float feedback;
+		float k;
+		float uScaler;
+		float gainCompensation;
+		float g;
+		float g2;
+		float g3;
+		float g4;
 
 		float fsinv;
 		int samplerate;
+		int bufferSize;
 		int updateCounter;
 		int modulationUpdateRate;
 

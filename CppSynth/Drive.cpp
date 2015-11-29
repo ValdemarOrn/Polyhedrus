@@ -115,14 +115,20 @@ namespace Leiftur
 	}
 
 	float Drive::AsymCurve[300000];
+	bool Drive::curvesInitialized = false;
 
 	void Drive::InitCurves()
 	{
+		if (curvesInitialized)
+			return;
+
 		for (size_t i = 0; i < 300000; i++)
 		{
 			float x = (float)(-1 + i / 100000.0);
 			AsymCurve[i] = (float)(2 * std::tanh(0.2f * std::powf(2 * x + 2, 1.5)) - 1);
 		}
+
+		curvesInitialized = true;
 	}
 }
 

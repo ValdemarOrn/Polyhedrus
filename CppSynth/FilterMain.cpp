@@ -22,6 +22,7 @@ namespace Leiftur
 		this->modulationUpdateRate = modulationUpdateRate;
 		cascadeFilter.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		cascadeZeroFilter.Initialize(samplerate, bufferSize, modulationUpdateRate);
+		hp.SetFc(10.0 / 24000.0);
 	}
 
 	void FilterMain::SetParameter(FilterMainParameters parameter, double value)
@@ -52,6 +53,13 @@ namespace Leiftur
 		{
 			AudioLib::Utils::Copy(input, bypassBuffer, len);
 			return;
+		}
+		else
+		{
+			for (int i = 0; i < len; i++)
+			{
+				input[i] = hp.Process(input[i]);
+			}
 		}
 
 		if (type == 0)

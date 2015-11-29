@@ -4,6 +4,7 @@
 #include "FilterCascade.h"
 #include "FilterCascadeZero.h"
 #include "Parameters.h"
+#include "AudioLib/OnePoleFilters.h"
 
 namespace Leiftur
 {
@@ -14,6 +15,7 @@ namespace Leiftur
 		int modulationUpdateRate;
 		FilterCascade cascadeFilter;
 		FilterCascadeZero cascadeZeroFilter;
+		AudioLib::Hp1 hp;
 		float* bypassBuffer;
 		int type;
 
