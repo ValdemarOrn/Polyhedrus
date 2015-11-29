@@ -58,7 +58,7 @@
 
             <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" Min="-1" Max="1" DefaultValue="0.0" ui:OscAddress.Address="/FilterMain/Keytrack" />
             <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" Min="-1" Max="1" DefaultValue="0.0" ui:OscAddress.Address="/FilterMain/Env" />
-            <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" Min="0" Max="14" Steps="15" ui:OscAddress.Address="/FilterMain/Mode" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" ui:OscAddress.Address="/FilterMain/Mode" />
             <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="3" Min="0" Max="4" ui:OscAddress.Address="/FilterMain/Type" />
         </Grid>
     </StackPanel>

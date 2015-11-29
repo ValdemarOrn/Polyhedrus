@@ -17,12 +17,17 @@ namespace Leiftur
 		float CutoffMod;
 		float ResonanceMod;
 		float DriveMod;
+		float Mode;
+		float ModeMod;
 
 	private:
 		float* buffer;
 		float gain;
 		float gainInv;
 		float totalResonance;
+		float volLp;
+		float volBp;
+		float volHp;
 		CvFreq cvToFreq;
 		AudioLib::SvfFilter svf1;
 		AudioLib::SvfFilter svf2;

@@ -16,6 +16,11 @@ namespace Leiftur
 		gain = 1;
 		gainInv = 1;
 		totalResonance = 0;
+		Mode = 0;
+		ModeMod = 0;
+		volLp = 1.0;
+		volBp = 0.0;
+		volHp = 0.0;
 	}
 
 	FilterDualSvf::~FilterDualSvf()
@@ -53,12 +58,12 @@ namespace Leiftur
 			// oversample by 2x
 			svf1.Process(val);
 			svf1.Process(val);
-			val = svf1.Lp;
+			val = svf1.Lp * volLp + svf1.Bp * volBp + svf1.Hp * volHp;
 
 			// oversample by 2x
 			svf2.Process(val);
 			svf2.Process(val);
-			val = svf2.Lp;
+			val = svf2.Lp * volLp + svf2.Bp * volBp + svf2.Hp * volHp;
 
 			buffer[i] = val * gainInv;
 			updateCounter--;
@@ -88,6 +93,20 @@ namespace Leiftur
 		svf2.Resonance = totalResonance;
 		svf1.Update();
 		svf2.Update();
+
+		float modeTotal = AudioLib::Utils::Limit(Mode + ModeMod, 0.0f, 1.0f) * 2;
+		if (modeTotal <= 1.0)
+		{
+			volLp = 1.0f - modeTotal;
+			volBp = modeTotal;
+			volHp = 0.0;
+		}
+		else
+		{
+			volLp = 0.0;
+			volBp = 2 - modeTotal;
+			volHp = modeTotal - 1.0f;
+		}
 	}
 }
 

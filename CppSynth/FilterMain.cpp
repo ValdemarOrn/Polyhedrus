@@ -46,7 +46,8 @@ namespace Leiftur
 			svfFilter.Resonance = (float)value;
 			break;
 		case FilterMainParameters::Mode:
-			cascadeFilter.SetMode((InternalFilterMode)Parameters::FloorToInt(value));
+			cascadeFilter.SetMode((InternalFilterMode)Parameters::FloorToInt(value * ((int)InternalFilterMode::Count - 0.00001)));
+			svfFilter.Mode = (float)value;
 			break;
 		case FilterMainParameters::Type:
 			type = Parameters::FloorToInt(value);
