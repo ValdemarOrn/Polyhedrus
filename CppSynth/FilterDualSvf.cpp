@@ -37,6 +37,8 @@ namespace Leiftur
 		cvToFreq.Initialize((float)samplerate);
 		svf1.Fs = samplerate * 2; // internal oversample by 2x
 		svf2.Fs = samplerate * 2;
+		svf1.Nonlinear = true;
+		svf2.Nonlinear = true;
 
 		Cutoff = 1;
 		updateCounter = 0;
@@ -77,14 +79,14 @@ namespace Leiftur
 
 		gain = (0.1f + 2.0f * driveTotal * driveTotal);
 		gainInv = gain < 1.0 ? std::sqrt(1.0f / gain) : 1.0f;
-		gainInv *= 2; // gain fudge;
+		gainInv *= 1.3; // gain fudge;
 
 		totalResonance = Resonance + ResonanceMod;
 		totalResonance = AudioLib::Utils::Limit(totalResonance, 0.0f, 1.0f);
 		totalResonance = (1 - AudioLib::ValueTables::Get((1 - totalResonance), AudioLib::ValueTables::Response2Oct)) * 0.95f;
 
-		float voltage = 10.1f * Cutoff + CutoffMod;
-		voltage = AudioLib::Utils::Limit(voltage, 0.0f, 10.1f);
+		float voltage = 10.3f * Cutoff + CutoffMod;
+		voltage = AudioLib::Utils::Limit(voltage, 0.0f, 10.3f);
 		float fc = cvToFreq.GetFreqWarped(voltage);
 
 		svf1.Fc = fc;

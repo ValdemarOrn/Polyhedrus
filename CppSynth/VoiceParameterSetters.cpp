@@ -44,9 +44,7 @@ namespace Leiftur
 			else if (parameter == OscParameters::Routing)
 				mixer.Osc1Routing = (RoutingStage)Parameters::FloorToInt(value);
 			else if (parameter == OscParameters::Slop)
-			{ 
-				// set Slop in mod matrix
-			}
+				modMatrix.FixedRoutes[ModMatrix::FixedRouteSlop1].Amount = (float)(value * 0.00833);
 			else
 				update(&osc1);
 		}
@@ -59,9 +57,7 @@ namespace Leiftur
 			else if (parameter == OscParameters::Routing)
 				mixer.Osc2Routing = (RoutingStage)Parameters::FloorToInt(value);
 			else if (parameter == OscParameters::Slop)
-			{
-				// set Slop in mod matrix
-			}
+				modMatrix.FixedRoutes[ModMatrix::FixedRouteSlop2].Amount = (float)(value * 0.00833);
 			else
 				update(&osc2);
 		}
@@ -74,9 +70,7 @@ namespace Leiftur
 			else if (parameter == OscParameters::Routing)
 				mixer.Osc3Routing = (RoutingStage)Parameters::FloorToInt(value);
 			else if (parameter == OscParameters::Slop)
-			{
-				// set Slop in mod matrix
-			}
+				modMatrix.FixedRoutes[ModMatrix::FixedRouteSlop3].Amount = (float)(value * 0.00833);
 			else
 				update(&osc3);
 		}

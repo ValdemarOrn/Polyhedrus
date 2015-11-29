@@ -52,7 +52,7 @@ namespace AudioLib
 			//d = std::fmin(d, 2 - Fc);
 			
 			f = 2 * std::sin(M_PI * Fc / Fs);
-			f = f * (1.85 - 0.85 * d * f);
+			//f = f * (1.85 - 0.85 * d * f);
 		}
 
 		inline void Process(float x)

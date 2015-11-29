@@ -99,8 +99,8 @@ namespace Leiftur
 		gainInv *= 2; // gain fudge;
 
 		// Voltage is 1V/OCt, C0 = 16.3516Hz
-		float voltage = 10.1f * Cutoff + CutoffMod;
-		voltage = AudioLib::Utils::Limit(voltage, 0.0f, 10.1f);
+		float voltage = 10.3f * Cutoff + CutoffMod;
+		voltage = AudioLib::Utils::Limit(voltage, 0.0f, 10.0f);
 		float fc = cvToFreq.GetFreqWarped(voltage);
 
 		totalResonance = Resonance + ResonanceMod;

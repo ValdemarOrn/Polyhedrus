@@ -27,6 +27,7 @@
     <ClInclude Include="AudioLib\MathDefs.h" />
     <ClInclude Include="AudioLib\Noise.h" />
     <ClInclude Include="AudioLib\OnePoleFilters.h" />
+    <ClInclude Include="AudioLib\SlopGenerator.h" />
     <ClInclude Include="AudioLib\SvfFilter.h" />
     <ClInclude Include="AudioLib\Utils.h" />
     <ClInclude Include="AudioLib\ValueTables.h" />

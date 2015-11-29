@@ -28,6 +28,11 @@ namespace AudioLib
 			floatInv = 1.0 / (float)UINT32_MAX;
 		}
 
+		inline void SetSeed(uint64_t seed)
+		{
+			x = seed;
+		}
+
 		inline uint32_t NextInt()
 		{
 			uint64_t axc = a * x + c;

@@ -19,16 +19,21 @@ namespace Leiftur
 	class ModMatrix
 	{
 	public:
-		static const int FixedRouteCount = 7;
+		static const int FixedRouteCount = 10;
 		static const int MatrixCount = 16;
 
 		static const int FixedRouteOscAllPitchbend     = 0;
 		static const int FixedRouteOscAllUnisonDetune  = 1;
 		static const int FixedRouteOscAllUnisonSpread  = 2;
+
 		static const int FixedRouteFilterHpKeytrack    = 3;
 		static const int FixedRouteFilterMainKeytrack  = 4;
 		static const int FixedRouteFilterHpEnv         = 5;
 		static const int FixedRouteFilterMainEnv       = 6;
+
+		static const int FixedRouteSlop1               = 7;
+		static const int FixedRouteSlop2               = 8;
+		static const int FixedRouteSlop3               = 9;
 
 		float ModSourceValues[(unsigned int)ModSource::Count];
 		float ModDestinationValues[(unsigned int)ModDest::Count];

@@ -17,21 +17,25 @@ enum class ModSource
 	Mod2Env = 17,
 	Mod3Env = 18,
 
-	KeyTrack = 20,
-	KeyTrackUnipolar = 21,
-	Pitchbend = 22,
+	SlopGen1 = 20,
+	SlopGen2 = 21,
+	SlopGen3 = 22,
 
-	Velocity = 30,
-	Gate = 31,
+	KeyTrack = 30,
+	KeyTrackUnipolar = 31,
+	Pitchbend = 32,
+
+	Velocity = 40,
+	Gate = 41,
 		
-	ModWheel = 40,
-	KeyPressure = 41,
-	ChannelPressure = 42,
+	ModWheel = 50,
+	KeyPressure = 51,
+	ChannelPressure = 52,
 
-	VoiceIndex = 50,
-	UnisonIndex = 51,
+	VoiceIndex = 60,
+	UnisonIndex = 61,
 
-	Count = 52
+	Count = 62
 };
 
 enum class ModDest

@@ -13,12 +13,14 @@
 #include "Character.h"
 #include "Modulator.h"
 #include "Drive.h"
+#include "AudioLib/SlopGenerator.h"
 
 namespace Leiftur
 {
 	class Voice
 	{
 	public:
+		int VoiceNumber;
 		int Note;
 		bool Gate;
 
@@ -27,6 +29,9 @@ namespace Leiftur
 		MixerSettings mixer;
 		bool moduleSwitches[20];
 
+		AudioLib::SlopGenerator slopGen1;
+		AudioLib::SlopGenerator slopGen2;
+		AudioLib::SlopGenerator slopGen3;
 		Oscillator osc1;
 		Oscillator osc2;
 		Oscillator osc3;
@@ -71,7 +76,7 @@ namespace Leiftur
 	public:
 		Voice();
 		~Voice();
-		void Initialize(int samplerate, int modulationUpdateRate, int bufferSize, shared_ptr<WavetableManager> wavetableManager);
+		void Initialize(int samplerate, int modulationUpdateRate, int bufferSize, int voiceNumber, shared_ptr<WavetableManager> wavetableManager);
 		void SetParameter(Module module, int parameter, double value);
 		void SetGate(float velocity);
 		void TurnOff();

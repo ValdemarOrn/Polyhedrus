@@ -62,7 +62,7 @@ namespace Leiftur
 				
 		for (size_t i = 0; i < MaxVoiceCount; i++)
 		{
-			Voices[i].Initialize(samplerate * oversampling, ModulationUpdateRate * oversampling, BufferSize, wavetableManager);
+			Voices[i].Initialize(samplerate * oversampling, ModulationUpdateRate * oversampling, BufferSize, i, wavetableManager);
 		}
 
 		LoadPreset(presetManager.GetDefaultPreset());

@@ -7,6 +7,7 @@ namespace Leiftur
 {
 	Voice::Voice()
 	{
+		VoiceNumber = 0;
 		signalMixL = 0;
 		signalMixR = 0;
 		outputL = 0;
@@ -27,9 +28,10 @@ namespace Leiftur
 		delete osc3Buffer;
 	}
 
-	void Voice::Initialize(int samplerate, int modulationUpdateRate, int bufferSize, shared_ptr<WavetableManager> wavetableManager)
+	void Voice::Initialize(int samplerate, int modulationUpdateRate, int bufferSize, int voiceNumber, shared_ptr<WavetableManager> wavetableManager)
 	{
 		this->wavetableManager = wavetableManager;
+		VoiceNumber = voiceNumber;
 
 		signalMixL = new float[bufferSize];
 		signalMixR = new float[bufferSize];
@@ -43,6 +45,13 @@ namespace Leiftur
 
 		this->samplerate = samplerate;
 		this->modulationUpdateRate = modulationUpdateRate;
+
+		slopGen1.Initialize(samplerate, modulationUpdateRate, voiceNumber * 100 + 1);
+		slopGen2.Initialize(samplerate, modulationUpdateRate, voiceNumber * 100 + 2);
+		slopGen3.Initialize(samplerate, modulationUpdateRate, voiceNumber * 100 + 3);
+		slopGen1.Fc = 0.1;
+		slopGen2.Fc = 0.1;
+		slopGen3.Fc = 0.1;
 
 		osc1.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		osc2.Initialize(samplerate, bufferSize, modulationUpdateRate);
@@ -237,6 +246,10 @@ namespace Leiftur
 		ampEnv.Process(modulationUpdateRate);
 		filterEnv.Process(modulationUpdateRate);
 
+		slopGen1.Process();
+		slopGen2.Process();
+		slopGen3.Process();
+
 		modMatrix.ModSourceValues[(int)ModSource::EnvAmp] = ampEnv.GetOutput();
 		modMatrix.ModSourceValues[(int)ModSource::EnvFilter] = filterEnv.GetOutput();
 		modMatrix.ModSourceValues[(int)ModSource::Mod1] = mod1.Output;
@@ -248,6 +261,9 @@ namespace Leiftur
 		modMatrix.ModSourceValues[(int)ModSource::Mod1Env] = mod1.EnvOutput;
 		modMatrix.ModSourceValues[(int)ModSource::Mod2Env] = mod2.EnvOutput;
 		modMatrix.ModSourceValues[(int)ModSource::Mod3Env] = mod3.EnvOutput;
+		modMatrix.ModSourceValues[(int)ModSource::SlopGen1] = slopGen1.Output;
+		modMatrix.ModSourceValues[(int)ModSource::SlopGen2] = slopGen2.Output;
+		modMatrix.ModSourceValues[(int)ModSource::SlopGen3] = slopGen3.Output;
 
 		modMatrix.Process();
 

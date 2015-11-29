@@ -60,6 +60,18 @@ namespace Leiftur
 		FixedRoutes[FixedRouteFilterMainEnv].Source = ModSource::EnvFilter;
 		FixedRoutes[FixedRouteFilterMainEnv].Amount = 0.0;
 		FixedRoutes[FixedRouteFilterMainEnv].Destination = ModDest::FilterMainCutoff;
+
+		FixedRoutes[FixedRouteSlop1].Source = ModSource::SlopGen1;
+		FixedRoutes[FixedRouteSlop1].Amount = 0.0;
+		FixedRoutes[FixedRouteSlop1].Destination = ModDest::Osc1Pitch;
+
+		FixedRoutes[FixedRouteSlop2].Source = ModSource::SlopGen2;
+		FixedRoutes[FixedRouteSlop2].Amount = 0.0;
+		FixedRoutes[FixedRouteSlop2].Destination = ModDest::Osc2Pitch;
+
+		FixedRoutes[FixedRouteSlop3].Source = ModSource::SlopGen3;
+		FixedRoutes[FixedRouteSlop3].Amount = 0.0;
+		FixedRoutes[FixedRouteSlop3].Destination = ModDest::Osc3Pitch;
 	}
 
 	__inline_always void ModMatrix::ApplyRoute(ModRoute * route)
