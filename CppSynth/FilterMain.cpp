@@ -41,6 +41,9 @@ namespace Leiftur
 			cascadeFilter.Resonance = (float)value;
 			cascadeZeroFilter.Resonance = (float)value;
 			break;
+		case FilterMainParameters::Mode:
+			cascadeFilter.SetMode((InternalFilterMode)Parameters::FloorToInt(value));
+			break;
 		case FilterMainParameters::Type:
 			type = Parameters::FloorToInt(value);
 			break;

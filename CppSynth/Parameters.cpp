@@ -154,6 +154,8 @@ namespace Leiftur
 			ParameterFormatters::FormatPercent);
 		modMap[(int)FilterMainParameters::Env] = ParameterInfo((int)FilterMainParameters::Env, "Env", nullptr, 0, -1, 1,
 			ParameterFormatters::FormatPercent);
+		modMap[(int)FilterMainParameters::Mode] = ParameterInfo((int)FilterMainParameters::Mode, "Mode", nullptr, 0, 0, 14,
+			ParameterFormatters::FormatIntFloor);
 		modMap[(int)FilterMainParameters::Type] = ParameterInfo((int)FilterMainParameters::Type, "Type", nullptr, 0, 0, 6,
 			ParameterFormatters::FormatIntFloor);
 

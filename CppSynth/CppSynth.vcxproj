@@ -43,6 +43,7 @@
     <ClInclude Include="FilterCascade.h" />
     <ClInclude Include="FilterCascadeZero.h" />
     <ClInclude Include="FilterHp.h" />
+    <ClInclude Include="FilterInternalMode.h" />
     <ClInclude Include="FilterMain.h" />
     <ClInclude Include="Modulator.h" />
     <ClInclude Include="MixerSettings.h" />

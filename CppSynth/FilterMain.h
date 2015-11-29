@@ -4,6 +4,7 @@
 #include "FilterCascade.h"
 #include "FilterCascadeZero.h"
 #include "Parameters.h"
+#include "FilterInternalMode.h"
 #include "AudioLib/OnePoleFilters.h"
 
 namespace Leiftur

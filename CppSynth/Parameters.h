@@ -121,7 +121,8 @@ namespace Leiftur
 		Resonance = 3,
 		Keytrack = 4,
 		Env = 5,
-		Type = 6,
+		Mode = 6,
+		Type = 7,
 	};
 
 	enum class DriveParameters

@@ -1,3 +1,4 @@
+#include "Default.h"
 #include "FilterCascadeZero.h"
 #include "AudioLib/ValueTables.h"
 #include "AudioLib/Utils.h"
@@ -5,18 +6,6 @@
 
 namespace Leiftur
 {
-	float FilterCascadeZero::CVtoAlpha[CVtoAlphaSize];
-
-	void FilterCascadeZero::ComputeCVtoAlpha(int samplerate)
-	{
-		double fsInv = 1.0 / samplerate;
-		for (int i = 0; i < CVtoAlphaSize; i++)
-		{
-			double freq = 440.0 * std::pow(2, (i*0.01 - 69.0 + 12) / 12);
-			CVtoAlpha[i] = (float)((1.0f - 2.0f * freq * fsInv) * (1.0f - 2.0f * freq * fsInv));
-		}
-	}
-
 	FilterCascadeZero::FilterCascadeZero()
 	{
 		Drive = 0.0;
@@ -44,7 +33,6 @@ namespace Leiftur
 
 	void FilterCascadeZero::Initialize(int samplerate, int bufferSize, int modulationUpdateRate)
 	{
-		ComputeCVtoAlpha(samplerate);
 		buffer = new float[bufferSize];
 		this->bufferSize = bufferSize;
 		this->modulationUpdateRate = modulationUpdateRate;
@@ -67,7 +55,9 @@ namespace Leiftur
 				updateCounter = modulationUpdateRate;
 			}
 
-			float value = ProcessSample(input[i]) * gainInv * gainCompensation;
+			float x = input[i] * gain;
+			ProcessSample(x);
+			float value = lp4.y * gainInv * gainCompensation;
 			buffer[i] = value;
 			updateCounter--;
 		}
@@ -78,15 +68,12 @@ namespace Leiftur
 		return buffer;
 	}
 
-	float FilterCascadeZero::ProcessSample(float x)
+	__inline_always void FilterCascadeZero::ProcessSample(float x)
 	{
 		// this filter is pretty much directly from the book:
 		// https://www.native-instruments.com/fileadmin/ni_media/downloads/pdf/VAFilterDesign_1.1.1.pdf
 		// See equations 4.3 and figure 3.18
 		// this does not use a root finding algorithm to apply the nonlinearities, rather they are the "quick and dirty approach"
-
-		x *= gain;
-		float output = 0.0;
 
 		for (int i = 0; i < Oversample; i++)
 		{
@@ -105,10 +92,7 @@ namespace Leiftur
 			value = AudioLib::Utils::TanhLookup(value);
 			value = lp4.Process(value);
 			value = AudioLib::Utils::TanhLookup(value);
-			output = value;
 		}
-
-		return output;
 	}
 
 	void FilterCascadeZero::Update()
@@ -120,12 +104,13 @@ namespace Leiftur
 		gainInv = gain < 1.0 ? std::sqrt(1.0f / gain) : 1.0f;
 
 		// Voltage is 1V/OCt, C0 = 16.3516Hz
-		float voltage = 10.3f * Cutoff + CutoffMod;
-		voltage = AudioLib::Utils::Limit(voltage, 0.0f, 10.3f);
+		float voltage = 10.1f * Cutoff + CutoffMod;
+		voltage = AudioLib::Utils::Limit(voltage, 0.0f, 10.1f);
 		float fc = cvToFreq.GetFreqWarped(voltage);
 
 		totalResonance = Resonance + ResonanceMod;
-		totalResonance = AudioLib::Utils::Limit(totalResonance, 0.0f, 0.999f);
+		totalResonance = AudioLib::Utils::Limit(totalResonance, 0.0f, 1.0f);
+		totalResonance = AudioLib::ValueTables::Get(totalResonance, AudioLib::ValueTables::Response2Oct) * 0.999f;
 		k = totalResonance * 4.2f;
 
 		gainCompensation = 1.5f / (1 - totalResonance + 0.5f);

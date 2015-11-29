@@ -2,6 +2,7 @@
 #define LEIFTUR_FILTER_CASCADE
 
 #include <cmath>
+#include "FilterInternalMode.h"
 
 namespace Leiftur
 {
@@ -30,11 +31,7 @@ namespace Leiftur
 		float ResonanceMod;
 		float DriveMod;
 
-		float VA;
-		float VB;
-		float VC;
-		float VD;
-		float VX;
+		float c0, c1, c2, c3, c4;
 
 	private:
 		float* buffer;
@@ -63,6 +60,7 @@ namespace Leiftur
 		void Initialize(int samplerate, int bufferSize, int modulationUpdateRate);
 		void Process(float* input, int len);
 		float* GetOutput();
+		void SetMode(InternalFilterMode mode);
 
 	private:
 		float ProcessSample(float input);

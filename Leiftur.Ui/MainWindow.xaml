@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Leiftur.Ui"
         xmlns:components="clr-namespace:Leiftur.Ui.Components"
         mc:Ignorable="d"
-        Title="MainWindow" Height="625" Width="1089">
+        Title="MainWindow" Height="625" Width="1134">
     <!--<components:LightKnob HorizontalAlignment="Center" Width="40"  Min="-1" Max="1" DefaultValue="0.7" />-->
     <components:SynthView></components:SynthView>
     <!--<components:MenuSelector x:Name="menu1"></components:MenuSelector>-->

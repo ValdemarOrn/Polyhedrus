@@ -10,15 +10,17 @@ namespace Leiftur
 	struct ZeroDelay2Lp
 	{
 		float z1State;
-		//float g;
+		float y;
 		double g2;
+		//float g;
 
 		inline float Process(float x)
 		{
 			// perform one sample tick of the lowpass filter
 			//float v = (x - z1State) * g / (1 + g);
+			
 			double v = (x - z1State) * g2;
-			float y = v + z1State;
+			y = v + z1State;
 			z1State = y + v;
 			return y;
 		}
@@ -32,10 +34,6 @@ namespace Leiftur
 
 	class FilterCascadeZero
 	{
-	private:
-		static const int CVtoAlphaSize = 10500;
-		static float CVtoAlpha[CVtoAlphaSize];
-		static void ComputeCVtoAlpha(int samplerate);
 	public:
 		static inline float GetCvFreq(float cv)
 		{
@@ -71,10 +69,7 @@ namespace Leiftur
 		float k;
 		float uScaler;
 		float gainCompensation;
-		float g;
-		float g2;
-		float g3;
-		float g4;
+		float g, g2, g3, g4;
 
 		float fsinv;
 		int samplerate;
@@ -89,9 +84,9 @@ namespace Leiftur
 		void Initialize(int samplerate, int bufferSize, int modulationUpdateRate);
 		void Process(float* input, int len);
 		float* GetOutput();
-
+		
 	private:
-		float ProcessSample(float input);
+		void ProcessSample(float input);
 		void Update();
 	};
 }

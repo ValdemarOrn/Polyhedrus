@@ -6,37 +6,61 @@
              xmlns:components="clr-namespace:Leiftur.Ui.Components"
              xmlns:ui="clr-namespace:Leiftur.Ui"
              mc:Ignorable="d" 
-             d:DesignHeight="120" d:DesignWidth="147">
+             d:DesignHeight="120" d:DesignWidth="196">
     <UserControl.Resources>
         <ResourceDictionary Source="Styles.xaml" />
     </UserControl.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Label Grid.Row="1" Grid.Column="0">Drive</Label>
-        <Label Grid.Row="1" Grid.Column="1">Cutoff</Label>
-        <Label Grid.Row="1" Grid.Column="2">Resonance</Label>
+    <StackPanel Orientation="Vertical">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row="1" Grid.Column="1">Drive</Label>
+            <Label Grid.Row="1" Grid.Column="2">Cutoff</Label>
+            <Label Grid.Row="1" Grid.Column="3">Resonance</Label>
 
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" ui:OscAddress.Address="/FilterMain/Drive" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" ui:OscAddress.Address="/FilterMain/Cutoff" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" ui:OscAddress.Address="/FilterMain/Resonance" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" ui:OscAddress.Address="/FilterMain/Drive" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" ui:OscAddress.Address="/FilterMain/Cutoff" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" ui:OscAddress.Address="/FilterMain/Resonance" />
+        </Grid>
 
-        <Label Grid.Row="3" Grid.Column="0">Key Track</Label>
-        <Label Grid.Row="3" Grid.Column="1">Envelope</Label>
-        <Label Grid.Row="3" Grid.Column="2">Type</Label>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" Min="-1" Max="1" DefaultValue="0.0" ui:OscAddress.Address="/FilterMain/Keytrack" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" Min="-1" Max="1" DefaultValue="0.0" ui:OscAddress.Address="/FilterMain/Env" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" Min="0" Max="4" ui:OscAddress.Address="/FilterMain/Type" />
-    </Grid>
+            <Label Grid.Row="3" Grid.Column="0">Key Track</Label>
+            <Label Grid.Row="3" Grid.Column="1">Envelope</Label>
+            <Label Grid.Row="3" Grid.Column="2">Mode</Label>
+            <Label Grid.Row="3" Grid.Column="3">Type</Label>
+
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" Min="-1" Max="1" DefaultValue="0.0" ui:OscAddress.Address="/FilterMain/Keytrack" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" Min="-1" Max="1" DefaultValue="0.0" ui:OscAddress.Address="/FilterMain/Env" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" Min="0" Max="14" Steps="15" ui:OscAddress.Address="/FilterMain/Mode" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="3" Min="0" Max="4" ui:OscAddress.Address="/FilterMain/Type" />
+        </Grid>
+    </StackPanel>
+   
 </UserControl>

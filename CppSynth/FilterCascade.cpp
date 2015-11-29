@@ -26,6 +26,7 @@ namespace Leiftur
 		DriveMod = 0.0;
 		buffer = 0;
 		driveTotal = 0.0;
+		SetMode(InternalFilterMode::Lp24);
 	}
 
 	FilterCascade::~FilterCascade()
@@ -42,7 +43,6 @@ namespace Leiftur
 		fsinv = 1.0f / (Oversample * samplerate);
 
 		Cutoff = 1;
-		VD = 1;
 		updateCounter = 0;
 		oversampledInput = 0;
 		Update();
@@ -83,7 +83,7 @@ namespace Leiftur
 			float in = mx * (i * input + (Oversample - i) * oversampledInput); // linear interpolation
 			in = AudioLib::Utils::TanhPoly(in);
 
-			float fb = totalResonance * 5.0f * (feedback - 0.5f * in);
+			float fb = totalResonance * 4.2f * (feedback - 0.5f * in);
 			float val = in - fb;
 			x = val;
 
@@ -101,8 +101,60 @@ namespace Leiftur
 		}
 
 		oversampledInput = input;
-		float sample = (VX * x + VA * a + VB * b + VC * c + VD * d) * (1 - totalResonance * 0.5f);
+		float sample = (c0 * x + c1 * a + c2 * b + c3 * c + c4 * d) * (1 - totalResonance * 0.5f);
 		return sample;
+	}
+
+	void FilterCascade::SetMode(InternalFilterMode mode)
+	{
+		if (mode < InternalFilterMode::Lp24 || mode >= InternalFilterMode::Count)
+			return;
+
+		switch (mode)
+		{
+		case InternalFilterMode::Lp6:
+			c0 = 0.0; c1 = 1.0; c2 = 0.0; c3 = 0.0; c4 = 0.0;
+			break;
+		case InternalFilterMode::Lp12:
+			c0 = 0.0; c1 = 0.0; c2 = 1.0; c3 = 0.0; c4 = 0.0;
+			break;
+		case InternalFilterMode::Lp18:
+			c0 = 0.0; c1 = 0.0; c2 = 0.0; c3 = 1.0; c4 = 0.0;
+			break;
+		case InternalFilterMode::Lp24:
+			c0 = 0.0; c1 = 0.0; c2 = 0.0; c3 = 0.0; c4 = 1.0;
+			break;
+		case InternalFilterMode::Hp6:
+			c0 = 1.0; c1 = -1.0; c2 = 0.0; c3 = 0.0; c4 = 0.0;
+			break;
+		case InternalFilterMode::Hp12:
+			c0 = 1.0; c1 = -2.0; c2 = 1.0; c3 = 0.0; c4 = 0.0;
+			break;
+		case InternalFilterMode::Hp18:
+			c0 = 1.0; c1 = -3.0; c2 = 3.0; c3 = -1.0; c4 = 0.0;
+			break;
+		case InternalFilterMode::Hp24:
+			c0 = 1.0; c1 = -4.0; c2 = 6.0; c3 = -4.0; c4 = 1.0;
+			break;
+		case InternalFilterMode::Bp12_12:
+			c0 = 0.0; c1 = 0.0; c2 = 1.0; c3 = -2.0; c4 = 1.0;
+			break;
+		case InternalFilterMode::Bp6_18:
+			c0 = 0.0; c1 = 0.0; c2 = 0.0; c3 = 1.0; c4 = -1.0;
+			break;
+		case InternalFilterMode::Bp18_6:
+			c0 = 0.0; c1 = 1.0; c2 = -3.0; c3 = 3.0; c4 = -1.0;
+			break;
+		case InternalFilterMode::Bp6_12:
+			c0 = 0.0; c1 = 0.0; c2 = 1.0; c3 = -1.0; c4 = 0.0;
+			break;
+		case InternalFilterMode::Bp12_6:
+			c0 = 0.0; c1 = 1.0; c2 = -2.0; c3 = 1.0; c4 = 0.0;
+			break;
+		case InternalFilterMode::Bp6_6:
+			c0 = 0.0; c1 = 1.0; c2 = -1.0; c3 = 0.0; c4 = 0.0;
+			break;
+		}
 	}
 
 	void FilterCascade::Update()
@@ -110,10 +162,11 @@ namespace Leiftur
 		driveTotal = Drive + DriveMod;
 		driveTotal = AudioLib::Utils::Limit(driveTotal, 0.0f, 1.0f);
 
-		gain = (0.1f + 1.0f * driveTotal * driveTotal);
+		gain = (0.1f + 2.0f * driveTotal * driveTotal);
 
 		totalResonance = Resonance + ResonanceMod;
-		totalResonance = AudioLib::Utils::Limit(totalResonance, 0.0f, 0.999f);
+		totalResonance = AudioLib::Utils::Limit(totalResonance, 0.0f, 1.0f);
+		totalResonance = AudioLib::ValueTables::Get(totalResonance, AudioLib::ValueTables::Response2Oct) * 0.999f;
 
 		// Voltage is 1V/OCt, C0 = 16.3516Hz
 		float voltage = 10.3 * Cutoff + CutoffMod;

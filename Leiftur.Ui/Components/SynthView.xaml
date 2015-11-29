@@ -7,7 +7,7 @@
              xmlns:components="clr-namespace:Leiftur.Ui.Components"
              xmlns:ui="clr-namespace:Leiftur.Ui"
              mc:Ignorable="d" 
-             d:DesignHeight="570" d:DesignWidth="1084">
+             d:DesignHeight="570" d:DesignWidth="1133">
     <UserControl.Background>
         <ImageBrush ImageSource="Background.jpg" >
         </ImageBrush>
@@ -178,9 +178,9 @@
 
         </Grid>
 
-        <components:FilterMainSection Grid.Row="2" Grid.Column="7" VerticalAlignment="Top" HorizontalAlignment="Left" Width="147" Height="114" Background="{StaticResource ModuleBackground}" 
+        <components:FilterMainSection Grid.Row="2" Grid.Column="7" VerticalAlignment="Top" HorizontalAlignment="Left" Width="196" Height="114" Background="{StaticResource ModuleBackground}" 
                                       Visibility="{Binding MainFilterVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
-        <components:DriveSection Grid.Row="2" Grid.Column="7" VerticalAlignment="Top" HorizontalAlignment="Left" Width="147" Height="114" Background="{StaticResource ModuleBackground}" 
+        <components:DriveSection Grid.Row="2" Grid.Column="7" VerticalAlignment="Top" HorizontalAlignment="Left" Width="196" Height="114" Background="{StaticResource ModuleBackground}" 
                                       Visibility="{Binding DriveVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
 
         <StackPanel Grid.Column="3" Grid.ColumnSpan="5" Grid.Row="3" VerticalAlignment="Top" >
@@ -220,10 +220,10 @@
                 
             </Grid>
 
-            <components:MatrixSection Height="201" HorizontalAlignment="Center" VerticalAlignment="Top" Background="{StaticResource ModuleBackground}" Padding="0,10"
+            <components:MatrixSection Height="201" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="{StaticResource ModuleBackground}" Padding="0,10"
                                       StartIndex="1"
                                       Visibility="{Binding Matrix1Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
-            <components:MatrixSection Height="201" HorizontalAlignment="Center" VerticalAlignment="Top" Background="{StaticResource ModuleBackground}" Padding="0,10"
+            <components:MatrixSection Height="201" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="{StaticResource ModuleBackground}" Padding="0,10"
                                       StartIndex="9"
                                       Visibility="{Binding Matrix2Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
             <components:MacroControls Height="201" HorizontalContentAlignment="Center" VerticalAlignment="Top" Padding="0,10" Background="{StaticResource ModuleBackground}"
