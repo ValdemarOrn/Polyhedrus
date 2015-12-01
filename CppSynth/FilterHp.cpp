@@ -25,10 +25,8 @@ namespace Leiftur
 
 		this->modulationUpdateRate = modulationUpdateRate;
 		this->samplerate = samplerate;
-		biquad.Frequency = 10;
-		biquad.SetQ(0.5);
-		biquad.SetSamplerate(samplerate);
-		biquad.Type = AudioLib::Biquad::FilterType::HighPass;
+		svf.Fs = samplerate * 3; // internal oversample by 3x
+		svf.Nonlinear = false;
 		Update();
 	}
 
@@ -41,7 +39,6 @@ namespace Leiftur
 			break;
 		case FilterHpParameters::Resonance:
 			Resonance = (float)value;
-			biquad.SetQ((float)(0.5 + value * 10));
 			break;
 		}
 	}
@@ -62,19 +59,29 @@ namespace Leiftur
 				updateCounter = modulationUpdateRate;
 			}
 
-			float value = (float)biquad.Process(input[i]);
-			buffer[i] = value;
+			// oversample by 3x
+			float value = input[i];
+			svf.ProcessLinear(value);
+			svf.ProcessLinear(value);
+			svf.ProcessLinear(value);
+			buffer[i] = svf.Hp;
 			updateCounter--;
 		}
 	}
 
 	void FilterHp::Update()
 	{
-		float cv = (float)(10.3 * Cutoff + CutoffMod);
-		auto freq = cvToFreq.GetFreq(cv);
+		float totalResonance = Resonance + ResonanceMod;
+		totalResonance = AudioLib::Utils::Limit(totalResonance, 0.0f, 1.0f);
+		totalResonance = (1 - AudioLib::ValueTables::Get((1 - totalResonance), AudioLib::ValueTables::Response2Oct)) * 0.95f;
 
-		biquad.Frequency = freq;
-		biquad.Update();
+		float voltage = 10.3f * Cutoff + CutoffMod;
+		voltage = AudioLib::Utils::Limit(voltage, 0.0f, 10.0f);
+		float fc = cvToFreq.GetFreqWarped(voltage);
+
+		svf.Fc = fc;
+		svf.Resonance = totalResonance;
+		svf.Update();
 	}
 
 }

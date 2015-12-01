@@ -1,7 +1,7 @@
 #ifndef LEIFTUR_FILTER_HP
 #define LEIFTUR_FILTER_HP
 
-#include "AudioLib/Biquad.h"
+#include "AudioLib/SvfFilter.h"
 #include "Parameters.h"
 #include "CvFreq.h"
 
@@ -21,7 +21,7 @@ namespace Leiftur
 		int samplerate;
 		int modulationUpdateRate;
 		int updateCounter;
-		AudioLib::Biquad biquad;
+		AudioLib::SvfFilter svf;
 		CvFreq cvToFreq;
 
 	public:

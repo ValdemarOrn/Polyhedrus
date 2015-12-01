@@ -58,13 +58,13 @@ namespace Leiftur
 			float val = input[i] * gain;
 			
 			// oversample by 2x
-			svf1.Process(val);
-			svf1.Process(val);
+			svf1.ProcessNonlinear(val);
+			svf1.ProcessNonlinear(val);
 			val = svf1.Lp * volLp + svf1.Bp * volBp + svf1.Hp * volHp;
 
 			// oversample by 2x
-			svf2.Process(val);
-			svf2.Process(val);
+			svf2.ProcessNonlinear(val);
+			svf2.ProcessNonlinear(val);
 			val = svf2.Lp * volLp + svf2.Bp * volBp + svf2.Hp * volHp;
 
 			buffer[i] = val * gainInv;

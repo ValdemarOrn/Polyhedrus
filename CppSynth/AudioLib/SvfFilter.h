@@ -55,20 +55,26 @@ namespace AudioLib
 			//f = f * (1.85 - 0.85 * d * f);
 		}
 
-		inline void Process(float x)
+		inline void ProcessLinear(float x)
 		{
 			Lp = zState2 + f * zState1;
 			Hp = x - Lp - d * zState1;
 			Bp = f * Hp + zState1;
 			No = Hp + Lp;
 
-			if (Nonlinear)
-				zState1 = AudioLib::Utils::TanhLookup(Bp);
-			else
-				zState1 = Bp;
-
+			zState1 = Bp;
 			zState2 = Lp;
+		}
 
+		inline void ProcessNonlinear(float x)
+		{
+			Lp = zState2 + f * zState1;
+			Hp = x - Lp - d * zState1;
+			Bp = f * Hp + zState1;
+			No = Hp + Lp;
+
+			zState1 = AudioLib::Utils::TanhPoly(Bp);
+			zState2 = Lp;
 		}
 
 	private:
