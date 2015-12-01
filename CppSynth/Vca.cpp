@@ -4,7 +4,8 @@ namespace Leiftur
 {
 	Vca::Vca()
 	{
-		ControlVoltage = 0.0;
+		ControlVoltage = 0.0f;
+		currentCv = 0.0f;
 		buffer = 0;
 	}
 
@@ -22,9 +23,15 @@ namespace Leiftur
 
 	void Vca::Process(float* input, int len)
 	{
+		// smooth linear interpolation of CV
+		float diff = (ControlVoltage - currentCv) / modulationUpdateRate;
+
 		for (size_t i = 0; i < len; i++)
 		{
-			buffer[i] = input[i] * ControlVoltage;
+			if (i < modulationUpdateRate)
+				currentCv = currentCv + diff;
+
+			buffer[i] = input[i] * currentCv;
 		}
 	}
 

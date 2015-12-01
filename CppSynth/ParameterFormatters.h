@@ -90,7 +90,7 @@ namespace Leiftur
 
 		static inline std::string FormatFilterCutoff(double value)
 		{
-			auto freq = FilterCascade::GetCvFreq((float)(value * 10.3));
+			auto freq = FilterCascade::GetCvFreq((float)value);
 			return FormatIntRounded(freq) + " Hz";
 		}
 
@@ -113,6 +113,15 @@ namespace Leiftur
 		static inline std::string FormatOnOff(double value)
 		{
 			return std::string(value < 0.5 ? "Off" : "On");
+		}
+
+		static inline std::string FormatModulatorSteps(double value)
+		{
+			int stepCount = (int)(ValueTables::Get(value, ValueTables::Response3Oct) * 256);
+			if (stepCount >= 256)
+				return std::string("Smooth");
+			else
+				return FormatIntRounded(stepCount) + " Steps";
 		}
 	};
 }

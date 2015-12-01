@@ -46,7 +46,7 @@ namespace Leiftur
 		float Phase;
 		float Freq;
 		float Slew;
-		int Steps;
+		float Steps;
 		bool Sync;
 
 		float FreqMod;
@@ -65,6 +65,8 @@ namespace Leiftur
 		bool gate;
 		float slewPerSample;
 		int stepCount;
+		float prevLfoSample;
+		float slewTotal;
 	
 		// for noise
 		uint32_t prevIterator;

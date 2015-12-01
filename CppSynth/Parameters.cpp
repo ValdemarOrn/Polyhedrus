@@ -129,7 +129,7 @@ namespace Leiftur
 
 		modMap = std::map<int, ParameterInfo>();
 
-		modMap[(int)FilterHpParameters::Cutoff] = ParameterInfo((int)FilterHpParameters::Cutoff, "Cutoff", nullptr, 0, 0, 1, 
+		modMap[(int)FilterHpParameters::Cutoff] = ParameterInfo((int)FilterHpParameters::Cutoff, "Cutoff", nullptr, 0, 0, 9.5, 
 			ParameterFormatters::FormatFilterCutoff);
 		modMap[(int)FilterHpParameters::Resonance] = ParameterInfo((int)FilterHpParameters::Resonance, "Resonance", nullptr, 0, 0, 1, 
 			ParameterFormatters::FormatPercent);
@@ -146,7 +146,7 @@ namespace Leiftur
 
 		modMap[(int)FilterMainParameters::Drive] = ParameterInfo((int)FilterMainParameters::Drive, "Drive", nullptr, 0, 0, 1, 
 			ParameterFormatters::FormatPercent);
-		modMap[(int)FilterMainParameters::Cutoff] = ParameterInfo((int)FilterMainParameters::Cutoff, "Cutoff", nullptr, 1, 0, 1, 
+		modMap[(int)FilterMainParameters::Cutoff] = ParameterInfo((int)FilterMainParameters::Cutoff, "Cutoff", nullptr, 10.3, 0, 10.3, 
 			ParameterFormatters::FormatFilterCutoff);
 		modMap[(int)FilterMainParameters::Resonance] = ParameterInfo((int)FilterMainParameters::Resonance, "Resonance", nullptr, 0, 0, 1, 
 			ParameterFormatters::FormatPercent);
@@ -233,7 +233,7 @@ namespace Leiftur
 		modMap[(int)ModParameters::Slew] = ParameterInfo((int)ModParameters::Slew, "Slew", nullptr, 0, 0, 1,
 			ParameterFormatters::FormatPercent);
 		modMap[(int)ModParameters::Steps] = ParameterInfo((int)ModParameters::Steps, "Steps", nullptr, 1, 0, 1,
-			ParameterFormatters::FormatPercent);
+			ParameterFormatters::FormatModulatorSteps);
 		modMap[(int)ModParameters::Sync] = ParameterInfo((int)ModParameters::Sync, "Sync", nullptr, 0, 0, 1,
 			ParameterFormatters::FormatOnOff);
 		modMap[(int)ModParameters::AttackCurve] = ParameterInfo((int)ModParameters::AttackCurve, "AttackCurve", nullptr, 0, -1, 1, 

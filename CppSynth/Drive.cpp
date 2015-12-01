@@ -89,9 +89,28 @@ namespace Leiftur
 				updateCounter = modulationUpdateRate;
 			}
 
-			float val = func(input[i] * gainTotal + biasTotal);
-			buffer[i] = hp.Process(lp.Process(val)) * Volume;
-			updateCounter--;
+			int max = updateCounter <= len - i ? updateCounter : len - i;
+			float* i2 = &input[i];
+			float* b2 = &buffer[i];
+			
+			for (int j = 0; j < max; j++)
+			{
+				b2[j] = func(i2[j] * gainTotal + biasTotal);
+			}
+			
+			for (int j = 0; j < max; j++)
+			{
+				b2[j] = lp.Process(b2[j]);
+			}
+
+			for (int j = 0; j < max; j++)
+			{
+				b2[j] = hp.Process(b2[j]);
+			}
+
+			Utils::Gain(buffer, Volume, max);
+			updateCounter = 0;
+			i += max;
 		}
 		
 	}

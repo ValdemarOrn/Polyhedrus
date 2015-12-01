@@ -33,50 +33,50 @@
                 <components:MenuSelector Width="93" Style="{StaticResource MatrixSelector}" ui:OscAddress.Address="/ModMatrix/Source_*" ItemsSource="{Binding ModSources}" />
                 <components:MenuSelector Width="120" Style="{StaticResource MatrixSelector}" ui:OscAddress.Address="/ModMatrix/Dest_*" ItemsSource="{Binding ModDestinations}" />
                 <components:MenuSelector Width="93" Style="{StaticResource MatrixSelector}" ui:OscAddress.Address="/ModMatrix/Via_*" ItemsSource="{Binding ModSources}" />
-                <components:Spinner Width="65" Style="{StaticResource MatrixSpinner}" ui:OscAddress.Address="/ModMatrix/Amount_*" Min="-1.0" Max="1.0" Quantize="0.001" Delta="0.01" Formatter="{}0.000" />
                 <components:Spinner Width="65" Style="{StaticResource MatrixSpinner}" ui:OscAddress.Address="/ModMatrix/ViaAmount_*" Min="-1.0" Max="1.0" Quantize="0.001" Delta="0.01" Formatter="{}0.000" />
+                <components:Spinner Width="65" Style="{StaticResource MatrixSpinner}" ui:OscAddress.Address="/ModMatrix/Amount_*" Min="-1.0" Max="1.0" Quantize="0.001" Delta="0.01" Formatter="{}0.000" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <components:MenuSelector Width="93" Style="{StaticResource MatrixSelector}" ui:OscAddress.Address="/ModMatrix/Source_*" ItemsSource="{Binding ModSources}" />
                 <components:MenuSelector Width="120" Style="{StaticResource MatrixSelector}" ui:OscAddress.Address="/ModMatrix/Dest_*" ItemsSource="{Binding ModDestinations}" />
                 <components:MenuSelector Width="93" Style="{StaticResource MatrixSelector}" ui:OscAddress.Address="/ModMatrix/Via_*" ItemsSource="{Binding ModSources}" />
-                <components:Spinner Width="65" Style="{StaticResource MatrixSpinner}" ui:OscAddress.Address="/ModMatrix/Amount_*" Min="-1.0" Max="1.0" Quantize="0.001" Delta="0.01" Formatter="{}0.000" />
                 <components:Spinner Width="65" Style="{StaticResource MatrixSpinner}" ui:OscAddress.Address="/ModMatrix/ViaAmount_*" Min="-1.0" Max="1.0" Quantize="0.001" Delta="0.01" Formatter="{}0.000" />
+                <components:Spinner Width="65" Style="{StaticResource MatrixSpinner}" ui:OscAddress.Address="/ModMatrix/Amount_*" Min="-1.0" Max="1.0" Quantize="0.001" Delta="0.01" Formatter="{}0.000" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <components:MenuSelector Width="93" Style="{StaticResource MatrixSelector}" ui:OscAddress.Address="/ModMatrix/Source_*" ItemsSource="{Binding ModSources}" />
                 <components:MenuSelector Width="120" Style="{StaticResource MatrixSelector}" ui:OscAddress.Address="/ModMatrix/Dest_*" ItemsSource="{Binding ModDestinations}" />
                 <components:MenuSelector Width="93" Style="{StaticResource MatrixSelector}" ui:OscAddress.Address="/ModMatrix/Via_*" ItemsSource="{Binding ModSources}" />
-                <components:Spinner Width="65" Style="{StaticResource MatrixSpinner}" ui:OscAddress.Address="/ModMatrix/Amount_*" Min="-1.0" Max="1.0" Quantize="0.001" Delta="0.01" Formatter="{}0.000" />
                 <components:Spinner Width="65" Style="{StaticResource MatrixSpinner}" ui:OscAddress.Address="/ModMatrix/ViaAmount_*" Min="-1.0" Max="1.0" Quantize="0.001" Delta="0.01" Formatter="{}0.000" />
+                <components:Spinner Width="65" Style="{StaticResource MatrixSpinner}" ui:OscAddress.Address="/ModMatrix/Amount_*" Min="-1.0" Max="1.0" Quantize="0.001" Delta="0.01" Formatter="{}0.000" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <components:MenuSelector Width="93" Style="{StaticResource MatrixSelector}" ui:OscAddress.Address="/ModMatrix/Source_*" ItemsSource="{Binding ModSources}" />
                 <components:MenuSelector Width="120" Style="{StaticResource MatrixSelector}" ui:OscAddress.Address="/ModMatrix/Dest_*" ItemsSource="{Binding ModDestinations}" />
                 <components:MenuSelector Width="93" Style="{StaticResource MatrixSelector}" ui:OscAddress.Address="/ModMatrix/Via_*" ItemsSource="{Binding ModSources}" />
-                <components:Spinner Width="65" Style="{StaticResource MatrixSpinner}" ui:OscAddress.Address="/ModMatrix/Amount_*" Min="-1.0" Max="1.0" Quantize="0.001" Delta="0.01" Formatter="{}0.000" />
                 <components:Spinner Width="65" Style="{StaticResource MatrixSpinner}" ui:OscAddress.Address="/ModMatrix/ViaAmount_*" Min="-1.0" Max="1.0" Quantize="0.001" Delta="0.01" Formatter="{}0.000" />
+                <components:Spinner Width="65" Style="{StaticResource MatrixSpinner}" ui:OscAddress.Address="/ModMatrix/Amount_*" Min="-1.0" Max="1.0" Quantize="0.001" Delta="0.01" Formatter="{}0.000" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <components:MenuSelector Width="93" Style="{StaticResource MatrixSelector}" ui:OscAddress.Address="/ModMatrix/Source_*" ItemsSource="{Binding ModSources}" />
                 <components:MenuSelector Width="120" Style="{StaticResource MatrixSelector}" ui:OscAddress.Address="/ModMatrix/Dest_*" ItemsSource="{Binding ModDestinations}" />
                 <components:MenuSelector Width="93" Style="{StaticResource MatrixSelector}" ui:OscAddress.Address="/ModMatrix/Via_*" ItemsSource="{Binding ModSources}" />
-                <components:Spinner Width="65" Style="{StaticResource MatrixSpinner}" ui:OscAddress.Address="/ModMatrix/Amount_*" Min="-1.0" Max="1.0" Quantize="0.001" Delta="0.01" Formatter="{}0.000" />
                 <components:Spinner Width="65" Style="{StaticResource MatrixSpinner}" ui:OscAddress.Address="/ModMatrix/ViaAmount_*" Min="-1.0" Max="1.0" Quantize="0.001" Delta="0.01" Formatter="{}0.000" />
+                <components:Spinner Width="65" Style="{StaticResource MatrixSpinner}" ui:OscAddress.Address="/ModMatrix/Amount_*" Min="-1.0" Max="1.0" Quantize="0.001" Delta="0.01" Formatter="{}0.000" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <components:MenuSelector Width="93" Style="{StaticResource MatrixSelector}" ui:OscAddress.Address="/ModMatrix/Source_*" ItemsSource="{Binding ModSources}" />
                 <components:MenuSelector Width="120" Style="{StaticResource MatrixSelector}" ui:OscAddress.Address="/ModMatrix/Dest_*" ItemsSource="{Binding ModDestinations}" />
                 <components:MenuSelector Width="93" Style="{StaticResource MatrixSelector}" ui:OscAddress.Address="/ModMatrix/Via_*" ItemsSource="{Binding ModSources}" />
-                <components:Spinner Width="65" Style="{StaticResource MatrixSpinner}" ui:OscAddress.Address="/ModMatrix/Amount_*" Min="-1.0" Max="1.0" Quantize="0.001" Delta="0.01" Formatter="{}0.000" />
                 <components:Spinner Width="65" Style="{StaticResource MatrixSpinner}" ui:OscAddress.Address="/ModMatrix/ViaAmount_*" Min="-1.0" Max="1.0" Quantize="0.001" Delta="0.01" Formatter="{}0.000" />
+                <components:Spinner Width="65" Style="{StaticResource MatrixSpinner}" ui:OscAddress.Address="/ModMatrix/Amount_*" Min="-1.0" Max="1.0" Quantize="0.001" Delta="0.01" Formatter="{}0.000" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <components:MenuSelector Width="93" Style="{StaticResource MatrixSelector}" ui:OscAddress.Address="/ModMatrix/Source_*" ItemsSource="{Binding ModSources}" />
                 <components:MenuSelector Width="120" Style="{StaticResource MatrixSelector}" ui:OscAddress.Address="/ModMatrix/Dest_*" ItemsSource="{Binding ModDestinations}" />
                 <components:MenuSelector Width="93" Style="{StaticResource MatrixSelector}" ui:OscAddress.Address="/ModMatrix/Via_*" ItemsSource="{Binding ModSources}" />
-                <components:Spinner Width="65" Style="{StaticResource MatrixSpinner}" ui:OscAddress.Address="/ModMatrix/Amount_*" Min="-1.0" Max="1.0" Quantize="0.001" Delta="0.01" Formatter="{}0.000" />
                 <components:Spinner Width="65" Style="{StaticResource MatrixSpinner}" ui:OscAddress.Address="/ModMatrix/ViaAmount_*" Min="-1.0" Max="1.0" Quantize="0.001" Delta="0.01" Formatter="{}0.000" />
+                <components:Spinner Width="65" Style="{StaticResource MatrixSpinner}" ui:OscAddress.Address="/ModMatrix/Amount_*" Min="-1.0" Max="1.0" Quantize="0.001" Delta="0.01" Formatter="{}0.000" />
             </StackPanel>
         </StackPanel>
     </StackPanel>

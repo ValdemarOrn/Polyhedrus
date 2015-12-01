@@ -163,7 +163,7 @@ namespace Leiftur
 		totalResonance = AudioLib::ValueTables::Get(totalResonance, AudioLib::ValueTables::Response2Oct) * 0.999f;
 
 		// Voltage is 1V/OCt, C0 = 16.3516Hz
-		float voltage = 10.3 * Cutoff + CutoffMod;
+		float voltage = Cutoff + CutoffMod;
 		voltage = AudioLib::Utils::Limit(voltage, 0.0f, 10.3f);
 
 		p = CVtoAlpha[(int)(voltage * 1000.0)];

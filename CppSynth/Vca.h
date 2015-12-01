@@ -11,6 +11,7 @@ namespace Leiftur
 		float* buffer;
 		int samplerate;
 		int modulationUpdateRate;
+		float currentCv;
 
 	public:
 		Vca();

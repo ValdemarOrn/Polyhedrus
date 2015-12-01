@@ -85,7 +85,7 @@ namespace Leiftur
 		totalResonance = AudioLib::Utils::Limit(totalResonance, 0.0f, 1.0f);
 		totalResonance = (1 - AudioLib::ValueTables::Get((1 - totalResonance), AudioLib::ValueTables::Response2Oct)) * 0.95f;
 
-		float voltage = 10.3f * Cutoff + CutoffMod;
+		float voltage = Cutoff + CutoffMod;
 		voltage = AudioLib::Utils::Limit(voltage, 0.0f, 10.3f);
 		float fc = cvToFreq.GetFreqWarped(voltage);
 

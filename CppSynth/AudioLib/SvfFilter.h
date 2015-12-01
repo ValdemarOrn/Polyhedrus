@@ -46,13 +46,12 @@ namespace AudioLib
 			// and then D = 1 / Q. for Q >= 0.5, this becomes a range [0...2]
 			Resonance = Utils::Limit(Resonance, 0, 1.0f);
 			d = (1 - (Resonance * 0.999)) * 2;
-
-			// adjustment factors from paper
-			// not really needed if oversampling is done
-			//d = std::fmin(d, 2 - Fc);
-			
+									
 			f = 2 * std::sin(M_PI * Fc / Fs);
 			//f = f * (1.85 - 0.85 * d * f);
+
+			// adjustment factors from paper
+			d = std::fmin(d, 2 - f);
 		}
 
 		inline void ProcessLinear(float x)

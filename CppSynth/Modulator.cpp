@@ -38,6 +38,8 @@ namespace Leiftur
 		samplerate = 48000;
 		Output = 0.0f;
 		EnvOutput = 0.0f;
+		prevLfoSample = 0.0f;
+		slewTotal = 0.0f;
 
 		iterator = 0;
 		increment = 1;
@@ -97,7 +99,7 @@ namespace Leiftur
 			Slew = (float)value;
 			return;
 		case ModParameters::Steps:
-			Steps = (int)value;
+			Steps = value;
 			return;
 		case ModParameters::Sync:
 			Sync = value >= 0.5;
@@ -118,12 +120,28 @@ namespace Leiftur
 	float Modulator::Process(int samples)
 	{
 		Update();
-		float envOut = env.Process(samples);
+		
 		float sample = GetSample();
+		float totalSlew = slewPerSample * samples;
+		if (sample > prevLfoSample) // going up
+		{
+			if (sample - prevLfoSample > totalSlew)
+				sample = prevLfoSample + totalSlew;
+		}
+		else // going down
+		{
+			if (prevLfoSample - sample > totalSlew)
+				sample = prevLfoSample - totalSlew;
+		}
+
+		float envOut = env.Process(samples);
 		prevIterator = iterator;
 		iterator += increment * samples;
 		EnvOutput = envOut;
-		Output = envOut * sample;
+		float quantizedSample = std::ceil(sample * stepCount) / stepCount;
+		Output = envOut * quantizedSample;
+
+		prevLfoSample = sample;
 		return Output;
 	}
 
@@ -132,6 +150,7 @@ namespace Leiftur
 		if (Phase < 0.999)
 		{
 			iterator = (uint32_t)(((double)UINT32_MAX) * ((double)Phase));
+			prevLfoSample = GetSample();
 			prevIterator = UINT32_MAX;
 		}
 	}
@@ -148,9 +167,9 @@ namespace Leiftur
 		increment = (uint32_t)((1.0f / samplesPerCycle) * UINT32_MAX);
 
 
-		double slew = 1 - Utils::Limit(Slew + SlewMod, 0.0f, 1.0f);
+		slewTotal = 1 - Utils::Limit(Slew + SlewMod, 0.0f, 1.0f);
 		// Todo: Convert to lookup table
-		double slewVSec = std::pow(2, 12 * slew) / 64.0;
+		double slewVSec = std::pow(2, 12 * slewTotal) / 16.0;
 		slewPerSample = (float)(slewVSec / samplerate);
 
 

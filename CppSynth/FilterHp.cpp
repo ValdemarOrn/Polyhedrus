@@ -25,7 +25,7 @@ namespace Leiftur
 
 		this->modulationUpdateRate = modulationUpdateRate;
 		this->samplerate = samplerate;
-		svf.Fs = samplerate * 3; // internal oversample by 3x
+		svf.Fs = samplerate * 2; // internal oversample by 2x
 		svf.Nonlinear = false;
 		Update();
 	}
@@ -59,13 +59,16 @@ namespace Leiftur
 				updateCounter = modulationUpdateRate;
 			}
 
-			// oversample by 3x
-			float value = input[i];
-			svf.ProcessLinear(value);
-			svf.ProcessLinear(value);
-			svf.ProcessLinear(value);
-			buffer[i] = svf.Hp;
-			updateCounter--;
+			while (updateCounter > 0 && i < len)
+			{
+				float value = input[i];
+				// oversample by 2x
+				svf.ProcessLinear(value);
+				svf.ProcessLinear(value);
+				buffer[i] = svf.Hp;
+				updateCounter--;
+				i++;
+			}
 		}
 	}
 
@@ -75,8 +78,8 @@ namespace Leiftur
 		totalResonance = AudioLib::Utils::Limit(totalResonance, 0.0f, 1.0f);
 		totalResonance = (1 - AudioLib::ValueTables::Get((1 - totalResonance), AudioLib::ValueTables::Response2Oct)) * 0.95f;
 
-		float voltage = 10.3f * Cutoff + CutoffMod;
-		voltage = AudioLib::Utils::Limit(voltage, 0.0f, 10.0f);
+		float voltage = Cutoff + CutoffMod;
+		voltage = AudioLib::Utils::Limit(voltage, 0.0f, 9.5f);
 		float fc = cvToFreq.GetFreqWarped(voltage);
 
 		svf.Fc = fc;

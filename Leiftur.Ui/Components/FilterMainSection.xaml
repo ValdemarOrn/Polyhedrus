@@ -31,7 +31,7 @@
             <Label Grid.Row="1" Grid.Column="3">Resonance</Label>
 
             <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" ui:OscAddress.Address="/FilterMain/Drive" />
-            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" ui:OscAddress.Address="/FilterMain/Cutoff" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" Min="0.0" Max="10.3" ui:OscAddress.Address="/FilterMain/Cutoff" />
             <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" ui:OscAddress.Address="/FilterMain/Resonance" />
         </Grid>
 
