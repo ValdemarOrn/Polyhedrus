@@ -85,6 +85,7 @@ namespace Leiftur
 			break;
 		case EnvParameters::Retrigger:
 			Retrigger = value >= 0.5;
+			break;
 		}
 	}
 

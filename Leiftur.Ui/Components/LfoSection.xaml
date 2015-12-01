@@ -5,55 +5,93 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Leiftur.Ui"
              xmlns:components="clr-namespace:Leiftur.Ui.Components"
+             xmlns:ui="clr-namespace:LowProfile.Core.Ui;assembly=LowProfile.Core"
              mc:Ignorable="d" 
-             d:DesignHeight="120" d:DesignWidth="300">
+             x:Name="Main"
+             d:DesignHeight="200" d:DesignWidth="300">
     <UserControl.Resources>
-        <ResourceDictionary Source="Styles.xaml" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml" />
+                <ResourceDictionary Source="ContextMenus.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <ui:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <ui:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
+        </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <StackPanel Orientation="Vertical">
+        <Grid Visibility="{Binding ElementName=Main, Path=ShowPage2, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-        <Label Grid.Row="1" Grid.Column="0">Delay</Label>
-        <Label Grid.Row="1" Grid.Column="1">Attack</Label>
-        <Label Grid.Row="1" Grid.Column="2">Hold</Label>
-        <Label Grid.Row="1" Grid.Column="3">Decay</Label>
-        <Label Grid.Row="1" Grid.Column="4">Sustain</Label>
-        <Label Grid.Row="1" Grid.Column="5">Release</Label>
+            <Label Grid.Row="1" Grid.Column="0">Delay</Label>
+            <Label Grid.Row="1" Grid.Column="1">Attack</Label>
+            <Label Grid.Row="1" Grid.Column="2">Hold</Label>
+            <Label Grid.Row="1" Grid.Column="3">Decay</Label>
+            <Label Grid.Row="1" Grid.Column="4">Sustain</Label>
+            <Label Grid.Row="1" Grid.Column="5">Release</Label>
 
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" local:OscAddress.Address="/*/Delay" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" local:OscAddress.Address="/*/Attack" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" local:OscAddress.Address="/*/Hold" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" local:OscAddress.Address="/*/Decay" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="4" local:OscAddress.Address="/*/Sustain" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="5" local:OscAddress.Address="/*/Release" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" local:OscAddress.Address="/*/Delay" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" local:OscAddress.Address="/*/Attack" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" local:OscAddress.Address="/*/Hold" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" local:OscAddress.Address="/*/Decay" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="4" local:OscAddress.Address="/*/Sustain" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="5" local:OscAddress.Address="/*/Release" />
         
-        <Label Grid.Row="3" Grid.Column="0">Phase</Label>
-        <Label Grid.Row="3" Grid.Column="1">Freq</Label>
-        <Label Grid.Row="3" Grid.Column="2">Shape</Label>
-        <Label Grid.Row="3" Grid.Column="3">Slew</Label>
-        <Label Grid.Row="3" Grid.Column="4">Steps</Label>
-        <Label Grid.Row="3" Grid.Column="5">Sync</Label>
+            <Label Grid.Row="3" Grid.Column="0">Phase</Label>
+            <Label Grid.Row="3" Grid.Column="1">Freq</Label>
+            <Label Grid.Row="3" Grid.Column="2">Shape</Label>
+            <Label Grid.Row="3" Grid.Column="3">Slew</Label>
+            <Label Grid.Row="3" Grid.Column="4">Steps</Label>
+            <Label Grid.Row="3" Grid.Column="5">Sync</Label>
 
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" local:OscAddress.Address="/*/Phase" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" local:OscAddress.Address="/*/Freq" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" Min="0" Max="7" Steps="8" local:OscAddress.Address="/*/Shape" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="3" local:OscAddress.Address="/*/Slew" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="4" local:OscAddress.Address="/*/Steps" />
-        <ToggleButton Style="{StaticResource CircleToggleButton}" Grid.Row="2" Grid.Column="5" local:OscAddress.Address="/*/Sync" />
-    </Grid>
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" local:OscAddress.Address="/*/Phase" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" local:OscAddress.Address="/*/Freq" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" Min="0" Max="7" Steps="8" local:OscAddress.Address="/*/Shape" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="3" local:OscAddress.Address="/*/Slew" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="4" local:OscAddress.Address="/*/Steps" />
+            <ToggleButton Style="{StaticResource CircleToggleButton}" Grid.Row="2" Grid.Column="5" local:OscAddress.Address="/*/Sync" />
+        </Grid>
+        <Grid Visibility="{Binding ElementName=Main, Path=ShowPage2, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="1" Grid.Column="0">Atk Curve</Label>
+            <Label Grid.Row="1" Grid.Column="1">Dec Curve</Label>
+            <Label Grid.Row="1" Grid.Column="2">Rel Curve</Label>
+            <Label Grid.Row="1" Grid.Column="3">Retrigger</Label>
+
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" Min="-1" Max="1" DefaultValue="0" local:OscAddress.Address="/*/AttackCurve" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" Min="-1" Max="1" DefaultValue="0" local:OscAddress.Address="/*/DecayCurve" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" Min="-1" Max="1" DefaultValue="0" local:OscAddress.Address="/*/ReleaseCurve" />
+            <ToggleButton Style="{StaticResource CircleToggleButton}" Grid.Row="0" Grid.Column="3" local:OscAddress.Address="/*/Retrigger" />
+        </Grid>
+    </StackPanel>
 </components:BaseControl>

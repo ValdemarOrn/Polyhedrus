@@ -275,6 +275,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="22" />
                 </Grid.ColumnDefinitions>
 
                 <Rectangle Style="{StaticResource SectionLine}" />
@@ -282,24 +283,42 @@
                 <ToggleButton Grid.Column="0" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding Mod1Visible}">Mod 1</ToggleButton>
                 <ToggleButton Grid.Column="1" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding Mod2Visible}">Mod 2</ToggleButton>
                 <ToggleButton Grid.Column="2" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding Mod3Visible}">Mod 3</ToggleButton>
-                <ToggleButton Grid.Column="3" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding ArpeggiatorVisible}">Arpeggiator</ToggleButton>
+                <ToggleButton Grid.Column="3" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding ArpeggiatorVisible}">Arp</ToggleButton>
 
-                <ToggleButton Grid.Column="4" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/Mod1On"
+                <Button Grid.Column="4" Style="{StaticResource MarkerButton}" HorizontalAlignment="Right"
+                        Visibility="{Binding Mod1Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}"
+                        FontWeight="{Binding Mod1Page2Visible, Converter={StaticResource BoolToBoldConverter}}"
+                        Command="{Binding ShowMod1EnvPage2}">Curves</Button>
+                
+                <Button Grid.Column="4" Style="{StaticResource MarkerButton}" HorizontalAlignment="Right"
+                        Visibility="{Binding Mod2Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}"
+                        FontWeight="{Binding Mod2Page2Visible, Converter={StaticResource BoolToBoldConverter}}"
+                        Command="{Binding ShowMod2EnvPage2}">Curves</Button>
+                
+                <Button Grid.Column="4" Style="{StaticResource MarkerButton}" HorizontalAlignment="Right"
+                        Visibility="{Binding Mod3Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}"
+                        FontWeight="{Binding Mod3Page2Visible, Converter={StaticResource BoolToBoldConverter}}"
+                        Command="{Binding ShowMod3EnvPage2}">Curves</Button>
+
+                <ToggleButton Grid.Column="5" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/Mod1On"
                               Visibility="{Binding Mod1Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}"/>
-                <ToggleButton Grid.Column="4" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/Mod2On"
+                <ToggleButton Grid.Column="5" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/Mod2On"
                               Visibility="{Binding Mod2Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}"/>
-                <ToggleButton Grid.Column="4" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/Mod3On"
+                <ToggleButton Grid.Column="5" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/Mod3On"
                               Visibility="{Binding Mod3Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}"/>
-                <ToggleButton Grid.Column="4" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/ArpOn"
+                <ToggleButton Grid.Column="5" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/ArpOn"
                               Visibility="{Binding ArpeggiatorVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}"/>
             </Grid>
 
             <components:LfoSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="114" ModuleAddress="Mod1" Background="{StaticResource ModuleBackground}"
-                                   Visibility="{Binding Mod1Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
+                                   Visibility="{Binding Mod1Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}"
+                                   ShowPage2="{Binding Mod1Page2Visible}" />
             <components:LfoSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="114" ModuleAddress="Mod2" Background="{StaticResource ModuleBackground}"
-                                   Visibility="{Binding Mod2Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
+                                   Visibility="{Binding Mod2Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}"
+                                   ShowPage2="{Binding Mod2Page2Visible}"/>
             <components:LfoSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="114" ModuleAddress="Mod3" Background="{StaticResource ModuleBackground}"
-                                   Visibility="{Binding Mod3Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
+                                   Visibility="{Binding Mod3Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" 
+                                   ShowPage2="{Binding Mod3Page2Visible}"/>
             <components:ArpeggiatorSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="114" Background="{StaticResource ModuleBackground}"
                                            Visibility="{Binding ArpeggiatorVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
 

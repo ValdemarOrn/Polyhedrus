@@ -51,6 +51,9 @@ namespace Leiftur.Ui
 		private Dictionary<int, string> waveformList;
 		private bool presetPanelVisible;
 		private Geometry visualGeometry;
+		private bool mod1Page2Visible;
+		private bool mod2Page2Visible;
+		private bool mod3Page2Visible;
 
 		public SynthViewModel(Dictionary<DependencyObject, string> controlDict)
 		{
@@ -85,6 +88,9 @@ namespace Leiftur.Ui
 
 			ShowAmpEnvPage2 = new DelegateCommand(_ => AmpEnvPage2Visible = !AmpEnvPage2Visible);
 			ShowFilterEnvPage2 = new DelegateCommand(_ => FilterEnvPage2Visible = !FilterEnvPage2Visible);
+			ShowMod1EnvPage2 = new DelegateCommand(_ => Mod1Page2Visible = !Mod1Page2Visible);
+			ShowMod2EnvPage2 = new DelegateCommand(_ => Mod2Page2Visible = !Mod2Page2Visible);
+			ShowMod3EnvPage2 = new DelegateCommand(_ => Mod3Page2Visible = !Mod3Page2Visible);
 			SetBankCommand = new DelegateCommand(x => SelectedBank = x.ToString(), () => true);
 			SetPresetCommand = new DelegateCommand(x => SelectedPreset = x.ToString(), () => true);
 			SavePresetCommand = new DelegateCommand(x => SavePreset(), () => true);
@@ -104,7 +110,11 @@ namespace Leiftur.Ui
 
 		public DelegateCommand ShowAmpEnvPage2 { get; private set; }
 		public DelegateCommand ShowFilterEnvPage2 { get; private set; }
-        public DelegateCommand SetBankCommand { get; private set; }
+		public DelegateCommand ShowMod1EnvPage2 { get; private set; }
+		public DelegateCommand ShowMod2EnvPage2 { get; private set; }
+		public DelegateCommand ShowMod3EnvPage2 { get; private set; }
+
+		public DelegateCommand SetBankCommand { get; private set; }
 		public DelegateCommand SetPresetCommand { get; private set; }
 		public DelegateCommand SavePresetCommand { get; private set; }
 		public DelegateCommand DeletePresetCommand { get; private set; }
@@ -424,6 +434,24 @@ namespace Leiftur.Ui
 		{
 			get { return filterEnvPage2Visible; }
 			set { filterEnvPage2Visible = value; NotifyPropertyChanged(); }
+		}
+
+		public bool Mod1Page2Visible
+		{
+			get { return mod1Page2Visible; }
+			set { mod1Page2Visible = value; NotifyPropertyChanged(); }
+		}
+
+		public bool Mod2Page2Visible
+		{
+			get { return mod2Page2Visible; }
+			set { mod2Page2Visible = value; NotifyPropertyChanged(); }
+		}
+
+		public bool Mod3Page2Visible
+		{
+			get { return mod3Page2Visible; }
+			set { mod3Page2Visible = value; NotifyPropertyChanged(); }
 		}
 
 		public string AnnouncerCaption

@@ -114,6 +114,9 @@ namespace Leiftur
 		case ModParameters::ReleaseCurve:
 			env.SetParameter(EnvParameters::AttackCurve, value);
 			return;
+		case ModParameters::Retrigger:
+			env.SetParameter(EnvParameters::Retrigger, value);
+			break;
 		}
 	}
 

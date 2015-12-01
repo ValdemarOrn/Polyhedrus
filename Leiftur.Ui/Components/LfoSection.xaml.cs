@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace Leiftur.Ui.Components
 {
@@ -7,9 +8,18 @@ namespace Leiftur.Ui.Components
 	/// </summary>
 	public partial class LfoSection : BaseControl
 	{
+		public static readonly DependencyProperty ShowPage2Property = DependencyProperty.Register("ShowPage2", typeof(bool), typeof(LfoSection),
+				new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
 		public LfoSection()
 		{
 			InitializeComponent();
+		}
+
+		public bool ShowPage2
+		{
+			get { return (bool)GetValue(ShowPage2Property); }
+			set { SetValue(ShowPage2Property, value); }
 		}
 	}
 }

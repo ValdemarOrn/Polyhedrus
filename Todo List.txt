@@ -1,0 +1,26 @@
+# To Complete
+
+Improve dropdown menus to make hierarchial menus
+Show graphics for all modules
+Modulator On/Off buttons don't do anything
+Hi Quality button not connected
+Need to connect more mod destinations
+Show all 32 voices in display
+Connect Macros
+Arpeggiator
+Chorus
+Per-voice tuners
+
+
+# New Features
+
+Add velocity curve (next to Voice mode, global)
+Add FM synthesis section
+Add granular synthesis
+
+# DSP Improvements
+
+Replace HP Filter with ZDF State variable version
+Fix uneven resonance in ZDF 4 pole
+Store a sampled version of the noise generator
+Make sure each voice has a unique seed for the noise
