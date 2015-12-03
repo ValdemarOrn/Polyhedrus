@@ -36,7 +36,7 @@ namespace Leiftur
 		this->bufferSize = bufferSize;
 		this->modulationUpdateRate = modulationUpdateRate;
 		this->samplerate = samplerate;
-		fsinv = 1.0f / (Oversample * samplerate);
+		fsinv = 1.0f / samplerate;
 		cvToFreq.Initialize((float)samplerate);
 
 		Cutoff = 1;
@@ -69,24 +69,21 @@ namespace Leiftur
 		// See equations 4.3 and figure 3.18
 		// this does not use a root finding algorithm to apply the nonlinearities, rather they are the "quick and dirty approach"
 
-		for (int i = 0; i < Oversample; i++)
-		{
-			//float G = g4;
-			float S = g3 * lp1.z1State + g2 * lp2.z1State + g * lp3.z1State + lp4.z1State;
+		//float G = g4;
+		float S = g3 * lp1.z1State + g2 * lp2.z1State + g * lp3.z1State + lp4.z1State;
 
-			//float value = (x - k * S) / (1 + k * G);
-			float value = (x - k * S) * uScaler;
+		//float value = (x - k * S) / (1 + k * G);
+		float value = (x - k * S) * uScaler;
 			
-			// 4 cascaded low pass stages
-			value = lp1.Process(value);
-			value = AudioLib::Utils::TanhLookup(value);
-			value = lp2.Process(value);
-			value = AudioLib::Utils::TanhLookup(value);
-			value = lp3.Process(value);
-			value = AudioLib::Utils::TanhLookup(value);
-			value = lp4.Process(value);
-			value = AudioLib::Utils::TanhLookup(value);
-		}
+		// 4 cascaded low pass stages
+		value = lp1.Process(value);
+		value = AudioLib::Utils::Cubic6Nonlin(value);
+		value = lp2.Process(value);
+		value = AudioLib::Utils::Cubic6Nonlin(value);
+		value = lp3.Process(value);
+		value = AudioLib::Utils::Cubic6Nonlin(value);
+		value = lp4.Process(value);
+		value = AudioLib::Utils::Cubic6Nonlin(value);
 	}
 
 	void FilterCascadeZero::Update()

@@ -72,7 +72,7 @@ namespace AudioLib
 			Bp = f * Hp + zState1;
 			No = Hp + Lp;
 
-			zState1 = AudioLib::Utils::TanhPoly(Bp);
+			zState1 = AudioLib::Utils::Cubic6Nonlin(Bp);
 			zState2 = Lp;
 		}
 

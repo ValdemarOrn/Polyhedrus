@@ -14,6 +14,7 @@
 #include "VoiceAllocator.h"
 #include "Delay.h"
 #include "AudioLib/Decimator.h"
+#include "Arpeggiator.h"
 
 #include <map>
 #include <memory>
@@ -42,6 +43,7 @@ namespace Leiftur
 		UdpTranceiver* udpTranceiver;
 		std::thread messageListenerThread;
 		VoiceAllocator voiceAllocator;
+		Arpeggiator arpeggiator;
 		AudioLib::Decimator decimatorL;
 		AudioLib::Decimator decimatorR;
 		float* outputBufferL;

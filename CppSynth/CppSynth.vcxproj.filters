@@ -173,6 +173,9 @@
     <ClInclude Include="AudioLib\SlopGenerator.h">
       <Filter>Source Files\AudioLib</Filter>
     </ClInclude>
+    <ClInclude Include="Arpeggiator.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Synth.cpp">
@@ -290,6 +293,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FilterDualSvf.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Arpeggiator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

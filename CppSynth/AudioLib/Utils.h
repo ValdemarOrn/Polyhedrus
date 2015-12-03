@@ -2,6 +2,7 @@
 #define AUDIOLIB_UTILS
 
 #include <cstring>
+#include <cmath>
 
 namespace AudioLib
 {
@@ -126,6 +127,13 @@ namespace AudioLib
 			float part = 1.0f - x * 0.5f;
 			return (1 - part * part) * sign;
 		}
+
+		static inline float Cubic6Nonlin(float x)
+		{
+			return (std::abs(x) > 1.4142135623) 
+				? (x < 0.0 ? -0.9428090416f : 0.9428090416f)
+				: (x - (x*x*x) / 6);
+		};
 
 		static inline void GainAndSum(float* source, float* dest, float gain, int len)
 		{

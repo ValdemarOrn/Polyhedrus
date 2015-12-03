@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllpassDiffuser.h" />
+    <ClInclude Include="Arpeggiator.h" />
     <ClInclude Include="AudioLib\Biquad.h" />
     <ClInclude Include="AudioLib\Decimator.h" />
     <ClInclude Include="AudioLib\FastSin.h" />
@@ -72,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AllpassDiffuser.cpp" />
+    <ClCompile Include="Arpeggiator.cpp" />
     <ClCompile Include="AudioLib\Biquad.cpp" />
     <ClCompile Include="AudioLib\Decimator.cpp" />
     <ClCompile Include="AudioLib\FastSin.cpp" />

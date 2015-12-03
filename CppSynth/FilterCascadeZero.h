@@ -44,21 +44,13 @@ namespace Leiftur
 		}
 
 	public:
-		const int Oversample = 1;
-
 		float Drive;
 		float Cutoff;
 		float Resonance;
 		float CutoffMod;
 		float ResonanceMod;
 		float DriveMod;
-
-		CvFreq cvToFreq;
-		ZeroDelay2Lp lp1;
-		ZeroDelay2Lp lp2;
-		ZeroDelay2Lp lp3;
-		ZeroDelay2Lp lp4;
-		
+				
 	private:
 		float* buffer;
 		float gain;
@@ -69,6 +61,11 @@ namespace Leiftur
 		float uScaler;
 		float gainCompensation;
 		float g, g2, g3, g4;
+		CvFreq cvToFreq;
+		ZeroDelay2Lp lp1;
+		ZeroDelay2Lp lp2;
+		ZeroDelay2Lp lp3;
+		ZeroDelay2Lp lp4;
 
 		float fsinv;
 		int samplerate;

@@ -25,7 +25,7 @@ namespace Leiftur
 		outputBufferL = 0;
 		outputBufferR = 0;
 		voiceAllocator.Initialize(Voices);
-
+		
 		for (int i = 0; i < MaxVoiceCount; i++)
 			VoiceStates.push_back(0);
 	}
@@ -59,7 +59,8 @@ namespace Leiftur
 		wavetableManager->Setup(PlatformSpecific::GetDllDir());
 		presetManager.Initialize(PlatformSpecific::GetDllDir());
 		Delay.Initialize(samplerate * oversampling, BufferSize, ModulationUpdateRate);
-				
+		arpeggiator.Initialize(samplerate * oversampling, &voiceAllocator);
+
 		for (size_t i = 0; i < MaxVoiceCount; i++)
 		{
 			Voices[i].Initialize(samplerate * oversampling, ModulationUpdateRate * oversampling, BufferSize, i, wavetableManager);
@@ -125,7 +126,8 @@ namespace Leiftur
 				bufSize = totalOversampledToProcess - n;
 
 			int voiceCount = voiceAllocator.GetVoiceCount();
-			
+			arpeggiator.Process(bufSize);
+
 			Utils::ZeroBuffer(outputBufferL, bufSize);
 			Utils::ZeroBuffer(outputBufferR, bufSize);
 
@@ -467,12 +469,12 @@ namespace Leiftur
 
 	void Synth::NoteOn(uint8_t note, float velocity)
 	{
-		voiceAllocator.NoteOn(note, velocity);
+		arpeggiator.NoteOn(note, velocity);
 	}
 
 	void Synth::NoteOff(uint8_t note)
 	{
-		voiceAllocator.NoteOff(note);
+		arpeggiator.NoteOff(note);
 	}
 
 	void Synth::MidiCC(uint8_t byte1, uint8_t byte2)
