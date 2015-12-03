@@ -71,36 +71,38 @@ namespace Leiftur
 		if (!isEnabled)
 			return;
 
-		double notesPerSecond = Bpm / 60.0 *  Divide;
-		double samplesPerNote = samplerate / notesPerSecond;
-
-		double phaseInc = 1.0 / samplesPerNote * len;
-		notePhase += phaseInc;
-
-		if (notePhase < 1.0)
-			return; // noting to do
-
-		notePhase -= 1.0;
-
-		// silence old note
-		if (currentNote != -1)
-		{
-			voiceAllocator->NoteOff(currentNote);
-			playingNotes[currentNote] = false;
-			currentNote = -1;
-		}
-
 		if (patternLen == 0)
 			return; // no notes on, silence
+
+		double notesPerSecond = Bpm / 60.0 *  Divide;
+		double samplesPerNote = samplerate / notesPerSecond;
+		double phaseInc = 1.0 / samplesPerNote * len;
 		
-		// set new pattern index
-		patternIndex++;
-		if (patternIndex >= patternLen)
-			patternIndex = 0;
+		int noteToPlay = pattern[patternIndex];
 		
-		currentNote = pattern[patternIndex];
-		voiceAllocator->NoteOn(currentNote, 1.0f);
-		playingNotes[currentNote] = true;
+		if (currentNote != noteToPlay)
+		{
+			// silence old note
+			voiceAllocator->NoteOff(currentNote);
+			playingNotes[currentNote] = false;
+			
+			// play new note
+			currentNote = noteToPlay;
+			voiceAllocator->NoteOn(currentNote, 1.0f);
+			playingNotes[currentNote] = true;
+		}
+		
+		// increment phase
+		notePhase += phaseInc;
+		if (notePhase >= 1.0)
+		{
+			notePhase -= 1.0;
+
+			// set new pattern index
+			patternIndex++;
+			if (patternIndex >= patternLen)
+				patternIndex = 0;
+		}
 	}
 
 	void Arpeggiator::SetEnabled(bool isEnabled)
@@ -123,8 +125,8 @@ namespace Leiftur
 		ComputePattern();
 		if (currentNote == -1)
 		{
-			patternIndex = -1;
-			notePhase = 1.0;
+			patternIndex = 0;
+			notePhase = 0.0;
 		}
 
 		if (!isEnabled)
@@ -138,6 +140,12 @@ namespace Leiftur
 	{
 		heldNotes[note] = false;
 		ComputePattern();
+		if (isEnabled && patternLen == 0)
+		{
+			voiceAllocator->NoteOff(currentNote);
+			playingNotes[currentNote] = false;
+			currentNote = -1;
+		}
 
 		if (!isEnabled)
 		{
@@ -159,7 +167,9 @@ namespace Leiftur
 		}
 
 		if (note == -1)
+		{
 			patternLen = 0;
+		}
 		else
 		{
 			pattern[0] = note;
