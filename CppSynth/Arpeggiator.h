@@ -10,8 +10,6 @@ namespace Leiftur
 	class Arpeggiator
 	{
 	public:
-		bool IsEnabled;
-
 		int Range;
 		int NotePtn;
 		int OctavePtn;
@@ -21,6 +19,7 @@ namespace Leiftur
 		bool Sync;
 
 	private:
+		bool isEnabled;
 		int samplerate;
 		VoiceAllocator* voiceAllocator;
 		double notePhase;
@@ -41,6 +40,7 @@ namespace Leiftur
 		void SetParameter(ArpParameters parameter, double value);
 		void Process(int len);
 
+		void SetEnabled(bool isEnabled);
 		void NoteOn(uint8_t note, float velocity);
 		void NoteOff(uint8_t note);
 

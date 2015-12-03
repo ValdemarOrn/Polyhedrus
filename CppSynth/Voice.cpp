@@ -316,8 +316,8 @@ namespace Leiftur
 		for (int i = 0; i < bufferSize; i++)
 		{
 			osc1Buffer[i] = osc1Out[i];
-			osc2Buffer[i] = osc2Out[i] * (1 - mixer.Am12Total) + osc2Out[i] * osc1Out[i] * mixer.Am12Total;
-			osc3Buffer[i] = osc3Out[i] * (1 - mixer.Am23Total) + osc3Out[i] * osc2Out[i] * mixer.Am23Total;
+			osc2Buffer[i] = osc2Out[i] * (1 + 2 * osc1Out[i] * mixer.Am12Total);
+			osc3Buffer[i] = osc3Out[i] * (1 + 2 * osc2Out[i] * mixer.Am23Total);
 		}
 	}
 

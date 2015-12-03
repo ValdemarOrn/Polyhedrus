@@ -4,7 +4,7 @@ namespace Leiftur
 {
 	Arpeggiator::Arpeggiator()
 	{
-		IsEnabled = false;
+		isEnabled = false;
 		Range = 3;
 		NotePtn = 1;
 		OctavePtn = 1;
@@ -68,7 +68,7 @@ namespace Leiftur
 
 	void Arpeggiator::Process(int len)
 	{
-		if (!IsEnabled)
+		if (!isEnabled)
 			return;
 
 		double notesPerSecond = Bpm / 60.0 *  Divide;
@@ -103,12 +103,31 @@ namespace Leiftur
 		playingNotes[currentNote] = true;
 	}
 
+	void Arpeggiator::SetEnabled(bool isEnabled)
+	{
+		this->isEnabled = isEnabled;
+		for (int i = 0; i < 128; i++)
+		{
+			if (playingNotes[i])
+			{
+				voiceAllocator->NoteOff(i);
+				playingNotes[i] = false;
+			}
+		}
+		notePhase = 1.0;
+	}
+
 	void Arpeggiator::NoteOn(uint8_t note, float velocity)
 	{
 		heldNotes[note] = true;
 		ComputePattern();
+		if (currentNote == -1)
+		{
+			patternIndex = -1;
+			notePhase = 1.0;
+		}
 
-		if (!IsEnabled)
+		if (!isEnabled)
 		{
 			voiceAllocator->NoteOn(note, velocity);
 			playingNotes[note] = true;
@@ -120,7 +139,7 @@ namespace Leiftur
 		heldNotes[note] = false;
 		ComputePattern();
 
-		if (!IsEnabled)
+		if (!isEnabled)
 		{
 			voiceAllocator->NoteOff(note);
 			playingNotes[note] = false;

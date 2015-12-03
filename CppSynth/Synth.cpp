@@ -460,6 +460,8 @@ namespace Leiftur
 	void Synth::SetGlobalModuleSwitchParameter(ModuleSwitchParameters parameter, double value)
 	{
 		moduleSwitches[(int)parameter] = value >= 0.5;
+		if (parameter == ModuleSwitchParameters::ArpOn)
+			arpeggiator.SetEnabled(value >= 0.5);
 	}
 
 	// ------------------------------------------------------------------------------
