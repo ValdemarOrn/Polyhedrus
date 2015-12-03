@@ -1,6 +1,5 @@
 # To Complete
 
-Improve dropdown menus to make hierarchial menus
 Show graphics for all modules
 Modulator On/Off buttons don't do anything
 Hi Quality button not connected

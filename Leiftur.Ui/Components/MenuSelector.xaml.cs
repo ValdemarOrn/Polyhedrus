@@ -32,9 +32,34 @@ namespace Leiftur.Ui.Components
 		private void ContextMenu_Opened(object sender, RoutedEventArgs e)
 		{
 			contextMenu.Items.Clear();
+			var me = new MenuItem();
+
+			var items = new List<KeyValuePair<int, string>>();
 			foreach (var item in Items)
+				items.Add((KeyValuePair<int, string>)item);
+
+			AddMenuItems(contextMenu, items.Select(x => Tuple.Create(x, x.Value.Split('/'))).ToArray());
+			
+		}
+
+		/// <summary>
+		/// Splits slash-separated strings into a submenu tree
+		/// </summary>
+		/// <param name="menu"></param>
+		/// <param name="items"></param>
+		private void AddMenuItems(ItemsControl menu, Tuple<KeyValuePair<int, string>, string[]>[] items)
+		{
+			foreach (var group in items.Where(x => x.Item2.Length > 1).GroupBy(x => x.Item2.First()))
 			{
-				contextMenu.Items.Add(new MenuItem { Command = SelectOptionCommand, CommandParameter = item, Header = item.ToString() });
+				var menuItem = new MenuItem { Command = null, CommandParameter = null, Header = group.Key };
+				menu.Items.Add(menuItem);
+				var subItems = group.Select(x => Tuple.Create(x.Item1, x.Item2.Skip(1).ToArray())).ToArray();
+				AddMenuItems(menuItem, subItems);
+			}
+
+			foreach (var item in items.Where(x => x.Item2.Length == 1))
+			{
+				menu.Items.Add(new MenuItem { Command = SelectOptionCommand, CommandParameter = item.Item1, Header = item.Item2.Last() });
 			}
 		}
 
