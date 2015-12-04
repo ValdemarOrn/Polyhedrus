@@ -33,7 +33,8 @@ namespace Leiftur
 		uint32_t increment;
 		uint32_t iterator;
 		int updateCounter;
-		int shiftValue;
+		int tableSize;
+		float iteratorScaler;
 		float waveMix;
 		float* waveA;
 		float* waveB;

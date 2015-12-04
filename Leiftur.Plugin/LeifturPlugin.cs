@@ -56,7 +56,7 @@ namespace Leiftur.Plugin
 			devInfo.HasEditor = true;
 			devInfo.Name = "Leiftur Synthesizer";
 			devInfo.ProgramCount = 1;
-			devInfo.Type = DeviceType.Effect;
+			devInfo.Type = DeviceType.Generator;
 			devInfo.Version = 1000;
 			devInfo.UnsafeProcessing = true;
 			devInfo.VstId = DeviceUtilities.GenerateIntegerId(devInfo.DeviceID);

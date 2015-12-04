@@ -75,9 +75,20 @@ namespace Leiftur
 				updateCounter = modulationUpdateRate;
 			}
 
-			uint32_t iterWithFm = (iterator + (uint32_t)(FmBuffer[i] * UINT32_MAX)) >> shiftValue;
+			uint32_t iterWithFm = (iterator + (uint32_t)(FmBuffer[i] * UINT32_MAX));
+			//float fIndex = iterWithFm / (double)UINT32_MAX * tableSize;
+			float fIndex = iterWithFm * iteratorScaler;
 
-			buffer[i] = waveA[iterWithFm] * (1 - waveMix) + waveB[iterWithFm] * waveMix;
+			int idx1 = (int)fIndex;
+			int idx2 = idx1 + 1;
+			if (idx2 >= tableSize)
+				idx2 = 0;
+			float mixer = fIndex - idx1;
+
+			float wa = waveA[idx1] * (1 - mixer) + waveA[idx2] * mixer;
+			float wb = waveB[idx1] * (1 - mixer) + waveB[idx2] * mixer;
+
+			buffer[i] = wa * (1 - waveMix) + wb * waveMix;
 			iterator += increment;
 
 			updateCounter--;
@@ -116,7 +127,8 @@ namespace Leiftur
 		waveA = wavetable->GetTable((int)waveIndex, partialIndex);
 		waveB = wavetable->GetTable((int)waveIndex + useNextWave, partialIndex);
 
-		shiftValue = (32 - (int)(log2(wavetable->WavetableSize[partialIndex]) + 0.01)); // how many bits of the iterator are used to address the table
+		tableSize = wavetable->WavetableSize[partialIndex];
+		iteratorScaler = (1.0 / (double)UINT32_MAX) * tableSize;
 
 		float freq = AudioLib::Utils::Note2Freq(pitch) + (Linear + LinearMod);
 		float samplesPerCycle = samplerate / freq;
