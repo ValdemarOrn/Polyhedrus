@@ -17,12 +17,8 @@ namespace Leiftur
 		patternIndex = 0;
 		trigger = false;
 		pattern.clear();
-
-		for (size_t i = 0; i < 128; i++)
-		{
-			heldNotes[i] = false;
-			playingNotes[i] = false;
-		}
+		heldNotes.clear();
+		playingNotes.clear();
 
 		ComputeFullPattern();
 	}
@@ -81,7 +77,7 @@ namespace Leiftur
 		if (notePhase >= Gate)
 		{
 			voiceAllocator->NoteOff(currentNote);
-			playingNotes[currentNote] = false;
+			playingNotes.erase(currentNote);
 		}
 
 		if (trigger)
@@ -94,13 +90,13 @@ namespace Leiftur
 			if (currentNote != -1)
 			{
 				voiceAllocator->NoteOff(currentNote);
-				playingNotes[currentNote] = false;
+				playingNotes.erase(currentNote);
 			}
 
 			// play new note
 			currentNote = noteToPlay;
 			voiceAllocator->NoteOn(currentNote, 1.0f);
-			playingNotes[currentNote] = true;
+			playingNotes.insert(currentNote);
 
 			trigger = false;
 		}
@@ -124,20 +120,23 @@ namespace Leiftur
 	void Arpeggiator::SetEnabled(bool isEnabled)
 	{
 		this->isEnabled = isEnabled;
-		for (int i = 0; i < 128; i++)
+		vector<int> notes;
+
+		for (auto note : playingNotes)
+			notes.push_back(note);
+
+		for (auto note : notes)
 		{
-			if (playingNotes[i])
-			{
-				voiceAllocator->NoteOff(i);
-				playingNotes[i] = false;
-			}
+			voiceAllocator->NoteOff(note);
+			playingNotes.erase(note);
 		}
+
 		notePhase = 1.0;
 	}
 
 	void Arpeggiator::NoteOn(uint8_t note, float velocity)
 	{
-		heldNotes[note] = true;
+		heldNotes.insert(note);
 		ComputeFullPattern();
 
 		// if no notes are playing, we start the pattern immediately
@@ -150,27 +149,27 @@ namespace Leiftur
 		else if (!isEnabled)
 		{
 			voiceAllocator->NoteOn(note, velocity);
-			playingNotes[note] = true;
+			playingNotes.insert(note);
 		}
 	}
 
 	void Arpeggiator::NoteOff(uint8_t note)
 	{
-		heldNotes[note] = false;
+		heldNotes.erase(note);
 		ComputeFullPattern();
 
 		// if no notes are held, we stop the pattern immediately
 		if (isEnabled && pattern.size() == 0)
 		{
 			voiceAllocator->NoteOff(currentNote);
-			playingNotes[currentNote] = false;
+			playingNotes.erase(currentNote);
 			currentNote = -1;
 			trigger = false;
 		}
 		else if (!isEnabled)
 		{
 			voiceAllocator->NoteOff(note);
-			playingNotes[note] = false;
+			playingNotes.erase(note);
 		}
 	}
 
@@ -178,11 +177,8 @@ namespace Leiftur
 	{
 		vector<int> notes;
 
-		for (int i = 0; i < 128; i++)
-		{
-			if (heldNotes[i])
-				notes.push_back(i);
-		}
+		for (auto note : heldNotes)
+			notes.push_back(note);
 
 		if (notes.size() == 0)
 		{

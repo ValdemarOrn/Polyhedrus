@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <vector>
+#include <unordered_set>
 #include "Parameters.h"
 #include "VoiceAllocator.h"
 
@@ -35,8 +36,8 @@ namespace Leiftur
 		VoiceAllocator* voiceAllocator;
 		double notePhase;
 
-		bool heldNotes[128];
-		bool playingNotes[128];
+		std::unordered_set<int> heldNotes;
+		std::unordered_set<int> playingNotes;
 		int currentNote;
 		bool trigger;
 
