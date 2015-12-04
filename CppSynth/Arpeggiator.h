@@ -38,6 +38,7 @@ namespace Leiftur
 		bool heldNotes[128];
 		bool playingNotes[128];
 		int currentNote;
+		bool trigger;
 
 		// stores a precomputed pattern for the entire arp sequence
 		vector<int> pattern;

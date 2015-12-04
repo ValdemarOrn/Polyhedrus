@@ -15,6 +15,7 @@ namespace Leiftur
 		Sync = false;
 		currentNote = -1;
 		patternIndex = 0;
+		trigger = false;
 		pattern.clear();
 
 		for (size_t i = 0; i < 128; i++)
@@ -77,37 +78,46 @@ namespace Leiftur
 		if (patternCopy.size() == 0)
 			return; // no notes on, silence
 
-		double notesPerSecond = Bpm / 60.0 * (1 + Divide * 3);
-		double samplesPerNote = samplerate / notesPerSecond;
-		double phaseInc = 1.0 / samplesPerNote * len;
-		
-		// when releasing notes, the pattern index should get reset explicitly, this is just a safeguard
-		patternIndex = patternIndex % patternCopy.size();
-
-		int noteToPlay = patternCopy.at(patternIndex);
-		
-		if (currentNote != noteToPlay)
+		if (notePhase >= Gate)
 		{
-			// silence old note
 			voiceAllocator->NoteOff(currentNote);
 			playingNotes[currentNote] = false;
-			
+		}
+
+		if (trigger)
+		{
+			// when releasing notes, the pattern index should get reset explicitly, this is just a safeguard
+			patternIndex = patternIndex % patternCopy.size();
+			int noteToPlay = patternCopy.at(patternIndex);
+
+			// silence old note
+			if (currentNote != -1)
+			{
+				voiceAllocator->NoteOff(currentNote);
+				playingNotes[currentNote] = false;
+			}
+
 			// play new note
 			currentNote = noteToPlay;
 			voiceAllocator->NoteOn(currentNote, 1.0f);
 			playingNotes[currentNote] = true;
+
+			trigger = false;
 		}
 		
 		// increment phase
+		double notesPerSecond = Bpm / 60.0 * (1 + Divide * 3);
+		double samplesPerNote = samplerate / notesPerSecond;
+		double phaseInc = 1.0 / samplesPerNote * len;
 		notePhase += phaseInc;
+
 		if (notePhase >= 1.0)
 		{
 			notePhase -= 1.0;
+			trigger = true;
 
 			// set new pattern index
-			patternIndex++;
-			if (patternIndex >= patternCopy.size())
-				patternIndex = 0;
+			patternIndex = (patternIndex + 1) % patternCopy.size();
 		}
 	}
 
@@ -135,6 +145,7 @@ namespace Leiftur
 		{
 			patternIndex = 0;
 			notePhase = 0.0;
+			trigger = true;
 		}
 		else if (!isEnabled)
 		{
@@ -154,6 +165,7 @@ namespace Leiftur
 			voiceAllocator->NoteOff(currentNote);
 			playingNotes[currentNote] = false;
 			currentNote = -1;
+			trigger = false;
 		}
 		else if (!isEnabled)
 		{
