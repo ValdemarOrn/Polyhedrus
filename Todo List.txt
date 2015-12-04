@@ -20,6 +20,7 @@ Add granular synthesis
 # DSP Improvements
 
 Replace HP Filter with ZDF State variable version
-Fix uneven resonance in ZDF 4 pole
-Store a sampled version of the noise generator
+Fix uneven resonance in ZDF 4 pole -- it behaves badly in non-oversampled mode, WHY!?
+Store a sampled version of the noise generator - allow mixing of the 3 types.
+Improve brown noise implementation
 Make sure each voice has a unique seed for the noise

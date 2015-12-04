@@ -10,6 +10,7 @@
 #include "Envelope.h"
 #include "MixerSettings.h"
 #include "NoiseSimple.h"
+#include "Arpeggiator.h"
 
 namespace Leiftur
 {
@@ -122,6 +123,28 @@ namespace Leiftur
 				return std::string("Smooth");
 			else
 				return FormatIntRounded(stepCount) + " Steps";
+		}
+
+		static inline std::string FormatArpPattern(double value)
+		{
+			auto ptn = (ArpPattern)Parameters::FloorToInt(value);
+			switch (ptn)
+			{
+			case ArpPattern::Up:
+				return std::string("Up");
+			case ArpPattern::Down:
+				return std::string("Down");
+			case ArpPattern::UpDown1:
+				return std::string("Up Down");
+			case ArpPattern::UpDown2:
+				return std::string("Up Down Repeat");
+			case ArpPattern::DownUp1:
+				return std::string("Down Up");
+			case ArpPattern::DownUp2:
+				return std::string("Down Up Repeat");
+			}
+
+			return std::string("???");
 		}
 	};
 }

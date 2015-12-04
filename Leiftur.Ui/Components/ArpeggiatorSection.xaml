@@ -34,9 +34,9 @@
         <Label Grid.Row="1" Grid.Column="4">Divide</Label>
         <Label Grid.Row="1" Grid.Column="5">BPM</Label>
 
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" Min="1" Max="4.999" ui:OscAddress.Address="/Arp/Range" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" Min="0" Max="4.999" ui:OscAddress.Address="/Arp/NotePtn" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" Min="0" Max="4.999" ui:OscAddress.Address="/Arp/OctavePtn" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" Min="1" Max="4" Steps="4" ui:OscAddress.Address="/Arp/Range" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" Min="0" Max="5" Steps="6" ui:OscAddress.Address="/Arp/NotePtn" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" Min="0" Max="5" Steps="6" ui:OscAddress.Address="/Arp/OctavePtn" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" ui:OscAddress.Address="/Arp/Gate" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="4" ui:OscAddress.Address="/Arp/Divide" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="5" Steps="241" Min="10" Max="250" ui:OscAddress.Address="/Arp/Bpm" />

@@ -93,6 +93,7 @@ namespace Leiftur
 		void SendBackParameter(Module module, int parameter);
 		void SetGlobalVoiceParameter(VoiceParameters parameter, double value);
 		void SetGlobalModuleSwitchParameter(ModuleSwitchParameters parameter, double value);
+		void SetGlobalArpParameter(ArpParameters parameter, double value);
 
 		void NoteOn(uint8_t note, float velocity);
 		void NoteOff(uint8_t note);

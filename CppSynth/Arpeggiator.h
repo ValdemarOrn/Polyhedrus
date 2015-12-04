@@ -2,17 +2,28 @@
 #define LEIFTUR_ARPEGGIATOR
 
 #include <stdint.h>
+#include <vector>
 #include "Parameters.h"
 #include "VoiceAllocator.h"
 
 namespace Leiftur
 {
+	enum class ArpPattern
+	{
+		Up = 0,
+		Down = 1,
+		UpDown1 = 2,
+		UpDown2 = 3,
+		DownUp1 = 4,
+		DownUp2 = 5
+	};
+
 	class Arpeggiator
 	{
 	public:
 		int Range;
-		int NotePtn;
-		int OctavePtn;
+		ArpPattern NotePtn;
+		ArpPattern OctavePtn;
 		float Gate;
 		float Divide;
 		int Bpm;
@@ -29,9 +40,8 @@ namespace Leiftur
 		int currentNote;
 
 		// stores a precomputed pattern for the entire arp sequence
-		uint8_t pattern[100];
+		vector<int> pattern;
 		int patternIndex;
-		int patternLen;
 		
 	public:
 		Arpeggiator();
@@ -45,7 +55,9 @@ namespace Leiftur
 		void NoteOff(uint8_t note);
 
 	private:
-		void ComputePattern();
+		void ComputeFullPattern();
+		vector<int> GetOctPattern();
+		vector<int> Arpeggiator::MakePattern(ArpPattern pattern, vector<int> input);
 	};
 }
 

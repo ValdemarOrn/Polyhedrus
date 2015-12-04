@@ -415,7 +415,8 @@ namespace Leiftur
 			SetGlobalVoiceParameter((VoiceParameters)parameter, value);
 		else if (module == Module::ModuleSwitches)
 			SetGlobalModuleSwitchParameter((ModuleSwitchParameters)parameter, value);
-
+		else if (module == Module::Arp)
+			SetGlobalArpParameter((ArpParameters)parameter, value);
 
 		if (module == Module::Delay)
 		{
@@ -462,6 +463,11 @@ namespace Leiftur
 		moduleSwitches[(int)parameter] = value >= 0.5;
 		if (parameter == ModuleSwitchParameters::ArpOn)
 			arpeggiator.SetEnabled(value >= 0.5);
+	}
+
+	void Synth::SetGlobalArpParameter(ArpParameters parameter, double value)
+	{
+		arpeggiator.SetParameter(parameter, value);
 	}
 
 	// ------------------------------------------------------------------------------

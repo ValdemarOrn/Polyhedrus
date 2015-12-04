@@ -253,15 +253,15 @@ namespace Leiftur
 
 		modMap = std::map<int, ParameterInfo>();
 
-		modMap[(int)ArpParameters::Range] = ParameterInfo((int)ArpParameters::Range, "Range", nullptr, 1, 1, 4.999,
+		modMap[(int)ArpParameters::Range] = ParameterInfo((int)ArpParameters::Range, "Range", nullptr, 1, 1, 4,
 			ParameterFormatters::FormatIntFloor);
-		modMap[(int)ArpParameters::NotePtn] = ParameterInfo((int)ArpParameters::NotePtn, "NotePtn", nullptr, 0, 0, 4.999,
-			ParameterFormatters::FormatIntFloor);
-		modMap[(int)ArpParameters::OctavePtn] = ParameterInfo((int)ArpParameters::OctavePtn, "OctavePtn", nullptr, 0, 0, 4.999,
-			ParameterFormatters::FormatIntFloor);
-		modMap[(int)ArpParameters::Gate] = ParameterInfo((int)ArpParameters::Gate, "Gate", nullptr, 0, 0, 1,
+		modMap[(int)ArpParameters::NotePtn] = ParameterInfo((int)ArpParameters::NotePtn, "NotePtn", nullptr, 0, 0, (int)ArpPattern::DownUp2,
+			ParameterFormatters::FormatArpPattern);
+		modMap[(int)ArpParameters::OctavePtn] = ParameterInfo((int)ArpParameters::OctavePtn, "OctavePtn", nullptr, 0, 0, (int)ArpPattern::DownUp2,
+			ParameterFormatters::FormatArpPattern);
+		modMap[(int)ArpParameters::Gate] = ParameterInfo((int)ArpParameters::Gate, "Gate", nullptr, 1, 0, 1,
 			ParameterFormatters::FormatPercent);
-		modMap[(int)ArpParameters::Divide] = ParameterInfo((int)ArpParameters::Divide, "Divide", nullptr, 0, 0, 1, 
+		modMap[(int)ArpParameters::Divide] = ParameterInfo((int)ArpParameters::Divide, "Divide", nullptr, 1, 0, 1, 
 			ParameterFormatters::FormatDecimal2);
 		modMap[(int)ArpParameters::Bpm] = ParameterInfo((int)ArpParameters::Bpm, "Bpm", nullptr, 120, 10, 250, 
 			ParameterFormatters::FormatIntRounded);
