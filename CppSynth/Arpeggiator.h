@@ -58,7 +58,8 @@ namespace Leiftur
 	private:
 		void ComputeFullPattern();
 		vector<int> GetOctPattern();
-		vector<int> Arpeggiator::MakePattern(ArpPattern pattern, vector<int> input);
+		vector<int> Arpeggiator::MakePattern(ArpPattern pattern, vector<int>& input);
+		int RecomputeCurrentIndex(const vector<int>& newPattern);
 	};
 }
 

@@ -203,7 +203,10 @@ namespace Leiftur
 				newPattern.push_back(notePtn[j] + oct * 12);
 			}
 		}
+
+		int newIndex = RecomputeCurrentIndex(newPattern);
 		
+		patternIndex = newIndex;
 		pattern = newPattern;
 	}
 
@@ -218,9 +221,12 @@ namespace Leiftur
 		return MakePattern(OctavePtn, octs);
 	}
 
-	vector<int> Arpeggiator::MakePattern(ArpPattern pattern, vector<int> input)
+	vector<int> Arpeggiator::MakePattern(ArpPattern pattern, vector<int>& input)
 	{
 		std::sort(input.begin(), input.end());
+
+		if (input.size() == 1)
+			return input;
 
 		if (pattern == ArpPattern::Up)
 		{
@@ -234,5 +240,87 @@ namespace Leiftur
 
 			return output;
 		}
+		else if (pattern == ArpPattern::UpDown1)
+		{
+			vector<int> output;
+
+			for (int i = 0; i < input.size(); i++)
+				output.push_back(input[i]);
+
+			for (int i = input.size() - 2; i > 0; i--)
+				output.push_back(input[i]);
+
+			return output;
+		}
+		else if (pattern == ArpPattern::UpDown2)
+		{
+			vector<int> output;
+
+			for (int i = 0; i < input.size(); i++)
+				output.push_back(input[i]);
+
+			for (int i = input.size() - 1; i >= 0; i--)
+				output.push_back(input[i]);
+
+			return output;
+		}
+		else if (pattern == ArpPattern::DownUp1)
+		{
+			vector<int> output;
+
+			for (int i = input.size() - 1; i >= 0; i--)
+				output.push_back(input[i]);
+
+			for (int i = 1; i < input.size() - 1; i++)
+				output.push_back(input[i]);
+			
+			return output;
+		}
+		else if (pattern == ArpPattern::DownUp2)
+		{
+			vector<int> output;
+
+			for (int i = input.size() - 1; i >= 0; i--)
+				output.push_back(input[i]);
+
+			for (int i = 0; i < input.size(); i++)
+				output.push_back(input[i]);
+
+			return output;
+		}
+
+		// should never happen, but just in case. better than crashing
+		return input;
+	}
+	
+	int Arpeggiator::RecomputeCurrentIndex(const vector<int>& newPattern)
+	{
+		vector<int> possibleIndices;
+
+		for (int i = 0; i < newPattern.size(); i++)
+		{
+			if (currentNote == newPattern[i])
+				possibleIndices.push_back(i);
+		}
+
+		// the current note is no longer in the pattern
+		if (possibleIndices.size() == 0)
+			return patternIndex & newPattern.size();
+		
+		int minDist = 9999;
+		int bestIndex = -1;
+
+		// set the new index to be the possible new index that is closest to the current one.
+		for (auto newIndex : possibleIndices)
+		{
+			int dist = std::abs(newIndex - patternIndex);
+			if (dist < minDist)
+			{
+				minDist = dist;
+				bestIndex = newIndex;
+			}
+		}
+
+		return bestIndex;
 	}
 }
