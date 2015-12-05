@@ -36,6 +36,7 @@ namespace Polyhedrus.Ui
 		Delay = 151,
 
 		Macros = 190,
+		VoiceTuning = 191,
 		ModMatrix = 200,
 	}
 
@@ -230,6 +231,50 @@ namespace Polyhedrus.Ui
 		Macro6 = 6,
 		Macro7 = 7,
 		Macro8 = 8,
+	}
+
+	enum VoiceTuningParameters
+	{
+		Osc1Pitch = 1,
+		Osc2Pitch,
+		Osc3Pitch,
+		Osc1Pan,
+		Osc2Pan,
+		Osc3Pan,
+		Osc1Glide,
+		Osc2Glide,
+		Osc3Glide,
+
+		FilterCutoff,
+		FilterKeytrack,
+
+		EnvAmpAttack,
+		EnvAmpDecay,
+		EnvAmpRelease,
+		EnvFilterAttack,
+		EnvFilterDecay,
+		EnvFilterRelease,
+
+
+		Osc1PitchSeed = 100,
+		Osc2PitchSeed,
+		Osc3PitchSeed,
+		Osc1PanSeed,
+		Osc2PanSeed,
+		Osc3PanSeed,
+		Osc1GlideSeed,
+		Osc2GlideSeed,
+		Osc3GlideSeed,
+
+		FilterCutoffSeed,
+		FilterKeytrackSeed,
+
+		EnvAmpAttackSeed,
+		EnvAmpDecaySeed,
+		EnvAmpReleaseSeed,
+		EnvFilterAttackSeed,
+		EnvFilterDecaySeed,
+		EnvFilterReleaseSeed,
 	}
 
 	// ReSharper disable InconsistentNaming

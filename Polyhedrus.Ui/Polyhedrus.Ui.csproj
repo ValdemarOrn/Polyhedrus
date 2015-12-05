@@ -110,6 +110,9 @@
     <Compile Include="Components\VoiceIndicator.xaml.cs">
       <DependentUpon>VoiceIndicator.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\VoiceTuning.xaml.cs">
+      <DependentUpon>VoiceTuning.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ControlManager.cs" />
     <Compile Include="Messaging\OscTranceiver.cs" />
     <Compile Include="Components\MixerSection.xaml.cs">
@@ -198,6 +201,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Components\VoiceIndicator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\VoiceTuning.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

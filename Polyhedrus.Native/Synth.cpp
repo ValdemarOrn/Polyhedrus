@@ -28,6 +28,12 @@ namespace Polyhedrus
 		
 		for (int i = 0; i < MaxVoiceCount; i++)
 			VoiceStates.push_back(0);
+
+		for (int i = 0; i < VoiceTuningCount; i++)
+		{
+			voiceTuningAmount[i] = 0.0f;
+			voiceTuningSeeds[i] = 0;
+		}
 	}
 
 	Synth::~Synth()
@@ -417,6 +423,8 @@ namespace Polyhedrus
 			SetGlobalModuleSwitchParameter((ModuleSwitchParameters)parameter, value);
 		else if (module == Module::Arp)
 			SetGlobalArpParameter((ArpParameters)parameter, value);
+		else if (module == Module::VoiceTuning)
+			SetGlobalVoiceTuningParameter((VoiceTuningParameters)parameter, value);
 
 		if (module == Module::Delay)
 		{
@@ -468,6 +476,39 @@ namespace Polyhedrus
 	void Synth::SetGlobalArpParameter(ArpParameters parameter, double value)
 	{
 		arpeggiator.SetParameter(parameter, value);
+	}
+
+	void Synth::SetGlobalVoiceTuningParameter(VoiceTuningParameters parameter, double value)
+	{
+		int seed = 0;
+		float amount = 0.0f;
+		int idx = 0;
+
+		if (parameter < VoiceTuningParameters::Osc1PitchSeed)
+		{
+			idx = (int)parameter;
+
+			voiceTuningAmount[idx] = (float)value;
+			amount = voiceTuningAmount[idx];
+			seed = voiceTuningSeeds[idx];
+		}
+		else if(parameter >= VoiceTuningParameters::Osc1PitchSeed)
+		{
+			idx = (int)parameter - (int)VoiceTuningParameters::Osc1PitchSeed;
+
+			voiceTuningSeeds[idx] = Parameters::FloorToInt(value);
+			amount = voiceTuningAmount[idx];
+			seed = voiceTuningSeeds[idx];
+		}
+
+		LcgRandom rand;
+		rand.SetSeed(seed);
+
+		for (int i = 0; i < MaxVoiceCount; i++)
+		{
+			float val = (2.0f * rand.NextFloat() - 1.0f) * amount;
+			this->Voices[i].voiceTuning[idx] = val;
+		}
 	}
 
 	// ------------------------------------------------------------------------------

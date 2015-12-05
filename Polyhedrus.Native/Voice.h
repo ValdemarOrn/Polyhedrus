@@ -14,6 +14,7 @@
 #include "Modulator.h"
 #include "Drive.h"
 #include "AudioLib/SlopGenerator.h"
+#include "SynthDefines.h"
 
 namespace Polyhedrus
 {
@@ -26,6 +27,7 @@ namespace Polyhedrus
 
 		shared_ptr<WavetableManager> wavetableManager;
 		ModMatrix modMatrix;
+		float voiceTuning[VoiceTuningCount];
 		MixerSettings mixer;
 		bool moduleSwitches[20];
 

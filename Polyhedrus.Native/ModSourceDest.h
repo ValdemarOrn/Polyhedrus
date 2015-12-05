@@ -84,8 +84,17 @@ enum class ModDest
 	FilterMainDrive = 91,
 	FilterMainResonance = 92,
 
-	//EnvAmp = 100
-	//EnvFilter = 110
+	EnvAmpAttack = 100,
+	EnvAmpHold = 101,
+	EnvAmpDecay = 102,
+	EnvAmpSustain = 103,
+	EnvAmpRelease = 104,
+
+	EnvFilterAttack = 110,
+	EnvFilterHold = 111,
+	EnvFilterDecay = 112,
+	EnvFilterSustain = 113,
+	EnvFilterRelease = 114,
 
 	/*Lfo1Phase = 120,
 	Lfo1Freq = 121,

@@ -176,9 +176,6 @@
     <ClInclude Include="Arpeggiator.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="VoiceTuning.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Synth.cpp">

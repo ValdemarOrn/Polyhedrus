@@ -1,4 +1,5 @@
 #include "ModMatrix.h"
+#include "Parameters.h"
 
 namespace Polyhedrus
 {
@@ -17,6 +18,8 @@ namespace Polyhedrus
 	{
 		for (size_t i = 0; i < (int)ModDest::Count; i++)
 			ModDestinationValues[i] = 0.0;
+
+		ApplyVoiceTuning();
 		
 		for (size_t i = 0; i < FixedRouteCount; i++)
 		{
@@ -80,6 +83,30 @@ namespace Polyhedrus
 		auto viaSource = ModSourceValues[(int)route->ViaSource];
 		auto modValue = source * ((1 - route->ViaAmount) + viaSource * route->ViaAmount);
 		ModDestinationValues[(int)route->Destination] += modValue * route->Amount;
+	}
+
+	void ModMatrix::ApplyVoiceTuning()
+	{
+		ModDestinationValues[(int)ModDest::Osc1Pitch] += voiceTuning[(int)VoiceTuningParameters::Osc1Pitch] * 0.041666;
+		ModDestinationValues[(int)ModDest::Osc2Pitch] += voiceTuning[(int)VoiceTuningParameters::Osc2Pitch] * 0.041666;
+		ModDestinationValues[(int)ModDest::Osc3Pitch] += voiceTuning[(int)VoiceTuningParameters::Osc3Pitch] * 0.041666;
+		ModDestinationValues[(int)ModDest::Osc1Pan] += voiceTuning[(int)VoiceTuningParameters::Osc1Pan];
+		ModDestinationValues[(int)ModDest::Osc2Pan] += voiceTuning[(int)VoiceTuningParameters::Osc2Pan];
+		ModDestinationValues[(int)ModDest::Osc3Pan] += voiceTuning[(int)VoiceTuningParameters::Osc3Pan];
+		//ModDestinationValues[(int)ModDest::Osc1Glide] += voiceTuning[(int)VoiceTuningParameters::Osc1Glide];
+		//ModDestinationValues[(int)ModDest::Osc2Glide] += voiceTuning[(int)VoiceTuningParameters::Osc2Glide];
+		//ModDestinationValues[(int)ModDest::Osc3Glide] += voiceTuning[(int)VoiceTuningParameters::Osc3Glide];
+
+		ModDestinationValues[(int)ModDest::FilterMainCutoff] += voiceTuning[(int)VoiceTuningParameters::FilterCutoff] * 2.0f;
+		//ModDestinationValues[(int)ModDest::FilterMainKeytrack] += voiceTuning[(int)VoiceTuningParameters::FilterKeytrack];
+
+		ModDestinationValues[(int)ModDest::EnvAmpAttack] += voiceTuning[(int)VoiceTuningParameters::EnvAmpAttack] * 0.3f;
+		ModDestinationValues[(int)ModDest::EnvAmpDecay] += voiceTuning[(int)VoiceTuningParameters::EnvAmpDecay] * 0.3f;
+		ModDestinationValues[(int)ModDest::EnvAmpRelease] += voiceTuning[(int)VoiceTuningParameters::EnvAmpRelease] * 0.3f;
+
+		ModDestinationValues[(int)ModDest::EnvFilterAttack] += voiceTuning[(int)VoiceTuningParameters::EnvFilterAttack] * 0.3f;
+		ModDestinationValues[(int)ModDest::EnvFilterDecay] += voiceTuning[(int)VoiceTuningParameters::EnvFilterDecay] * 0.3f;
+		ModDestinationValues[(int)ModDest::EnvFilterRelease] += voiceTuning[(int)VoiceTuningParameters::EnvFilterRelease] * 0.3f;
 	}
 
 	__inline_always void ModMatrix::SumOscAllRoutes()

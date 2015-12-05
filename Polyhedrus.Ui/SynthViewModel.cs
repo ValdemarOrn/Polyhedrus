@@ -41,7 +41,8 @@ namespace Polyhedrus.Ui
 		private bool matrix1Visible;
 		private bool matrix2Visible;
 		private bool macrosVisible;
-		private bool ampEnvPage2Visible;
+		private bool voiceTuningVisible;
+        private bool ampEnvPage2Visible;
 		private bool filterEnvPage2Visible;
 		private bool mainFilterVisible;
 		private bool driveVisible;
@@ -383,8 +384,10 @@ namespace Polyhedrus.Ui
 
 				matrix2Visible = false;
 				macrosVisible = false;
+				voiceTuningVisible = false;
 				matrix1Visible = true;
 				NotifyPropertyChanged(nameof(MacrosVisible));
+				NotifyPropertyChanged(nameof(VoiceTuningVisible));
 				NotifyPropertyChanged(nameof(Matrix1Visible));
 				NotifyPropertyChanged(nameof(Matrix2Visible));
 			}
@@ -400,8 +403,10 @@ namespace Polyhedrus.Ui
 
 				matrix1Visible = false;
 				macrosVisible = false;
+				voiceTuningVisible = false;
 				matrix2Visible = true;
 				NotifyPropertyChanged(nameof(MacrosVisible));
+				NotifyPropertyChanged(nameof(VoiceTuningVisible));
 				NotifyPropertyChanged(nameof(Matrix1Visible));
 				NotifyPropertyChanged(nameof(Matrix2Visible));
 			}
@@ -417,8 +422,29 @@ namespace Polyhedrus.Ui
 
 				matrix1Visible = false;
 				matrix2Visible = false;
+				voiceTuningVisible = false;
 				macrosVisible = true;
 				NotifyPropertyChanged(nameof(MacrosVisible));
+				NotifyPropertyChanged(nameof(VoiceTuningVisible));
+				NotifyPropertyChanged(nameof(Matrix1Visible));
+				NotifyPropertyChanged(nameof(Matrix2Visible));
+			}
+		}
+
+		public bool VoiceTuningVisible
+		{
+			get { return voiceTuningVisible; }
+			set
+			{
+				if (voiceTuningVisible || !value)
+					return;
+
+				matrix1Visible = false;
+				matrix2Visible = false;
+				macrosVisible = false;
+				voiceTuningVisible = true;
+				NotifyPropertyChanged(nameof(MacrosVisible));
+				NotifyPropertyChanged(nameof(VoiceTuningVisible));
 				NotifyPropertyChanged(nameof(Matrix1Visible));
 				NotifyPropertyChanged(nameof(Matrix2Visible));
 			}

@@ -209,6 +209,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
@@ -217,17 +218,20 @@
                 <ToggleButton Grid.Column="0" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding Matrix1Visible}">Matrix 1-8</ToggleButton>
                 <ToggleButton Grid.Column="1" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding Matrix2Visible}">Matrix 9-16</ToggleButton>
                 <ToggleButton Grid.Column="2" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding MacrosVisible}">Macros</ToggleButton>
+                <ToggleButton Grid.Column="3" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding VoiceTuningVisible}">Voice Tuning</ToggleButton>
                 
             </Grid>
 
             <components:MatrixSection Height="201" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="{StaticResource ModuleBackground}" Padding="0,10"
                                       StartIndex="1"
-                                      Visibility="{Binding Matrix1Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
+                                      Visibility="{Binding Matrix1Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
             <components:MatrixSection Height="201" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="{StaticResource ModuleBackground}" Padding="0,10"
                                       StartIndex="9"
                                       Visibility="{Binding Matrix2Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
             <components:MacroControls Height="201" HorizontalContentAlignment="Center" VerticalAlignment="Top" Padding="0,10" Background="{StaticResource ModuleBackground}"
                                       Visibility="{Binding MacrosVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
+            <components:VoiceTuning Height="201" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="{StaticResource ModuleBackground}"
+                                      Visibility="{Binding VoiceTuningVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
         
         </StackPanel>
 

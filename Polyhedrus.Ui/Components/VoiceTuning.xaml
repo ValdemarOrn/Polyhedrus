@@ -1,0 +1,115 @@
+﻿<UserControl x:Class="Polyhedrus.Ui.Components.VoiceTuning"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Polyhedrus.Ui.Components"
+             xmlns:ui="clr-namespace:Polyhedrus.Ui"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="471" Background="#333">
+    <UserControl.Resources>
+        <ResourceDictionary Source="Styles.xaml" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Col 1 -->
+        
+        <local:Spinner Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Width="50" Margin="4" Value="1" Min="1" Max="9999" Delta="0.5" Quantize="1" Formatter="{}0" ui:OscAddress.Address="/VoiceTuning/Osc1PitchSeed" />
+        <local:LightKnob Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Height="25" Margin="3" ui:OscAddress.Address="/VoiceTuning/Osc1Pitch" />
+        <Label Grid.Row="0" Grid.Column="2" Padding="0" Margin="5">Osc 1 Pitch</Label>
+
+        <local:Spinner Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Width="50" Margin="4" Value="1" Min="1" Max="9999" Delta="0.5" Quantize="1" Formatter="{}0" ui:OscAddress.Address="/VoiceTuning/Osc2PitchSeed" />
+        <local:LightKnob Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Height="25" Margin="3" ui:OscAddress.Address="/VoiceTuning/Osc2Pitch" />
+        <Label Grid.Row="1" Grid.Column="2" Padding="0" Margin="5">Osc 2 Pitch</Label>
+
+        <local:Spinner Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" Width="50" Margin="4" Value="1" Min="1" Max="9999" Delta="0.5" Quantize="1" Formatter="{}0" ui:OscAddress.Address="/VoiceTuning/Osc3PitchSeed" />
+        <local:LightKnob Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Height="25" Margin="3" ui:OscAddress.Address="/VoiceTuning/Osc3Pitch" />
+        <Label Grid.Row="2" Grid.Column="2" Padding="0" Margin="5">Osc 3 Pitch</Label>
+
+        <local:Spinner Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center" Width="50" Margin="4" Value="1" Min="1" Max="9999" Delta="0.5" Quantize="1" Formatter="{}0" ui:OscAddress.Address="/VoiceTuning/Osc1PanSeed" />
+        <local:LightKnob Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" Height="25" Margin="3" ui:OscAddress.Address="/VoiceTuning/Osc1Pan" />
+        <Label Grid.Row="3" Grid.Column="2" Padding="0" Margin="5">Osc 1 Pan</Label>
+
+        <local:Spinner Grid.Row="4" Grid.Column="0" HorizontalAlignment="Center" Width="50" Margin="4" Value="1" Min="1" Max="9999" Delta="0.5" Quantize="1" Formatter="{}0" ui:OscAddress.Address="/VoiceTuning/Osc2PanSeed" />
+        <local:LightKnob Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" Height="25" Margin="3" ui:OscAddress.Address="/VoiceTuning/Osc2Pan" />
+        <Label Grid.Row="4" Grid.Column="2" Padding="0" Margin="5">Osc 2 Pan</Label>
+
+        <local:Spinner Grid.Row="5" Grid.Column="0" HorizontalAlignment="Center" Width="50" Margin="4" Value="1" Min="1" Max="9999" Delta="0.5" Quantize="1" Formatter="{}0" ui:OscAddress.Address="/VoiceTuning/Osc3PanSeed" />
+        <local:LightKnob Grid.Row="5" Grid.Column="1" HorizontalAlignment="Center" Height="25" Margin="3" ui:OscAddress.Address="/VoiceTuning/Osc3Pan" />
+        <Label Grid.Row="5" Grid.Column="2" Padding="0" Margin="5">Osc 3 Pan</Label>
+
+        <!-- Col 2 -->
+
+        <local:Spinner Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" Width="50" Margin="4" Value="1" Min="1" Max="9999" Delta="0.5" Quantize="1" Formatter="{}0" ui:OscAddress.Address="/VoiceTuning/Osc1GlideSeed" />
+        <local:LightKnob Grid.Row="0" Grid.Column="5" HorizontalAlignment="Center" Height="25" Margin="3" ui:OscAddress.Address="/VoiceTuning/Osc1Glide" />
+        <Label Grid.Row="0" Grid.Column="6" Padding="0" Margin="5">Osc 1 Glide</Label>
+
+        <local:Spinner Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" Width="50" Margin="4" Value="1" Min="1" Max="9999" Delta="0.5" Quantize="1" Formatter="{}0" ui:OscAddress.Address="/VoiceTuning/Osc2GlideSeed" />
+        <local:LightKnob Grid.Row="1" Grid.Column="5" HorizontalAlignment="Center" Height="25" Margin="3" ui:OscAddress.Address="/VoiceTuning/Osc2Glide" />
+        <Label Grid.Row="1" Grid.Column="6" Padding="0" Margin="5">Osc 2 Glide</Label>
+
+        <local:Spinner Grid.Row="2" Grid.Column="4" HorizontalAlignment="Center" Width="50" Margin="4" Value="1" Min="1" Max="9999" Delta="0.5" Quantize="1" Formatter="{}0" ui:OscAddress.Address="/VoiceTuning/Osc3GlideSeed" />
+        <local:LightKnob Grid.Row="2" Grid.Column="5" HorizontalAlignment="Center" Height="25" Margin="3" ui:OscAddress.Address="/VoiceTuning/Osc3Glide" />
+        <Label Grid.Row="2" Grid.Column="6" Padding="0" Margin="5">Osc 3 Glide</Label>
+
+        <local:Spinner Grid.Row="3" Grid.Column="4" HorizontalAlignment="Center" Width="50" Margin="4" Value="1" Min="1" Max="9999" Delta="0.5" Quantize="1" Formatter="{}0" ui:OscAddress.Address="/VoiceTuning/FilterCutoffSeed" />
+        <local:LightKnob Grid.Row="3" Grid.Column="5" HorizontalAlignment="Center" Height="25" Margin="3" ui:OscAddress.Address="/VoiceTuning/FilterCutoff" />
+        <Label Grid.Row="3" Grid.Column="6" Padding="0" Margin="5">Filter Cutoff</Label>
+
+        <local:Spinner Grid.Row="4" Grid.Column="4" HorizontalAlignment="Center" Width="50" Margin="4" Value="1" Min="1" Max="9999" Delta="0.5" Quantize="1" Formatter="{}0" ui:OscAddress.Address="/VoiceTuning/FilterKeytrackSeed" />
+        <local:LightKnob Grid.Row="4" Grid.Column="5" HorizontalAlignment="Center" Height="25" Margin="3" ui:OscAddress.Address="/VoiceTuning/FilterKeytrack" />
+        <Label Grid.Row="4" Grid.Column="6" Padding="0" Margin="5">Filter Ktrack</Label>
+
+
+
+        <!-- Col 3 -->
+
+        <local:Spinner Grid.Row="0" Grid.Column="8" HorizontalAlignment="Center" Width="50" Margin="4" Value="1" Min="1" Max="9999" Delta="0.5" Quantize="1" Formatter="{}0" ui:OscAddress.Address="/VoiceTuning/EnvAmpAttackSeed" />
+        <local:LightKnob Grid.Row="0" Grid.Column="9" HorizontalAlignment="Center" Height="25" Margin="3" ui:OscAddress.Address="/VoiceTuning/EnvAmpAttack" />
+        <Label Grid.Row="0" Grid.Column="10" Padding="0" Margin="5">AmpEnv Atk</Label>
+
+        <local:Spinner Grid.Row="1" Grid.Column="8" HorizontalAlignment="Center" Width="50" Margin="4" Value="1" Min="1" Max="9999" Delta="0.5" Quantize="1" Formatter="{}0" ui:OscAddress.Address="/VoiceTuning/EnvAmpDecaySeed" />
+        <local:LightKnob Grid.Row="1" Grid.Column="9" HorizontalAlignment="Center" Height="25" Margin="3" ui:OscAddress.Address="/VoiceTuning/EnvAmpDecay" />
+        <Label Grid.Row="1" Grid.Column="10" Padding="0" Margin="5">AmpEnv Dec</Label>
+
+        <local:Spinner Grid.Row="2" Grid.Column="8" HorizontalAlignment="Center" Width="50" Margin="4" Value="1" Min="1" Max="9999" Delta="0.5" Quantize="1" Formatter="{}0" ui:OscAddress.Address="/VoiceTuning/EnvAmpReleaseSeed" />
+        <local:LightKnob Grid.Row="2" Grid.Column="9" HorizontalAlignment="Center" Height="25" Margin="3" ui:OscAddress.Address="/VoiceTuning/EnvAmpRelease" />
+        <Label Grid.Row="2" Grid.Column="10" Padding="0" Margin="5">AmpEnv Rel</Label>
+
+        <local:Spinner Grid.Row="3" Grid.Column="8" HorizontalAlignment="Center" Width="50" Margin="4" Value="1" Min="1" Max="9999" Delta="0.5" Quantize="1" Formatter="{}0" ui:OscAddress.Address="/VoiceTuning/EnvFilterAttackSeed" />
+        <local:LightKnob Grid.Row="3" Grid.Column="9" HorizontalAlignment="Center" Height="25" Margin="3" ui:OscAddress.Address="/VoiceTuning/EnvFilterAttack" />
+        <Label Grid.Row="3" Grid.Column="10" Padding="0" Margin="5">FiltEnv Atk</Label>
+
+        <local:Spinner Grid.Row="4" Grid.Column="8" HorizontalAlignment="Center" Width="50" Margin="4" Value="1" Min="1" Max="9999" Delta="0.5" Quantize="1" Formatter="{}0" ui:OscAddress.Address="/VoiceTuning/EnvFilterDecaySeed" />
+        <local:LightKnob Grid.Row="4" Grid.Column="9" HorizontalAlignment="Center" Height="25" Margin="3" ui:OscAddress.Address="/VoiceTuning/EnvFilterDecay" />
+        <Label Grid.Row="4" Grid.Column="10" Padding="0" Margin="5">FiltEnv Dec</Label>
+
+        <local:Spinner Grid.Row="5" Grid.Column="8" HorizontalAlignment="Center" Width="50" Margin="4" Value="1" Min="1" Max="9999" Delta="0.5" Quantize="1" Formatter="{}0" ui:OscAddress.Address="/VoiceTuning/EnvFilterReleaseSeed" />
+        <local:LightKnob Grid.Row="5" Grid.Column="9" HorizontalAlignment="Center" Height="25" Margin="3" ui:OscAddress.Address="/VoiceTuning/EnvFilterRelease" />
+        <Label Grid.Row="5" Grid.Column="10" Padding="0" Margin="5">FiltEnv Rel</Label>
+
+    </Grid>
+</UserControl>

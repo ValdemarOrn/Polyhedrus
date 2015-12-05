@@ -35,6 +35,7 @@ namespace Polyhedrus
 		static const int FixedRouteSlop2               = 8;
 		static const int FixedRouteSlop3               = 9;
 
+		float* voiceTuning;
 		float ModSourceValues[(unsigned int)ModSource::Count];
 		float ModDestinationValues[(unsigned int)ModDest::Count];
 		ModRoute FixedRoutes[FixedRouteCount];
@@ -48,6 +49,7 @@ namespace Polyhedrus
 	private:
 		void CreateFixedRoutes();
 		void ApplyRoute(ModRoute* route);
+		void ApplyVoiceTuning();
 		void SumOscAllRoutes();
 	};
 }

@@ -33,6 +33,8 @@ namespace Polyhedrus
 		this->wavetableManager = wavetableManager;
 		VoiceNumber = voiceNumber;
 
+		modMatrix.voiceTuning = &voiceTuning[0];
+
 		signalMixL = new float[bufferSize];
 		signalMixR = new float[bufferSize];
 		outputL = new float[bufferSize];
@@ -299,6 +301,8 @@ namespace Polyhedrus
 		mainFilterR.SetDriveMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainDrive]);
 		mainFilterL.SetResonanceMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainResonance]);
 		mainFilterR.SetResonanceMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainResonance]);
+
+		// set env modulation
 
 		// Non-matrix Modulation parameters - The destinations are not available via the matrix; assign directly instead
 		vcaOutputL.ControlVoltage = modMatrix.ModSourceValues[(int)ModSource::EnvAmp];

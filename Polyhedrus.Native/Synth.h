@@ -46,6 +46,8 @@ namespace Polyhedrus
 		Arpeggiator arpeggiator;
 		AudioLib::Decimator decimatorL;
 		AudioLib::Decimator decimatorR;
+		float voiceTuningAmount[VoiceTuningCount];
+		int voiceTuningSeeds[VoiceTuningCount];
 		float* outputBufferL;
 		float* outputBufferR;
 		float masterVol;
@@ -94,6 +96,7 @@ namespace Polyhedrus
 		void SetGlobalVoiceParameter(VoiceParameters parameter, double value);
 		void SetGlobalModuleSwitchParameter(ModuleSwitchParameters parameter, double value);
 		void SetGlobalArpParameter(ArpParameters parameter, double value);
+		void SetGlobalVoiceTuningParameter(VoiceTuningParameters parameter, double value);
 
 		void NoteOn(uint8_t note, float velocity);
 		void NoteOff(uint8_t note);

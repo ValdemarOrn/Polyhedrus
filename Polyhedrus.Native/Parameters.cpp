@@ -378,6 +378,88 @@ namespace Polyhedrus
 
 		ParamInfo[Module::Macros] = modMap;
 
+		// --------------- Voice Tuning ---------------------
+
+		modMap = std::map<int, ParameterInfo>();
+
+		modMap[(int)VoiceTuningParameters::Osc1Pitch] = ParameterInfo((int)VoiceTuningParameters::Osc1Pitch, "Osc1Pitch", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatPercent);
+		modMap[(int)VoiceTuningParameters::Osc2Pitch] = ParameterInfo((int)VoiceTuningParameters::Osc2Pitch, "Osc2Pitch", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatPercent);
+		modMap[(int)VoiceTuningParameters::Osc3Pitch] = ParameterInfo((int)VoiceTuningParameters::Osc3Pitch, "Osc3Pitch", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatPercent);
+		modMap[(int)VoiceTuningParameters::Osc1Pan] = ParameterInfo((int)VoiceTuningParameters::Osc1Pan, "Osc1Pan", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatPercent);
+		modMap[(int)VoiceTuningParameters::Osc2Pan] = ParameterInfo((int)VoiceTuningParameters::Osc2Pan, "Osc2Pan", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatPercent);
+		modMap[(int)VoiceTuningParameters::Osc3Pan] = ParameterInfo((int)VoiceTuningParameters::Osc3Pan, "Osc3Pan", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatPercent);
+		modMap[(int)VoiceTuningParameters::Osc1Glide] = ParameterInfo((int)VoiceTuningParameters::Osc1Glide, "Osc1Glide", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatPercent);
+		modMap[(int)VoiceTuningParameters::Osc2Glide] = ParameterInfo((int)VoiceTuningParameters::Osc2Glide, "Osc2Glide", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatPercent);
+		modMap[(int)VoiceTuningParameters::Osc3Glide] = ParameterInfo((int)VoiceTuningParameters::Osc3Glide, "Osc3Glide", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatPercent);
+
+		modMap[(int)VoiceTuningParameters::FilterCutoff] = ParameterInfo((int)VoiceTuningParameters::FilterCutoff, "FilterCutoff", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatPercent);
+		modMap[(int)VoiceTuningParameters::FilterKeytrack] = ParameterInfo((int)VoiceTuningParameters::FilterKeytrack, "FilterKeytrack", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatPercent);
+
+		modMap[(int)VoiceTuningParameters::EnvAmpAttack] = ParameterInfo((int)VoiceTuningParameters::EnvAmpAttack, "EnvAmpAttack", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatPercent);
+		modMap[(int)VoiceTuningParameters::EnvAmpDecay] = ParameterInfo((int)VoiceTuningParameters::EnvAmpDecay, "EnvAmpDecay", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatPercent);
+		modMap[(int)VoiceTuningParameters::EnvAmpRelease] = ParameterInfo((int)VoiceTuningParameters::EnvAmpRelease, "EnvAmpRelease", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatPercent);
+		modMap[(int)VoiceTuningParameters::EnvFilterAttack] = ParameterInfo((int)VoiceTuningParameters::EnvFilterAttack, "EnvFilterAttack", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatPercent);
+		modMap[(int)VoiceTuningParameters::EnvFilterDecay] = ParameterInfo((int)VoiceTuningParameters::EnvFilterDecay, "EnvFilterDecay", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatPercent);
+		modMap[(int)VoiceTuningParameters::EnvFilterRelease] = ParameterInfo((int)VoiceTuningParameters::EnvFilterRelease, "EnvFilterRelease", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatPercent);
+
+
+
+		modMap[(int)VoiceTuningParameters::Osc1PitchSeed] = ParameterInfo((int)VoiceTuningParameters::Osc1PitchSeed, "Osc1PitchSeed", nullptr, 0, 0, 9999,
+			ParameterFormatters::FormatIntFloor);
+		modMap[(int)VoiceTuningParameters::Osc2PitchSeed] = ParameterInfo((int)VoiceTuningParameters::Osc2PitchSeed, "Osc2PitchSeed", nullptr, 0, 0, 9999,
+			ParameterFormatters::FormatIntFloor);
+		modMap[(int)VoiceTuningParameters::Osc3PitchSeed] = ParameterInfo((int)VoiceTuningParameters::Osc3PitchSeed, "Osc3PitchSeed", nullptr, 0, 0, 9999,
+			ParameterFormatters::FormatIntFloor);
+		modMap[(int)VoiceTuningParameters::Osc1PanSeed] = ParameterInfo((int)VoiceTuningParameters::Osc1PanSeed, "Osc1PanSeed", nullptr, 0, 0, 9999,
+			ParameterFormatters::FormatIntFloor);
+		modMap[(int)VoiceTuningParameters::Osc2PanSeed] = ParameterInfo((int)VoiceTuningParameters::Osc2PanSeed, "Osc2PanSeed", nullptr, 0, 0, 9999,
+			ParameterFormatters::FormatIntFloor);
+		modMap[(int)VoiceTuningParameters::Osc3PanSeed] = ParameterInfo((int)VoiceTuningParameters::Osc3PanSeed, "Osc3PanSeed", nullptr, 0, 0, 9999,
+			ParameterFormatters::FormatIntFloor);
+		modMap[(int)VoiceTuningParameters::Osc1GlideSeed] = ParameterInfo((int)VoiceTuningParameters::Osc1GlideSeed, "Osc1GlideSeed", nullptr, 0, 0, 9999,
+			ParameterFormatters::FormatIntFloor);
+		modMap[(int)VoiceTuningParameters::Osc2GlideSeed] = ParameterInfo((int)VoiceTuningParameters::Osc2GlideSeed, "Osc2GlideSeed", nullptr, 0, 0, 9999,
+			ParameterFormatters::FormatIntFloor);
+		modMap[(int)VoiceTuningParameters::Osc3GlideSeed] = ParameterInfo((int)VoiceTuningParameters::Osc3GlideSeed, "Osc3GlideSeed", nullptr, 0, 0, 9999,
+			ParameterFormatters::FormatIntFloor);
+
+		modMap[(int)VoiceTuningParameters::FilterCutoffSeed] = ParameterInfo((int)VoiceTuningParameters::FilterCutoffSeed, "FilterCutoffSeed", nullptr, 0, 0, 9999,
+			ParameterFormatters::FormatIntFloor);
+		modMap[(int)VoiceTuningParameters::FilterKeytrackSeed] = ParameterInfo((int)VoiceTuningParameters::FilterKeytrackSeed, "FilterKeytrackSeed", nullptr, 0, 0, 9999,
+			ParameterFormatters::FormatIntFloor);
+
+		modMap[(int)VoiceTuningParameters::EnvAmpAttackSeed] = ParameterInfo((int)VoiceTuningParameters::EnvAmpAttackSeed, "EnvAmpAttackSeed", nullptr, 0, 0, 9999,
+			ParameterFormatters::FormatIntFloor);
+		modMap[(int)VoiceTuningParameters::EnvAmpDecaySeed] = ParameterInfo((int)VoiceTuningParameters::EnvAmpDecaySeed, "EnvAmpDecaySeed", nullptr, 0, 0, 9999,
+			ParameterFormatters::FormatIntFloor);
+		modMap[(int)VoiceTuningParameters::EnvAmpReleaseSeed] = ParameterInfo((int)VoiceTuningParameters::EnvAmpReleaseSeed, "EnvAmpReleaseSeed", nullptr, 0, 0, 9999,
+			ParameterFormatters::FormatIntFloor);
+		modMap[(int)VoiceTuningParameters::EnvFilterAttackSeed] = ParameterInfo((int)VoiceTuningParameters::EnvFilterAttackSeed, "EnvFilterAttackSeed", nullptr, 0, 0, 9999,
+			ParameterFormatters::FormatIntFloor);
+		modMap[(int)VoiceTuningParameters::EnvFilterDecaySeed] = ParameterInfo((int)VoiceTuningParameters::EnvFilterDecaySeed, "EnvFilterDecaySeed", nullptr, 0, 0, 9999,
+			ParameterFormatters::FormatIntFloor);
+		modMap[(int)VoiceTuningParameters::EnvFilterReleaseSeed] = ParameterInfo((int)VoiceTuningParameters::EnvFilterReleaseSeed, "EnvFilterReleaseSeed", nullptr, 0, 0, 9999,
+			ParameterFormatters::FormatIntFloor);
+
+		ParamInfo[Module::VoiceTuning] = modMap;
+
 		// --------------------- Matrix ---------------------------
 
 		modMap = std::map<int, ParameterInfo>();
@@ -504,6 +586,7 @@ namespace Polyhedrus
 		if (moduleString == "Chorus") return Module::Chorus;
 		if (moduleString == "Delay") return Module::Delay;
 		if (moduleString == "Macros") return Module::Macros;
+		if (moduleString == "VoiceTuning") return Module::VoiceTuning;
 		if (moduleString == "ModMatrix") return Module::ModMatrix;
 
 		return Module::Control;
