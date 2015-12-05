@@ -1,7 +1,7 @@
-#ifndef LEIFTUR_FILTER_INTERNAL_MODE
-#define LEIFTUR_FILTER_INTERNAL_MODE
+#ifndef POLYHEDRUS_FILTER_INTERNAL_MODE
+#define POLYHEDRUS_FILTER_INTERNAL_MODE
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	enum class InternalFilterMode
 	{

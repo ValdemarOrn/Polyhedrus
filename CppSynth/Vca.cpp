@@ -1,6 +1,6 @@
 #include "Vca.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	Vca::Vca()
 	{

@@ -1,7 +1,7 @@
 #include <algorithm>
 #include "Arpeggiator.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	Arpeggiator::Arpeggiator()
 	{
@@ -301,7 +301,7 @@ namespace Leiftur
 
 		// the current note is no longer in the pattern
 		if (possibleIndices.size() == 0)
-			return patternIndex & newPattern.size();
+			return patternIndex % newPattern.size();
 		
 		int minDist = 9999;
 		int bestIndex = -1;

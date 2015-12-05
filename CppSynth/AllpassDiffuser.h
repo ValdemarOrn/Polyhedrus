@@ -1,9 +1,9 @@
-#ifndef LEIFTUR_ALLPASS_DIFFUSER
-#define LEIFTUR_ALLPASS_DIFFUSER
+#ifndef POLYHEDRUS_ALLPASS_DIFFUSER
+#define POLYHEDRUS_ALLPASS_DIFFUSER
 
 #include "AudioLib/LcgRandom.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	class SchroederAllpass
 	{

@@ -1,11 +1,11 @@
-#ifndef LEIFTUR_UTILS
-#define LEIFTUR_UTILS
+#ifndef POLYHEDRUS_UTILS
+#define POLYHEDRUS_UTILS
 
 #include <vector>
 #include <string>
 #include <sstream>
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	inline std::vector<std::string> SplitString(const std::string s, char delim)
 	{

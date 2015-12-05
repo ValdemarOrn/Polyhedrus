@@ -1,12 +1,12 @@
-#ifndef LEIFTUR_MODULATOR
-#define LEIFTUR_MODULATOR
+#ifndef POLYHEDRUS_MODULATOR
+#define POLYHEDRUS_MODULATOR
 
 #include "Envelope.h"
 #include "Parameters.h"
 #include "AudioLib/ValueTables.h"
 #include "AudioLib/LcgRandom.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	enum class LfoShape
 	{

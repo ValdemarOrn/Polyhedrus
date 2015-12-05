@@ -15,7 +15,7 @@
 using namespace boost::filesystem;
 using namespace std;
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	std::string Preset::Serialize()
 	{

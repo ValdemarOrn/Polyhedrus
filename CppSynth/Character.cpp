@@ -3,7 +3,7 @@
 
 using AudioLib::Utils;
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	Character::Character()
 		: bqBottom(AudioLib::Biquad::FilterType::LowShelf, 48000)

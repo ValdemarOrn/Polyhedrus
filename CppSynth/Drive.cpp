@@ -4,7 +4,7 @@
 
 using namespace AudioLib;
 
-namespace Leiftur
+namespace Polyhedrus
 {
 
 	Drive::Drive()
@@ -41,24 +41,24 @@ namespace Leiftur
 	{
 		switch (parameter)
 		{
-		case Leiftur::DriveParameters::Gain:
+		case DriveParameters::Gain:
 			Gain = (float)value;
 			break;
-		case Leiftur::DriveParameters::Bias:
+		case DriveParameters::Bias:
 			Bias = (float)value;
 			break;
-		case Leiftur::DriveParameters::Volume:
+		case DriveParameters::Volume:
 			Volume = (float)value;
 			break;
-		case Leiftur::DriveParameters::Post:
+		case DriveParameters::Post:
 			Post = value >= 0.5;
 			break;
-		case Leiftur::DriveParameters::Type:
+		case DriveParameters::Type:
 			Type = (DriveType)Parameters::FloorToInt(value);
 			if (value < 0 || value >= ((int)DriveType::Asym + 1))
 				Type = DriveType::None;
 			break;
-		case Leiftur::DriveParameters::Mellow:
+		case DriveParameters::Mellow:
 			Mellow = (float)value;
 			break;
 		}

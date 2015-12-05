@@ -1,11 +1,11 @@
-#ifndef LEIFTUR_FILTER_CASCADE_ZERO
-#define LEIFTUR_FILTER_CASCADE_ZERO
+#ifndef POLYHEDRUS_FILTER_CASCADE_ZERO
+#define POLYHEDRUS_FILTER_CASCADE_ZERO
 
 #include <cmath>
 
 #include "CvFreq.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	struct ZeroDelay2Lp
 	{

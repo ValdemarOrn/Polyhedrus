@@ -6,14 +6,12 @@ Hi Quality button not connected
 Need to connect more mod destinations
 Show all 32 voices in display
 Connect Macros
-Arpeggiator
 Chorus
 Per-voice tuners
 
 
 # New Features
 
-Add velocity curve (next to Voice mode, global)
 Add FM synthesis section
 Add granular synthesis
 

@@ -1,5 +1,5 @@
-#ifndef LEIFTUR_DEFAULT
-#define LEIFTUR_DEFAULT
+#ifndef POLYHEDRUS_DEFAULT
+#define POLYHEDRUS_DEFAULT
 
 #include <stdint.h>
 

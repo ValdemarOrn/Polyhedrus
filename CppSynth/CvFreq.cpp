@@ -3,7 +3,7 @@
 
 #include "CvFreq.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	double CvFreq::GetCvFreqHz(double cv)
 	{

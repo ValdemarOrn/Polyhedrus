@@ -1,11 +1,11 @@
-#ifndef LEIFTUR_PRESET_MANAGER
-#define LEIFTUR_PRESET_MANAGER
+#ifndef POLYHEDRUS_PRESET_MANAGER
+#define POLYHEDRUS_PRESET_MANAGER
 
 #include <string>
 #include <map>
 #include <vector>
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	class Preset
 	{

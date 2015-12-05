@@ -1,10 +1,10 @@
-#ifndef LEIFTUR_VOICE_ALLOCATOR
-#define LEIFTUR_VOICE_ALLOCATOR
+#ifndef POLYHEDRUS_VOICE_ALLOCATOR
+#define POLYHEDRUS_VOICE_ALLOCATOR
 
 #include "SynthDefines.h"
 #include "Voice.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	class VoiceAllocator
 	{

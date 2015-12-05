@@ -1,5 +1,5 @@
-#ifndef LEIFTUR_SYNTH
-#define LEIFTUR_SYNTH
+#ifndef POLYHEDRUS_SYNTH
+#define POLYHEDRUS_SYNTH
 
 #include <thread>
 #include <string>
@@ -21,7 +21,7 @@
 
 using std::shared_ptr;
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	class Synth
 	{

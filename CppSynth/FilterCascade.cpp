@@ -2,7 +2,7 @@
 #include "AudioLib/ValueTables.h"
 #include "AudioLib/Utils.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	float FilterCascade::CVtoAlpha[CVtoAlphaSize];
 

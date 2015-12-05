@@ -1,5 +1,5 @@
-#ifndef LEIFTUR_FILTER_MAIN
-#define LEIFTUR_FILTER_MAIN
+#ifndef POLYHEDRUS_FILTER_MAIN
+#define POLYHEDRUS_FILTER_MAIN
 
 #include "FilterCascade.h"
 #include "FilterCascadeZero.h"
@@ -8,7 +8,7 @@
 #include "FilterInternalMode.h"
 #include "AudioLib/OnePoleFilters.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	class FilterMain
 	{

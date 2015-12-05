@@ -1,10 +1,10 @@
-#ifndef LEIFTUR_FILTER_CASCADE
-#define LEIFTUR_FILTER_CASCADE
+#ifndef POLYHEDRUS_FILTER_CASCADE
+#define POLYHEDRUS_FILTER_CASCADE
 
 #include <cmath>
 #include "FilterInternalMode.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	class FilterCascade
 	{

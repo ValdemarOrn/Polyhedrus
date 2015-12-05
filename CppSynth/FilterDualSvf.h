@@ -1,10 +1,10 @@
-#ifndef LEIFTUR_FILTER_DUAL_SVF
-#define LEIFTUR_FILTER_DUAL_SVF
+#ifndef POLYHEDRUS_FILTER_DUAL_SVF
+#define POLYHEDRUS_FILTER_DUAL_SVF
 
 #include "AudioLib/SvfFilter.h"
 #include "CvFreq.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	class FilterDualSvf
 	{

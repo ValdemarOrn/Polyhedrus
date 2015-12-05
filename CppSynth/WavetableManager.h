@@ -1,12 +1,12 @@
-#ifndef LEIFTUR_WAVETABLE_MANAGER
-#define LEIFTUR_WAVETABLE_MANAGER
+#ifndef POLYHEDRUS_WAVETABLE_MANAGER
+#define POLYHEDRUS_WAVETABLE_MANAGER
 
 #include "Default.h"
 #include <vector>
 #include <string>
 #include <memory>
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	class Wavetable;
 

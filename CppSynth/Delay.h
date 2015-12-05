@@ -1,11 +1,11 @@
-#ifndef LEIFTUR_DELAY
-#define LEIFTUR_DELAY
+#ifndef POLYHEDRUS_DELAY
+#define POLYHEDRUS_DELAY
 
 #include "AudioLib/OnePoleFilters.h"
 #include "Parameters.h"
 #include "AllpassDiffuser.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	class Delay
 	{

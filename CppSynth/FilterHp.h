@@ -1,11 +1,11 @@
-#ifndef LEIFTUR_FILTER_HP
-#define LEIFTUR_FILTER_HP
+#ifndef POLYHEDRUS_FILTER_HP
+#define POLYHEDRUS_FILTER_HP
 
 #include "AudioLib/SvfFilter.h"
 #include "Parameters.h"
 #include "CvFreq.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	class FilterHp
 	{

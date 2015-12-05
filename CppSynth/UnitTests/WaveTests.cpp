@@ -9,7 +9,7 @@ namespace Tests
 	{
 		void TestWaveReader1()
 		{
-			std::string filename("C:\\Src\\_Tree\\Audio\\Leiftur\\Wavetables\\PWM.wav");
+			std::string filename("C:\\Src\\_Tree\\Audio\\Polyhedrus\\Wavetables\\PWM.wav");
 			auto data = AudioLib::WaveFile::ReadWaveFile(filename);
 
 			assert(data.size() == 1);

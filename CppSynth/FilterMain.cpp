@@ -1,7 +1,7 @@
 #include "FilterMain.h"
 #include "AudioLib/Utils.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	FilterMain::FilterMain()
 	{

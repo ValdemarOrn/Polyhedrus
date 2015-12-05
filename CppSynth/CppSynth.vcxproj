@@ -69,6 +69,7 @@
     <ClInclude Include="Vca.h" />
     <ClInclude Include="Voice.h" />
     <ClInclude Include="VoiceAllocator.h" />
+    <ClInclude Include="VoiceTuning.h" />
     <ClInclude Include="WavetableManager.h" />
   </ItemGroup>
   <ItemGroup>

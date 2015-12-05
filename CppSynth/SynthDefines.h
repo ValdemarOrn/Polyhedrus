@@ -1,7 +1,7 @@
-#ifndef LEIFTUR_SYNTH_DEFINES
-#define LEIFTUR_SYNTH_DEFINES
+#ifndef POLYHEDRUS_SYNTH_DEFINES
+#define POLYHEDRUS_SYNTH_DEFINES
 
-namespace Leiftur
+namespace Polyhedrus
 {
 
 	const int MaxVoiceCount = 24;

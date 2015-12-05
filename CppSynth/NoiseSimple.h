@@ -1,10 +1,10 @@
-#ifndef LEIFTUR_NOISE_SIMPLE
-#define LEIFTUR_NOISE_SIMPLE
+#ifndef POLYHEDRUS_NOISE_SIMPLE
+#define POLYHEDRUS_NOISE_SIMPLE
 
 #include "AudioLib/OnePoleFilters.h"
 #include "AudioLib/LcgRandom.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	enum class NoiseType
 	{

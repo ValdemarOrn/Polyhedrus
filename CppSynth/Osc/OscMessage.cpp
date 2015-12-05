@@ -1,6 +1,6 @@
 #include "OscMessage.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	inline int ReadInt(uint8_t* dataPtr)
 	{

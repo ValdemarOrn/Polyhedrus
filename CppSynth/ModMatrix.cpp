@@ -1,6 +1,6 @@
 #include "ModMatrix.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	ModMatrix::ModMatrix()
 	{

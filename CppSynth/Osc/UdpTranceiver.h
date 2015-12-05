@@ -1,5 +1,5 @@
-#ifndef LEIFTUR_UDP_H
-#define LEIFTUR_UDP_H
+#ifndef POLYHEDRUS_UDP_H
+#define POLYHEDRUS_UDP_H
 
 #include <vector>
 #include <stdint.h>
@@ -8,7 +8,7 @@
 #include <boost/array.hpp>
 using boost::asio::ip::udp;
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	class UdpTranceiver
 	{

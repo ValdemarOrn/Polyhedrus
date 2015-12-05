@@ -1,5 +1,5 @@
-#ifndef LEIFTUR_OSC_MESSAGE
-#define LEIFTUR_OSC_MESSAGE
+#ifndef POLYHEDRUS_OSC_MESSAGE
+#define POLYHEDRUS_OSC_MESSAGE
 
 #include <vector>
 #include <string>
@@ -8,7 +8,7 @@
 using std::vector;
 using std::string;
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	class OscMessage
 	{

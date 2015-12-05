@@ -16,7 +16,7 @@ inline void Reverse(uint8_t* data)
 	data[3] = a;
 }
 
-using namespace Leiftur;
+using namespace Polyhedrus;
 
 namespace Tests
 {

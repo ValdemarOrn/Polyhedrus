@@ -4,7 +4,7 @@
 
 using namespace AudioLib;
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	Delay::Delay()
 	{

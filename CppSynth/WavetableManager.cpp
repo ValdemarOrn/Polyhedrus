@@ -8,7 +8,7 @@ using std::vector;
 using std::string;
 using namespace boost::filesystem;
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	std::shared_ptr<Wavetable> WavetableManager::ConvertTable(float* wavetable, int tableSize, int numTables)
 	{

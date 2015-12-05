@@ -1,9 +1,9 @@
-#ifndef LEIFTUR_PLATFORM_SPECIFIC
-#define LEIFTUR_PLATFORM_SPECIFIC
+#ifndef POLYHEDRUS_PLATFORM_SPECIFIC
+#define POLYHEDRUS_PLATFORM_SPECIFIC
 
 #include <string>
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	class PlatformSpecific
 	{

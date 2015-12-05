@@ -1,12 +1,12 @@
-#ifndef LEIFTUR_CHARACTER
-#define LEIFTUR_CHARACTER
+#ifndef POLYHEDRUS_CHARACTER
+#define POLYHEDRUS_CHARACTER
 
 #include "AudioLib/Biquad.h"
 #include "Parameters.h"
 #include "AudioLib/Biquad.h"
 
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	class Character
 	{

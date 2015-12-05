@@ -1,9 +1,9 @@
-#ifndef LEIFTUR_CV_FREQ
-#define LEIFTUR_CV_FREQ
+#ifndef POLYHEDRUS_CV_FREQ
+#define POLYHEDRUS_CV_FREQ
 
 #include "AudioLib/Utils.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	class CvFreq
 	{

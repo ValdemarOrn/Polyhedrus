@@ -1,5 +1,5 @@
-#ifndef LEIFTUR_ARPEGGIATOR
-#define LEIFTUR_ARPEGGIATOR
+#ifndef POLYHEDRUS_ARPEGGIATOR
+#define POLYHEDRUS_ARPEGGIATOR
 
 #include <stdint.h>
 #include <vector>
@@ -7,7 +7,7 @@
 #include "Parameters.h"
 #include "VoiceAllocator.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	enum class ArpPattern
 	{

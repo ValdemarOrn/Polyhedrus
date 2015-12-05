@@ -10,34 +10,34 @@
 
 extern "C"
 {
-	_declspec(dllexport) Leiftur::Synth* Create()
+	_declspec(dllexport) Polyhedrus::Synth* Create()
 	{
-		Leiftur::Parameters::Init();
+		Polyhedrus::Parameters::Init();
 		AudioLib::ValueTables::Init();
 		AudioLib::Utils::Initialize();
 		AudioLib::Noise::Initialize();
 		AudioLib::FastSin::Init();
 		FastFFT<float>::Setup();
 		
-		return new Leiftur::Synth();
+		return new Polyhedrus::Synth();
 	}
 
-	_declspec(dllexport) void Initialize(Leiftur::Synth* instance, int samplerate, int udpListenPort, int udpSendPort)
+	_declspec(dllexport) void Initialize(Polyhedrus::Synth* instance, int samplerate, int udpListenPort, int udpSendPort)
 	{
 		instance->Initialize(samplerate, true, udpListenPort, udpSendPort);
 	}
 
-	_declspec(dllexport) void SetParameter(Leiftur::Synth* instance, int parameter, double value)
+	_declspec(dllexport) void SetParameter(Polyhedrus::Synth* instance, int parameter, double value)
 	{
 		instance->SetParameter(parameter, value);
 	}
 
-	_declspec(dllexport) void ProcessMidi(Leiftur::Synth* instance, uint8_t* message)
+	_declspec(dllexport) void ProcessMidi(Polyhedrus::Synth* instance, uint8_t* message)
 	{
 		instance->ProcessMidi(message);
 	}
 
-	_declspec(dllexport) void ProcessAudio(Leiftur::Synth* instance, double** buffer, int bufferSize)
+	_declspec(dllexport) void ProcessAudio(Polyhedrus::Synth* instance, double** buffer, int bufferSize)
 	{
 		float l[1024];
 		float r[1024];
@@ -59,18 +59,18 @@ extern "C"
 		}
 	}
 
-	_declspec(dllexport) void Delete(Leiftur::Synth* instance)
+	_declspec(dllexport) void Delete(Polyhedrus::Synth* instance)
 	{
 		delete instance;
 	}
 
 
-	std::shared_ptr<Leiftur::Wavetable> wt;
+	std::shared_ptr<Polyhedrus::Wavetable> wt;
 
-	_declspec(dllexport) Leiftur::Wavetable* GetWavetable(Leiftur::Synth* instance, int tableIndex)
+	_declspec(dllexport) Polyhedrus::Wavetable* GetWavetable(Polyhedrus::Synth* instance, int tableIndex)
 	{
-		Leiftur::WavetableManager wtman;
-		wtman.Setup(Leiftur::PlatformSpecific::GetDllDir());
+		Polyhedrus::WavetableManager wtman;
+		wtman.Setup(Polyhedrus::PlatformSpecific::GetDllDir());
 		wt = wtman.LoadWavetable(tableIndex);
 		return &(*wt);
 	}

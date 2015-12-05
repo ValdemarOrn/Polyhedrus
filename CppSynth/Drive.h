@@ -1,12 +1,12 @@
-#ifndef LEIFTUR_DRIVE
-#define LEIFTUR_DRIVE
+#ifndef POLYHEDRUS_DRIVE
+#define POLYHEDRUS_DRIVE
 
 #include "Parameters.h"
 #include "AudioLib/OnePoleFilters.h"
 #include "AudioLib/Utils.h"
 #include <cmath>
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	enum class DriveType
 	{

@@ -1,6 +1,6 @@
 #include "VoiceAllocator.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	VoiceAllocator::VoiceAllocator()
 	{

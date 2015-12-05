@@ -1,6 +1,6 @@
 #include "UdpTranceiver.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	UdpTranceiver::UdpTranceiver(int receivePort, int sendPort)
 		: UdpTranceiver(receivePort, sendPort, "127.0.0.1")

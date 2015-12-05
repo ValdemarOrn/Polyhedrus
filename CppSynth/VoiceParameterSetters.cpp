@@ -1,6 +1,6 @@
 #include "Voice.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	void Voice::SetOscParameter(Module module, OscParameters parameter, double value)
 	{

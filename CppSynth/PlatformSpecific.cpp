@@ -3,7 +3,7 @@
 // Windows-specific Code here
 #include <Windows.h>
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	HINSTANCE GetMyModuleHandle()
 	{

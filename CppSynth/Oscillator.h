@@ -1,10 +1,10 @@
-#ifndef LEIFTUR_OSCILLATOR
-#define LEIFTUR_OSCILLATOR
+#ifndef POLYHEDRUS_OSCILLATOR
+#define POLYHEDRUS_OSCILLATOR
 
 #include "Default.h"
 #include "WavetableManager.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	struct Oscillator
 	{

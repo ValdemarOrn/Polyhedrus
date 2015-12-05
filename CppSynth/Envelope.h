@@ -1,5 +1,5 @@
-#ifndef LEIFTUR_ENVELOPE
-#define LEIFTUR_ENVELOPE
+#ifndef POLYHEDRUS_ENVELOPE
+#define POLYHEDRUS_ENVELOPE
 
 #include <memory>
 
@@ -8,7 +8,7 @@
 
 using AudioLib::ValueTables;
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	class Envelope
 	{

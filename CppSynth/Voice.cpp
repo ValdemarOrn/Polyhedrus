@@ -3,7 +3,7 @@
 
 using namespace AudioLib;
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	Voice::Voice()
 	{

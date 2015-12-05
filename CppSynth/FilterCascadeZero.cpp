@@ -4,7 +4,7 @@
 #include "AudioLib/Utils.h"
 #include "AudioLib/MathDefs.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	FilterCascadeZero::FilterCascadeZero()
 	{

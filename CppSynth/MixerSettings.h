@@ -1,9 +1,9 @@
-#ifndef LEIFTUR_MIXER_SETTINGS
-#define LEIFTUR_MIXER_SETTINGS
+#ifndef POLYHEDRUS_MIXER_SETTINGS
+#define POLYHEDRUS_MIXER_SETTINGS
 
 #include "AudioLib/Utils.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	enum class RoutingStage
 	{

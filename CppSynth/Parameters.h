@@ -1,5 +1,5 @@
-#ifndef LEIFTUR_PARAMETERS
-#define LEIFTUR_PARAMETERS
+#ifndef POLYHEDRUS_PARAMETERS
+#define POLYHEDRUS_PARAMETERS
 
 #include <string>
 #include <vector>
@@ -9,7 +9,7 @@
 
 #include "Utils.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	enum class Module
 	{

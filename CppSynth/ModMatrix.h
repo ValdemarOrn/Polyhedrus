@@ -1,10 +1,10 @@
-#ifndef LEIFTUR_MOD_MATRIX
-#define LEIFTUR_MOD_MATRIX
+#ifndef POLYHEDRUS_MOD_MATRIX
+#define POLYHEDRUS_MOD_MATRIX
 
 #include "ModSourceDest.h"
 #include "Default.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	class ModRoute
 	{

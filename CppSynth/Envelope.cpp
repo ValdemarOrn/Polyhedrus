@@ -4,7 +4,7 @@
 
 using namespace std;
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	const float Envelope::MaxTimeSeconds = 30.0;
 

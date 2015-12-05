@@ -1,6 +1,6 @@
 #include "NoiseSimple.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	NoiseSimple::NoiseSimple()
 	{

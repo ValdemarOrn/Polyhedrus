@@ -1,5 +1,5 @@
-#ifndef LEIFTUR_VOICE
-#define LEIFTUR_VOICE
+#ifndef POLYHEDRUS_VOICE
+#define POLYHEDRUS_VOICE
 
 #include "NoiseSimple.h"
 #include "Parameters.h"
@@ -15,7 +15,7 @@
 #include "Drive.h"
 #include "AudioLib/SlopGenerator.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	class Voice
 	{

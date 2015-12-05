@@ -1,7 +1,7 @@
-#ifndef LEIFTUR_VCA
-#define LEIFTUR_VCA
+#ifndef POLYHEDRUS_VCA
+#define POLYHEDRUS_VCA
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	class Vca
 	{

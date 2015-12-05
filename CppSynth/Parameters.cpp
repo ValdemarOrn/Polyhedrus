@@ -7,7 +7,7 @@
 #include "SynthDefines.h"
 #include "ModSourceDest.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	std::map<Module, std::map<int, ParameterInfo>> Parameters::ParamInfo;
 

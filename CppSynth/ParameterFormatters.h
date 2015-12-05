@@ -1,5 +1,5 @@
-#ifndef LEIFTUR_PARAMETER_FORMATTERS
-#define LEIFTUR_PARAMETER_FORMATTERS
+#ifndef POLYHEDRUS_PARAMETER_FORMATTERS
+#define POLYHEDRUS_PARAMETER_FORMATTERS
 
 #include <string>
 
@@ -12,7 +12,7 @@
 #include "NoiseSimple.h"
 #include "Arpeggiator.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	class ParameterFormatters
 	{

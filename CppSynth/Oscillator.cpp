@@ -2,7 +2,7 @@
 #include "AudioLib/Utils.h"
 #include <iostream>
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	Oscillator::Oscillator()
 	{

@@ -1,7 +1,7 @@
 #include "Synth.h"
 #include "ParameterFormatters.h"
 
-namespace Leiftur
+namespace Polyhedrus
 {
 	std::string Synth::FormatParameter(Module module, int parameter, double value)
 	{
