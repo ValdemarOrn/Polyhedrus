@@ -67,7 +67,23 @@ namespace AudioLib
 			}
 		}
 
-		
+		static inline float LinInterp(float* table, int tableSize, float value)
+		{
+			if (value <= 0)
+				return table[0];
+			if (value >= 1.0)
+				return table[tableSize - 1];
+
+			float fIdx = value * tableSize;
+			int idxA = fIdx;
+			int idxB = idxA + 1;
+			if (idxA >= tableSize) idxA = tableSize - 1;
+			if (idxB >= tableSize) idxB = tableSize - 1;
+			float mix = fIdx - idxA;
+
+			return table[idxA] * (1 - mix) + table[idxB] * mix;
+		}
+				
 		static inline float Limit(float input, float min, float max)
 		{
 			int above = (input > min);

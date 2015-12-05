@@ -112,18 +112,16 @@ namespace Leiftur
 	void Voice::SetGate(float velocity)
 	{
 		Gate = velocity > 0;
-		ampEnv.SetGate(Gate);
-		filterEnv.SetGate(Gate);
-		mod1.SetGate(Gate);
-		mod2.SetGate(Gate);
-		mod3.SetGate(Gate);
+		ampEnv.SetGate(Gate, velocity);
+		filterEnv.SetGate(Gate, velocity);
+		mod1.SetGate(Gate, velocity);
+		mod2.SetGate(Gate, velocity);
+		mod3.SetGate(Gate, velocity);
 		modMatrix.ModSourceValues[(int)ModSource::Gate] = Gate;
 
 		if (Gate)
 		{
 			this->velocity = velocity;
-			ampEnv.Velocity = velocity;
-			filterEnv.Velocity = velocity;
 			osc1.Reset();
 			osc2.Reset();
 			osc3.Reset();

@@ -80,7 +80,7 @@ namespace Leiftur
 		void SetParameter(ModParameters parameter, double value);
 		float Process(int samples);
 		void Reset();
-		inline void SetGate(bool gate) { env.SetGate(gate); }
+		inline void SetGate(bool gate, float velocity) { env.SetGate(gate, velocity); }
 		inline static float GetFrequency(float value)
 		{
 			return (float)(ValueTables::Get(value, ValueTables::Response4Dec) * MaxFreq);

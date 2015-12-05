@@ -29,7 +29,6 @@ namespace Leiftur
 		}
 		
 		bool Retrigger;
-		float Velocity;
 		float VelocityAmount;
 		
 	private:
@@ -37,7 +36,9 @@ namespace Leiftur
 		float attackCurve[200];
 		float decayCurve[200];
 		float releaseCurve[200];
+		float velocityCurve[200];
 
+		float velocity;
 		bool gate;
 		float attack;
 		float hold;
@@ -75,8 +76,8 @@ namespace Leiftur
 		void Initialize(int samplerate);
 		void SetParameter(EnvParameters parameter, double value);
 		float Process(int samples);
-		inline float GetOutput() { return output * (1 - VelocityAmount + Velocity * VelocityAmount); }
-		void SetGate(bool gate);
+		inline float GetOutput() { return output * (1 - VelocityAmount + velocity * VelocityAmount); }
+		void SetGate(bool gate, float velocity);
 		void Silence();
 		void Reset();
 		std::vector<uint8_t> GetVisual();

@@ -44,7 +44,7 @@ namespace Leiftur
 			else if (parameter == OscParameters::Routing)
 				mixer.Osc1Routing = (RoutingStage)Parameters::FloorToInt(value);
 			else if (parameter == OscParameters::Slop)
-				modMatrix.FixedRoutes[ModMatrix::FixedRouteSlop1].Amount = (float)(value * 0.00833);
+				modMatrix.FixedRoutes[ModMatrix::FixedRouteSlop1].Amount = (float)(value * 0.01666);
 			else
 				update(&osc1);
 		}

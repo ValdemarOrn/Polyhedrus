@@ -73,9 +73,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -86,12 +84,17 @@
             <Label Grid.Row="1" Grid.Column="0">Atk Curve</Label>
             <Label Grid.Row="1" Grid.Column="1">Dec Curve</Label>
             <Label Grid.Row="1" Grid.Column="2">Rel Curve</Label>
-            <Label Grid.Row="1" Grid.Column="3">Retrigger</Label>
+            <Label Grid.Row="1" Grid.Column="3">Velo Curve</Label>
+            <Label Grid.Row="1" Grid.Column="4">Velocity</Label>
+            <Label Grid.Row="1" Grid.Column="5">Retrigger</Label>
 
             <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" Min="-1" Max="1" DefaultValue="0" local:OscAddress.Address="/*/AttackCurve" />
             <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" Min="-1" Max="1" DefaultValue="0" local:OscAddress.Address="/*/DecayCurve" />
             <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" Min="-1" Max="1" DefaultValue="0" local:OscAddress.Address="/*/ReleaseCurve" />
-            <ToggleButton Style="{StaticResource CircleToggleButton}" Grid.Row="0" Grid.Column="3" local:OscAddress.Address="/*/Retrigger" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" Min="-1" Max="1" DefaultValue="0" local:OscAddress.Address="/*/VelocityCurve" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="4" Min="-1" Max="1" DefaultValue="0" local:OscAddress.Address="/*/Velocity" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="5" Visibility="Hidden" />
+            <ToggleButton Style="{StaticResource CircleToggleButton}" Grid.Row="0" Grid.Column="5" local:OscAddress.Address="/*/Retrigger" />
         </Grid>
     </StackPanel>
 </components:BaseControl>

@@ -202,6 +202,8 @@ namespace Leiftur
 			ParameterFormatters::FormatDecimal2);
 		modMap[(int)EnvParameters::ReleaseCurve] = ParameterInfo((int)EnvParameters::ReleaseCurve, "ReleaseCurve", nullptr, -0.5, -1, 1, 
 			ParameterFormatters::FormatDecimal2);
+		modMap[(int)EnvParameters::VelocityCurve] = ParameterInfo((int)EnvParameters::VelocityCurve, "VelocityCurve", nullptr, 0, -1, 1,
+			ParameterFormatters::FormatDecimal2);
 		modMap[(int)EnvParameters::Retrigger] = ParameterInfo((int)EnvParameters::Retrigger, "Retrigger", nullptr, 0, 0, 1, 
 			ParameterFormatters::FormatOnOff);
 
@@ -242,6 +244,10 @@ namespace Leiftur
 			ParameterFormatters::FormatDecimal2);
 		modMap[(int)ModParameters::ReleaseCurve] = ParameterInfo((int)ModParameters::ReleaseCurve, "ReleaseCurve", nullptr, 0, -1, 1,
 			ParameterFormatters::FormatDecimal2);
+		modMap[(int)ModParameters::VelocityCurve] = ParameterInfo((int)ModParameters::VelocityCurve, "VelocityCurve", nullptr, 0, -1, 1,
+			ParameterFormatters::FormatDecimal2);
+		modMap[(int)ModParameters::Velocity] = ParameterInfo((int)ModParameters::Velocity, "Velocity", nullptr, 0, 0, 1,
+			ParameterFormatters::FormatPercent);
 		modMap[(int)ModParameters::Retrigger] = ParameterInfo((int)ModParameters::Retrigger, "Retrigger", nullptr, 0, 0, 1, 
 			ParameterFormatters::FormatOnOff);
 

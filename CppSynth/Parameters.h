@@ -146,7 +146,8 @@ namespace Leiftur
 		AttackCurve = 7,
 		DecayCurve = 8,
 		ReleaseCurve = 9,
-		Retrigger = 10,
+		VelocityCurve = 10,
+		Retrigger = 11,
 	};
 
 	enum class ModParameters
@@ -168,7 +169,9 @@ namespace Leiftur
 		AttackCurve = 13,
 		DecayCurve = 14,
 		ReleaseCurve = 15,
-		Retrigger = 16,
+		VelocityCurve = 16,
+		Velocity = 17,
+		Retrigger = 18,
 	};
 
 	enum class ArpParameters

@@ -1,6 +1,5 @@
 #include "Envelope.h"
 #include "AudioLib/Utils.h"
-
 #include <cmath>
 
 using namespace std;
@@ -12,7 +11,7 @@ namespace Leiftur
 	Envelope::Envelope()
 	{
 		output = 0.0;
-		Velocity = 1.0;
+		velocity = 1.0;
 		VelocityAmount = 0.0;
 		Retrigger = false;
 		gate = false;
@@ -28,6 +27,7 @@ namespace Leiftur
 		CreateCurve(attackCurve, 0.0);
 		CreateCurve(decayCurve, 0.0);
 		CreateCurve(releaseCurve, 0.0);
+		CreateCurve(velocityCurve, 0.0);
 	}
 
 	Envelope::~Envelope()
@@ -82,6 +82,9 @@ namespace Leiftur
 			break;
 		case EnvParameters::ReleaseCurve:
 			CreateCurve(releaseCurve, value);
+			break;
+		case EnvParameters::VelocityCurve:
+			CreateCurve(velocityCurve, value);
 			break;
 		case EnvParameters::Retrigger:
 			Retrigger = value >= 0.5;
@@ -158,11 +161,16 @@ namespace Leiftur
 		return GetOutput();
 	}
 
-	void Envelope::SetGate(bool gate)
+	void Envelope::SetGate(bool gate, float velocity)
 	{
 		this->gate = gate;
-		if (Retrigger)
-			Reset();
+
+		if (gate)
+		{
+			this->velocity = AudioLib::Utils::LinInterp(velocityCurve, 200, velocity);
+			if (Retrigger)
+				Reset();
+		}
 	}
 
 	void Envelope::Silence()

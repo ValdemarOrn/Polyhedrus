@@ -71,6 +71,7 @@ namespace Leiftur
 		}
 
 		preset.Values[Synth::PackParameter(Module::Osc1, (int)OscParameters::Volume)] = 1.0;
+		preset.Values[Synth::PackParameter(Module::EnvAmp, (int)EnvParameters::VelocityCurve)] = -0.65;
 		return preset;
 	}
 
