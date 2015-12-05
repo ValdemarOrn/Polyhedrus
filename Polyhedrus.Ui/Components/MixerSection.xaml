@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="Polyhedrus.Ui.Components.MixerSection"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:components="clr-namespace:Polyhedrus.Ui.Components"
+             xmlns:ui="clr-namespace:Polyhedrus.Ui"
+             mc:Ignorable="d" 
+             d:DesignHeight="150" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary Source="Styles.xaml" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" ui:OscAddress.Address="/Mixer/Fm12" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" ui:OscAddress.Address="/Mixer/Fm13" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" ui:OscAddress.Address="/Mixer/Fm23" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" ui:OscAddress.Address="/Mixer/CharacterOut" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="4" ui:OscAddress.Address="/Mixer/FilterHpOut" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="5" ui:OscAddress.Address="/Mixer/FilterMainOut" />
+        
+       
+        <Label Grid.Row="1" Grid.Column="0">FM 1-2</Label>
+        <Label Grid.Row="1" Grid.Column="1">FM 1-3</Label>
+        <Label Grid.Row="1" Grid.Column="2">FM 2-3</Label>
+        
+        <Label Grid.Row="1" Grid.Column="3">Character</Label>
+        <Label Grid.Row="1" Grid.Column="4">HP Filter</Label>
+        <Label Grid.Row="1" Grid.Column="5">Main Filter</Label>
+
+        <components:MenuSelector Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2" Style="{StaticResource MenuSelectorStyle}" Margin="3,10,6,10" Width="89"
+                                 ItemsSource="{Binding ModuleRoutings}" ui:OscAddress.Address="/Mixer/NoiseRouting">
+        </components:MenuSelector>
+
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" ui:OscAddress.Address="/Mixer/Am12" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" ui:OscAddress.Address="/Mixer/Am23" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" Min="0" Max="2.999" ui:OscAddress.Address="/Mixer/Color" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="3" ui:OscAddress.Address="/Mixer/Noise" />
+
+        <Label Grid.Row="3" Grid.Column="0">AM 1-2</Label>
+        <Label Grid.Row="3" Grid.Column="1">AM 2-3</Label>
+        <Label Grid.Row="3" Grid.Column="2">Color</Label>
+        <Label Grid.Row="3" Grid.Column="3">Noise</Label>
+        
+        <StackPanel Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="3,-4,0,0">
+            <Rectangle Width="19" Height="0.5" Fill="#50ffffff" Margin="0,1,10,0" />
+            <Label Padding="0">Routing</Label>
+            <Rectangle Width="19" Height="0.5" Fill="#50ffffff" Margin="10,1,0,0" />
+        </StackPanel>
+    </Grid>
+</UserControl>

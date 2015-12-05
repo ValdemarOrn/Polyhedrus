@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="Polyhedrus.Ui.Components.ArpeggiatorSection"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:components="clr-namespace:Polyhedrus.Ui.Components"
+             xmlns:ui="clr-namespace:Polyhedrus.Ui"
+             mc:Ignorable="d" 
+             d:DesignHeight="140" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary Source="Styles.xaml" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="1" Grid.Column="0">Range</Label>
+        <Label Grid.Row="1" Grid.Column="1">Note Ptn</Label>
+        <Label Grid.Row="1" Grid.Column="2">Oct Ptn</Label>
+        <Label Grid.Row="1" Grid.Column="3">Gate</Label>
+        <Label Grid.Row="1" Grid.Column="4">Divide</Label>
+        <Label Grid.Row="1" Grid.Column="5">BPM</Label>
+
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" Min="1" Max="4" Steps="4" ui:OscAddress.Address="/Arp/Range" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" Min="0" Max="5" Steps="6" ui:OscAddress.Address="/Arp/NotePtn" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" Min="0" Max="5" Steps="6" ui:OscAddress.Address="/Arp/OctavePtn" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" ui:OscAddress.Address="/Arp/Gate" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="4" ui:OscAddress.Address="/Arp/Divide" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="5" Steps="241" Min="10" Max="250" ui:OscAddress.Address="/Arp/Bpm" />
+
+        <Label Grid.Row="3" Grid.Column="0">Sync</Label>
+        <ToggleButton Style="{StaticResource CircleToggleButton}" Grid.Row="2" Grid.Column="0" ui:OscAddress.Address="/Arp/Sync" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="4" Visibility="Hidden" /> <!-- Sizer -->
+        
+    </Grid>
+</UserControl>

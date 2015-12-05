@@ -1,0 +1,354 @@
+﻿<UserControl x:Class="Polyhedrus.Ui.Components.SynthView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:lpCore="clr-namespace:LowProfile.Core.Ui;assembly=LowProfile.Core"
+             xmlns:components="clr-namespace:Polyhedrus.Ui.Components"
+             xmlns:ui="clr-namespace:Polyhedrus.Ui"
+             mc:Ignorable="d" 
+             d:DesignHeight="570" d:DesignWidth="1133">
+    <UserControl.Background>
+        <ImageBrush ImageSource="Background.jpg" >
+        </ImageBrush>
+    </UserControl.Background>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml" />
+                <ResourceDictionary Source="ContextMenus.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <lpCore:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <lpCore:BoolToBoldConverter x:Key="BoolToBoldConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="15" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="15" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="15" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="15" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Label Grid.Column="1" Grid.ColumnSpan="9" Style="{StaticResource TitleLabel}">Polyhedrus</Label>
+
+        <StackPanel Orientation="Horizontal" Grid.Column="9" Grid.RowSpan="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="5,5,5,17">
+
+            <components:VoiceIndicator State="{Binding VoiceState[0]}" />
+            <components:VoiceIndicator State="{Binding VoiceState[1]}" />
+            <components:VoiceIndicator State="{Binding VoiceState[2]}" />
+            <components:VoiceIndicator State="{Binding VoiceState[3]}" />
+            <components:VoiceIndicator State="{Binding VoiceState[4]}" />
+            <components:VoiceIndicator State="{Binding VoiceState[5]}" />
+            <components:VoiceIndicator State="{Binding VoiceState[6]}" />
+            <components:VoiceIndicator State="{Binding VoiceState[7]}" />
+            <components:VoiceIndicator State="{Binding VoiceState[8]}" />
+            <components:VoiceIndicator State="{Binding VoiceState[9]}" />
+            <components:VoiceIndicator State="{Binding VoiceState[10]}" />
+            <components:VoiceIndicator State="{Binding VoiceState[11]}" />
+
+
+        </StackPanel>
+        
+        <StackPanel Orientation="Horizontal" Grid.Column="9" Grid.RowSpan="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="5,5,5,-2">
+
+            <components:VoiceIndicator State="{Binding VoiceState[12]}" />
+            <components:VoiceIndicator State="{Binding VoiceState[13]}" />
+            <components:VoiceIndicator State="{Binding VoiceState[14]}" />
+            <components:VoiceIndicator State="{Binding VoiceState[15]}" />
+            <components:VoiceIndicator State="{Binding VoiceState[16]}" />
+            <components:VoiceIndicator State="{Binding VoiceState[17]}" />
+            <components:VoiceIndicator State="{Binding VoiceState[18]}" />
+            <components:VoiceIndicator State="{Binding VoiceState[19]}" />
+            <components:VoiceIndicator State="{Binding VoiceState[20]}" />
+            <components:VoiceIndicator State="{Binding VoiceState[21]}" />
+            <components:VoiceIndicator State="{Binding VoiceState[22]}" />
+            <components:VoiceIndicator State="{Binding VoiceState[23]}" />
+
+        </StackPanel>
+        
+        <StackPanel Grid.Row="1" Grid.Column="1" Grid.RowSpan="3">
+            <Grid Style="{StaticResource SectionTitle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                
+                <Rectangle Style="{StaticResource SectionLine}" />
+
+                <ToggleButton Grid.Column="0" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding Osc1Visible, FallbackValue=True}">Osc 1</ToggleButton>
+                <ToggleButton Grid.Column="1" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding Osc2Visible}">Osc 2</ToggleButton>
+                <ToggleButton Grid.Column="2" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding Osc3Visible}">Osc 3</ToggleButton>
+                <ToggleButton Grid.Column="3" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/Osc1On" 
+                              Visibility="{Binding Osc1Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
+                <ToggleButton Grid.Column="3" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/Osc2On" 
+                              Visibility="{Binding Osc2Visible, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <ToggleButton Grid.Column="3" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/Osc3On" 
+                              Visibility="{Binding Osc3Visible, Converter={StaticResource BoolToVisibilityConverter}}" />
+                
+            </Grid>
+
+            <components:OscSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="171" Background="{StaticResource ModuleBackground}"
+                              ModuleAddress="Osc1" Visibility="{Binding Osc1Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
+            <components:OscSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="171" Background="{StaticResource ModuleBackground}"
+                              ModuleAddress="Osc2" Visibility="{Binding Osc2Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
+            <components:OscSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="171" Background="{StaticResource ModuleBackground}"
+                              ModuleAddress="Osc3" Visibility="{Binding Osc3Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
+
+            <Grid Style="{StaticResource SectionTitle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Style="{StaticResource MarkerButton}">Mixer</Button>
+                <Rectangle Style="{StaticResource SectionLine}" />
+            </Grid>
+
+            <components:MixerSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="114" Background="{StaticResource ModuleBackground}" />
+
+            <Grid Style="{StaticResource SectionTitle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Style="{StaticResource MarkerButton}">Voices</Button>
+                <Rectangle Style="{StaticResource SectionLine}" />
+            </Grid>
+
+            <components:VoicesSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="114" Background="{StaticResource ModuleBackground}" />
+        </StackPanel>
+        
+        <Grid Grid.Row="1" Grid.Column="3" Style="{StaticResource SectionTitle}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Style="{StaticResource MarkerButton}">Character</Button>
+            <ToggleButton Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}"
+                          ui:OscAddress.Address="/ModuleSwitches/CharacterOn" />
+            <Rectangle Style="{StaticResource SectionLine}" />
+        </Grid>
+
+        <components:CharacterSection Grid.Row="2" Grid.Column="3" VerticalAlignment="Top" HorizontalAlignment="Left" Width="147" Height="114" Background="{StaticResource ModuleBackground}" />
+
+        <Grid Grid.Row="1" Grid.Column="5" Style="{StaticResource SectionTitle}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Style="{StaticResource MarkerButton}">HP Filter</Button>
+            <ToggleButton Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}"
+                           ui:OscAddress.Address="/ModuleSwitches/FilterHpOn" />
+            <Rectangle Style="{StaticResource SectionLine}" />
+        </Grid>
+
+        <components:FilterHpSection Grid.Row="2" Grid.Column="5" VerticalAlignment="Top" HorizontalAlignment="Left" Width="98" Height="114" Background="{StaticResource ModuleBackground}" />
+        
+        <Grid Grid.Row="1" Grid.Column="7" Style="{StaticResource SectionTitle}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Rectangle Style="{StaticResource SectionLine}" />
+
+            <ToggleButton Grid.Column="0" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding MainFilterVisible}">Filter</ToggleButton>
+            <ToggleButton Grid.Column="1" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding DriveVisible}">Drive</ToggleButton>
+            <ToggleButton Grid.Column="2" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/FilterMainOn"
+                              Visibility="{Binding MainFilterVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
+            <ToggleButton Grid.Column="2" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/DriveOn"
+                              Visibility="{Binding DriveVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
+
+
+        </Grid>
+
+        <components:FilterMainSection Grid.Row="2" Grid.Column="7" VerticalAlignment="Top" HorizontalAlignment="Left" Width="196" Height="114" Background="{StaticResource ModuleBackground}" 
+                                      Visibility="{Binding MainFilterVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
+        <components:DriveSection Grid.Row="2" Grid.Column="7" VerticalAlignment="Top" HorizontalAlignment="Left" Width="196" Height="114" Background="{StaticResource ModuleBackground}" 
+                                      Visibility="{Binding DriveVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
+
+        <StackPanel Grid.Column="3" Grid.ColumnSpan="5" Grid.Row="3" VerticalAlignment="Top" >
+            <Grid Height="90" VerticalAlignment="Center">
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center" Visibility="{Binding PresetPanelVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" >
+                    <Label Style="{StaticResource FancyLabel}" Content="{Binding SelectedBank, FallbackValue=Selected Bank}"
+                           ContextMenu="{StaticResource BanksContextMenu}" MouseUp="ShowContextMenu" />
+                    <Label Style="{StaticResource FancyLabel}" Content="{Binding SelectedPreset, FallbackValue=Selected Preset}"
+                           ContextMenu="{StaticResource PresetsContextMenu}" MouseUp="ShowContextMenu" />
+                </StackPanel>
+                <Canvas Width="400" Height="80" Visibility="{Binding VisualPanelVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}">
+                    <Path Data="{Binding VisualGeometry}" Stroke="{StaticResource ForegroundBlue}" Fill="#4007DDFF" StrokeThickness="1.0" />
+                </Canvas>
+            </Grid>
+
+            <Rectangle Grid.Column="0" Style="{StaticResource SectionLine}" />
+            <Grid HorizontalAlignment="Stretch" Background="{StaticResource ModuleBackground}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Label Margin="4" Style="{StaticResource FancyLabel}" Content="{Binding AnnouncerCaption, FallbackValue=Announcer Caption}" />
+                    <Label Margin="4" Style="{StaticResource FancyLabel}" Content="{Binding AnnouncerValue, FallbackValue=Announcer Value}" />
+                </StackPanel>
+            </Grid>
+
+            <Grid Style="{StaticResource SectionTitle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Rectangle Grid.Column="0" Style="{StaticResource SectionLine}" />
+
+                <ToggleButton Grid.Column="0" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding Matrix1Visible}">Matrix 1-8</ToggleButton>
+                <ToggleButton Grid.Column="1" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding Matrix2Visible}">Matrix 9-16</ToggleButton>
+                <ToggleButton Grid.Column="2" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding MacrosVisible}">Macros</ToggleButton>
+                
+            </Grid>
+
+            <components:MatrixSection Height="201" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="{StaticResource ModuleBackground}" Padding="0,10"
+                                      StartIndex="1"
+                                      Visibility="{Binding Matrix1Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
+            <components:MatrixSection Height="201" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="{StaticResource ModuleBackground}" Padding="0,10"
+                                      StartIndex="9"
+                                      Visibility="{Binding Matrix2Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
+            <components:MacroControls Height="201" HorizontalContentAlignment="Center" VerticalAlignment="Top" Padding="0,10" Background="{StaticResource ModuleBackground}"
+                                      Visibility="{Binding MacrosVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
+        
+        </StackPanel>
+
+        
+        <StackPanel Grid.Row="1" Grid.Column="9" Grid.RowSpan="10">
+
+            <Grid Style="{StaticResource SectionTitle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Style="{StaticResource MarkerButton}">Amp Envelope</Button>
+                <Button Grid.Column="1" Style="{StaticResource MarkerButton}" HorizontalAlignment="Right"
+                        FontWeight="{Binding AmpEnvPage2Visible, Converter={StaticResource BoolToBoldConverter}}"
+                        Command="{Binding ShowAmpEnvPage2}">Curves</Button>
+                <Rectangle Style="{StaticResource SectionLine}" />
+            </Grid>
+
+            <components:EnvelopeSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="57" ModuleAddress="EnvAmp"
+                                        ShowPage2="{Binding AmpEnvPage2Visible}" Background="{StaticResource ModuleBackground}" />
+
+            <Grid Style="{StaticResource SectionTitle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Style="{StaticResource MarkerButton}">Filter Envelope</Button>
+                <Button Grid.Column="1" Style="{StaticResource MarkerButton}" HorizontalAlignment="Right"
+                        FontWeight="{Binding FilterEnvPage2Visible, Converter={StaticResource BoolToBoldConverter}}"
+                        Command="{Binding ShowFilterEnvPage2}">Curves</Button>
+                <Rectangle Style="{StaticResource SectionLine}" />
+            </Grid>
+            
+            <components:EnvelopeSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="57" ModuleAddress="EnvFilter"
+                                        ShowPage2="{Binding FilterEnvPage2Visible}" Background="{StaticResource ModuleBackground}" />
+
+            <Grid Height="22" />
+            
+            <Grid Style="{StaticResource SectionTitle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="22" />
+                </Grid.ColumnDefinitions>
+
+                <Rectangle Style="{StaticResource SectionLine}" />
+                
+                <ToggleButton Grid.Column="0" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding Mod1Visible}">Mod 1</ToggleButton>
+                <ToggleButton Grid.Column="1" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding Mod2Visible}">Mod 2</ToggleButton>
+                <ToggleButton Grid.Column="2" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding Mod3Visible}">Mod 3</ToggleButton>
+                <ToggleButton Grid.Column="3" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding ArpeggiatorVisible}">Arp</ToggleButton>
+
+                <Button Grid.Column="4" Style="{StaticResource MarkerButton}" HorizontalAlignment="Right"
+                        Visibility="{Binding Mod1Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}"
+                        FontWeight="{Binding Mod1Page2Visible, Converter={StaticResource BoolToBoldConverter}}"
+                        Command="{Binding ShowMod1EnvPage2}">Curves</Button>
+                
+                <Button Grid.Column="4" Style="{StaticResource MarkerButton}" HorizontalAlignment="Right"
+                        Visibility="{Binding Mod2Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}"
+                        FontWeight="{Binding Mod2Page2Visible, Converter={StaticResource BoolToBoldConverter}}"
+                        Command="{Binding ShowMod2EnvPage2}">Curves</Button>
+                
+                <Button Grid.Column="4" Style="{StaticResource MarkerButton}" HorizontalAlignment="Right"
+                        Visibility="{Binding Mod3Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}"
+                        FontWeight="{Binding Mod3Page2Visible, Converter={StaticResource BoolToBoldConverter}}"
+                        Command="{Binding ShowMod3EnvPage2}">Curves</Button>
+
+                <ToggleButton Grid.Column="5" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/Mod1On"
+                              Visibility="{Binding Mod1Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}"/>
+                <ToggleButton Grid.Column="5" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/Mod2On"
+                              Visibility="{Binding Mod2Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}"/>
+                <ToggleButton Grid.Column="5" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/Mod3On"
+                              Visibility="{Binding Mod3Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}"/>
+                <ToggleButton Grid.Column="5" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/ArpOn"
+                              Visibility="{Binding ArpeggiatorVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}"/>
+            </Grid>
+
+            <components:LfoSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="114" ModuleAddress="Mod1" Background="{StaticResource ModuleBackground}"
+                                   Visibility="{Binding Mod1Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}"
+                                   ShowPage2="{Binding Mod1Page2Visible}" />
+            <components:LfoSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="114" ModuleAddress="Mod2" Background="{StaticResource ModuleBackground}"
+                                   Visibility="{Binding Mod2Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}"
+                                   ShowPage2="{Binding Mod2Page2Visible}"/>
+            <components:LfoSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="114" ModuleAddress="Mod3" Background="{StaticResource ModuleBackground}"
+                                   Visibility="{Binding Mod3Visible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" 
+                                   ShowPage2="{Binding Mod3Page2Visible}"/>
+            <components:ArpeggiatorSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="114" Background="{StaticResource ModuleBackground}"
+                                           Visibility="{Binding ArpeggiatorVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
+
+            <Grid Style="{StaticResource SectionTitle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Rectangle Style="{StaticResource SectionLine}" />
+
+                <ToggleButton Grid.Column="0" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding ChorusVisible}">Chorus</ToggleButton>
+                <ToggleButton Grid.Column="1" Style="{StaticResource MarkerToggleButton}" IsChecked="{Binding DelayVisible}">Delay</ToggleButton>
+
+                <ToggleButton Grid.Column="3" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/ChorusOn"
+                              Visibility="{Binding ChorusVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}"/>
+                <ToggleButton Grid.Column="3" HorizontalAlignment="Right" Style="{StaticResource CircleToggleButton}" ui:OscAddress.Address="/ModuleSwitches/DelayOn"
+                              Visibility="{Binding DelayVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}"/>
+            </Grid>
+
+            <components:ChorusSection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="114" Background="{StaticResource ModuleBackground}" 
+                                     Visibility="{Binding ChorusVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
+            
+            <components:DelaySection VerticalAlignment="Top" HorizontalAlignment="Left" Width="294" Height="114" Background="{StaticResource ModuleBackground}" 
+                                     Visibility="{Binding DelayVisible, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}" />
+
+            <Button Width="50" Height="10" Opacity="0.1" Click="Button_Click" HorizontalAlignment="Right">Go</Button>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

@@ -30,7 +30,7 @@ namespace CreateWavetables
 			converted.TableName = "Pwm";
 			converted.Normalize();
 			
-			converted.WriteCppFile(TableInfo.DataMode.Float, @"C:\Src\_Tree\Audio\Leiftur\CppSynth\Wavetables\Pwm.cpp");
+			converted.WriteCppFile(TableInfo.DataMode.Float, @"C:\Src\_Tree\Audio\Polyhedrus\CppSynth\Wavetables\Pwm.cpp");
 		}
 
         private static void ReadKomplexerWaves()

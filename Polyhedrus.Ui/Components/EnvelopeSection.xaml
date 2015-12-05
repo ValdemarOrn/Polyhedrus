@@ -1,0 +1,81 @@
+﻿<components:BaseControl x:Class="Polyhedrus.Ui.Components.EnvelopeSection"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:components="clr-namespace:Polyhedrus.Ui.Components"
+             xmlns:ui="clr-namespace:Polyhedrus.Ui"
+             xmlns:ui1="clr-namespace:LowProfile.Core.Ui;assembly=LowProfile.Core"
+             mc:Ignorable="d" 
+             x:Name="Main"
+             d:DesignHeight="140" d:DesignWidth="400">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml" />
+                <ResourceDictionary Source="ContextMenus.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <ui1:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <ui1:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <StackPanel>
+        <Grid Visibility="{Binding ElementName=Main, Path=ShowPage2, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row="1" Grid.Column="0">Attack</Label>
+            <Label Grid.Row="1" Grid.Column="1">Hold</Label>
+            <Label Grid.Row="1" Grid.Column="2">Decay</Label>
+            <Label Grid.Row="1" Grid.Column="3">Sustain</Label>
+            <Label Grid.Row="1" Grid.Column="4">Release</Label>
+            <Label Grid.Row="1" Grid.Column="5">Velocity</Label>
+
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" ui:OscAddress.Address="/*/Attack" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" ui:OscAddress.Address="/*/Hold" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" ui:OscAddress.Address="/*/Decay" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" ui:OscAddress.Address="/*/Sustain" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="4" ui:OscAddress.Address="/*/Release" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="5" ui:OscAddress.Address="/*/Velocity" />
+        </Grid>
+        <Grid Visibility="{Binding ElementName=Main, Path=ShowPage2, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Visible}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="1" Grid.Column="0">Atk Curve</Label>
+            <Label Grid.Row="1" Grid.Column="1">Dec Curve</Label>
+            <Label Grid.Row="1" Grid.Column="2">Rel Curve</Label>
+            <Label Grid.Row="1" Grid.Column="3">Velo Curve</Label>
+            <Label Grid.Row="1" Grid.Column="4">Retrigger</Label>
+
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" Min="-1" Max="1" DefaultValue="0" ui:OscAddress.Address="/*/AttackCurve" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" Min="-1" Max="1" DefaultValue="0" ui:OscAddress.Address="/*/DecayCurve" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" Min="-1" Max="1" DefaultValue="0" ui:OscAddress.Address="/*/ReleaseCurve" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" Min="-1" Max="1" DefaultValue="0" ui:OscAddress.Address="/*/VelocityCurve" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="4" Visibility="Hidden" />
+            <ToggleButton Style="{StaticResource CircleToggleButton}" Grid.Row="0" Grid.Column="4" ui:OscAddress.Address="/*/Retrigger" />
+        </Grid>
+    </StackPanel>
+</components:BaseControl>

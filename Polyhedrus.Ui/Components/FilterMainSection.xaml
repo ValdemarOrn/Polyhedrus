@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="Polyhedrus.Ui.Components.FilterMainSection"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:components="clr-namespace:Polyhedrus.Ui.Components"
+             xmlns:ui="clr-namespace:Polyhedrus.Ui"
+             mc:Ignorable="d" 
+             d:DesignHeight="120" d:DesignWidth="196">
+    <UserControl.Resources>
+        <ResourceDictionary Source="Styles.xaml" />
+    </UserControl.Resources>
+    <StackPanel Orientation="Vertical">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row="1" Grid.Column="1">Drive</Label>
+            <Label Grid.Row="1" Grid.Column="2">Cutoff</Label>
+            <Label Grid.Row="1" Grid.Column="3">Resonance</Label>
+
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" ui:OscAddress.Address="/FilterMain/Drive" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" Min="0.0" Max="10.3" ui:OscAddress.Address="/FilterMain/Cutoff" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" ui:OscAddress.Address="/FilterMain/Resonance" />
+        </Grid>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="3" Grid.Column="0">Key Track</Label>
+            <Label Grid.Row="3" Grid.Column="1">Envelope</Label>
+            <Label Grid.Row="3" Grid.Column="2">Mode</Label>
+            <Label Grid.Row="3" Grid.Column="3">Type</Label>
+
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" Min="-1" Max="1" DefaultValue="0.0" ui:OscAddress.Address="/FilterMain/Keytrack" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" Min="-1" Max="1" DefaultValue="0.0" ui:OscAddress.Address="/FilterMain/Env" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" ui:OscAddress.Address="/FilterMain/Mode" />
+            <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="3" Min="0" Max="4" ui:OscAddress.Address="/FilterMain/Type" />
+        </Grid>
+    </StackPanel>
+   
+</UserControl>

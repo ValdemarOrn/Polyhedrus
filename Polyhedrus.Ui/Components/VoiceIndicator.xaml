@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="Polyhedrus.Ui.Components.VoiceIndicator"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Polyhedrus.Ui.Components"
+             mc:Ignorable="d" 
+             x:Name="Main"
+             d:DesignHeight="20" d:DesignWidth="20">
+    <UserControl.Resources>
+        <ResourceDictionary Source="Styles.xaml" />
+    </UserControl.Resources>
+    <Viewbox Stretch="Uniform">
+        <Grid>
+            <Ellipse HorizontalAlignment="Center" Width="12" Height="12" Fill="#90000000"></Ellipse>
+            <Ellipse HorizontalAlignment="Center" Width="10" Height="10" Fill="{StaticResource ForegroundBlueHighlight}" Visibility="{Binding ElementName=Main, Path=VoiceIsActive, FallbackValue=Collapsed, Converter={StaticResource BoolToVisibilityConverter}}" />
+            <Ellipse HorizontalAlignment="Center" Width="10" Height="10" Fill="#50ffffff" Visibility="{Binding ElementName=Main, Path=VoiceIsDecaying, FallbackValue=Visible, Converter={StaticResource BoolToVisibilityConverter}}" />
+        </Grid>
+    </Viewbox>
+</UserControl>

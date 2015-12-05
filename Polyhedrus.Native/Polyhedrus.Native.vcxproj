@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AllpassDiffuser.h" />
+    <ClInclude Include="Arpeggiator.h" />
+    <ClInclude Include="AudioLib\Biquad.h" />
+    <ClInclude Include="AudioLib\Decimator.h" />
+    <ClInclude Include="AudioLib\FastSin.h" />
+    <ClInclude Include="AudioLib\LcgRandom.h" />
+    <ClInclude Include="AudioLib\MathDefs.h" />
+    <ClInclude Include="AudioLib\Noise.h" />
+    <ClInclude Include="AudioLib\OnePoleFilters.h" />
+    <ClInclude Include="AudioLib\SlopGenerator.h" />
+    <ClInclude Include="AudioLib\SvfFilter.h" />
+    <ClInclude Include="AudioLib\Utils.h" />
+    <ClInclude Include="AudioLib\ValueTables.h" />
+    <ClInclude Include="AudioLib\WaveFile.h" />
+    <ClInclude Include="Character.h" />
+    <ClInclude Include="CvFreq.h" />
+    <ClInclude Include="Default.h" />
+    <ClInclude Include="Delay.h" />
+    <ClInclude Include="Drive.h" />
+    <ClInclude Include="Envelope.h" />
+    <ClInclude Include="Fft\BitReverse.h" />
+    <ClInclude Include="Fft\Complex.h" />
+    <ClInclude Include="Fft\FastFFT.h" />
+    <ClInclude Include="Fft\TwiddleFactors.h" />
+    <ClInclude Include="FilterCascade.h" />
+    <ClInclude Include="FilterCascadeZero.h" />
+    <ClInclude Include="FilterDualSvf.h" />
+    <ClInclude Include="FilterHp.h" />
+    <ClInclude Include="FilterInternalMode.h" />
+    <ClInclude Include="FilterMain.h" />
+    <ClInclude Include="Modulator.h" />
+    <ClInclude Include="MixerSettings.h" />
+    <ClInclude Include="ModMatrix.h" />
+    <ClInclude Include="ModSourceDest.h" />
+    <ClInclude Include="NoiseSimple.h" />
+    <ClInclude Include="Oscillator.h" />
+    <ClInclude Include="Osc\OscMessage.h" />
+    <ClInclude Include="Osc\UdpTranceiver.h" />
+    <ClInclude Include="ParameterFormatters.h" />
+    <ClInclude Include="PlatformSpecific.h" />
+    <ClInclude Include="Parameters.h" />
+    <ClInclude Include="PresetManager.h" />
+    <ClInclude Include="Synth.h" />
+    <ClInclude Include="SynthDefines.h" />
+    <ClInclude Include="UnitTests\OscTests.h" />
+    <ClInclude Include="UnitTests\WaveTests.h" />
+    <ClInclude Include="Utils.h" />
+    <ClInclude Include="Vca.h" />
+    <ClInclude Include="Voice.h" />
+    <ClInclude Include="VoiceAllocator.h" />
+    <ClInclude Include="VoiceTuning.h" />
+    <ClInclude Include="WavetableManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AllpassDiffuser.cpp" />
+    <ClCompile Include="Arpeggiator.cpp" />
+    <ClCompile Include="AudioLib\Biquad.cpp" />
+    <ClCompile Include="AudioLib\Decimator.cpp" />
+    <ClCompile Include="AudioLib\FastSin.cpp" />
+    <ClCompile Include="AudioLib\Noise.cpp" />
+    <ClCompile Include="AudioLib\Utils.cpp" />
+    <ClCompile Include="AudioLib\ValueTables.cpp" />
+    <ClCompile Include="AudioLib\WaveFile.cpp" />
+    <ClCompile Include="Character.cpp" />
+    <ClCompile Include="CvFreq.cpp" />
+    <ClCompile Include="Delay.cpp" />
+    <ClCompile Include="Drive.cpp" />
+    <ClCompile Include="Envelope.cpp" />
+    <ClCompile Include="Exports.cpp" />
+    <ClCompile Include="Fft\BitReverse.cpp" />
+    <ClCompile Include="FilterCascade.cpp" />
+    <ClCompile Include="FilterCascadeZero.cpp" />
+    <ClCompile Include="FilterDualSvf.cpp" />
+    <ClCompile Include="FilterHp.cpp" />
+    <ClCompile Include="FilterMain.cpp" />
+    <ClCompile Include="Modulator.cpp" />
+    <ClCompile Include="ModMatrix.cpp" />
+    <ClCompile Include="NoiseSimple.cpp" />
+    <ClCompile Include="Oscillator.cpp" />
+    <ClCompile Include="Osc\OscMessage.cpp" />
+    <ClCompile Include="Osc\UdpTranceiver.cpp" />
+    <ClCompile Include="Parameters.cpp" />
+    <ClCompile Include="PlatformSpecific.cpp" />
+    <ClCompile Include="PresetManager.cpp" />
+    <ClCompile Include="Synth.cpp" />
+    <ClCompile Include="SynthParameters.cpp" />
+    <ClCompile Include="UnitTests\OscTests.cpp" />
+    <ClCompile Include="UnitTests\UnitTests.cpp" />
+    <ClCompile Include="UnitTests\WaveTests.cpp" />
+    <ClCompile Include="Vca.cpp" />
+    <ClCompile Include="Voice.cpp" />
+    <ClCompile Include="VoiceAllocator.cpp" />
+    <ClCompile Include="VoiceParameterSetters.cpp" />
+    <ClCompile Include="WavetableManager.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{4AB3FB4C-2B24-40C8-8F48-28BCFD60AE81}</ProjectGuid>
+    <RootNamespace>CppSynth</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>Polyhedrus.Native</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\dev\boost_1_59_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\dev\boost_1_59_0\bin.v2\libs;C:\dev\boost_1_59_0\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy $(TargetDir)$(TargetFileName) $(SolutionDir)Polyhedrus.Plugin\bin\$(Configuration)\$(TargetFileName)
+copy $(TargetDir)$(TargetFileName) $(SolutionDir)Polyhedrus.Tests\bin\$(Configuration)\$(TargetFileName)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\dev\boost_1_59_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>C:\dev\boost_1_59_0\bin.v2\libs;C:\dev\boost_1_59_0\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy $(TargetDir)$(TargetFileName) $(SolutionDir)Polyhedrus.Plugin\bin\$(Configuration)\$(TargetFileName)
+copy $(TargetDir)$(TargetFileName) $(SolutionDir)Polyhedrus.Tests\bin\$(Configuration)\$(TargetFileName)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,80 @@
+﻿<components:BaseControl x:Class="Polyhedrus.Ui.Components.OscSection"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:components="clr-namespace:Polyhedrus.Ui.Components"
+             xmlns:ui="clr-namespace:Polyhedrus.Ui"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary Source="Styles.xaml" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="1" Grid.Column="0">Linear</Label>
+        <Label Grid.Row="1" Grid.Column="1">Octave</Label>
+        <Label Grid.Row="1" Grid.Column="2">Semi</Label>
+        <Label Grid.Row="1" Grid.Column="3">Cent</Label>
+        <Label Grid.Row="1" Grid.Column="4">Pan</Label>
+        <Label Grid.Row="1" Grid.Column="5">Volume</Label>
+
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" Min="-1" Max="1" DefaultValue="0" ui:OscAddress.Address="/*/Linear" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" Steps="7" Min="-3" Max="3" DefaultValue="0" ui:OscAddress.Address="/*/Octave" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" Steps="25" Min="-12" Max="12" DefaultValue="0" ui:OscAddress.Address="/*/Semi" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" Steps="101" Min="-50" Max="50" DefaultValue="0" ui:OscAddress.Address="/*/Cent" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="4" Min="-1" Max="1" DefaultValue="0" ui:OscAddress.Address="/*/Pan" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="5" ui:OscAddress.Address="/*/Volume" />
+
+        <Label Grid.Row="3" Grid.Column="0">Key Track</Label>
+        <Label Grid.Row="3" Grid.Column="1">Slop</Label>
+        <Label Grid.Row="3" Grid.Column="2">Phase</Label>
+        <Label Grid.Row="3" Grid.Column="3">Shape</Label>
+
+        <ToggleButton Style="{StaticResource CircleToggleButton}" Grid.Row="2" Grid.Column="0" ui:OscAddress.Address="/*/Keytrack" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" DefaultValue="0" ui:OscAddress.Address="/*/Slop" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" ui:OscAddress.Address="/*/Phase" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="3" ui:OscAddress.Address="/*/Shape" />
+
+        <components:MenuSelector Style="{StaticResource MenuSelectorStyle}" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" 
+                                 Width="187" Margin="6,10,3,10" ui:OscAddress.Address="/*/Waveform" ItemsSource="{Binding WaveformList}">
+        </components:MenuSelector>
+
+        <components:MenuSelector Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" Style="{StaticResource MenuSelectorStyle}" 
+                                 Width="89" Margin="3,10,6,10" ItemsSource="{Binding ModuleRoutings}" ui:OscAddress.Address="/*/Routing">
+        </components:MenuSelector>
+
+        <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,3,0">
+            <Rectangle Width="63" Height="0.5" Fill="#50ffffff" Margin="0,1,10,0" />
+            <Label Padding="0">Waveform</Label>
+            <Rectangle Width="63" Height="0.5" Fill="#50ffffff" Margin="10,1,0,0" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="3,0,0,0">
+            <Rectangle Width="20" Height="0.5" Fill="#50ffffff" Margin="0,1,10,0" />
+            <Label Padding="0">Routing</Label>
+            <Rectangle Width="20" Height="0.5" Fill="#50ffffff" Margin="10,1,0,0" />
+        </StackPanel>
+
+    </Grid>
+</components:BaseControl>

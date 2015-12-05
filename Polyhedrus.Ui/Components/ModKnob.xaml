@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="Polyhedrus.Ui.Components.ModKnob"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+			 mc:Ignorable="d" 
+			 x:Name="Main"
+			 d:DesignHeight="120" d:DesignWidth="120">
+    <Viewbox Stretch="Uniform">
+		<Grid>
+			
+			<Grid Margin="20" Width="80" Height="80">
+				<Ellipse Fill="Black" Margin="1">
+					<Ellipse.Effect>
+						<DropShadowEffect ShadowDepth="10" Direction="315" Color="Black" Opacity="0.3" BlurRadius="12"/>
+					</Ellipse.Effect>
+				</Ellipse>
+				
+				<Ellipse Fill="#FF333333">
+					<Ellipse.Effect>
+						<DropShadowEffect ShadowDepth="0" Direction="315" Color="Black" Opacity="0.6" BlurRadius="20"/>
+					</Ellipse.Effect>
+				</Ellipse>
+				
+				<Ellipse Margin="1">
+					<Ellipse.Fill>
+						<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+							<GradientStop Color="#FF606264" Offset="0"/>
+							<GradientStop Color="#FF515254" Offset="0.603"/>
+							<GradientStop Color="#FF3D3D3F" Offset="1"/>
+						</LinearGradientBrush>
+					</Ellipse.Fill>
+				</Ellipse>
+				<Ellipse Margin="9" Fill="#FF333333"></Ellipse>
+                <Canvas>
+                    <!--<Path x:Name="IndicatorLine" Fill="Blue" Opacity="0.8" Stroke="White" StrokeThickness="10" Stretch="None" Data="M01,40 L20,40"/>-->
+					<Path x:Name="IndicatorLine" Fill="Blue" Opacity="0.8" Stroke="White" StrokeThickness="10" Stretch="None" Data="{Binding ElementName=Main, Path=IndicatorLineData}"/>
+				</Canvas>
+			</Grid>
+
+            <Canvas>
+                <!--<Path x:Name="ModLine" Stroke="#ffFF2A00" StrokeThickness="10" Stretch="None" Data="M5,60 A 55,55 90 0 1 60,5"></Path>-->
+                <Path x:Name="ModLine" Stroke="#ffFF2A00" StrokeThickness="10" Stretch="None" Data="{Binding ElementName=Main, Path=ModLineData}" />
+            </Canvas>
+		</Grid>
+		
+	</Viewbox>
+</UserControl>

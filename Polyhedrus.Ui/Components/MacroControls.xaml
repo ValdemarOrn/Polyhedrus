@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="Polyhedrus.Ui.Components.MacroControls"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Polyhedrus.Ui.Components"
+             xmlns:ui="clr-namespace:Polyhedrus.Ui"
+             mc:Ignorable="d" 
+             d:DesignHeight="130" d:DesignWidth="400">
+    <UserControl.Resources>
+        <ResourceDictionary Source="Styles.xaml" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="98" />
+            <ColumnDefinition Width="98" />
+            <ColumnDefinition Width="98" />
+            <ColumnDefinition Width="98" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="1" Grid.Column="0">1</Label>
+        <Label Grid.Row="1" Grid.Column="1">2</Label>
+        <Label Grid.Row="1" Grid.Column="2">3</Label>
+        <Label Grid.Row="1" Grid.Column="3">4</Label>
+        <Label Grid.Row="3" Grid.Column="0">5</Label>
+        <Label Grid.Row="3" Grid.Column="1">6</Label>
+        <Label Grid.Row="3" Grid.Column="2">7</Label>
+        <Label Grid.Row="3" Grid.Column="3">8</Label>
+
+        <local:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" ui:OscAddress.Address="/Macro/1" />
+        <local:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" ui:OscAddress.Address="/Macro/2" />
+        <local:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" ui:OscAddress.Address="/Macro/3" />
+        <local:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" ui:OscAddress.Address="/Macro/4" />
+        <local:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" ui:OscAddress.Address="/Macro/5" />
+        <local:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" ui:OscAddress.Address="/Macro/6" />
+        <local:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" ui:OscAddress.Address="/Macro/7" />
+        <local:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="3" ui:OscAddress.Address="/Macro/8" />
+    </Grid>
+</UserControl>

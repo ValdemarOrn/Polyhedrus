@@ -1,0 +1,23 @@
+﻿<ToggleButton x:Class="Polyhedrus.Ui.Components.FlatToggleButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             x:Name="Main"
+             d:DesignHeight="20" d:DesignWidth="70">
+    <ToggleButton.Template>
+        <ControlTemplate>
+            <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <Rectangle SnapsToDevicePixels="{Binding ElementName=Main, Path=SnaptoDevicePixels}"
+                           Stroke="{Binding ElementName=Main, Path=BorderBrush, FallbackValue=Black}" StrokeThickness="1" RadiusX="3" RadiusY="3" 
+                           Fill="{Binding ElementName=Main, Path=Background, FallbackValue=White}" />
+                <Label Padding="0" Margin="0" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" 
+                       FontFamily="{Binding ElementName=Main, Path=FontFamily}"
+                       FontSize="{Binding ElementName=Main, Path=FontSize}"
+                       Foreground="{Binding ElementName=Main, Path=Foreground, FallbackValue=Black}"
+			           Content="{Binding ElementName=Main, Path=Text, FallbackValue=Off}"/>
+            </Grid>
+        </ControlTemplate>
+    </ToggleButton.Template>
+</ToggleButton>

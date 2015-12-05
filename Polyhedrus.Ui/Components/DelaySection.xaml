@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="Polyhedrus.Ui.Components.DelaySection"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:components="clr-namespace:Polyhedrus.Ui.Components"
+             xmlns:ui="clr-namespace:Polyhedrus.Ui"
+             mc:Ignorable="d" 
+             d:DesignHeight="120" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary Source="Styles.xaml" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="1" Grid.Column="0">Delay L</Label>
+        <Label Grid.Row="1" Grid.Column="1">Feedb L</Label>
+        <Label Grid.Row="1" Grid.Column="2">LowPass</Label>
+        <Label Grid.Row="1" Grid.Column="3">Saturate</Label>
+        <Label Grid.Row="1" Grid.Column="4">Wet</Label>
+        <Label Grid.Row="1" Grid.Column="5">Sync</Label>
+
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" ui:OscAddress.Address="/Delay/DelayL" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" ui:OscAddress.Address="/Delay/FeedbackL" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" ui:OscAddress.Address="/Delay/Lowpass" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" ui:OscAddress.Address="/Delay/Saturate" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="4" ui:OscAddress.Address="/Delay/Wet" />
+        <ToggleButton Style="{StaticResource CircleToggleButton}" Grid.Row="0" Grid.Column="5" ui:OscAddress.Address="/Delay/Sync" />
+        
+        <Label Grid.Row="3" Grid.Column="0">Delay R</Label>
+        <Label Grid.Row="3" Grid.Column="1">Feedb R</Label>
+        <Label Grid.Row="3" Grid.Column="2">HighPass</Label>
+        <!--<Label Grid.Row="3" Grid.Column="3">Diff Amt</Label>
+        <Label Grid.Row="3" Grid.Column="4">Diff Size</Label>-->
+
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" ui:OscAddress.Address="/Delay/DelayR" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" ui:OscAddress.Address="/Delay/FeedbackR" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" ui:OscAddress.Address="/Delay/Highpass" />
+        <!--<components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="3" ui:OscAddress.Address="/Delay/DiffuseAmount" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="4" ui:OscAddress.Address="/Delay/DiffuseSize" />-->
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="5" Visibility="Hidden" /> <!-- Sizer -->
+    </Grid>
+</UserControl>
