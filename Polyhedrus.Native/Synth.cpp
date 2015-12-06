@@ -265,8 +265,8 @@ namespace Polyhedrus
 			LoadPreset(msg.GetString(0), msg.GetString(1));
 		else if (msg.Address == "/Control/SavePreset")
 			SavePreset(msg.GetString(0), msg.GetString(1));
-		else if (msg.Address == "/Control/RequestVisual/EnvAmp")
-			SendVisual(Module::EnvAmp);
+		else if (msg.Address == "/Control/RequestVisual")
+			SendVisual((Module)msg.GetInt(0), msg.GetInt(1));
 	}
 	
 	void Synth::LoadPreset(std::string bank, std::string presetName)
@@ -373,22 +373,61 @@ namespace Polyhedrus
 		udpTranceiver->Send(msg.GetBytes());
 	}
 
-	void Synth::SendVisual(Module module)
+	void Synth::SendVisual(Module module, int parameter)
 	{
+		std::vector<uint8_t> vis;
+		int baseLevel = 0;
+
 		if (module == Module::EnvAmp)
-		{
-			auto vis = Voices[0].ampEnv.GetVisual();
-			OscMessage msg("/Control/Visual/EnvAmp");
-			msg.SetBlob(vis);
-			udpTranceiver->Send(msg.GetBytes());
+		{	
+			if (parameter == (int)EnvParameters::VelocityCurve)
+				vis = Voices[0].ampEnv.GetVelocityVisual();
+			else
+				vis = Voices[0].ampEnv.GetVisual();
 		}
 		else if (module == Module::EnvFilter)
 		{
-			auto vis = Voices[0].filterEnv.GetVisual();
-			OscMessage msg("/Control/Visual/EnvFilter");
-			msg.SetBlob(vis);
-			udpTranceiver->Send(msg.GetBytes());
+			if (parameter == (int)EnvParameters::VelocityCurve)
+				vis = Voices[0].filterEnv.GetVelocityVisual();
+			else
+				vis = Voices[0].filterEnv.GetVisual();
 		}
+		else if (module == Module::Osc1 && parameter == (int)OscParameters::Shape)
+		{
+			vis = Voices[0].osc1.GetVisual();
+			baseLevel = 128;
+		}
+		else if (module == Module::Osc2 && parameter == (int)OscParameters::Shape)
+		{
+			vis = Voices[0].osc2.GetVisual();
+			baseLevel = 128;
+		}
+		else if (module == Module::Osc3 && parameter == (int)OscParameters::Shape)
+		{
+			vis = Voices[0].osc3.GetVisual();
+			baseLevel = 128;
+		}
+		else if (module == Module::Character)
+		{
+			vis = Voices[0].characterL.GetVisual((CharacterParameters)parameter, &baseLevel);
+		}
+		else if (module == Module::FilterHp)
+		{
+			if (parameter == (int)FilterHpParameters::Keytrack)
+			{
+				float amount = Voices[0].modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterHpKeytrack].Amount;
+				vis = FilterHp::GetKeytrackVisual(amount, &baseLevel);
+			}
+			else if (parameter == (int)FilterHpParameters::Env)
+			{
+				vis = Voices[0].filterEnv.GetVisual();
+			}
+		}
+
+		OscMessage msg("/Control/Visual");
+		msg.SetBlob(vis);
+		msg.SetInt(baseLevel);
+		udpTranceiver->Send(msg.GetBytes());
 	}
 
 	void Synth::SendVoiceStates()

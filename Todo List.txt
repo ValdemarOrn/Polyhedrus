@@ -4,6 +4,7 @@ Show graphics for all modules
 Hi Quality button not connected
 Need to connect more mod destinations
 Chorus
+Filter mod needs to be scaled correctly
 
 # New Features
 

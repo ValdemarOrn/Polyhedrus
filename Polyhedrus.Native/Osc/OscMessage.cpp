@@ -172,7 +172,6 @@ namespace Polyhedrus
 		for (int i = 0; i < len; i++)
 			Data.push_back(data[i]);
 
-		Data.push_back(0);
 		while (Data.size() % 4 != 0)
 			Data.push_back(0); // Pad until 4-byte aligned
 

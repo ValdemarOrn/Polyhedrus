@@ -167,7 +167,7 @@ namespace Polyhedrus
 
 		if (gate)
 		{
-			this->velocity = AudioLib::Utils::LinInterp(velocityCurve, 200, velocity);
+			this->velocity = AudioLib::Utils::LinInterp(velocityCurve, CurveTableSize, velocity);
 			if (Retrigger)
 				Reset();
 		}
@@ -193,8 +193,6 @@ namespace Polyhedrus
 		int len = 100;
 
 		int stageLen = (int)(attack * len);
-		if (stageLen == 0)
-			output.push_back(0);
 
 		for (int i = 0; i < stageLen; i++)
 		{
@@ -241,16 +239,23 @@ namespace Polyhedrus
 			output.push_back(val);
 		}
 
-		if (output.at(output.size() - 1) != 0)
-			output.push_back(0);
+		return output;
+	}
 
+	std::vector<uint8_t> Envelope::GetVelocityVisual()
+	{
+		std::vector<uint8_t> output;
+		for (int i = 0; i < CurveTableSize; i++)
+		{
+			output.push_back(velocityCurve[i] * 255.999);
+		}
 		return output;
 	}
 
 	void Envelope::CreateCurve(float* table, double expo)
 	{
 		expo = AudioLib::Utils::Limit((float)expo, -1.0f, 1.0f);
-		int N = TableSize;
+		int N = CurveTableSize;
 
 		if (abs(expo) < 0.001)
 			expo = 0.001;

@@ -89,7 +89,7 @@ namespace Polyhedrus
 		void SendBanksToEditor();
 		void SendPresetsToEditor(std::string bankName);
 		void SavePreset(std::string bankName, std::string presetName);
-		void SendVisual(Module module);
+		void SendVisual(Module module, int parameter);
 		void SendVoiceStates();
 		void SetParameterInner(Module module, int parameter, double value);
 		std::string FormatParameter(Module module, int parameter, double value);

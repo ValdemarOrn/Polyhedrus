@@ -100,6 +100,51 @@ namespace Polyhedrus
 		return buffer;
 	}
 
+	std::vector<uint8_t> Oscillator::GetVisual()
+	{
+		std::vector<uint8_t> output;
+		std::vector<float> floatOut;
+		std::shared_ptr<Wavetable> wt = wavetable;
+
+		float waveIndex = (Shape + ShapeMod) * wavetable->Count;
+		bool useNextWave = (waveIndex < wavetable->Count - 1);
+		float mix = waveIndex - (int)waveIndex;
+		int index1 = waveIndex;
+		int index2 = waveIndex + useNextWave;
+
+		// I choose partial index 5 as it has 1024 samples in it. no need to show the biggest table, we just get image aliasing in the Gui
+		auto table1 = wt->GetTable(index1, 5);
+		auto table2 = wt->GetTable(index2, 5);
+		int size = wt->WavetableSize[5];
+
+		float max = -1;
+		float min = 1;
+
+		for (int i = 0; i < size; i++)
+		{
+			float val = table1[i] * (1 - mix) + table2[i] * mix;
+			floatOut.push_back(val);
+			if (val > max)
+				max = val;
+			if (val < min)
+				min = val;
+		}
+
+		if (max - min < 0.1)
+			max = min + 0.1;
+
+		float scale = 1.0 / (max - min);
+
+		for (int i = 0; i < size; i++)
+		{
+			float val = (floatOut[i] - min) * scale;
+			uint8_t val2 = val * 255.99;
+			output.push_back(val2);
+		}
+
+		return output;
+	}
+
 	void Oscillator::Update()
 	{
 		float waveIndex = (Shape + ShapeMod) * wavetable->Count;

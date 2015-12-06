@@ -50,7 +50,6 @@ namespace Polyhedrus.Ui
 		private bool mod2Visible;
 		private bool mod3Visible;
 		private Dictionary<int, string> waveformList;
-		private bool presetPanelVisible;
 		private Geometry visualGeometry;
 		private bool mod1Page2Visible;
 		private bool mod2Page2Visible;
@@ -101,7 +100,6 @@ namespace Polyhedrus.Ui
 			Mod1Visible = true;
 			ChorusVisible = true;
 			Matrix1Visible = true;
-			PresetPanelVisible = true;
 
 			SelectedBank = "Unknown Bank";
 			SelectedPreset = "Unknown Preset";
@@ -168,23 +166,20 @@ namespace Polyhedrus.Ui
 			}
 		}
 
-		public bool PresetPanelVisible
-		{
-			get { return presetPanelVisible; }
-			set
-			{
-				presetPanelVisible = value;
-				NotifyPropertyChanged();
-				NotifyPropertyChanged(nameof(VisualPanelVisible));
-			}
-		}
+		public bool PresetPanelVisible => VisualGeometry == null;
 
-		public bool VisualPanelVisible => !PresetPanelVisible;
+		public bool VisualPanelVisible => VisualGeometry != null;
 
 		public Geometry VisualGeometry
 		{
 			get { return visualGeometry; }
-			set { visualGeometry = value; NotifyPropertyChanged(); }
+			set
+			{
+				visualGeometry = value;
+				NotifyPropertyChanged();
+				NotifyPropertyChanged(nameof(PresetPanelVisible));
+				NotifyPropertyChanged(nameof(VisualPanelVisible));
+			}
 		}
 
 		public bool Osc1Visible
@@ -534,7 +529,7 @@ namespace Polyhedrus.Ui
 				var floatVal = (float)msg.Arguments[2];
 				var formattedString = (string)msg.Arguments[3];
 				ProcessParameterUpdate(module, parameter, floatVal, formattedString.Trim());
-				PrepareVisualRequest(module);
+				RequestVisual(module, parameter);
 			}
 			else if (msg.Address == "/Control/Waveforms")
 			{
@@ -589,7 +584,7 @@ namespace Polyhedrus.Ui
 			}
 			else if (msg.Address.StartsWith("/Control/Visual"))
 			{
-				UpdateVisual((byte[])msg.Arguments[0]);
+				UpdateVisual((byte[])msg.Arguments[0], (int)msg.Arguments[1]);
 			}
 			else if (msg.Address == "/Control/VoiceState")
 			{
@@ -668,9 +663,9 @@ namespace Polyhedrus.Ui
 			controlManager.SendOscControlMessage("/Control/RequestPresets", SelectedBank);
 		}
 
-		private void RequestVisual(Module module)
+		private void RequestVisual(Module module, int parameter)
 		{
-			controlManager.SendOscControlMessage("/Control/RequestVisual/" + module);
+			controlManager.SendOscControlMessage("/Control/RequestVisual", (int)module, parameter);
 		}
 
 		private void RequestParameter(Module module, int parameter)
@@ -745,27 +740,14 @@ namespace Polyhedrus.Ui
 				var tuple = Parameters.ParseAddress(address);
 				SetActiveParameter(tuple.Item1, tuple.Item2);
 
-				PrepareVisualRequest(tuple.Item1);
+				RequestVisual(tuple.Item1, tuple.Item2);
 				RequestParameter(tuple.Item1, tuple.Item2);
 			}
 			else if (currentControl.Equals(uiElement))
 			{
 				currentControl = null;
 				ClearActiveParameter();
-				PresetPanelVisible = true;
-			}
-		}
-		
-		private void PrepareVisualRequest(Module module)
-		{
-			if (new[] { Module.EnvAmp, Module.EnvFilter, Module.Osc1, Module.Osc2, Module.Osc3 }.Contains(module))
-			{
-				PresetPanelVisible = false;
-				RequestVisual(module);
-			}
-			else
-			{
-				PresetPanelVisible = true;
+				VisualGeometry = null;
 			}
 		}
 
@@ -797,8 +779,14 @@ namespace Polyhedrus.Ui
 			AnnouncerValue = formattedString;
 		}
 
-		private void UpdateVisual(byte[] data)
+		private void UpdateVisual(byte[] data, int baseLevel)
 		{
+			if (data == null || data.Length == 0)
+			{
+				VisualGeometry = null;
+				return;
+			}
+
 			var width = 400;
 			var height = 80;
 
@@ -808,12 +796,18 @@ namespace Polyhedrus.Ui
 				var x = i / (double)data.Length * width;
 				var y = height - data[i] / 255.5 * height;
 
+				// set the initial valye of the graphic
+				var baseY = height - baseLevel / 255.5 * height;
+
+				// go to start
 				if (i == 0)
-				{
-					sb.Append($"M{x},{y} ");
-				}
-				else
-					sb.Append($"L{x},{y} ");
+					sb.Append($"M{x},{baseY} ");
+				
+				sb.Append($"L{x},{y} ");
+
+				// go to end
+				if (i == data.Length - 1)
+					sb.Append($"L{x},{baseY} ");
 			}
 
 			VisualGeometry = Geometry.Parse(sb.ToString());

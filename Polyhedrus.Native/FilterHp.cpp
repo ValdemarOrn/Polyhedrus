@@ -72,6 +72,110 @@ namespace Polyhedrus
 		}
 	}
 
+	std::vector<uint8_t> FilterHp::GetVisual(FilterHpParameters parameter, int* baseLevel)
+	{
+		std::vector<float> floatOutput;
+		std::vector<uint8_t> output;
+		float min = 9999;
+		float max = -9999;
+
+		/*if (parameter == FilterHpParameters::Keytrack)
+		{
+			*baseLevel = 128;
+			min = 0;
+			max = 255;
+
+			for (int i = 0; i < 256; i++)
+			{
+				float value = i * Keytrack;
+				floatOutput.push_back(i);
+			}
+		}
+		else if (parameter == CharacterParameters::Decimate)
+		{
+			*baseLevel = 128;
+
+			float decimate = Utils::Limit(Decimate, 0, 1);
+			float factor = (float)std::pow(2, decimate * 4);
+			float value = 0.0;
+			float lastMod = 999;
+
+			for (int i = 0; i < 256; i++)
+			{
+				float newMod = std::fmod(i, factor * 2);
+				if (newMod < lastMod)
+					value = std::sin(i / 256.0 * 2 * M_PI);
+				lastMod = newMod;
+
+				if (value < min) min = value;
+				if (value > max) max = value;
+				floatOutput.push_back(value);
+			}
+		}
+		else if (parameter == CharacterParameters::Reduce)
+		{
+			*baseLevel = 128;
+
+			float reduce = Utils::Limit(Reduce, 0, 1);
+			float bits = std::pow(2, (1 - reduce) * 4);
+			float factor = std::pow(2, bits - 1);
+			float factorInv = 1.0f / factor;
+
+			for (int i = 0; i < 256; i++)
+			{
+				float val = std::sin(i / 256.0 * 2 * M_PI);
+				float value = ((int)(val * factor)) * factorInv;
+
+				if (value < min) min = value;
+				if (value > max) max = value;
+				floatOutput.push_back(value);
+			}
+		}
+		else if (parameter == CharacterParameters::Clip)
+		{
+			*baseLevel = 128;
+
+			float factor = Utils::Limit(Clip, 0.0f, 0.9f) * 10 + 1.0f;
+
+			for (int i = 0; i < 256; i++)
+			{
+				float value = std::sin(i / 256.0 * 2 * M_PI) * factor;
+				value = Utils::Limit(value, -1.0f, 1.0f);
+
+				if (value < min) min = value;
+				if (value > max) max = value;
+				floatOutput.push_back(value);
+			}
+		}
+
+		// convert floats to byte values
+		float scaler = 1.0 / (max - min);
+		for (int i = 0; i < floatOutput.size(); i++)
+		{
+			float val = (floatOutput[i] - min) * scaler;
+			output.push_back(val * 255.99);
+		}*/
+
+		return output;
+	}
+
+	std::vector<uint8_t> FilterHp::GetKeytrackVisual(double keytrack, int * baseLevel)
+	{
+		std::vector<uint8_t> output;
+		*baseLevel = 128;
+
+		for (int i = 0; i < 256; i++)
+		{
+			float val = (-1 + 2 * i / 256.0) * keytrack;
+			int iVal = 128 + val * 128;
+			if (iVal < 0) iVal = 0;
+			if (iVal > 255) iVal = 255;
+			output.push_back(iVal);
+		}
+		
+		return output;
+	}
+
 	void FilterHp::Update()
 	{
 		float totalResonance = Resonance + ResonanceMod;

@@ -56,6 +56,7 @@ namespace Polyhedrus
 		float* GetOutput();
 		void SetGlide(float value);
 		void Update();
+		std::vector<uint8_t> GetVisual(CharacterParameters parameter, int* baseLevel);
 	};
 }
 

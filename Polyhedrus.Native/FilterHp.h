@@ -31,6 +31,9 @@ namespace Polyhedrus
 		void SetParameter(FilterHpParameters parameter, double value);
 		void Process(float* input, int len);
 		inline float* GetOutput() { return buffer; }
+		std::vector<uint8_t> GetVisual(FilterHpParameters parameter, int* baseLevel);
+
+		static std::vector<uint8_t> GetKeytrackVisual(double keytrack, int* baseLevel);
 	private:
 		void Update();
 	};

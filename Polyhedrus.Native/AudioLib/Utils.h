@@ -156,6 +156,16 @@ namespace AudioLib
 			for (int i = 0; i < len; i++)
 				dest[i] += source[i] * gain;
 		}
+
+		static inline double DB2gain(double input)
+		{
+			return std::pow(10, input / 20);
+		}
+
+		static inline double Gain2DB(double input)
+		{
+			return 20 * std::log10(input);
+		}
 	};
 }
 

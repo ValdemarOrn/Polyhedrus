@@ -13,6 +13,8 @@ namespace Polyhedrus
 	class Envelope
 	{
 	public:
+		static const int CurveTableSize = 200;
+
 		static const int SectionAttack = 0;
 		static const int SectionHold = 1;
 		static const int SectionDecay = 2;
@@ -20,7 +22,6 @@ namespace Polyhedrus
 		static const int SectionRelease = 4;
 		static const int SectionPostRelease = 5;
 
-		static const int TableSize = 200;
 		static const float MaxTimeSeconds; // defined in body
 		
 		static inline float GetDecayTime(float input)
@@ -33,10 +34,10 @@ namespace Polyhedrus
 		
 	private:
 
-		float attackCurve[200];
-		float decayCurve[200];
-		float releaseCurve[200];
-		float velocityCurve[200];
+		float attackCurve[CurveTableSize];
+		float decayCurve[CurveTableSize];
+		float releaseCurve[CurveTableSize];
+		float velocityCurve[CurveTableSize];
 
 		float velocity;
 		bool gate;
@@ -60,10 +61,10 @@ namespace Polyhedrus
 
 		inline float Lookup(float* table, float phase)
 		{
-			float idx = (float)(phase * (TableSize - 0.001));
+			float idx = (float)(phase * (CurveTableSize - 0.001));
 			int x0 = (int)idx;
 			int x1 = x0 + 1;
-			if (x1 >= TableSize) x1 = TableSize - 1;
+			if (x1 >= CurveTableSize) x1 = CurveTableSize - 1;
 			float mix = idx - x0;
 
 			float value = table[x0] * (1 - mix) + table[x1] * mix;
@@ -81,6 +82,7 @@ namespace Polyhedrus
 		void Silence();
 		void Reset();
 		std::vector<uint8_t> GetVisual();
+		std::vector<uint8_t> GetVelocityVisual();
 		void CreateCurve(float* table, double expo);
 	};
 }

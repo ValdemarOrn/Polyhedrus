@@ -1,5 +1,6 @@
 #include "Character.h"
 #include "AudioLib/Utils.h"
+#include "AudioLib/MathDefs.h"
 
 using AudioLib::Utils;
 
@@ -93,7 +94,7 @@ namespace Polyhedrus
 
 			if (clipOn)
 			{
-				val = clip * 10 * val;
+				val = clip * val;
 				val = Utils::Limit(val, -1, 1);
 				//val = Utils::QuickNonlin(val);
 			}
@@ -150,9 +151,9 @@ namespace Polyhedrus
 					currentPitch = (float)Note;
 			}
 
-			bqBottom.Frequency = Utils::Note2Freq(currentPitch) * 1.5f;
+			bqBottom.Frequency = Utils::Note2Freq(currentPitch) * 2.0f;
 			bqTop.Frequency = 8000.0f; // Utils::Note2Freq(currentPitch) * 10.0f;
-			if (bqBottom.Frequency > 1000) bqTop.Frequency = 1000.0f;
+			if (bqBottom.Frequency > 1000) bqBottom.Frequency = 1000.0f;
 			//if (bqTop.Frequency > 8000) bqTop.Frequency = 8000.0f;
 			bqBottom.SetGain(1.0f + btm);
 			bqTop.SetGain(1.0f + top);
@@ -167,17 +168,109 @@ namespace Polyhedrus
 
 		float decimate = Utils::Limit(Decimate + DecimateMod, 0, 1);
 		float reduce = Utils::Limit(Reduce + ReduceMod, 0, 1);
+		float bits = std::pow(2, (1 - reduce) * 4);
+
 		reduceOn = Reduce > 0.0001;
 
 		decimateFactor = (float)std::pow(2, decimate * 4);
-		bitReduceFactor = (1.0f - reduce) * (1.0f - reduce) * 256.0f;
-		if (bitReduceFactor < 2) bitReduceFactor = 2.0f;
+		bitReduceFactor = std::pow(2, bits - 1);
 		bitReduceFactorInv = 1.0f / bitReduceFactor;
 
 		// ------------ Set Clip ---------------------
 
-		clip = Utils::Limit(Clip + ClipMod, 0.0f, 0.9f) + 0.1f;
+		clip = Utils::Limit(Clip + ClipMod, 0.0f, 0.9f) * 10 + 1.0f;
 		clipOn = Clip > 0.0001;
+	}
+
+	std::vector<uint8_t> Character::GetVisual(CharacterParameters parameter, int* baseLevel)
+	{
+		std::vector<float> floatOutput;
+		std::vector<uint8_t> output;
+		float min = 9999;
+		float max = -9999;
+
+		if (parameter == CharacterParameters::Bottom || parameter == CharacterParameters::Top)
+		{
+			*baseLevel = 0;
+			min = 0;
+			max = 30;
+
+			for (int i = 0; i < 110; i++)
+			{
+				float f = 10 * std::pow(2, i * 0.1);
+				float response = bqBottom.GetResponse(f) * bqTop.GetResponse(f);
+				float db = AudioLib::Utils::Gain2DB(response);
+				if (db < min) db = min;
+				if (db > max) db = max;
+				floatOutput.push_back(db);
+			}
+		}
+		else if (parameter == CharacterParameters::Decimate)
+		{
+			*baseLevel = 128;
+
+			float decimate = Utils::Limit(Decimate, 0, 1);
+			float factor = (float)std::pow(2, decimate * 4);
+			float value = 0.0;
+			float lastMod = 999;
+
+			for (int i = 0; i < 256; i++)
+			{
+				float newMod = std::fmod(i, factor * 2);
+				if (newMod < lastMod)
+					value = std::sin(i / 256.0 * 2 * M_PI);
+				lastMod = newMod;
+
+				if (value < min) min = value;
+				if (value > max) max = value;
+				floatOutput.push_back(value);
+			}
+		}
+		else if (parameter == CharacterParameters::Reduce)
+		{
+			*baseLevel = 128;
+
+			float reduce = Utils::Limit(Reduce, 0, 1);
+			float bits = std::pow(2, (1 - reduce) * 4);
+			float factor = std::pow(2, bits - 1);
+			float factorInv = 1.0f / factor;
+
+			for (int i = 0; i < 256; i++)
+			{
+				float val = std::sin(i / 256.0 * 2 * M_PI);
+				float value = ((int)(val * factor)) * factorInv;
+				
+				if (value < min) min = value;
+				if (value > max) max = value;
+				floatOutput.push_back(value);
+			}
+		}
+		else if (parameter == CharacterParameters::Clip)
+		{
+			*baseLevel = 128;
+
+			float factor = Utils::Limit(Clip, 0.0f, 0.9f) * 10 + 1.0f;
+
+			for (int i = 0; i < 256; i++)
+			{
+				float value = std::sin(i / 256.0 * 2 * M_PI) * factor;
+				value = Utils::Limit(value, -1.0f, 1.0f);
+
+				if (value < min) min = value;
+				if (value > max) max = value;
+				floatOutput.push_back(value);
+			}
+		}
+
+		// convert floats to byte values
+		float scaler = 1.0 / (max - min);
+		for (int i = 0; i < floatOutput.size(); i++)
+		{
+			float val = (floatOutput[i] - min) * scaler;
+			output.push_back(val * 255.99);
+		}
+
+		return output;
 	}
 }
 
