@@ -51,6 +51,7 @@ namespace Polyhedrus
 		float* outputBufferL;
 		float* outputBufferR;
 		float masterVol;
+		double masterBpm;
 		bool isReady;
 
 	public:

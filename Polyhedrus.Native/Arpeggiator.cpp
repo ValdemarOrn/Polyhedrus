@@ -1,5 +1,8 @@
 #include <algorithm>
 #include "Arpeggiator.h"
+#include "AudioLib/TempoSync.h"
+#include "AudioLib/Utils.h"
+
 
 namespace Polyhedrus
 {
@@ -102,8 +105,9 @@ namespace Polyhedrus
 		}
 		
 		// increment phase
-		double notesPerSecond = Bpm / 60.0 * (1 + Divide * 3);
-		double samplesPerNote = samplerate / notesPerSecond;
+
+		AudioLib::Quantization noteQuant = (AudioLib::Quantization)(int)(AudioLib::Utils::Limit(Divide, 0, 1) * ((int)AudioLib::Quantization::_1d + 0.999));
+		double samplesPerNote = AudioLib::TempoSync::GetSamplesPerNote(noteQuant, Bpm, samplerate);
 		double phaseInc = 1.0 / samplesPerNote * len;
 		notePhase += phaseInc;
 

@@ -11,6 +11,7 @@
 #include "MixerSettings.h"
 #include "NoiseSimple.h"
 #include "Arpeggiator.h"
+#include "AudioLib/TempoSync.h"
 
 namespace Polyhedrus
 {
@@ -123,6 +124,12 @@ namespace Polyhedrus
 				return std::string("Smooth");
 			else
 				return FormatIntRounded(stepCount) + " Steps";
+		}
+
+		static inline std::string FormatTempoSync(double value)
+		{
+			AudioLib::Quantization noteQuant = (AudioLib::Quantization)(int)(AudioLib::Utils::Limit(value, 0, 1) * ((int)AudioLib::Quantization::_1d + 0.999));
+			return AudioLib::TempoSync::ToString(noteQuant);
 		}
 
 		static inline std::string FormatArpPattern(double value)

@@ -13,7 +13,15 @@ namespace Polyhedrus
 	{
 		auto idx = PackParameter(module, parameter);
 		double value = currentPreset.Values[idx];
-		auto text = FormatParameter(module, parameter, value);
+		std::string text;
+
+		if (module == Module::Delay && parameter == (int)DelayParameters::DelayL)
+			text = this->Delay.GetDelayLString();
+		else if (module == Module::Delay && parameter == (int)DelayParameters::DelayR)
+			text = this->Delay.GetDelayRString();
+		else
+			text = FormatParameter(module, parameter, value);
+
 		formattedParameters[idx] = text;
 		OscMessage oscMsg("/Control/ParameterData");
 		oscMsg.SetInt((int)module);

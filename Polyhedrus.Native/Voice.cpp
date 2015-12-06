@@ -140,6 +140,11 @@ namespace Polyhedrus
 		filterEnv.Silence();
 	}
 
+	void Voice::SetBpm(double bpm)
+	{
+		this->bpm = bpm;
+	}
+
 	void Voice::SetNote(int note)
 	{
 		this->Note = note;

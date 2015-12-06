@@ -24,6 +24,7 @@ namespace Polyhedrus
 		udpTranceiver = 0;
 		outputBufferL = 0;
 		outputBufferR = 0;
+		masterBpm = 120;
 		voiceAllocator.Initialize(Voices);
 		
 		for (int i = 0; i < MaxVoiceCount; i++)
@@ -252,6 +253,8 @@ namespace Polyhedrus
 	{
 		if (msg.Address == "/Control/RequestState")
 			SendStateToEditor();
+		if (msg.Address == "/Control/RequestParameter")
+			SendBackParameter((Module)msg.GetInt(0), msg.GetInt(1));
 		else if (msg.Address == "/Control/RequestWaveforms")
 			SendWaveformsToEditor();
 		else if (msg.Address == "/Control/RequestBanks")
@@ -425,17 +428,12 @@ namespace Polyhedrus
 			SetGlobalArpParameter((ArpParameters)parameter, value);
 		else if (module == Module::VoiceTuning)
 			SetGlobalVoiceTuningParameter((VoiceTuningParameters)parameter, value);
-
-		if (module == Module::Delay)
-		{
+		else if (module == Module::Delay)
 			Delay.SetParameter((DelayParameters)parameter, value);
-		}
-		else
+		
+		for (size_t i = 0; i < MaxVoiceCount; i++)
 		{
-			for (size_t i = 0; i < MaxVoiceCount; i++)
-			{
-				Voices[i].SetParameter(module, parameter, value);
-			}
+			Voices[i].SetParameter(module, parameter, value);
 		}
 	}
 
@@ -471,11 +469,18 @@ namespace Polyhedrus
 		moduleSwitches[(int)parameter] = value >= 0.5;
 		if (parameter == ModuleSwitchParameters::ArpOn)
 			arpeggiator.SetEnabled(value >= 0.5);
+		else if (parameter == ModuleSwitchParameters::DelayOn)
+			Delay.ClearBuffers();
 	}
 
 	void Synth::SetGlobalArpParameter(ArpParameters parameter, double value)
 	{
 		arpeggiator.SetParameter(parameter, value);
+		if (parameter == ArpParameters::Bpm)
+		{
+			masterBpm = value;
+			Delay.Bpm = value;
+		}
 	}
 
 	void Synth::SetGlobalVoiceTuningParameter(VoiceTuningParameters parameter, double value)

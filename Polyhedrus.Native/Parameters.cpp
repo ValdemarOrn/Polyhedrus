@@ -267,8 +267,8 @@ namespace Polyhedrus
 			ParameterFormatters::FormatArpPattern);
 		modMap[(int)ArpParameters::Gate] = ParameterInfo((int)ArpParameters::Gate, "Gate", nullptr, 1, 0, 1,
 			ParameterFormatters::FormatPercent);
-		modMap[(int)ArpParameters::Divide] = ParameterInfo((int)ArpParameters::Divide, "Divide", nullptr, 1, 0, 1, 
-			ParameterFormatters::FormatDecimal2);
+		modMap[(int)ArpParameters::Divide] = ParameterInfo((int)ArpParameters::Divide, "Divide", nullptr, 0.5, 0, 1, 
+			ParameterFormatters::FormatTempoSync);
 		modMap[(int)ArpParameters::Bpm] = ParameterInfo((int)ArpParameters::Bpm, "Bpm", nullptr, 120, 10, 250, 
 			ParameterFormatters::FormatIntRounded);
 		modMap[(int)ArpParameters::Sync] = ParameterInfo((int)ArpParameters::Sync, "Sync", nullptr, 0, 0, 1,

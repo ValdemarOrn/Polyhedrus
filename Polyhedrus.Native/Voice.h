@@ -71,6 +71,7 @@ namespace Polyhedrus
 		float* outputR;
 		float* output[2];
 
+		double bpm;
 		int samplerate;
 		int modulationUpdateRate;
 		float velocity;
@@ -82,6 +83,7 @@ namespace Polyhedrus
 		void SetParameter(Module module, int parameter, double value);
 		void SetGate(float velocity);
 		void TurnOff();
+		void SetBpm(double bpm);
 		void SetNote(int note);
 		void SetPitchWheel(float pitchbend);
 		void SetModWheel(float value);

@@ -673,6 +673,11 @@ namespace Polyhedrus.Ui
 			controlManager.SendOscControlMessage("/Control/RequestVisual/" + module);
 		}
 
+		private void RequestParameter(Module module, int parameter)
+		{
+			controlManager.SendOscControlMessage("/Control/RequestParameter", (int)module, parameter);
+		}
+
 		private void LoadPreset()
 		{
 			controlManager.SendOscControlMessage("/Control/LoadPreset", SelectedBank, SelectedPreset);
@@ -741,6 +746,7 @@ namespace Polyhedrus.Ui
 				SetActiveParameter(tuple.Item1, tuple.Item2);
 
 				PrepareVisualRequest(tuple.Item1);
+				RequestParameter(tuple.Item1, tuple.Item2);
 			}
 			else if (currentControl.Equals(uiElement))
 			{
@@ -749,7 +755,7 @@ namespace Polyhedrus.Ui
 				PresetPanelVisible = true;
 			}
 		}
-
+		
 		private void PrepareVisualRequest(Module module)
 		{
 			if (new[] { Module.EnvAmp, Module.EnvFilter, Module.Osc1, Module.Osc2, Module.Osc3 }.Contains(module))

@@ -8,26 +8,18 @@ namespace Polyhedrus
 {
 	Delay::Delay()
 	{
-		DiffuseAmount = 0;
-		DelayL = 0;
-		DelayR = 0;
-		FeedbackL = 0;
-		FeedbackR = 0;
-		Highpass = 0;
-		Lowpass = 0;
-		Saturate = 0;
-		Sync = false;
-		Wet = 0;
+		diffuseAmount = 0;
+		delayL = 0;
+		delayR = 0;
+		feedbackL = 0;
+		feedbackR = 0;
+		highpass = 0;
+		lowpass = 0;
+		saturate = 0;
+		sync = false;
+		wet = 0;
 		IsEnabled = true;
-
-		DelayLMod = 0;
-		DelayRMod = 0;
-		FeedbackLMod = 0;
-		FeedbackRMod = 0;
-		HighpassMod = 0;
-		LowpassMod = 0;
-		SaturateMod = 0;
-
+		
 		bufferL = 0;
 		bufferR = 0;
 		delayLineL = 0;
@@ -86,40 +78,42 @@ namespace Polyhedrus
 		switch (parameter)
 		{
 		case DelayParameters::DiffuseAmount:
-			DiffuseAmount = (float)value;
+			diffuseAmount = (float)value;
 			break;
 		case DelayParameters::DiffuseSize:
 			diffuserL.UpdateParameters((float)(value * samplerate * 0.025), 0.7f);
 			diffuserR.UpdateParameters((float)(value * samplerate * 0.025), 0.7f);
 			break;
 		case DelayParameters::DelayL:
-			DelayL = (float)value;
+			delayL = (float)value;
 			break;
 		case DelayParameters::DelayR:
-			DelayR = (float)value;
+			delayR = (float)value;
 			break;
 		case DelayParameters::FeedbackL:
-			FeedbackL = (float)value;
+			feedbackL = (float)value;
 			break;
 		case DelayParameters::FeedbackR:
-			FeedbackR = (float)value;
+			feedbackR = (float)value;
 			break;
 		case DelayParameters::Highpass:
-			Highpass = (float)value;
+			highpass = (float)value;
 			break;
 		case DelayParameters::Lowpass:
-			Lowpass = (float)value;
+			lowpass = (float)value;
 			break;
 		case DelayParameters::Saturate:
-			Saturate = (float)value;
+			saturate = (float)value;
 			break;
 		case DelayParameters::Sync:
-			Sync = value >= 0.5;
+			sync = value >= 0.5;
 			break;
 		case DelayParameters::Wet:
-			Wet = (float)value;
+			wet = (float)value;
 			break;
 		}
+
+		Update();
 	}
 
 	void Delay::Process(float* inputL, float* inputR, int len)
@@ -135,7 +129,7 @@ namespace Polyhedrus
 		{
 			if (updateCounter <= 0)
 			{
-				Update();
+				//Update();
 				updateCounter = modulationUpdateRate;
 			}
 
@@ -174,23 +168,49 @@ namespace Polyhedrus
 		return bufferR;
 	}
 
+	void Delay::ClearBuffers()
+	{
+		for (int i = 0; i < delayBufferSize; i++)
+		{
+			delayLineL[i] = 0.0f;
+			delayLineR[i] = 0.0f;
+		}
+	}
+
 	void Delay::Update()
 	{
-		wetGain = Utils::Limit(2 * Wet, 0.0f, 1.0f);
-		dryGain = Utils::Limit(2 - 2 * Wet, 0.0f, 1.0f);
+		wetGain = Utils::Limit(2 * wet, 0.0f, 1.0f);
+		dryGain = Utils::Limit(2 - 2 * wet, 0.0f, 1.0f);
 
-		delaySamplesL = (float)ValueTables::Get(Utils::Limit(DelayL + DelayLMod, 0, 1), AudioLib::ValueTables::Response2Dec) * samplerate;
-		delaySamplesR = (float)ValueTables::Get(Utils::Limit(DelayR + DelayRMod, 0, 1), AudioLib::ValueTables::Response2Dec) * samplerate;
-		totalFeedbackL = Utils::Limit(FeedbackL + FeedbackLMod, 0, 1.1);
-		totalFeedbackR = Utils::Limit(FeedbackR + FeedbackRMod, 0, 1.1);
-		totalSaturate = Utils::Limit(Saturate + SaturateMod, 0, 1);
+		if (sync)
+		{
+			delayQL = (Quantization)(int)(Utils::Limit(delayL, 0, 1) * ((int)AudioLib::Quantization::_1d + 0.999));
+			delayQR = (Quantization)(int)(Utils::Limit(delayR, 0, 1) * ((int)AudioLib::Quantization::_1d + 0.999));
+			delaySamplesL = TempoSync::GetSamplesPerNote(delayQL, Bpm, samplerate);
+			delaySamplesR = TempoSync::GetSamplesPerNote(delayQR, Bpm, samplerate);
+			if (delaySamplesL >= delayBufferSize)
+				delaySamplesL = delayBufferSize - 1;
+			if (delaySamplesR >= delayBufferSize)
+				delaySamplesR = delayBufferSize - 1;
+		}
+		else
+		{
+			delayTimeL = ValueTables::Get(Utils::Limit(delayL, 0.001, 1), AudioLib::ValueTables::Response2Oct);
+			delayTimeR = ValueTables::Get(Utils::Limit(delayR, 0.001, 1), AudioLib::ValueTables::Response2Oct);
+			delaySamplesL = (float)delayTimeL * samplerate;
+			delaySamplesR = (float)delayTimeR * samplerate;
+		}
+
+		totalFeedbackL = Utils::Limit(feedbackL, 0, 1.1);
+		totalFeedbackR = Utils::Limit(feedbackR, 0, 1.1);
+		totalSaturate = Utils::Limit(saturate, 0, 1);
 		satInner = 0.1f + totalSaturate * 1.9f;
 		satOuter = satInner < 1 ? 1.0f / satInner : 1.0f;
 
-		lpL.SetFc((float)ValueTables::Get(Utils::Limit(Lowpass + LowpassMod, 0, 1), AudioLib::ValueTables::Response4Oct) * 0.5);
-		lpR.SetFc((float)ValueTables::Get(Utils::Limit(Lowpass + LowpassMod, 0, 1), AudioLib::ValueTables::Response4Oct) * 0.5);
-		hpL.SetFc((float)ValueTables::Get(Utils::Limit(Highpass + HighpassMod, 0, 1), AudioLib::ValueTables::Response4Oct) * 0.5);
-		hpR.SetFc((float)ValueTables::Get(Utils::Limit(Highpass + HighpassMod, 0, 1), AudioLib::ValueTables::Response4Oct) * 0.5);
+		lpL.SetFc((float)ValueTables::Get(Utils::Limit(lowpass, 0.01, 1), AudioLib::ValueTables::Response4Oct));
+		lpR.SetFc((float)ValueTables::Get(Utils::Limit(lowpass, 0.01, 1), AudioLib::ValueTables::Response4Oct));
+		hpL.SetFc((float)ValueTables::Get(Utils::Limit(highpass, 0, 0.99), AudioLib::ValueTables::Response4Oct) * 0.25);
+		hpR.SetFc((float)ValueTables::Get(Utils::Limit(highpass, 0, 0.99), AudioLib::ValueTables::Response4Oct) * 0.25);
 	}
 
 	inline int Delay::GetIndex(int offset)

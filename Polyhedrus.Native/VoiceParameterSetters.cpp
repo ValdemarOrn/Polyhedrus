@@ -220,7 +220,7 @@ namespace Polyhedrus
 			break;
 		}
 	}
-
+	
 	void Voice::SetModMatrixParameter(Module module, ModMatrixParameters parameter, double value)
 	{
 		int route = ((int)parameter) / 10 - 1;
