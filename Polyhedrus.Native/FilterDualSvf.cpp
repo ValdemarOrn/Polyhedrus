@@ -1,6 +1,7 @@
 #include "FilterDualSvf.h"
 #include "AudioLib/ValueTables.h"
 #include "AudioLib/Utils.h"
+#include "AudioLib/Biquad.h"
 
 namespace Polyhedrus
 {
@@ -72,6 +73,26 @@ namespace Polyhedrus
 		}
 	}
 
+	std::vector<float> FilterDualSvf::GetMagnitudeResponse()
+	{
+		float lpv = volLp;
+		float bpv = volBp;
+		float hpv = volHp;
+		
+		auto lp = AudioLib::Biquad::GetLowpassMagnitude(svf1.Fc, Resonance);
+		auto bp = AudioLib::Biquad::GetBandpassMagnitude(svf1.Fc, Resonance);
+		auto hp = AudioLib::Biquad::GetHighpassMagnitude(svf1.Fc, Resonance);
+
+		std::vector<float> output;
+		for (size_t i = 0; i < lp.size(); i++)
+		{
+			float val = lpv * lp[i] + bpv * bp[i] + hpv * hp[i];
+			output.push_back(val);
+		}
+
+		return output;
+	}
+
 	void FilterDualSvf::Update()
 	{
 		float driveTotal = Drive + DriveMod;
@@ -83,7 +104,7 @@ namespace Polyhedrus
 
 		totalResonance = Resonance + ResonanceMod;
 		totalResonance = AudioLib::Utils::Limit(totalResonance, 0.0f, 1.0f);
-		totalResonance = (1 - AudioLib::ValueTables::Get((1 - totalResonance), AudioLib::ValueTables::Response2Oct)) * 0.95f;
+		totalResonance = (1 - AudioLib::ValueTables::Get((1 - totalResonance), AudioLib::ValueTables::Response2Oct)) * 0.98f;
 
 		float voltage = Cutoff + CutoffMod;
 		voltage = AudioLib::Utils::Limit(voltage, 0.0f, 10.3f);
@@ -100,13 +121,13 @@ namespace Polyhedrus
 		if (modeTotal <= 1.0)
 		{
 			volLp = 1.0f - modeTotal;
-			volBp = modeTotal;
+			volBp = modeTotal * 1.5;
 			volHp = 0.0;
 		}
 		else
 		{
 			volLp = 0.0;
-			volBp = 2 - modeTotal;
+			volBp = (2 - modeTotal) * 1.5;
 			volHp = modeTotal - 1.0f;
 		}
 	}

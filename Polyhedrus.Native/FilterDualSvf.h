@@ -1,6 +1,7 @@
 #ifndef POLYHEDRUS_FILTER_DUAL_SVF
 #define POLYHEDRUS_FILTER_DUAL_SVF
 
+#include <vector>
 #include "AudioLib/SvfFilter.h"
 #include "CvFreq.h"
 
@@ -44,6 +45,7 @@ namespace Polyhedrus
 		void Initialize(int samplerate, int bufferSize, int modulationUpdateRate);
 		void Process(float* input, int len);
 		inline float* GetOutput() { return buffer; }
+		std::vector<float> GetMagnitudeResponse();
 
 	private:
 		void Update();

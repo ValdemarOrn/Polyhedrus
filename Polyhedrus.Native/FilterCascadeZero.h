@@ -50,7 +50,8 @@ namespace Polyhedrus
 		float CutoffMod;
 		float ResonanceMod;
 		float DriveMod;
-				
+		CvFreq CvToFreq;
+
 	private:
 		float* buffer;
 		float gain;
@@ -61,7 +62,7 @@ namespace Polyhedrus
 		float uScaler;
 		float gainCompensation;
 		float g, g2, g3, g4;
-		CvFreq cvToFreq;
+		
 		ZeroDelay2Lp lp1;
 		ZeroDelay2Lp lp2;
 		ZeroDelay2Lp lp3;

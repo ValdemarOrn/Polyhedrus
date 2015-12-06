@@ -375,6 +375,24 @@ namespace Polyhedrus
 
 	void Synth::SendVisual(Module module, int parameter)
 	{
+		auto transform = [](std::vector<float> input) ->std::vector<uint8_t>
+		{
+			std::vector<uint8_t> output;
+			float min = -60;
+			float max = 80;
+			for (size_t i = 0; i < input.size(); i++)
+			{
+				float db = AudioLib::Utils::Gain2DB(input[i]);
+				if (db < min) db = min;
+				if (db > max) db = max;
+
+				int val = (db - min) * 1.8;
+				output.push_back(val);
+			}
+
+			return output;
+		};
+
 		std::vector<uint8_t> vis;
 		int baseLevel = 0;
 
@@ -416,11 +434,39 @@ namespace Polyhedrus
 			if (parameter == (int)FilterHpParameters::Keytrack)
 			{
 				float amount = Voices[0].modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterHpKeytrack].Amount;
-				vis = FilterHp::GetKeytrackVisual(amount, &baseLevel);
+				baseLevel = 128;
+				vis = FilterHp::GetKeytrackVisual(amount);
 			}
 			else if (parameter == (int)FilterHpParameters::Env)
 			{
 				vis = Voices[0].filterEnv.GetVisual();
+			}
+			else
+			{
+				auto vv = Biquad::GetHighpassMagnitude(Voices[0].hpFilterL.GetCutoff(), Voices[0].hpFilterL.Resonance);
+				vis = transform(vv);
+			}
+		}
+		else if (module == Module::FilterMain)
+		{
+			if (parameter == (int)FilterMainParameters::Keytrack)
+			{
+				float amount = Voices[0].modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterMainKeytrack].Amount;
+				baseLevel = 128;
+				vis = FilterHp::GetKeytrackVisual(amount);
+			}
+			else if (parameter == (int)FilterMainParameters::Env)
+			{
+				vis = Voices[0].filterEnv.GetVisual();
+			}
+			else if (parameter == (int)FilterMainParameters::Cutoff || parameter == (int)FilterMainParameters::Resonance || parameter == (int)FilterMainParameters::Mode)
+			{
+				vis = Voices[0].mainFilterL.GetVisual();
+			}
+			else if (parameter == (int)FilterMainParameters::Drive)
+			{
+				baseLevel = 128;
+				vis = Voices[0].mainFilterL.GetDriveVisual();
 			}
 		}
 

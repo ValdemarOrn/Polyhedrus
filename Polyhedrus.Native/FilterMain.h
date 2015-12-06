@@ -24,12 +24,18 @@ namespace Polyhedrus
 
 	public:
 		bool IsEnabled;
+		float cutoff;
+		float resonance;
+		float drive;
+
 		FilterMain();
 		~FilterMain();
 		void Initialize(int samplerate, int bufferSize, int modulationUpdateRate);
 		void SetParameter(FilterMainParameters parameter, double value);
 		void Process(float* input, int len);
 		float* GetOutput();
+		std::vector<uint8_t> GetVisual();
+		std::vector<uint8_t> GetDriveVisual();
 
 		inline void SetCutoffMod(float modAmount)
 		{

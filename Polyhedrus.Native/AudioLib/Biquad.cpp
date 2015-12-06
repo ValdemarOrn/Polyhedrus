@@ -172,13 +172,13 @@ namespace AudioLib
 		a2 = a2 * g;
 	}
 
-	float Biquad::GetResponse(float freq)
+	float Biquad::GetResponse(float freq) const
 	{
 		double phi = std::pow((std::sin(2 * M_PI * freq / (2.0 * samplerate))), 2);
 		return (float)((std::pow(b0 + b1 + b2, 2.0) - 4.0 * (b0 * b1 + 4.0 * b0 * b2 + b1 * b2) * phi + 16.0 * b0 * b2 * phi * phi) / (std::pow(1.0 + a1 + a2, 2.0) - 4.0 * (a1 + 4.0 * a2 + a1 * a2) * phi + 16.0 * a2 * phi * phi));
 	}
 
-	void Biquad::ClearBuffers() 
+	void Biquad::ClearBuffers()
 	{
 		y = 0;
 		x2 = 0;
@@ -187,4 +187,56 @@ namespace AudioLib
 		y1 = 0;
 	}
 
+	std::vector<float> Biquad::GetSystemResponse(const Biquad& b)
+	{
+		std::vector<float> output;
+		
+		for (int i = 0; i < 220; i++)
+		{
+			float f = 10 * std::pow(2, i * 0.1 * 0.5); // 10...20 Khz roughly
+			float response = b.GetResponse(f) * b.GetResponse(f);
+			output.push_back(response);
+		}
+
+		return output;
+	}
+
+	std::vector<float> Biquad::GetLowpassMagnitude(float cutoff, float resonance)
+	{
+		Biquad b;
+		std::vector<float> output;
+		b.Type = FilterType::LowPass;
+		b.SetSamplerate(96000);
+		b.Frequency = cutoff;
+		float d = (1 - (resonance * 0.999)) * 2;
+		b.SetQ(1.0 / d);
+		b.Update();
+		return GetSystemResponse(b);
+	}
+
+	std::vector<float> Biquad::GetBandpassMagnitude(float cutoff, float resonance)
+	{
+		Biquad b;
+		std::vector<float> output;
+		b.Type = FilterType::BandPass;
+		b.SetSamplerate(96000);
+		b.Frequency = cutoff;
+		float d = (1 - (resonance * 0.999)) * 2;
+		b.SetQ(1.0 / d);
+		b.Update();
+		return GetSystemResponse(b);
+	}
+
+	std::vector<float> Biquad::GetHighpassMagnitude(float cutoff, float resonance)
+	{
+		Biquad b;
+		std::vector<float> output;
+		b.Type = FilterType::HighPass;
+		b.SetSamplerate(96000);
+		b.Frequency = cutoff;
+		float d = (1 - (resonance * 0.999)) * 2;
+		b.SetQ(1.0 / d);
+		b.Update();
+		return GetSystemResponse(b);
+	}
 }

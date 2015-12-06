@@ -50,7 +50,7 @@ namespace AudioLib
 		vector<float> GetB();
 
 		void Update();
-		float GetResponse(float freq);
+		float GetResponse(float freq) const;
 		
 		float inline Process(float x)
 		{
@@ -71,6 +71,13 @@ namespace AudioLib
 		}
 
 		void ClearBuffers();
+
+		static std::vector<float> GetLowpassMagnitude(float cutoff, float resonance);
+		static std::vector<float> GetBandpassMagnitude(float cutoff, float resonance);
+		static std::vector<float> GetHighpassMagnitude(float cutoff, float resonance);
+
+	private:
+		static std::vector<float> GetSystemResponse(const Biquad& biquad);
 	};
 }
 

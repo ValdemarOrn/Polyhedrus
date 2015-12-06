@@ -159,10 +159,9 @@ namespace Polyhedrus
 		return output;
 	}
 
-	std::vector<uint8_t> FilterHp::GetKeytrackVisual(double keytrack, int * baseLevel)
+	std::vector<uint8_t> FilterHp::GetKeytrackVisual(double keytrack)
 	{
 		std::vector<uint8_t> output;
-		*baseLevel = 128;
 
 		for (int i = 0; i < 256; i++)
 		{

@@ -37,7 +37,7 @@ namespace Polyhedrus
 		this->modulationUpdateRate = modulationUpdateRate;
 		this->samplerate = samplerate;
 		fsinv = 1.0f / samplerate;
-		cvToFreq.Initialize((float)samplerate);
+		CvToFreq.Initialize((float)samplerate);
 
 		Cutoff = 1;
 		updateCounter = 0;
@@ -98,7 +98,7 @@ namespace Polyhedrus
 		// Voltage is 1V/OCt, C0 = 16.3516Hz
 		float voltage = Cutoff + CutoffMod;
 		voltage = AudioLib::Utils::Limit(voltage, 0.0f, 10.0f);
-		float fc = cvToFreq.GetFreqWarped(voltage);
+		float fc = CvToFreq.GetFreqWarped(voltage);
 
 		totalResonance = Resonance + ResonanceMod;
 		totalResonance = AudioLib::Utils::Limit(totalResonance, 0.0f, 1.0f);

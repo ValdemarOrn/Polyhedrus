@@ -1,5 +1,6 @@
 #include "FilterMain.h"
 #include "AudioLib/Utils.h"
+#include "AudioLib/Biquad.h"
 
 namespace Polyhedrus
 {
@@ -31,16 +32,19 @@ namespace Polyhedrus
 		switch (parameter)
 		{
 		case FilterMainParameters::Cutoff:
+			cutoff = cascadeZeroFilter.CvToFreq.GetFreqWarped(AudioLib::Utils::Limit(value, 0.0f, 10.3f));
 			cascadeFilter.Cutoff = (float)value;
 			cascadeZeroFilter.Cutoff = (float)value;
 			svfFilter.Cutoff = (float)value;
 			break;
 		case FilterMainParameters::Drive:
+			drive = (float)value;
 			cascadeFilter.Drive = (float)value;
 			cascadeZeroFilter.Drive = (float)value;
 			svfFilter.Drive = (float)value;
 			break;
 		case FilterMainParameters::Resonance:
+			resonance = (float)value;
 			cascadeFilter.Resonance = (float)value;
 			cascadeZeroFilter.Resonance = (float)value;
 			svfFilter.Resonance = (float)value;
@@ -91,6 +95,64 @@ namespace Polyhedrus
 			return cascadeFilter.GetOutput();
 
 		return 0;
+	}
+
+	std::vector<uint8_t> FilterMain::GetVisual()
+	{
+		auto transform = [](std::vector<float> input) ->std::vector<uint8_t>
+		{
+			std::vector<uint8_t> output;
+			float min = -60;
+			float max = 80;
+			for (size_t i = 0; i < input.size(); i++)
+			{
+				float db = AudioLib::Utils::Gain2DB(input[i]);
+				if (db < min) db = min;
+				if (db > max) db = max;
+
+				int val = (db - min) * 1.8;
+				output.push_back(val);
+			}
+
+			return output;
+		};
+
+		if (type == 0)
+		{
+			auto vv = svfFilter.GetMagnitudeResponse();
+			return transform(vv);
+		}
+		else
+		{
+			auto vv = AudioLib::Biquad::GetLowpassMagnitude(cutoff, resonance);
+		}
+	}
+
+	std::vector<uint8_t> FilterMain::GetDriveVisual()
+	{
+		std::vector<uint8_t> output;
+		std::vector<float> floatOutput;
+		float gain = (0.2f + 1.8f * drive * drive);
+		float min = 9999.0f;
+		float max = -9999.0f;
+
+		for (size_t i = 0; i < 256; i++)
+		{
+			float value = (-1 + 2 * i / 255.0) * gain;
+			value = std::tanh(value);
+			if (value < min) min = value;
+			if (value > max) max = value;
+			floatOutput.push_back(value);
+		}
+
+		float scaler = 1.0 / (max - min) * 255.99;
+
+		for (size_t i = 0; i < floatOutput.size(); i++)
+		{
+			output.push_back((floatOutput[i] - min) * scaler);
+		}
+
+		return output;
 	}
 
 }
