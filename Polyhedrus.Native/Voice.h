@@ -30,6 +30,7 @@ namespace Polyhedrus
 		float voiceTuning[VoiceTuningCount];
 		MixerSettings mixer;
 		bool moduleSwitches[20];
+		float macroParameters[8];
 
 		AudioLib::SlopGenerator slopGen1;
 		AudioLib::SlopGenerator slopGen2;
@@ -115,6 +116,7 @@ namespace Polyhedrus
 		void SetEnvParameter(Module module, EnvParameters parameter, double value);
 		void SetModParameter(Module module, ModParameters parameter, double value);
 		void SetVoiceParameter(Module module, VoiceParameters parameter, double value);
+		void SetMacroParameter(Module module, MacroParameters parameter, double value);
 		void SetModMatrixParameter(Module module, ModMatrixParameters parameter, double value);
 	};
 }

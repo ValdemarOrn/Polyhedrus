@@ -3,7 +3,6 @@
 Show graphics for all modules
 Hi Quality button not connected
 Need to connect more mod destinations
-Connect Macros
 Chorus
 
 # New Features

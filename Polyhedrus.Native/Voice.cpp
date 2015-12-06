@@ -51,9 +51,9 @@ namespace Polyhedrus
 		slopGen1.Initialize(samplerate, modulationUpdateRate, voiceNumber * 100 + 1);
 		slopGen2.Initialize(samplerate, modulationUpdateRate, voiceNumber * 100 + 2);
 		slopGen3.Initialize(samplerate, modulationUpdateRate, voiceNumber * 100 + 3);
-		slopGen1.Fc = 0.1;
-		slopGen2.Fc = 0.1;
-		slopGen3.Fc = 0.1;
+		slopGen1.Fc = 0.5;
+		slopGen2.Fc = 0.5;
+		slopGen3.Fc = 0.5;
 
 		osc1.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		osc2.Initialize(samplerate, bufferSize, modulationUpdateRate);
@@ -107,6 +107,8 @@ namespace Polyhedrus
 			SetModParameter(module, (ModParameters)parameter, value);
 		else if (module == Module::Voices)
 			SetVoiceParameter(module, (VoiceParameters)parameter, value);
+		else if (module == Module::Macros)
+			SetMacroParameter(module, (MacroParameters)parameter, value);
 		else if (module == Module::ModMatrix)
 			SetModMatrixParameter(module, (ModMatrixParameters)parameter, value);
 	}
@@ -270,7 +272,14 @@ namespace Polyhedrus
 		modMatrix.ModSourceValues[(int)ModSource::SlopGen1] = slopGen1.Output;
 		modMatrix.ModSourceValues[(int)ModSource::SlopGen2] = slopGen2.Output;
 		modMatrix.ModSourceValues[(int)ModSource::SlopGen3] = slopGen3.Output;
-
+		modMatrix.ModSourceValues[(int)ModSource::Macro1] = macroParameters[0];
+		modMatrix.ModSourceValues[(int)ModSource::Macro2] = macroParameters[1];
+		modMatrix.ModSourceValues[(int)ModSource::Macro3] = macroParameters[2];
+		modMatrix.ModSourceValues[(int)ModSource::Macro4] = macroParameters[3];
+		modMatrix.ModSourceValues[(int)ModSource::Macro5] = macroParameters[4];
+		modMatrix.ModSourceValues[(int)ModSource::Macro6] = macroParameters[5];
+		modMatrix.ModSourceValues[(int)ModSource::Macro7] = macroParameters[6];
+		modMatrix.ModSourceValues[(int)ModSource::Macro8] = macroParameters[7];
 		modMatrix.Process();
 
 		osc1.PitchMod = modMatrix.ModDestinationValues[(int)ModDest::Osc1Pitch];

@@ -230,6 +230,11 @@ namespace Polyhedrus
 		}
 	}
 	
+	void Voice::SetMacroParameter(Module module, MacroParameters parameter, double value)
+	{
+		macroParameters[(int)parameter - 1] = (float)value;
+	}
+
 	void Voice::SetModMatrixParameter(Module module, ModMatrixParameters parameter, double value)
 	{
 		int route = ((int)parameter) / 10 - 1;

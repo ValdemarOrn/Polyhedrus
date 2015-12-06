@@ -35,7 +35,16 @@ enum class ModSource
 	VoiceIndex = 60,
 	UnisonIndex = 61,
 
-	Count = 62
+	Macro1 = 70,
+	Macro2 = 71,
+	Macro3 = 72,
+	Macro4 = 73,
+	Macro5 = 74,
+	Macro6 = 75,
+	Macro7 = 76,
+	Macro8 = 77,
+
+	Count = 80
 };
 
 enum class ModDest

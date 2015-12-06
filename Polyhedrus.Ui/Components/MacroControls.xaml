@@ -33,13 +33,13 @@
         <Label Grid.Row="3" Grid.Column="2">7</Label>
         <Label Grid.Row="3" Grid.Column="3">8</Label>
 
-        <local:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" ui:OscAddress.Address="/Macro/1" />
-        <local:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" ui:OscAddress.Address="/Macro/2" />
-        <local:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" ui:OscAddress.Address="/Macro/3" />
-        <local:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" ui:OscAddress.Address="/Macro/4" />
-        <local:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" ui:OscAddress.Address="/Macro/5" />
-        <local:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" ui:OscAddress.Address="/Macro/6" />
-        <local:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" ui:OscAddress.Address="/Macro/7" />
-        <local:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="3" ui:OscAddress.Address="/Macro/8" />
+        <local:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" ui:OscAddress.Address="/Macros/Macro1" />
+        <local:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" ui:OscAddress.Address="/Macros/Macro2" />
+        <local:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" ui:OscAddress.Address="/Macros/Macro3" />
+        <local:LightKnob HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" ui:OscAddress.Address="/Macros/Macro4" />
+        <local:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" ui:OscAddress.Address="/Macros/Macro5" />
+        <local:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" ui:OscAddress.Address="/Macros/Macro6" />
+        <local:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" ui:OscAddress.Address="/Macros/Macro7" />
+        <local:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="3" ui:OscAddress.Address="/Macros/Macro8" />
     </Grid>
 </UserControl>
