@@ -27,6 +27,7 @@ namespace Polyhedrus
 	public:
 		static const int MaxFreq = 400;
 
+		bool IsEnabled;
 		float Delay;
 		float Attack;
 		float Hold;

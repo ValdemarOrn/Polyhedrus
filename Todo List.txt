@@ -1,10 +1,8 @@
 # To Complete
 
 Show graphics for all modules
-Modulator On/Off buttons don't do anything
 Hi Quality button not connected
 Need to connect more mod destinations
-Show all 32 voices in display
 Connect Macros
 Chorus
 

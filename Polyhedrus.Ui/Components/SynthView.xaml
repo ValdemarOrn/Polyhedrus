@@ -46,39 +46,46 @@
 
         <Label Grid.Column="1" Grid.ColumnSpan="9" Style="{StaticResource TitleLabel}">Polyhedrus</Label>
 
-        <StackPanel Orientation="Horizontal" Grid.Column="9" Grid.RowSpan="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="5,5,5,17">
+        <StackPanel Orientation="Vertical" Grid.Column="7" Grid.ColumnSpan="5" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,25,0">
+            <StackPanel Orientation="Horizontal">
+                <components:VoiceIndicator State="{Binding VoiceState[0]}" />
+                <components:VoiceIndicator State="{Binding VoiceState[1]}" />
+                <components:VoiceIndicator State="{Binding VoiceState[2]}" />
+                <components:VoiceIndicator State="{Binding VoiceState[3]}" />
+                <components:VoiceIndicator State="{Binding VoiceState[4]}" />
+                <components:VoiceIndicator State="{Binding VoiceState[5]}" />
+                <components:VoiceIndicator State="{Binding VoiceState[6]}" />
+                <components:VoiceIndicator State="{Binding VoiceState[7]}" />
+                <Separator Width="8" Visibility="Hidden" />
+                <components:VoiceIndicator State="{Binding VoiceState[16]}" />
+                <components:VoiceIndicator State="{Binding VoiceState[17]}" />
+                <components:VoiceIndicator State="{Binding VoiceState[18]}" />
+                <components:VoiceIndicator State="{Binding VoiceState[19]}" />
+                <components:VoiceIndicator State="{Binding VoiceState[20]}" />
+                <components:VoiceIndicator State="{Binding VoiceState[21]}" />
+                <components:VoiceIndicator State="{Binding VoiceState[22]}" />
+                <components:VoiceIndicator State="{Binding VoiceState[23]}" />
+            </StackPanel>
 
-            <components:VoiceIndicator State="{Binding VoiceState[0]}" />
-            <components:VoiceIndicator State="{Binding VoiceState[1]}" />
-            <components:VoiceIndicator State="{Binding VoiceState[2]}" />
-            <components:VoiceIndicator State="{Binding VoiceState[3]}" />
-            <components:VoiceIndicator State="{Binding VoiceState[4]}" />
-            <components:VoiceIndicator State="{Binding VoiceState[5]}" />
-            <components:VoiceIndicator State="{Binding VoiceState[6]}" />
-            <components:VoiceIndicator State="{Binding VoiceState[7]}" />
-            <components:VoiceIndicator State="{Binding VoiceState[8]}" />
-            <components:VoiceIndicator State="{Binding VoiceState[9]}" />
-            <components:VoiceIndicator State="{Binding VoiceState[10]}" />
-            <components:VoiceIndicator State="{Binding VoiceState[11]}" />
-
-
-        </StackPanel>
-        
-        <StackPanel Orientation="Horizontal" Grid.Column="9" Grid.RowSpan="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="5,5,5,-2">
-
-            <components:VoiceIndicator State="{Binding VoiceState[12]}" />
-            <components:VoiceIndicator State="{Binding VoiceState[13]}" />
-            <components:VoiceIndicator State="{Binding VoiceState[14]}" />
-            <components:VoiceIndicator State="{Binding VoiceState[15]}" />
-            <components:VoiceIndicator State="{Binding VoiceState[16]}" />
-            <components:VoiceIndicator State="{Binding VoiceState[17]}" />
-            <components:VoiceIndicator State="{Binding VoiceState[18]}" />
-            <components:VoiceIndicator State="{Binding VoiceState[19]}" />
-            <components:VoiceIndicator State="{Binding VoiceState[20]}" />
-            <components:VoiceIndicator State="{Binding VoiceState[21]}" />
-            <components:VoiceIndicator State="{Binding VoiceState[22]}" />
-            <components:VoiceIndicator State="{Binding VoiceState[23]}" />
-
+            <StackPanel Orientation="Horizontal">
+                <components:VoiceIndicator State="{Binding VoiceState[8]}" />
+                <components:VoiceIndicator State="{Binding VoiceState[9]}" />
+                <components:VoiceIndicator State="{Binding VoiceState[10]}" />
+                <components:VoiceIndicator State="{Binding VoiceState[11]}" />
+                <components:VoiceIndicator State="{Binding VoiceState[12]}" />
+                <components:VoiceIndicator State="{Binding VoiceState[13]}" />
+                <components:VoiceIndicator State="{Binding VoiceState[14]}" />
+                <components:VoiceIndicator State="{Binding VoiceState[15]}" />
+                <Separator Width="8" Visibility="Hidden" />
+                <components:VoiceIndicator State="{Binding VoiceState[24]}" />
+                <components:VoiceIndicator State="{Binding VoiceState[25]}" />
+                <components:VoiceIndicator State="{Binding VoiceState[26]}" />
+                <components:VoiceIndicator State="{Binding VoiceState[27]}" />
+                <components:VoiceIndicator State="{Binding VoiceState[28]}" />
+                <components:VoiceIndicator State="{Binding VoiceState[29]}" />
+                <components:VoiceIndicator State="{Binding VoiceState[30]}" />
+                <components:VoiceIndicator State="{Binding VoiceState[31]}" />
+            </StackPanel>
         </StackPanel>
         
         <StackPanel Grid.Row="1" Grid.Column="1" Grid.RowSpan="3">
@@ -236,7 +243,7 @@
         </StackPanel>
 
         
-        <StackPanel Grid.Row="1" Grid.Column="9" Grid.RowSpan="10">
+        <StackPanel Grid.Row="1" Grid.Column="9" Grid.RowSpan="3">
 
             <Grid Style="{StaticResource SectionTitle}">
                 <Grid.ColumnDefinitions>

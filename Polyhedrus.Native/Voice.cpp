@@ -246,8 +246,9 @@ namespace Polyhedrus
 	void Voice::ProcessModulation()
 	{
 		mod1.Process(modulationUpdateRate);
-		//mod2.Process(modulationUpdateRate);
-		//mod3.Process(modulationUpdateRate);
+		mod2.Process(modulationUpdateRate);
+		mod3.Process(modulationUpdateRate);
+
 		ampEnv.Process(modulationUpdateRate);
 		filterEnv.Process(modulationUpdateRate);
 

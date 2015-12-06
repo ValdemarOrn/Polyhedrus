@@ -139,6 +139,15 @@ namespace Polyhedrus
 			driveL.IsEnabled = isEn;
 			driveR.IsEnabled = isEn;
 			break;
+		case ModuleSwitchParameters::Mod1On:
+			mod1.IsEnabled = isEn;
+			break;
+		case ModuleSwitchParameters::Mod2On:
+			mod2.IsEnabled = isEn;
+			break;
+		case ModuleSwitchParameters::Mod3On:
+			mod3.IsEnabled = isEn;
+			break;
 		}
 	}
 

@@ -128,6 +128,13 @@ namespace Polyhedrus
 
 	float Modulator::Process(int samples)
 	{
+		if (!IsEnabled)
+		{
+			EnvOutput = 0.0f;
+			Output = 0.0f;
+			return 0.0f;
+		}
+
 		Update();
 		
 		float sample = GetSample();

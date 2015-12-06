@@ -65,7 +65,7 @@ namespace Polyhedrus.Ui
 				e.Handled = true;
 			};
 
-			voiceState = new int[24];
+			voiceState = new int[32];
 			ModuleRoutings = Enum.GetValues(typeof(RoutingStage)).Cast<RoutingStage>().ToDictionary(x => (int)x, x => x.ToString());
 			ModSources = Enum.GetValues(typeof(ModSource)).Cast<ModSource>().ToDictionary(x => (int)x, x => x.ToString());
 			ModDestinations = Enum.GetValues(typeof(ModDest)).Cast<ModDest>().ToDictionary(x => (int)x, x => x.ToString());
