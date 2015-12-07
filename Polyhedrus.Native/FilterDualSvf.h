@@ -35,7 +35,6 @@ namespace Polyhedrus
 
 		float fsinv;
 		int samplerate;
-		int updateCounter;
 		int modulationUpdateRate;
 
 	public:

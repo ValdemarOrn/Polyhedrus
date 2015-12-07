@@ -31,31 +31,26 @@ namespace Polyhedrus
 
 	void FilterDualSvf::Initialize(int samplerate, int bufferSize, int modulationUpdateRate)
 	{
-		buffer = new float[bufferSize];
+		buffer = new float[bufferSize]();
 		this->modulationUpdateRate = modulationUpdateRate;
 		this->samplerate = samplerate;
 		fsinv = 1.0f / (Oversample * samplerate);
 		cvToFreq.Initialize((float)samplerate);
-		svf1.Fs = samplerate * 2; // internal oversample by 2x
-		svf2.Fs = samplerate * 2;
+		svf1.Fs = (float)(samplerate * 2); // internal oversample by 2x
+		svf2.Fs = (float)(samplerate * 2);
 		svf1.Nonlinear = true;
 		svf2.Nonlinear = true;
 
 		Cutoff = 1;
-		updateCounter = 0;
 		Update();
 	}
 
 	void FilterDualSvf::Process(float* input, int len)
 	{
+		Update();
+
 		for (int i = 0; i < len; i++)
 		{
-			if (updateCounter <= 0)
-			{
-				Update();
-				updateCounter = modulationUpdateRate;
-			}
-
 			float val = input[i] * gain;
 			
 			// oversample by 2x
@@ -69,7 +64,6 @@ namespace Polyhedrus
 			val = svf2.Lp * volLp + svf2.Bp * volBp + svf2.Hp * volHp;
 
 			buffer[i] = val * gainInv;
-			updateCounter--;
 		}
 	}
 
@@ -100,11 +94,11 @@ namespace Polyhedrus
 
 		gain = (0.1f + 2.0f * driveTotal * driveTotal);
 		gainInv = gain < 1.0 ? std::sqrt(1.0f / gain) : 1.0f;
-		gainInv *= 1.3; // gain fudge;
+		gainInv *= 1.3f; // gain fudge;
 
 		totalResonance = Resonance + ResonanceMod;
 		totalResonance = AudioLib::Utils::Limit(totalResonance, 0.0f, 1.0f);
-		totalResonance = (1 - AudioLib::ValueTables::Get((1 - totalResonance), AudioLib::ValueTables::Response2Oct)) * 0.98f;
+		totalResonance = ((float)(1 - AudioLib::ValueTables::Get((1 - totalResonance), AudioLib::ValueTables::Response2Oct))) * 0.98f;
 
 		float voltage = Cutoff + CutoffMod;
 		voltage = AudioLib::Utils::Limit(voltage, 0.0f, 10.3f);
@@ -121,13 +115,13 @@ namespace Polyhedrus
 		if (modeTotal <= 1.0)
 		{
 			volLp = 1.0f - modeTotal;
-			volBp = modeTotal * 1.5;
-			volHp = 0.0;
+			volBp = modeTotal * 1.5f;
+			volHp = 0.0f;
 		}
 		else
 		{
-			volLp = 0.0;
-			volBp = (2 - modeTotal) * 1.5;
+			volLp = 0.0f;
+			volBp = (2.0f - modeTotal) * 1.5f;
 			volHp = modeTotal - 1.0f;
 		}
 	}

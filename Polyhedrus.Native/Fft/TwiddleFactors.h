@@ -25,7 +25,7 @@ template <class TVal>
 void TwiddleFactors<TVal>::Setup()
 {
 	int N = 65536;
-	Complex<TVal>* masterArray = new Complex<TVal>[N/2];
+	Complex<TVal>* masterArray = new Complex<TVal>[N/2]();
 
 	for(int i = 0; i < N/2; i++)
 	{

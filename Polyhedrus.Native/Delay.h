@@ -42,8 +42,6 @@ namespace Polyhedrus
 		float* delayLineR;
 		int samplerate;
 		float T;
-		int modulationUpdateRate;
-		int updateCounter;
 		int samplePos;
 
 		int delaySamplesL;
@@ -64,7 +62,7 @@ namespace Polyhedrus
 	public:
 		Delay();
 		~Delay();
-		void Initialize(int samplerate, int bufferSize, int modulationUpdateRate);
+		void Initialize(int samplerate, int bufferSize);
 		void SetParameter(DelayParameters parameter, double value);
 		void Process(float* inputL, float* inputR, int len);
 		float* GetOutputL();

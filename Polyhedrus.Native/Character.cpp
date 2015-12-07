@@ -36,7 +36,7 @@ namespace Polyhedrus
 
 	void Character::Initialize(int samplerate, int bufferSize, int modulationUpdateRate)
 	{
-		buffer = new float[bufferSize];
+		buffer = new float[bufferSize]();
 		bqBottom.SetSamplerate(samplerate);
 		bqTop.SetSamplerate(samplerate);
 
@@ -172,12 +172,12 @@ namespace Polyhedrus
 
 		float decimate = Utils::Limit(Decimate + DecimateMod, 0, 1);
 		float reduce = Utils::Limit(Reduce + ReduceMod, 0, 1);
-		float bits = std::pow(2, (1 - reduce) * 4);
+		float bits = (float)std::pow(2, (1 - reduce) * 4);
 
 		reduceOn = Reduce > 0.0001;
 
 		decimateFactor = (float)std::pow(2, decimate * 4);
-		bitReduceFactor = std::pow(2, bits - 1);
+		bitReduceFactor = (float)std::pow(2, bits - 1);
 		bitReduceFactorInv = 1.0f / bitReduceFactor;
 
 		// ------------ Set Clip ---------------------
@@ -201,9 +201,9 @@ namespace Polyhedrus
 
 			for (int i = 0; i < 110; i++)
 			{
-				float f = 10 * std::pow(2, i * 0.1);
+				float f = 10.0f * (float)std::pow(2, i * 0.1);
 				float response = bqBottom.GetResponse(f) * bqTop.GetResponse(f);
-				float db = AudioLib::Utils::Gain2DB(response);
+				float db = (float)AudioLib::Utils::Gain2DB(response);
 				if (db < min) db = min;
 				if (db > max) db = max;
 				floatOutput.push_back(db);
@@ -220,9 +220,9 @@ namespace Polyhedrus
 
 			for (int i = 0; i < 256; i++)
 			{
-				float newMod = std::fmod(i, factor * 2);
+				float newMod = (float)std::fmod(i, factor * 2);
 				if (newMod < lastMod)
-					value = std::sin(i / 256.0 * 2 * M_PI);
+					value = (float)std::sin(i / 256.0 * 2 * M_PI);
 				lastMod = newMod;
 
 				if (value < min) min = value;
@@ -235,13 +235,13 @@ namespace Polyhedrus
 			*baseLevel = 128;
 
 			float reduce = Utils::Limit(Reduce, 0, 1);
-			float bits = std::pow(2, (1 - reduce) * 4);
-			float factor = std::pow(2, bits - 1);
+			float bits = (float)std::pow(2, (1 - reduce) * 4);
+			float factor = (float)std::pow(2, bits - 1);
 			float factorInv = 1.0f / factor;
 
 			for (int i = 0; i < 256; i++)
 			{
-				float val = std::sin(i / 256.0 * 2 * M_PI);
+				float val = (float)std::sin(i / 256.0 * 2 * M_PI);
 				float value = ((int)(val * factor)) * factorInv;
 				
 				if (value < min) min = value;
@@ -257,7 +257,7 @@ namespace Polyhedrus
 
 			for (int i = 0; i < 256; i++)
 			{
-				float value = std::sin(i / 256.0 * 2 * M_PI) * factor;
+				float value = (float)std::sin(i / 256.0 * 2 * M_PI) * factor;
 				value = Utils::Limit(value, -1.0f, 1.0f);
 
 				if (value < min) min = value;
@@ -267,11 +267,11 @@ namespace Polyhedrus
 		}
 
 		// convert floats to byte values
-		float scaler = 1.0 / (max - min);
-		for (int i = 0; i < floatOutput.size(); i++)
+		float scaler = 1.0f / (max - min);
+		for (int i = 0; i < (int)floatOutput.size(); i++)
 		{
 			float val = (floatOutput[i] - min) * scaler;
-			output.push_back(val * 255.99);
+			output.push_back((uint8_t)(val * 255.99));
 		}
 
 		return output;

@@ -99,7 +99,7 @@ namespace Polyhedrus
 			Slew = (float)value;
 			return;
 		case ModParameters::Steps:
-			Steps = value;
+			Steps = (float)value;
 			return;
 		case ModParameters::Sync:
 			Sync = value >= 0.5;

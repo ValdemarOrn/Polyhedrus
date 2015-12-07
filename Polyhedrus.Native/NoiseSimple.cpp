@@ -23,16 +23,14 @@ namespace Polyhedrus
 	{
 		this->samplerate = samplerate;
 		this->bufferSize = bufferSize;
-		bufferL = new float[bufferSize];
-		bufferR = new float[bufferSize];
+		bufferL = new float[bufferSize]();
+		bufferR = new float[bufferSize]();
 		output[0] = bufferL;
 		output[1] = bufferR;
 
 		lpL.SetFc(0.01f);
 		lpR.SetFc(0.01f);
 	}
-
-
 
 	void NoiseSimple::Process(int len)
 	{

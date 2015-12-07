@@ -92,7 +92,8 @@ namespace Polyhedrus
 		void SetChannelPressure(float value);
 		void SetUnisonValue(float value);
 		void Process(int bufferSize);
-		float** GetOutput();
+
+		inline float** GetOutput() { return output; }
 		inline int GetState()
 		{
 			if (this->Gate == true)

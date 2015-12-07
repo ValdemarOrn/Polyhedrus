@@ -20,7 +20,6 @@ namespace Polyhedrus
 		float* buffer;
 		int samplerate;
 		int modulationUpdateRate;
-		int updateCounter;
 		AudioLib::SvfFilter svf;
 		CvFreq cvToFreq;
 

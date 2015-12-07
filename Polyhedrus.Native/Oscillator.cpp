@@ -16,7 +16,6 @@ namespace Polyhedrus
 		Semi = 0;
 		Cent = 0;
 		PitchMod = 0;
-		updateCounter = 0;
 		iterator = 0;
 		Phase = 1.0;
 		Shape = 0.0;
@@ -31,8 +30,8 @@ namespace Polyhedrus
 
 	void Oscillator::Initialize(int samplerate, int bufferSize, int modulationUpdateRate)
 	{
-		this->buffer = new float[bufferSize];
-		this->FmBuffer = new float[bufferSize];
+		this->buffer = new float[bufferSize]();
+		this->FmBuffer = new float[bufferSize]();
 		this->modulationUpdateRate = modulationUpdateRate;
 		this->samplerate = samplerate;
 	}
@@ -53,7 +52,7 @@ namespace Polyhedrus
 
 		// formula: 2 ^ (-8*x) / (2^(-7))
 		// goes from 32 oct/second to 0.5 oct/second
-		float divisor = std::pow(2, -7);
+		float divisor = (float)std::pow(2, -7);
 		float octavesPerSecond = (float)std::pow(2, -8 * value) / divisor;
 		float notesPerSample = (float)(octavesPerSecond * 12.0 / samplerate);
 		glideRate = notesPerSample;
@@ -67,21 +66,17 @@ namespace Polyhedrus
 
 	void Oscillator::Process(int count)
 	{
+		Update();
+
 		for (int i = 0; i < count; i++)
 		{
-			if (updateCounter == 0)
-			{
-				Update();
-				updateCounter = modulationUpdateRate;
-			}
-
 			uint32_t iterWithFm = (iterator + (uint32_t)(FmBuffer[i] * UINT32_MAX));
 			//float fIndex = iterWithFm / (double)UINT32_MAX * tableSize;
 			float fIndex = iterWithFm * iteratorScaler;
 
 			int idx1 = (int)fIndex;
 			int idx2 = idx1 + 1;
-			if (idx2 >= tableSize)
+			if (idx2 >= tableSize) // ripe for optimization!!
 				idx2 = 0;
 			float mixer = fIndex - idx1;
 
@@ -90,8 +85,6 @@ namespace Polyhedrus
 
 			buffer[i] = wa * (1 - waveMix) + wb * waveMix;
 			iterator += increment;
-
-			updateCounter--;
 		}
 	}
 
@@ -109,8 +102,8 @@ namespace Polyhedrus
 		float waveIndex = (Shape + ShapeMod) * wavetable->Count;
 		bool useNextWave = (waveIndex < wavetable->Count - 1);
 		float mix = waveIndex - (int)waveIndex;
-		int index1 = waveIndex;
-		int index2 = waveIndex + useNextWave;
+		int index1 = (int)waveIndex;
+		int index2 = index1 + useNextWave;
 
 		// I choose partial index 5 as it has 1024 samples in it. no need to show the biggest table, we just get image aliasing in the Gui
 		auto table1 = wt->GetTable(index1, 5);
@@ -130,15 +123,15 @@ namespace Polyhedrus
 				min = val;
 		}
 
-		if (max - min < 0.1)
-			max = min + 0.1;
+		if (max - min < 0.1f)
+			max = min + 0.1f;
 
-		float scale = 1.0 / (max - min);
+		float scale = 1.0f / (max - min);
 
 		for (int i = 0; i < size; i++)
 		{
 			float val = (floatOut[i] - min) * scale;
-			uint8_t val2 = val * 255.99;
+			uint8_t val2 = (uint8_t)(val * 255.99);
 			output.push_back(val2);
 		}
 
@@ -173,7 +166,7 @@ namespace Polyhedrus
 		waveB = wavetable->GetTable((int)waveIndex + useNextWave, partialIndex);
 
 		tableSize = wavetable->WavetableSize[partialIndex];
-		iteratorScaler = (1.0 / (double)UINT32_MAX) * tableSize;
+		iteratorScaler = (float)((1.0 / (double)UINT32_MAX) * tableSize);
 
 		float freq = AudioLib::Utils::Note2Freq(pitch) + (Linear + LinearMod);
 		float samplesPerCycle = samplerate / freq;

@@ -72,6 +72,8 @@ namespace Polyhedrus
 				return "Pink";
 			if (val == (int)NoiseType::Brown)
 				return "Brown";
+
+			return "";
 		}
 
 		static inline std::string FormatIntFloor(double value)
@@ -128,7 +130,7 @@ namespace Polyhedrus
 
 		static inline std::string FormatTempoSync(double value)
 		{
-			AudioLib::Quantization noteQuant = (AudioLib::Quantization)(int)(AudioLib::Utils::Limit(value, 0, 1) * ((int)AudioLib::Quantization::_1d + 0.999));
+			AudioLib::Quantization noteQuant = (AudioLib::Quantization)(int)(AudioLib::Utils::Limit((float)value, 0.0f, 1.0f) * ((int)AudioLib::Quantization::_1d + 0.999f));
 			return AudioLib::TempoSync::ToString(noteQuant);
 		}
 

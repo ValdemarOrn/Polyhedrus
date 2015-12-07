@@ -247,7 +247,7 @@ namespace Polyhedrus
 		std::vector<uint8_t> output;
 		for (int i = 0; i < CurveTableSize; i++)
 		{
-			output.push_back(velocityCurve[i] * 255.999);
+			output.push_back((uint8_t)(velocityCurve[i] * 255.999));
 		}
 		return output;
 	}

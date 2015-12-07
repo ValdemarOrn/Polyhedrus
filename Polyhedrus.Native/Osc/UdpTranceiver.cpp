@@ -51,7 +51,7 @@ namespace Polyhedrus
 
 		std::vector<uint8_t> output;
 
-		for (size_t i = 0; i < byteCount; i++)
+		for (int i = 0; i < byteCount; i++)
 			output.push_back(receiveBuffer[i]);
 
 		return output;

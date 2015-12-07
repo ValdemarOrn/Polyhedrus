@@ -40,5 +40,22 @@ SSE2 Enabled
 	1,20,523
 	20,2,995
 
-The task is to perform general house cleaning. Clean up anything that looks obviously out of place, before getting into the micro-optimizations.
+The task is to perform general house cleaning. Clean up anything that looks obviously out of place, before getting into the micro-optimizations. I have not yet ran a performance analysis of the code, I am simply looking for egregious failures in efficiency.
 
+The first obvious bit that I did was to split up the Character section into 3 separate loops.
+
+	Voices,Seconds,TimeMillis
+	1,20,516
+	20,2,985
+
+A small gain, but it was measurable consistently.
+
+The rest of the clean-ups were not interesting, but they allow me to more aggressively optimize the rest of the code.
+
+After this, the current performance stands at:
+
+	Voices,Seconds,TimeMillis
+	1,20,500
+	20,2,958
+
+A tiny measurable speed improvement still.

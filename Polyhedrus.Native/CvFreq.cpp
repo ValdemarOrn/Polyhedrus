@@ -30,8 +30,8 @@ namespace Polyhedrus
 			double cv = i / 1000.0;
 			auto cvFreq = GetCvFreqHz(cv);
 			auto compensatedFreq = Warp(cvFreq, samplerate);
-			CvToFreq[i] = cvFreq;
-			CvToFreqWarped[i] = compensatedFreq;
+			CvToFreq[i] = (float)cvFreq;
+			CvToFreqWarped[i] = (float)compensatedFreq;
 		}
 	}
 

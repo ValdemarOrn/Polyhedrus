@@ -32,7 +32,7 @@ namespace Polyhedrus
 
 	void FilterCascadeZero::Initialize(int samplerate, int bufferSize, int modulationUpdateRate)
 	{
-		buffer = new float[bufferSize];
+		buffer = new float[bufferSize]();
 		this->bufferSize = bufferSize;
 		this->modulationUpdateRate = modulationUpdateRate;
 		this->samplerate = samplerate;
@@ -40,25 +40,19 @@ namespace Polyhedrus
 		CvToFreq.Initialize((float)samplerate);
 
 		Cutoff = 1;
-		updateCounter = 0;
 		Update();
 	}
 
 	void FilterCascadeZero::Process(float* input, int len)
 	{
+		Update();
+
 		for (int i = 0; i < len; i++)
 		{
-			if (updateCounter <= 0)
-			{
-				Update();
-				updateCounter = modulationUpdateRate;
-			}
-
 			float x = input[i] * gain;
 			ProcessSample(x);
 			float value = lp4.y * gainInv * gainCompensation;
 			buffer[i] = value;
-			updateCounter--;
 		}
 	}
 
@@ -102,11 +96,11 @@ namespace Polyhedrus
 
 		totalResonance = Resonance + ResonanceMod;
 		totalResonance = AudioLib::Utils::Limit(totalResonance, 0.0f, 1.0f);
-		totalResonance = AudioLib::ValueTables::Get(totalResonance, AudioLib::ValueTables::Response2Oct) * 0.999f;
+		totalResonance = (float)AudioLib::ValueTables::Get(totalResonance, AudioLib::ValueTables::Response2Oct) * 0.999f;
 		k = totalResonance * 4.2f;
 
 		gainCompensation = 1.5f / (1 - totalResonance + 0.5f);
-		g = fc * M_PI * fsinv;
+		g = fc * (float)(M_PI * fsinv);
 		g2 = g * g;
 		g3 = g2 * g;
 		g4 = g2 * g2;

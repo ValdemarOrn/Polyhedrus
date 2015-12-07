@@ -29,7 +29,7 @@ namespace Polyhedrus
 			output->WavetableSize[i] = WavetableSize[i];
 			output->WavetableOffset[i] = WavetableOffset[i];
 		}
-				
+
 		FastFFT<double> transform;
 		const int fftSize = 2048;
 		Complex<double> input[fftSize];
@@ -79,7 +79,7 @@ namespace Polyhedrus
 		{
 			auto table = &wavetable[tableIndex * tableSize];
 
-			for (size_t i = 0; i < tableSize; i++)
+			for (int i = 0; i < tableSize; i++)
 				input[i].Real = table[i];
 
 			transform.FFT(input, fft, scratch, tableSize);
@@ -93,8 +93,8 @@ namespace Polyhedrus
 				auto fftSubset = LimitPartials(tableSize, partialCount);
 				transform.IFFT(&fftSubset[0], ifft, scratch, tableSize);
 
-				for (size_t i = 0; i < tableSize; i++)
-					tablePtr[i] = ifft[i].Real;
+				for (int i = 0; i < tableSize; i++)
+					tablePtr[i] = (float)ifft[i].Real;
 			}
 		}
 
@@ -111,7 +111,7 @@ namespace Polyhedrus
 				max = abs(wt[i]);
 		}
 
-		auto scale = 1.0 / max;
+		auto scale = 1.0f / max;
 
 		for (int i = 0; i < wavetable->Count * WavetableManager::TotalSize; i++)
 		{
@@ -161,7 +161,7 @@ namespace Polyhedrus
 
 		WavetableFiles = files;
 		loadedWavetables.clear();
-		for (int i = 0; i < WavetableFiles.size(); i++)
+		for (int i = 0; i < (int)WavetableFiles.size(); i++)
 			loadedWavetables.push_back(std::weak_ptr<Wavetable>());
 		
 		return files;
@@ -186,7 +186,7 @@ namespace Polyhedrus
 
 	std::shared_ptr<Wavetable> WavetableManager::LoadWavetable(int wtNum)
 	{
-		if (wtNum < 0 || wtNum >= WavetableFiles.size())
+		if (wtNum < 0 || wtNum >= (int)WavetableFiles.size())
 			wtNum = 0;
 
 		if (auto spt = loadedWavetables[wtNum].lock())
@@ -206,7 +206,7 @@ namespace Polyhedrus
 
 	int WavetableManager::GetId(std::string selector)
 	{
-		for (int i = 0; i < WavetableFiles.size(); i++)
+		for (int i = 0; i < (int)WavetableFiles.size(); i++)
 		{
 			if (WavetableFiles.at(i).Selector == selector)
 				return i;

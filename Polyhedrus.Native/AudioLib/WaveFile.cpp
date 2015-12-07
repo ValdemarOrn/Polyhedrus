@@ -20,7 +20,7 @@ namespace AudioLib
 
 		// reserve capacity
 		std::vector<uint8_t> vec;
-		vec.reserve(fileSize);
+		vec.reserve((uint32_t)fileSize);
 
 		// read the data:
 		vec.insert(vec.begin(),
@@ -42,7 +42,7 @@ namespace AudioLib
 		FormatChunkData format;
 		vector<vector<float>> output;
 
-		while (idx < data.size())
+		while (idx < (int)data.size())
 		{
 
 			uint8_t chunkString[5] = { data[idx + 0], data[idx + 1], data[idx + 2], data[idx + 3], 0 };
@@ -92,12 +92,12 @@ namespace AudioLib
 			else if (format.BytesPerSample == 1) // 8 bit PCM data
 			{
 				value = data[i] - 0x80;
-				channels[channel].push_back(value / 128.0);
+				channels[channel].push_back(value / 128.0f);
 			}
 			else if (format.BytesPerSample == 2) // 16 bit PCM data
 			{
 				value = *((int16_t*)&data[i]);
-				channels[channel].push_back(value / 32768.0);
+				channels[channel].push_back(value / 32768.0f);
 			}
 			else if (format.BytesPerSample == 3) // 24 bit PCM data
 			{
@@ -106,12 +106,12 @@ namespace AudioLib
 				byteData[2] = data[i + 1];
 				byteData[3] = data[i + 2];
 				value = *((int32_t*)byteData);
-				channels[channel].push_back(value / 2147483648.0);
+				channels[channel].push_back(value / 2147483648.0f);
 			}
 			else if (format.BytesPerSample == 4) // 32 bit PCM data
 			{
 				value = *((int32_t*)&data[i]);
-				channels[channel].push_back(value / 2147483648.0);
+				channels[channel].push_back(value / 2147483648.0f);
 			}
 
 			channel = (channel + 1) % format.NumChannels;

@@ -61,11 +61,11 @@ namespace Polyhedrus
 
 		this->samplerate = samplerate;
 		this->oversampling = oversample ? 2 : 1;
-		outputBufferL = new float[BufferSize];
-		outputBufferR = new float[BufferSize];
+		outputBufferL = new float[BufferSize]();
+		outputBufferR = new float[BufferSize]();
 		wavetableManager->Setup(PlatformSpecific::GetDllDir());
 		presetManager.Initialize(PlatformSpecific::GetDllDir());
-		Delay.Initialize(samplerate * oversampling, BufferSize, ModulationUpdateRate);
+		Delay.Initialize(samplerate * oversampling, BufferSize);
 		arpeggiator.Initialize(samplerate * oversampling, &voiceAllocator);
 
 		for (size_t i = 0; i < MaxVoiceCount; i++)
@@ -386,7 +386,7 @@ namespace Polyhedrus
 				if (db < min) db = min;
 				if (db > max) db = max;
 
-				int val = (db - min) * 1.8;
+				int val = (int)((db - min) * 1.8f);
 				output.push_back(val);
 			}
 

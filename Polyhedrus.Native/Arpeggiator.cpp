@@ -12,7 +12,7 @@ namespace Polyhedrus
 		Range = 3;
 		NotePtn = ArpPattern::Up;
 		OctavePtn = ArpPattern::Up;
-		Gate = 0.8;
+		Gate = 0.8f;
 		Divide = 2.0f; // 8th notes
 		Bpm = 120;
 		Sync = false;
@@ -44,7 +44,7 @@ namespace Polyhedrus
 			Bpm = Parameters::FloorToInt(value);
 			break;
 		case ArpParameters::Divide:
-			Divide = value;
+			Divide = (float)value;
 			break;
 		case ArpParameters::Gate:
 			Gate = (float)value;
@@ -195,10 +195,10 @@ namespace Polyhedrus
 		int patternLen = 0;
 		vector<int> newPattern;
 
-		for (int i = 0; i < octPtn.size(); i++)
+		for (int i = 0; i < (int)octPtn.size(); i++)
 		{
 			int oct = octPtn[i];
-			for (int j = 0; j < notePtn.size(); j++)
+			for (int j = 0; j < (int)notePtn.size(); j++)
 			{
 				newPattern.push_back(notePtn[j] + oct * 12);
 			}
@@ -244,7 +244,7 @@ namespace Polyhedrus
 		{
 			vector<int> output;
 
-			for (int i = 0; i < input.size(); i++)
+			for (int i = 0; i < (int)input.size(); i++)
 				output.push_back(input[i]);
 
 			for (int i = input.size() - 2; i > 0; i--)
@@ -256,7 +256,7 @@ namespace Polyhedrus
 		{
 			vector<int> output;
 
-			for (int i = 0; i < input.size(); i++)
+			for (int i = 0; i < (int)input.size(); i++)
 				output.push_back(input[i]);
 
 			for (int i = input.size() - 1; i >= 0; i--)
@@ -271,7 +271,7 @@ namespace Polyhedrus
 			for (int i = input.size() - 1; i >= 0; i--)
 				output.push_back(input[i]);
 
-			for (int i = 1; i < input.size() - 1; i++)
+			for (int i = 1; i < (int)input.size() - 1; i++)
 				output.push_back(input[i]);
 			
 			return output;
@@ -283,7 +283,7 @@ namespace Polyhedrus
 			for (int i = input.size() - 1; i >= 0; i--)
 				output.push_back(input[i]);
 
-			for (int i = 0; i < input.size(); i++)
+			for (int i = 0; i < (int)input.size(); i++)
 				output.push_back(input[i]);
 
 			return output;
@@ -297,7 +297,7 @@ namespace Polyhedrus
 	{
 		vector<int> possibleIndices;
 
-		for (int i = 0; i < newPattern.size(); i++)
+		for (int i = 0; i < (int)newPattern.size(); i++)
 		{
 			if (currentNote == newPattern[i])
 				possibleIndices.push_back(i);

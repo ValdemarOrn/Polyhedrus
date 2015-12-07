@@ -32,7 +32,7 @@ void BitReverse::Setup()
 void BitReverse::Generate(int size)
 {
 	int bits = Bitsize[size];
-	int* table = new int[size];
+	int* table = new int[size]();
 	Tables[size] = table;
 
 	for(int i = 0; i < size; i++)

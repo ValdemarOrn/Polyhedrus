@@ -37,43 +37,43 @@ namespace Polyhedrus
 	void ModMatrix::CreateFixedRoutes()
 	{
 		FixedRoutes[FixedRouteOscAllPitchbend].Source = ModSource::Pitchbend;
-		FixedRoutes[FixedRouteOscAllPitchbend].Amount = 2 / 24.0;
+		FixedRoutes[FixedRouteOscAllPitchbend].Amount = 2.0f / 24.0f;
 		FixedRoutes[FixedRouteOscAllPitchbend].Destination = ModDest::OscAllPitch;
 		
 		FixedRoutes[FixedRouteOscAllUnisonDetune].Source = ModSource::UnisonIndex;
-		FixedRoutes[FixedRouteOscAllUnisonDetune].Amount = 0.2 / 12.0;
+		FixedRoutes[FixedRouteOscAllUnisonDetune].Amount = 0.2f / 12.0f;
 		FixedRoutes[FixedRouteOscAllUnisonDetune].Destination = ModDest::OscAllPitch;
 
 		FixedRoutes[FixedRouteOscAllUnisonSpread].Source = ModSource::UnisonIndex;
-		FixedRoutes[FixedRouteOscAllUnisonSpread].Amount = 0.5;
+		FixedRoutes[FixedRouteOscAllUnisonSpread].Amount = 0.5f;
 		FixedRoutes[FixedRouteOscAllUnisonSpread].Destination = ModDest::OscAllPan;
 
 		FixedRoutes[FixedRouteFilterHpKeytrack].Source = ModSource::KeyTrack;
-		FixedRoutes[FixedRouteFilterHpKeytrack].Amount = 1.0;
+		FixedRoutes[FixedRouteFilterHpKeytrack].Amount = 1.0f;
 		FixedRoutes[FixedRouteFilterHpKeytrack].Destination = ModDest::FilterHpCutoff;
 
 		FixedRoutes[FixedRouteFilterMainKeytrack].Source = ModSource::KeyTrack;
-		FixedRoutes[FixedRouteFilterMainKeytrack].Amount = 1.0;
+		FixedRoutes[FixedRouteFilterMainKeytrack].Amount = 1.0f;
 		FixedRoutes[FixedRouteFilterMainKeytrack].Destination = ModDest::FilterMainCutoff;
 
 		FixedRoutes[FixedRouteFilterHpEnv].Source = ModSource::EnvFilter;
-		FixedRoutes[FixedRouteFilterHpEnv].Amount = 0.0;
+		FixedRoutes[FixedRouteFilterHpEnv].Amount = 0.0f;
 		FixedRoutes[FixedRouteFilterHpEnv].Destination = ModDest::FilterHpCutoff;
 
 		FixedRoutes[FixedRouteFilterMainEnv].Source = ModSource::EnvFilter;
-		FixedRoutes[FixedRouteFilterMainEnv].Amount = 0.0;
+		FixedRoutes[FixedRouteFilterMainEnv].Amount = 0.0f;
 		FixedRoutes[FixedRouteFilterMainEnv].Destination = ModDest::FilterMainCutoff;
 
 		FixedRoutes[FixedRouteSlop1].Source = ModSource::SlopGen1;
-		FixedRoutes[FixedRouteSlop1].Amount = 0.0;
+		FixedRoutes[FixedRouteSlop1].Amount = 0.0f;
 		FixedRoutes[FixedRouteSlop1].Destination = ModDest::Osc1Pitch;
 
 		FixedRoutes[FixedRouteSlop2].Source = ModSource::SlopGen2;
-		FixedRoutes[FixedRouteSlop2].Amount = 0.0;
+		FixedRoutes[FixedRouteSlop2].Amount = 0.0f;
 		FixedRoutes[FixedRouteSlop2].Destination = ModDest::Osc2Pitch;
 
 		FixedRoutes[FixedRouteSlop3].Source = ModSource::SlopGen3;
-		FixedRoutes[FixedRouteSlop3].Amount = 0.0;
+		FixedRoutes[FixedRouteSlop3].Amount = 0.0f;
 		FixedRoutes[FixedRouteSlop3].Destination = ModDest::Osc3Pitch;
 	}
 
@@ -87,9 +87,9 @@ namespace Polyhedrus
 
 	void ModMatrix::ApplyVoiceTuning()
 	{
-		ModDestinationValues[(int)ModDest::Osc1Pitch] += voiceTuning[(int)VoiceTuningParameters::Osc1Pitch] * 0.041666;
-		ModDestinationValues[(int)ModDest::Osc2Pitch] += voiceTuning[(int)VoiceTuningParameters::Osc2Pitch] * 0.041666;
-		ModDestinationValues[(int)ModDest::Osc3Pitch] += voiceTuning[(int)VoiceTuningParameters::Osc3Pitch] * 0.041666;
+		ModDestinationValues[(int)ModDest::Osc1Pitch] += voiceTuning[(int)VoiceTuningParameters::Osc1Pitch] * 0.041666f;
+		ModDestinationValues[(int)ModDest::Osc2Pitch] += voiceTuning[(int)VoiceTuningParameters::Osc2Pitch] * 0.041666f;
+		ModDestinationValues[(int)ModDest::Osc3Pitch] += voiceTuning[(int)VoiceTuningParameters::Osc3Pitch] * 0.041666f;
 		ModDestinationValues[(int)ModDest::Osc1Pan] += voiceTuning[(int)VoiceTuningParameters::Osc1Pan];
 		ModDestinationValues[(int)ModDest::Osc2Pan] += voiceTuning[(int)VoiceTuningParameters::Osc2Pan];
 		ModDestinationValues[(int)ModDest::Osc3Pan] += voiceTuning[(int)VoiceTuningParameters::Osc3Pan];

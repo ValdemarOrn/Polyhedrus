@@ -29,7 +29,7 @@ namespace AudioLib
 
 		for (int i = 0; i < TanhTableSize; i++)
 		{
-			tanhTable[i] = std::tanh(-3.0 + i / 10000.0);
+			tanhTable[i] = std::tanh(-3.0f + i / 10000.0f);
 		}
 	}
 

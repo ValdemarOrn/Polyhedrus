@@ -76,7 +76,7 @@ namespace Polyhedrus
 	public:
 		inline Wavetable(int dataSize)
 		{
-			this->wavetableData = new float[dataSize];
+			this->wavetableData = new float[dataSize]();
 		}
 
 		inline ~Wavetable()

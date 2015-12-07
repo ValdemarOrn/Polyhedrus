@@ -18,13 +18,13 @@ namespace Polyhedrus
 
 	void FilterMain::Initialize(int samplerate, int bufferSize, int modulationUpdateRate)
 	{
-		this->bypassBuffer = new float[bufferSize];
+		this->bypassBuffer = new float[bufferSize]();
 		this->samplerate = samplerate;
 		this->modulationUpdateRate = modulationUpdateRate;
 		cascadeFilter.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		cascadeZeroFilter.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		svfFilter.Initialize(samplerate, bufferSize, modulationUpdateRate);
-		hp.SetFc(10.0 / 24000.0);
+		hp.SetFc(10.0f / 24000.0f);
 	}
 
 	void FilterMain::SetParameter(FilterMainParameters parameter, double value)
@@ -32,7 +32,7 @@ namespace Polyhedrus
 		switch (parameter)
 		{
 		case FilterMainParameters::Cutoff:
-			cutoff = cascadeZeroFilter.CvToFreq.GetFreqWarped(AudioLib::Utils::Limit(value, 0.0f, 10.3f));
+			cutoff = cascadeZeroFilter.CvToFreq.GetFreqWarped(AudioLib::Utils::Limit((float)value, 0.0f, 10.3f));
 			cascadeFilter.Cutoff = (float)value;
 			cascadeZeroFilter.Cutoff = (float)value;
 			svfFilter.Cutoff = (float)value;
@@ -106,11 +106,11 @@ namespace Polyhedrus
 			float max = 80;
 			for (size_t i = 0; i < input.size(); i++)
 			{
-				float db = AudioLib::Utils::Gain2DB(input[i]);
+				float db = (float)AudioLib::Utils::Gain2DB(input[i]);
 				if (db < min) db = min;
 				if (db > max) db = max;
 
-				int val = (db - min) * 1.8;
+				int val = (int)((db - min) * 1.8f);
 				output.push_back(val);
 			}
 
@@ -125,6 +125,7 @@ namespace Polyhedrus
 		else
 		{
 			auto vv = AudioLib::Biquad::GetLowpassMagnitude(cutoff, resonance);
+			return transform(vv);
 		}
 	}
 
@@ -138,18 +139,18 @@ namespace Polyhedrus
 
 		for (size_t i = 0; i < 256; i++)
 		{
-			float value = (-1 + 2 * i / 255.0) * gain;
+			float value = (float)((-1 + 2 * i / 255.0) * gain);
 			value = std::tanh(value);
 			if (value < min) min = value;
 			if (value > max) max = value;
 			floatOutput.push_back(value);
 		}
 
-		float scaler = 1.0 / (max - min) * 255.99;
+		float scaler = 1.0f / (max - min) * 255.99f;
 
 		for (size_t i = 0; i < floatOutput.size(); i++)
 		{
-			output.push_back((floatOutput[i] - min) * scaler);
+			output.push_back((uint8_t)((floatOutput[i] - min) * scaler));
 		}
 
 		return output;

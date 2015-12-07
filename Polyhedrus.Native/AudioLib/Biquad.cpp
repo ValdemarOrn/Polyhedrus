@@ -193,8 +193,8 @@ namespace AudioLib
 		
 		for (int i = 0; i < 220; i++)
 		{
-			float f = 10 * std::pow(2, i * 0.1 * 0.5); // 10...20 Khz roughly
-			float response = b.GetResponse(f) * b.GetResponse(f);
+			double f = 10 * std::pow(2, i * 0.1 * 0.5); // 10...20 Khz roughly
+			float response = b.GetResponse((float)f) * b.GetResponse((float)f);
 			output.push_back(response);
 		}
 
@@ -208,8 +208,8 @@ namespace AudioLib
 		b.Type = FilterType::LowPass;
 		b.SetSamplerate(96000);
 		b.Frequency = cutoff;
-		float d = (1 - (resonance * 0.999)) * 2;
-		b.SetQ(1.0 / d);
+		float d = (1.0f - (resonance * 0.999f)) * 2.0f;
+		b.SetQ(1.0f / d);
 		b.Update();
 		return GetSystemResponse(b);
 	}
@@ -221,8 +221,8 @@ namespace AudioLib
 		b.Type = FilterType::BandPass;
 		b.SetSamplerate(96000);
 		b.Frequency = cutoff;
-		float d = (1 - (resonance * 0.999)) * 2;
-		b.SetQ(1.0 / d);
+		float d = (1.0f - (resonance * 0.999f)) * 2.0f;
+		b.SetQ(1.0f / d);
 		b.Update();
 		return GetSystemResponse(b);
 	}
@@ -234,8 +234,8 @@ namespace AudioLib
 		b.Type = FilterType::HighPass;
 		b.SetSamplerate(96000);
 		b.Frequency = cutoff;
-		float d = (1 - (resonance * 0.999)) * 2;
-		b.SetQ(1.0 / d);
+		float d = (1.0f - (resonance * 0.999f)) * 2.0f;
+		b.SetQ(1.0f / d);
 		b.Update();
 		return GetSystemResponse(b);
 	}

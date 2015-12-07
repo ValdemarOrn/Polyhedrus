@@ -18,8 +18,6 @@ namespace Polyhedrus
 		Mellow = 0;
 		buffer = 0;
 		samplerate = 48000;
-		modulationUpdateRate = 8;
-		updateCounter = 0;
 		IsEnabled = true;
 	}
 
@@ -28,10 +26,9 @@ namespace Polyhedrus
 		delete buffer;
 	}
 
-	void Drive::Initialize(int samplerate, int bufferSize, int modulationUpdateRate)
+	void Drive::Initialize(int samplerate, int bufferSize)
 	{
-		buffer = new float[bufferSize];
-		this->modulationUpdateRate = modulationUpdateRate;
+		buffer = new float[bufferSize]();
 		this->samplerate = samplerate;
 		lp.SetFc(1);
 		hp.SetFc(5.0f / 48000.0f);
@@ -81,38 +78,29 @@ namespace Polyhedrus
 		else if (Type == DriveType::Tanh)
 			func = &Tanh;
 
+		Update();
+
 		for (int i = 0; i < len; i++)
 		{
-			if (updateCounter <= 0)
-			{
-				Update();
-				updateCounter = modulationUpdateRate;
-			}
-
-			int max = updateCounter <= len - i ? updateCounter : len - i;
-			float* i2 = &input[i];
-			float* b2 = &buffer[i];
-			
-			for (int j = 0; j < max; j++)
-			{
-				b2[j] = func(i2[j] * gainTotal + biasTotal);
-			}
-			
-			for (int j = 0; j < max; j++)
-			{
-				b2[j] = lp.Process(b2[j]);
-			}
-
-			for (int j = 0; j < max; j++)
-			{
-				b2[j] = hp.Process(b2[j]);
-			}
-
-			Utils::Gain(buffer, Volume, max);
-			updateCounter = 0;
-			i += max;
+			buffer[i] = input[i] * gainTotal + biasTotal;
 		}
-		
+
+		for (int i = 0; i < len; i++)
+		{
+			buffer[i] = func(buffer[i]);
+		}
+
+		for (int i = 0; i < len; i++)
+		{
+			buffer[i] = lp.Process(buffer[i]);
+		}
+
+		for (int i = 0; i < len; i++)
+		{
+			buffer[i] = hp.Process(buffer[i]);
+		}
+
+		Utils::Gain(buffer, Volume, len);
 	}
 
 	void Drive::Update()
@@ -129,7 +117,7 @@ namespace Polyhedrus
 		}
 
 		float fc = Utils::Limit(1 - (Mellow + MellowMod), 0.0, 1.0);
-		fc = 0.002 + ValueTables::Get(fc, ValueTables::Response2Dec);
+		fc = 0.002f + (float)ValueTables::Get(fc, ValueTables::Response2Dec);
 		lp.SetFc(fc);
 	}
 

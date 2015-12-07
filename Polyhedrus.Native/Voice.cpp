@@ -35,13 +35,13 @@ namespace Polyhedrus
 
 		modMatrix.voiceTuning = &voiceTuning[0];
 
-		signalMixL = new float[bufferSize];
-		signalMixR = new float[bufferSize];
-		outputL = new float[bufferSize];
-		outputR = new float[bufferSize];
-		osc1Buffer = new float[bufferSize];
-		osc2Buffer = new float[bufferSize];
-		osc3Buffer = new float[bufferSize];
+		signalMixL = new float[bufferSize]();
+		signalMixR = new float[bufferSize]();
+		outputL = new float[bufferSize]();
+		outputR = new float[bufferSize]();
+		osc1Buffer = new float[bufferSize]();
+		osc2Buffer = new float[bufferSize]();
+		osc3Buffer = new float[bufferSize]();
 		output[0] = outputL;
 		output[1] = outputR;
 
@@ -66,8 +66,8 @@ namespace Polyhedrus
 		hpFilterR.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		mainFilterL.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		mainFilterR.Initialize(samplerate, bufferSize, modulationUpdateRate);
-		driveL.Initialize(samplerate, bufferSize, modulationUpdateRate);
-		driveR.Initialize(samplerate, bufferSize, modulationUpdateRate);
+		driveL.Initialize(samplerate, bufferSize);
+		driveR.Initialize(samplerate, bufferSize);
 
 		vcaOsc1.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		vcaOsc2.Initialize(samplerate, bufferSize, modulationUpdateRate);
@@ -236,13 +236,8 @@ namespace Polyhedrus
 
 			AudioLib::Utils::Copy(vcaOutputL.GetOutput(), &outputL[i], bufferSize);
 			AudioLib::Utils::Copy(vcaOutputR.GetOutput(), &outputR[i], bufferSize);
-			i += modulationUpdateRate;
+			i += bufferSize;
 		}
-	}
-
-	float** Voice::GetOutput()
-	{
-		return output;
 	}
 
 	void Voice::ProcessModulation()

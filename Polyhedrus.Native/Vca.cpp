@@ -16,7 +16,7 @@ namespace Polyhedrus
 
 	void Vca::Initialize(int samplerate, int bufferSize, int modulationUpdateRate)
 	{
-		buffer = new float[bufferSize];
+		buffer = new float[bufferSize]();
 		this->modulationUpdateRate = modulationUpdateRate;
 		this->samplerate = samplerate;
 	}
@@ -26,9 +26,9 @@ namespace Polyhedrus
 		// smooth linear interpolation of CV
 		float diff = (ControlVoltage - currentCv) / modulationUpdateRate;
 
-		for (size_t i = 0; i < len; i++)
+		for (int i = 0; i < len; i++)
 		{
-			if (i < modulationUpdateRate)
+			if (i < modulationUpdateRate) // ripe for optimization
 				currentCv = currentCv + diff;
 
 			buffer[i] = input[i] * currentCv;

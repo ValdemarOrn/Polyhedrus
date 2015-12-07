@@ -36,41 +36,30 @@ namespace Polyhedrus
 	void FilterCascade::Initialize(int samplerate, int bufferSize, int modulationUpdateRate)
 	{
 		ComputeCVtoAlpha(samplerate);
-		buffer = new float[bufferSize];
+		buffer = new float[bufferSize]();
 		this->modulationUpdateRate = modulationUpdateRate;
 		this->samplerate = samplerate;
 		fsinv = 1.0f / (Oversample * samplerate);
 
 		Cutoff = 1;
-		updateCounter = 0;
 		oversampledInput = 0;
 		Update();
 	}
 
 	void FilterCascade::Process(float * input, int len)
 	{
-		float gInv = sqrt(1.0f / gain);
-
+		Update();
+		
 		for (int i = 0; i < len; i++)
 		{
-			if (updateCounter <= 0)
-			{
-				Update();
-				gInv = sqrt(1.0f / gain);
-				updateCounter = modulationUpdateRate;
-			}
-
 			float value = ProcessSample(input[i]) * gInv;
 			buffer[i] = value;
-			updateCounter--;
 		}
 	}
 
 	float FilterCascade::ProcessSample(float input)
 	{
 		input *= gain;
-		float mx = 1.0f / Oversample;
-		float sum = 0.0;
 
 		for (int i = 0; i < Oversample; i++)
 		{
@@ -160,13 +149,16 @@ namespace Polyhedrus
 
 		totalResonance = Resonance + ResonanceMod;
 		totalResonance = AudioLib::Utils::Limit(totalResonance, 0.0f, 1.0f);
-		totalResonance = AudioLib::ValueTables::Get(totalResonance, AudioLib::ValueTables::Response2Oct) * 0.999f;
+		totalResonance = (float)AudioLib::ValueTables::Get(totalResonance, AudioLib::ValueTables::Response2Oct) * 0.999f;
 
 		// Voltage is 1V/OCt, C0 = 16.3516Hz
 		float voltage = Cutoff + CutoffMod;
 		voltage = AudioLib::Utils::Limit(voltage, 0.0f, 10.3f);
 
 		p = CVtoAlpha[(int)(voltage * 1000.0)];
+
+		gInv = sqrt(1.0f / gain);
+		mx = 1.0f / Oversample;
 	}
 
 }

@@ -34,8 +34,6 @@ namespace Polyhedrus
 	private:
 		float* buffer;
 		int samplerate;
-		int modulationUpdateRate;
-		int updateCounter;
 		AudioLib::Lp1 lp;
 		AudioLib::Hp1 hp;
 		float gainTotal;
@@ -44,7 +42,7 @@ namespace Polyhedrus
 	public:
 		Drive();
 		~Drive();
-		void Initialize(int samplerate, int bufferSize, int modulationUpdateRate);
+		void Initialize(int samplerate, int bufferSize);
 		void SetParameter(DriveParameters parameter, double value);
 		void Process(float* input, int len);
 		inline float* GetOutput() { return buffer; }

@@ -49,8 +49,9 @@ namespace Polyhedrus
 
 		float fsinv;
 		int samplerate;
-		int updateCounter;
 		int modulationUpdateRate;
+		float gInv;
+		float mx;
 
 	public:
 		FilterCascade();

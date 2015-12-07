@@ -11,7 +11,7 @@ namespace Polyhedrus
 	{
 		float z1State;
 		float y;
-		double g2;
+		float g2;
 		//float g;
 
 		inline float Process(float x)
@@ -19,7 +19,7 @@ namespace Polyhedrus
 			// perform one sample tick of the lowpass filter
 			//float v = (x - z1State) * g / (1 + g);
 			
-			double v = (x - z1State) * g2;
+			float v = (x - z1State) * g2;
 			y = v + z1State;
 			z1State = y + v;
 			return y;
@@ -28,7 +28,7 @@ namespace Polyhedrus
 		inline void SetG(float g)
 		{
 			//this->g = g;
-			g2 = g / (1 + g);
+			g2 = g / (1.0f + g);
 		}
 	};
 
@@ -71,7 +71,6 @@ namespace Polyhedrus
 		float fsinv;
 		int samplerate;
 		int bufferSize;
-		int updateCounter;
 		int modulationUpdateRate;
 
 	public:

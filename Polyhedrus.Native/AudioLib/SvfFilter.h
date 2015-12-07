@@ -29,15 +29,15 @@ namespace AudioLib
 			Nonlinear = false;
 			Fc = 0.5;
 			Resonance = 0.5;
-			f = 0.2;
-			d = 1.0;
+			f = 0.2f;
+			d = 1.0f;
 
-			Lp = 0.0;
-			Bp = 0.0;
-			Hp = 0.0;
-			No = 0.0;
-			zState1 = 0.0;
-			zState2 = 0.0;
+			Lp = 0.0f;
+			Bp = 0.0f;
+			Hp = 0.0f;
+			No = 0.0f;
+			zState1 = 0.0f;
+			zState2 = 0.0f;
 		}
 
 		inline void Update()
@@ -47,7 +47,7 @@ namespace AudioLib
 			Resonance = Utils::Limit(Resonance, 0, 1.0f);
 			d = (1 - Resonance) * 2;
 									
-			f = 2 * std::sin(M_PI * Fc / Fs);
+			f = (float)(2 * std::sin(M_PI * Fc / Fs));
 			//f = f * (1.85 - 0.85 * d * f);
 
 			// adjustment factors from paper

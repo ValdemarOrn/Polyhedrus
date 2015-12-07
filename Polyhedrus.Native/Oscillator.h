@@ -32,7 +32,6 @@ namespace Polyhedrus
 		int modulationUpdateRate;
 		uint32_t increment;
 		uint32_t iterator;
-		int updateCounter;
 		int tableSize;
 		float iteratorScaler;
 		float waveMix;

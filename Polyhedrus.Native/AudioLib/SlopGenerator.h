@@ -18,13 +18,13 @@ namespace AudioLib
 			Output = 0.0f;
 			Fc = 0.1f;
 
-			fcSqrtInv = 0.1;
-			alpha = 0.1;
-			value = 0.0;
-			zState1 = 0.0;
-			zState2 = 0.0;
+			fcSqrtInv = 0.1f;
+			alpha = 0.1f;
+			value = 0.0f;
+			zState1 = 0.0f;
+			zState2 = 0.0f;
 			samplerate = 48000;
-			fsInv = 1.0 / 48000.0;
+			fsInv = 1.0f / 48000.0f;
 			updateShRate = 10;
 			updateCounter = 0;
 		}
@@ -41,8 +41,8 @@ namespace AudioLib
 
 		inline void Update()
 		{
-			alpha = std::sin(M_PI * Fc * fsInv);
-			fcSqrtInv = 1.0 / std::sqrt(Fc);
+			alpha = (float)std::sin(M_PI * Fc * fsInv);
+			fcSqrtInv = 1.0f / std::sqrt(Fc);
 		}
 
 		inline float Process()
@@ -50,12 +50,12 @@ namespace AudioLib
 			if (updateCounter == 0)
 			{
 				Update();
-				value = (2 * rand.NextDouble() - 1);
+				value = 2.0f * rand.NextFloat() - 1.0f;
 				updateCounter = updateShRate;
 			}
 
-			zState1 = zState1 * (1 - alpha) + value * alpha;
-			zState2 = zState2 * (1 - alpha) + zState1 * alpha;
+			zState1 = zState1 * (1.0f - alpha) + value * alpha;
+			zState2 = zState2 * (1.0f - alpha) + zState1 * alpha;
 
 			Output = zState2 * fcSqrtInv * 20; // normalized to 1Hz
 			updateCounter--;

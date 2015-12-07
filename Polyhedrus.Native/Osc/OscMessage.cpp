@@ -74,7 +74,7 @@ namespace Polyhedrus
 		int parseIndex = 8;
 		parseIndex += 8; // skip timetag
 
-		while (parseIndex < dataBundle.size())
+		while (parseIndex < (int)dataBundle.size())
 		{
 			int size = ReadInt(&dataBundle[parseIndex]);
 			parseIndex += 4;
@@ -191,7 +191,7 @@ namespace Polyhedrus
 		while (output.size() % 4 != 0)
 			output.push_back(0);
 
-		for (int i = 0; i < TypeTags.size(); i++)
+		for (int i = 0; i <(int)TypeTags.size(); i++)
 			output.push_back(TypeTags[i]);
 		
 		output.push_back(',');
@@ -199,7 +199,7 @@ namespace Polyhedrus
 		while (output.size() % 4 != 0)
 			output.push_back(0);
 
-		for (int i = 0; i < Data.size(); i++)
+		for (int i = 0; i < (int)Data.size(); i++)
 			output.push_back(Data[i]);
 
 		return output;

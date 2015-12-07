@@ -37,7 +37,7 @@ namespace AudioLib
 		static inline void ZeroBuffer(float* buffer, int len)
 		{
 			for (int i = 0; i < len; i++)
-				buffer[i] = 0.0;
+				buffer[i] = 0.0f;
 		}
 		
 		static inline void PreventDenormal(float* buffer, int len)
@@ -75,7 +75,7 @@ namespace AudioLib
 				return table[tableSize - 1];
 
 			float fIdx = value * tableSize;
-			int idxA = fIdx;
+			int idxA = (int)fIdx;
 			int idxB = idxA + 1;
 			if (idxA >= tableSize) idxA = tableSize - 1;
 			if (idxB >= tableSize) idxB = tableSize - 1;
@@ -162,9 +162,9 @@ namespace AudioLib
 			return std::pow(10, input / 20);
 		}
 
-		static inline double Gain2DB(double input)
+		static inline float Gain2DB(float input)
 		{
-			return 20 * std::log10(input);
+			return 20.0f * std::log10(input);
 		}
 	};
 }

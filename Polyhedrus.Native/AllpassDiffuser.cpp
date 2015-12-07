@@ -21,14 +21,8 @@ namespace Polyhedrus
 	void SchroederAllpass::Initialize(int bufferSize)
 	{
 		this->bufferSize = bufferSize;
-		delayBuffer = new float[DelayBufferSamples];
-		output = new float[bufferSize];
-
-		for (int i = 0; i < DelayBufferSamples; i++)
-			delayBuffer[i] = 0.0;
-		
-		for (int i = 0; i < bufferSize; i++)
-			output[i] = 0.0;
+		delayBuffer = new float[DelayBufferSamples]();
+		output = new float[bufferSize]();
 	}
 
 	float* SchroederAllpass::GetOutput()
@@ -90,7 +84,7 @@ namespace Polyhedrus
 
 	AllpassDiffuser::AllpassDiffuser()
 	{
-		UpdateParameters(1000.0f, 0.7);
+		UpdateParameters(1000.0f, 0.7f);
 	}
 
 	AllpassDiffuser::~AllpassDiffuser()
@@ -143,7 +137,7 @@ namespace Polyhedrus
 	{
 		for (int i = 0; i < StageCount; i++)
 		{
-			float del = sampleDelay * (0.5 + random.NextFloat());
+			float del = sampleDelay * (0.5f + random.NextFloat());
 			
 			if (del > SchroederAllpass::DelayBufferSamples)
 				del = SchroederAllpass::DelayBufferSamples - 10;
