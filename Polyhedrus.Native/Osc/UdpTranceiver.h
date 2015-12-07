@@ -19,7 +19,8 @@ namespace Polyhedrus
 
 		boost::asio::io_service ioServiceReceive;
 		udp::socket* receiveSocket;
-		boost::array<uint8_t, 64000> recveiveBuffer;
+		boost::array<uint8_t, 64000> receiveBuffer;
+		bool sendPortEnabled;
 
 	public:
 		UdpTranceiver(int receivePort, int sendPort);

@@ -18,10 +18,10 @@ namespace Polyhedrus
 
 	Synth::Synth()
 	{
+		udpTranceiver = new UdpTranceiver(0, 0);
 		wavetableManager = make_shared<WavetableManager>();
 		isClosing = false;
 		masterVol = 1.0;
-		udpTranceiver = 0;
 		outputBufferL = 0;
 		outputBufferR = 0;
 		masterBpm = 120;

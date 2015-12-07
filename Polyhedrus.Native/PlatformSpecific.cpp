@@ -33,4 +33,18 @@ namespace Polyhedrus
 	{
 
 	}
+
+	long long PlatformSpecific::PerformanceFrequency()
+	{
+		LARGE_INTEGER li;
+		QueryPerformanceFrequency(&li);
+		return li.QuadPart;
+	}
+
+	long long PlatformSpecific::PerformanceCounter()
+	{
+		LARGE_INTEGER li;
+		QueryPerformanceCounter(&li);
+		return li.QuadPart;
+	}
 }

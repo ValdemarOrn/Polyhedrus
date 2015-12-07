@@ -10,6 +10,9 @@ namespace Polyhedrus
 	public:
 		static std::string GetDllDir();
 		static void StartEditor(int port);
+
+		static long long PerformanceFrequency();
+		static long long PerformanceCounter();
 	};
 }
 

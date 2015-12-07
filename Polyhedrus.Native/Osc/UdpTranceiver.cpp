@@ -12,9 +12,17 @@ namespace Polyhedrus
 	{
 		// ----- Setup Sending -----
 
-		udp::resolver resolver(ioServiceSend);
-		udp::resolver::query query(udp::v4(), sendIp, std::to_string(sendPort));
-		sendEndpoint = *resolver.resolve(query);
+		if (sendPort != 0)
+		{
+			udp::resolver resolver(ioServiceSend);
+			udp::resolver::query query(udp::v4(), sendIp, std::to_string(sendPort));
+			sendEndpoint = *resolver.resolve(query);
+			sendPortEnabled = true;
+		}
+		else
+		{
+			sendPortEnabled = false;
+		}
 
 		// Open a random socket for sending
 		sendSocket = new udp::socket(ioServiceSend);
@@ -39,19 +47,20 @@ namespace Polyhedrus
 		if (available == 0)
 			return std::vector<uint8_t>();
 
-		int byteCount = receiveSocket->receive_from(boost::asio::buffer(recveiveBuffer), remote_endpoint, 0, error);
+		int byteCount = receiveSocket->receive_from(boost::asio::buffer(receiveBuffer), remote_endpoint, 0, error);
 
 		std::vector<uint8_t> output;
 
 		for (size_t i = 0; i < byteCount; i++)
-			output.push_back(recveiveBuffer[i]);
+			output.push_back(receiveBuffer[i]);
 
 		return output;
 	}
 
 	void UdpTranceiver::Send(std::vector<uint8_t> message)
 	{
-		sendSocket->send_to(boost::asio::buffer(message), sendEndpoint);
+		if (sendPortEnabled)
+			sendSocket->send_to(boost::asio::buffer(message), sendEndpoint);
 	}
 }
 
