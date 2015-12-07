@@ -76,30 +76,34 @@ namespace Polyhedrus
 
 		Update();
 
+		register float temp = lastDecimateVal;
 		for (int i = 0; i < len; i++)
 		{
 			decimateCounter++;
 			if (decimateCounter >= decimateFactor)
 			{
-				lastDecimateVal = input[i];
+				temp = input[i];
 				decimateCounter -= decimateFactor;
 			}
+			buffer[i] = temp;
+		}
 
-			float val = lastDecimateVal;
+		lastDecimateVal = temp;
 
-			if (reduceOn)
+		if (reduceOn)
+		{
+			for (int i = 0; i < len; i++)
 			{
-				val = std::floorf(val * bitReduceFactor) * bitReduceFactorInv;
+				buffer[i] = std::floorf(buffer[i] * bitReduceFactor) * bitReduceFactorInv;
 			}
+		}
 
-			if (clipOn)
+		if (clipOn)
+		{
+			for (int i = 0; i < len; i++)
 			{
-				val = clip * val;
-				val = Utils::Limit(val, -1, 1);
-				//val = Utils::QuickNonlin(val);
+				buffer[i] = Utils::Limit(buffer[i] * clip, -1, 1);
 			}
-
-			buffer[i] = val;
 		}
 
 		bqBottom.Process(buffer, buffer, len);
