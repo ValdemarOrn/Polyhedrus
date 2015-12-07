@@ -95,7 +95,7 @@ void RunPerft1(int voiceCount, int seconds)
 	synth->SetParameter(Synth::PackParameter(Module::Voices, (int)VoiceParameters::Unison), voiceCount);
 	synth->ProcessMidi(noteOnMessage);
 
-	int buffers = (10 * samplerate) / bufferSize; // 10 seconds of audio
+	int buffers = (seconds * samplerate) / bufferSize; // 10 seconds of audio
 	auto freq = Polyhedrus::PlatformSpecific::PerformanceFrequency();
 	auto start = Polyhedrus::PlatformSpecific::PerformanceCounter();
 	
@@ -118,8 +118,15 @@ int main()
 	auto dummy = Create();
 	Delete(dummy);
 
-	RunPerft1(1, 10);
-	RunPerft1(10, 2);
+	RunPerft1(1, 20);
+	RunPerft1(20, 2);
+
+	RunPerft1(1, 20);
+	RunPerft1(20, 2);
+
+	RunPerft1(1, 20);
+	RunPerft1(20, 2);
+
 	int exit;
 	std::cin >> exit;
 	return 0;
