@@ -55,3 +55,5 @@ So far, about a 30% speed improvement in the processing loop.
 Profiler shows the if() statement in the decimation loop as being fairly costly. My previous attempts to eliminate it proved more expensive.
 
 Unfortunately that's as low as I seem to be able to get it for now.
+
+I also tested using aligned malloc to allocate the buffer, it did not change anything (possibly already aligned correctly, or my CPU is not that sensitive to unaligned data).

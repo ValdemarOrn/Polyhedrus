@@ -29,6 +29,15 @@ namespace AudioLib
 			}
 		}
 
+		static inline void Floor(float* input, int len)
+		{
+			__m128* inputPtr = (__m128*)input;
+			for (int i = 0; i < len; i++)
+			{
+				inputPtr[i] = _mm_floor_ps(inputPtr[i]);
+			}
+		}
+
 	};
 
 }

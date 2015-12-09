@@ -34,11 +34,14 @@ namespace Polyhedrus
 	Character::~Character()
 	{
 		delete buffer;
+		//_aligned_free(buffer);
 	}
 
 	void Character::Initialize(int samplerate, int bufferSize, int modulationUpdateRate)
 	{
 		buffer = new float[bufferSize]();
+		//buffer = (float*)_aligned_malloc(bufferSize * sizeof(float), 16);
+		
 		bqBottom.SetSamplerate(samplerate);
 		bqTop.SetSamplerate(samplerate);
 
@@ -102,7 +105,7 @@ namespace Polyhedrus
 			// vectorized
 			for (int i = 0; i < len; i++)
 				buffer[i] = (int)buffer[i];
-
+			
 			// vectorized
 			for (int i = 0; i < len; i++)
 				buffer[i] = buffer[i] * bitReduceFactorInv;
