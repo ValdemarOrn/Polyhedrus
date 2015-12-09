@@ -67,7 +67,18 @@ namespace AudioLib
 		void inline Process(float* input, float* output, int len)
 		{
 			for (int i = 0; i < len; i++)
-				output[i] = Process(input[i]);
+			{
+				float x = input[i];
+				y = ((b0 * x) + (b1 * x1) + (b2 * x2)) - (a1 * y1) - (a2 * y2);
+				x2 = x1;
+				y2 = y1;
+				x1 = x;
+				y1 = y;
+
+				output[i] = y;
+			}
+
+			Output = y;
 		}
 
 		void ClearBuffers();

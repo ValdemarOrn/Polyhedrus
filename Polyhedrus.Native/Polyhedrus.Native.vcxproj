@@ -29,6 +29,7 @@
     <ClInclude Include="AudioLib\Noise.h" />
     <ClInclude Include="AudioLib\OnePoleFilters.h" />
     <ClInclude Include="AudioLib\SlopGenerator.h" />
+    <ClInclude Include="AudioLib\Sse.h" />
     <ClInclude Include="AudioLib\SvfFilter.h" />
     <ClInclude Include="AudioLib\TempoSync.h" />
     <ClInclude Include="AudioLib\Utils.h" />
@@ -82,6 +83,7 @@
     <ClCompile Include="AudioLib\Utils.cpp" />
     <ClCompile Include="AudioLib\ValueTables.cpp" />
     <ClCompile Include="AudioLib\WaveFile.cpp" />
+    <ClCompile Include="Benchmarking.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="CvFreq.cpp" />
     <ClCompile Include="Delay.cpp" />
@@ -219,6 +221,8 @@ copy $(TargetDir)$(TargetFileName) $(SolutionDir)Polyhedrus.Tests\bin\$(Configur
       <FloatingPointModel>Fast</FloatingPointModel>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <AdditionalOptions>/Qvec-report:2 %(AdditionalOptions)</AdditionalOptions>
+      <AssemblerOutput>AssemblyCode</AssemblerOutput>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

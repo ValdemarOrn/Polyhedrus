@@ -1,8 +1,10 @@
 #include "Character.h"
 #include "AudioLib/Utils.h"
 #include "AudioLib/MathDefs.h"
+#include "AudioLib/Sse.h"
 
 using AudioLib::Utils;
+using namespace AudioLib;
 
 namespace Polyhedrus
 {
@@ -75,7 +77,7 @@ namespace Polyhedrus
 		}
 
 		Update();
-
+		
 		register float temp = lastDecimateVal;
 		for (int i = 0; i < len; i++)
 		{
@@ -85,6 +87,7 @@ namespace Polyhedrus
 				temp = input[i];
 				decimateCounter -= decimateFactor;
 			}
+
 			buffer[i] = temp;
 		}
 
@@ -92,18 +95,27 @@ namespace Polyhedrus
 
 		if (reduceOn)
 		{
+			// vectorized
 			for (int i = 0; i < len; i++)
-			{
-				buffer[i] = std::floorf(buffer[i] * bitReduceFactor) * bitReduceFactorInv;
-			}
+				buffer[i] = buffer[i] * bitReduceFactor;
+
+			// vectorized
+			for (int i = 0; i < len; i++)
+				buffer[i] = (int)buffer[i];
+
+			// vectorized
+			for (int i = 0; i < len; i++)
+				buffer[i] = buffer[i] * bitReduceFactorInv;
 		}
 
 		if (clipOn)
 		{
+			// vectorized
 			for (int i = 0; i < len; i++)
-			{
-				buffer[i] = Utils::Limit(buffer[i] * clip, -1, 1);
-			}
+				buffer[i] = buffer[i] * clip;
+
+			Sse::Min(buffer, buffer, 1.0f, len);
+			Sse::Max(buffer, buffer, -1.0f, len);
 		}
 
 		bqBottom.Process(buffer, buffer, len);
