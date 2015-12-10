@@ -81,7 +81,6 @@ namespace AudioLib
 			// local vars give a slight boost
 			register float lp;
 			register float hp;
-			register float bp;
 			register float zzState1 = zState1;
 			register float zzState2 = zState2;
 			register float ff = f;
@@ -94,17 +93,17 @@ namespace AudioLib
 				// iter 1
 				lp = zzState2 + ff * zzState1;
 				hp = (x - lp) - (dd * zzState1);
-				bp = ff * hp + zzState1;
+				zzState1 = ff * hp + zzState1;
 
-				zzState1 = bp;
+				//zzState1 = bp;
 				zzState2 = lp;
 
 				// iter 2
 				lp = zzState2 + ff * zzState1;
 				hp = (x - lp) - (dd * zzState1);
-				bp = ff * hp + zzState1;
+				zzState1 = ff * hp + zzState1;
 
-				zzState1 = bp;
+				//zzState1 = bp;
 				zzState2 = lp;
 
 				output[i] = hp;
@@ -114,7 +113,7 @@ namespace AudioLib
 			zState2 = zzState2;
 			Lp = lp;
 			Hp = hp;
-			Bp = bp;
+			Bp = zzState1; // = bp;
 			No = Hp + Lp;
 		}
 
