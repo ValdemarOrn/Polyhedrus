@@ -102,6 +102,31 @@ void PerftCharacter(int seconds)
 	std::cout << seconds << "," << totalTimeUs << endl;
 }
 
+void PerftFilterHp(int seconds)
+{
+	FillWithNoise(lleft);
+
+	FilterHp filter;
+	filter.Initialize(samplerateOversampled, bufferSize, modUpdateRateOversampled);
+	filter.Cutoff = 0.2;
+	filter.IsEnabled = true;
+	filter.Resonance = 0.1;
+
+	int buffers = (seconds * samplerate) / modUpdateRateOversampled; // 10 seconds of audio
+	auto freq = Polyhedrus::PlatformSpecific::PerformanceFrequency();
+	auto start = Polyhedrus::PlatformSpecific::PerformanceCounter();
+
+	for (int i = 0; i < buffers; i++)
+	{
+		filter.Process(lleft, modUpdateRateOversampled);
+	}
+
+	auto end = Polyhedrus::PlatformSpecific::PerformanceCounter();
+	auto totalTimeUs = (end - start) / (freq / 1000);
+
+	std::cout << seconds << "," << totalTimeUs << endl;
+}
+
 
 int main()
 {
@@ -110,10 +135,17 @@ int main()
 	/*RunPerft1(1, 20);
 	RunPerft1(20, 2);*/
 
+	/*
 	std::cout << "PerftCharacter" << endl;
 	cout << "Seconds,TimeMillis" << endl;
 	while(true)
 		PerftCharacter(500);
+	*/
+
+	std::cout << "PerftFilterHp" << endl;
+	cout << "Seconds,TimeMillis" << endl;
+	while (true)
+		PerftFilterHp(500);
 
 	int exit;
 	std::cin >> exit;

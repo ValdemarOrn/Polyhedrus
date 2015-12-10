@@ -51,15 +51,7 @@ namespace Polyhedrus
 		}
 
 		Update();
-
-		for (int i = 0; i < len; i++)
-		{
-			float value = input[i];
-			// oversample by 2x
-			svf.ProcessLinear(value);
-			svf.ProcessLinear(value);
-			buffer[i] = svf.Hp;
-		}
+		svf.ProcessLinearHp2x(input, buffer, len);
 	}
 
 	std::vector<uint8_t> FilterHp::GetVisual(FilterHpParameters parameter, int* baseLevel)
