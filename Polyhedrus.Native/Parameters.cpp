@@ -60,7 +60,7 @@ namespace Polyhedrus
 			ParameterFormatters::FormatDecimal2);
 		modMap[(int)MixerParameters::Fm23] = ParameterInfo((int)MixerParameters::Fm23, "Fm23", nullptr, 0, 0, 1, 
 			ParameterFormatters::FormatDecimal2);
-		modMap[(int)MixerParameters::Color] = ParameterInfo((int)MixerParameters::Color, "Color", nullptr, 0, 0, 2.999, 
+		modMap[(int)MixerParameters::Color] = ParameterInfo((int)MixerParameters::Color, "Color", nullptr, 0, 0, 2, 
 			ParameterFormatters::FormatNoiseType);
 		modMap[(int)MixerParameters::CharacterOut] = ParameterInfo((int)MixerParameters::CharacterOut, "CharacterOut", nullptr, 1, 0, 1,
 			ParameterFormatters::FormatPercent);

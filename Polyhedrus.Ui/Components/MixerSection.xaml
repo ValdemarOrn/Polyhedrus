@@ -50,7 +50,7 @@
 
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" ui:OscAddress.Address="/Mixer/Am12" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" ui:OscAddress.Address="/Mixer/Am23" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" Min="0" Max="2.999" ui:OscAddress.Address="/Mixer/Color" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" Min="0" Max="2" ui:OscAddress.Address="/Mixer/Color" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="3" ui:OscAddress.Address="/Mixer/Noise" />
 
         <Label Grid.Row="3" Grid.Column="0">AM 1-2</Label>

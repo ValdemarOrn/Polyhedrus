@@ -166,6 +166,18 @@ namespace AudioLib
 		{
 			return 20.0f * std::log10(input);
 		}
+
+		static inline double Rms(float* data, int len)
+		{
+			double sum = 0.0;
+
+			for (int i = 0; i < len; i++)
+			{
+				sum += data[i] * data[i];
+			}
+
+			return std::sqrt(sum / len);
+		}
 	};
 }
 

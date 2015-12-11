@@ -87,7 +87,7 @@ namespace Polyhedrus
 			mixer.Am23 = (float)value;
 			break;
 		case MixerParameters::Color:
-			noise.Type = (NoiseType)Parameters::FloorToInt(value);
+			noise.Type = (float)value;
 			break;
 		case MixerParameters::Fm12:
 			mixer.Fm12 = (float)value;

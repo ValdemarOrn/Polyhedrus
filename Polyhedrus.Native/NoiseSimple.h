@@ -15,21 +15,25 @@ namespace Polyhedrus
 
 	class NoiseSimple
 	{
+
 	public:
-		NoiseType Type;
+		float Type;
+		//float TypeMod;
 	private:
 		AudioLib::LcgRandom random;
 		AudioLib::Lp1 lpL;
 		AudioLib::Lp1 lpR;
+		AudioLib::Hp1 hpL;
+		AudioLib::Hp1 hpR;
 		float* bufferL;
 		float* bufferR;
 		float* output[2];
 		int samplerate;
 		int bufferSize;
-		float L;
-		float R;
-		float hpRolloff;
-		
+		float brownL;
+		float brownR;
+		float typeTotal;
+				
 	public:
 		NoiseSimple();
 		~NoiseSimple();

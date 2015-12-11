@@ -56,7 +56,7 @@ void RunPerft1(int voiceCount, int seconds)
 {
 	auto synth = MakeSynth(voiceCount);
 
-	int buffers = (seconds * samplerate) / bufferSize; // 10 seconds of audio
+	int buffers = (seconds * samplerate) / bufferSize;
 	auto freq = Polyhedrus::PlatformSpecific::PerformanceFrequency();
 	auto start = Polyhedrus::PlatformSpecific::PerformanceCounter();
 
@@ -87,7 +87,7 @@ void PerftCharacter(int seconds)
 	character.Note = 60;
 	character.Reduce = 0.5;
 
-	int buffers = (seconds * samplerate) / modUpdateRateOversampled; // 10 seconds of audio
+	int buffers = (seconds * samplerate) / modUpdateRateOversampled; 
 	auto freq = Polyhedrus::PlatformSpecific::PerformanceFrequency();
 	auto start = Polyhedrus::PlatformSpecific::PerformanceCounter();
 
@@ -112,13 +112,34 @@ void PerftFilterHp(int seconds)
 	filter.IsEnabled = true;
 	filter.Resonance = 0.1;
 
-	int buffers = (seconds * samplerate) / modUpdateRateOversampled; // 10 seconds of audio
+	int buffers = (seconds * samplerate) / modUpdateRateOversampled;
 	auto freq = Polyhedrus::PlatformSpecific::PerformanceFrequency();
 	auto start = Polyhedrus::PlatformSpecific::PerformanceCounter();
 
 	for (int i = 0; i < buffers; i++)
 	{
 		filter.Process(lleft, modUpdateRateOversampled);
+	}
+
+	auto end = Polyhedrus::PlatformSpecific::PerformanceCounter();
+	auto totalTimeUs = (end - start) / (freq / 1000);
+
+	std::cout << seconds << "," << totalTimeUs << endl;
+}
+
+void PerftNoise(int seconds)
+{
+	NoiseSimple noise;
+	noise.Initialize(samplerateOversampled, bufferSize);
+	noise.Type = 0.75f;
+
+	int buffers = (seconds * samplerate) / modUpdateRateOversampled;
+	auto freq = Polyhedrus::PlatformSpecific::PerformanceFrequency();
+	auto start = Polyhedrus::PlatformSpecific::PerformanceCounter();
+
+	for (int i = 0; i < buffers; i++)
+	{
+		noise.Process(modUpdateRateOversampled);
 	}
 
 	auto end = Polyhedrus::PlatformSpecific::PerformanceCounter();
@@ -142,10 +163,17 @@ int main()
 		PerftCharacter(500);
 	*/
 
+	/*
 	std::cout << "PerftFilterHp" << endl;
 	cout << "Seconds,TimeMillis" << endl;
 	while (true)
 		PerftFilterHp(500);
+	*/
+
+	std::cout << "PerfNoise" << endl;
+	cout << "Seconds,TimeMillis" << endl;
+	while (true)
+		PerftNoise(500);
 
 	int exit;
 	std::cin >> exit;
