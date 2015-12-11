@@ -58,7 +58,7 @@ namespace Polyhedrus
 		osc1.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		osc2.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		osc3.Initialize(samplerate, bufferSize, modulationUpdateRate);
-		noise.Initialize(samplerate, bufferSize);
+		noise.Initialize(samplerate, bufferSize, voiceNumber);
 
 		characterL.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		characterR.Initialize(samplerate, bufferSize, modulationUpdateRate);

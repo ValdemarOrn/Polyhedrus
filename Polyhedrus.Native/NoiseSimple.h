@@ -27,7 +27,9 @@ namespace Polyhedrus
 		AudioLib::Hp1 hpR;
 		float* bufferL;
 		float* bufferR;
+		float* randBuf;
 		float* output[2];
+		
 		int samplerate;
 		int bufferSize;
 		float brownL;
@@ -37,7 +39,7 @@ namespace Polyhedrus
 	public:
 		NoiseSimple();
 		~NoiseSimple();
-		void Initialize(int samplerate, int bufferSize);
+		void Initialize(int samplerate, int bufferSize, int voiceIndex);
 		void Process(int len);
 		inline float** GetOutput() { return output; }
 

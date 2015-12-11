@@ -9,6 +9,7 @@
 #include "PlatformSpecific.h"
 #include "AudioLib/LcgRandom.h"
 #include "AudioLib/Sse.h"
+#include "AudioLib/Decimator.h"
 
 using namespace std;
 using namespace Polyhedrus;
@@ -68,8 +69,6 @@ void RunPerft1(int voiceCount, int seconds)
 	auto end = Polyhedrus::PlatformSpecific::PerformanceCounter();
 	auto totalTimeUs = (end - start) / (freq / 1000);
 
-	std::cout << "RunPerft1" << endl;
-	cout << "Voices,Seconds,TimeMillis" << endl;
 	std::cout << voiceCount << "," << seconds << "," << totalTimeUs << endl;
 }
 
@@ -130,7 +129,7 @@ void PerftFilterHp(int seconds)
 void PerftNoise(int seconds)
 {
 	NoiseSimple noise;
-	noise.Initialize(samplerateOversampled, bufferSize);
+	noise.Initialize(samplerateOversampled, bufferSize, 23);
 	noise.Type = 0.75f;
 
 	int buffers = (seconds * samplerate) / modUpdateRateOversampled;
@@ -148,13 +147,43 @@ void PerftNoise(int seconds)
 	std::cout << seconds << "," << totalTimeUs << endl;
 }
 
+void PerftDecimator(int seconds)
+{
+	FillWithNoise(lleft);
+	AudioLib::Decimator deci;
+	
+	int buffers = (seconds * samplerate) / modUpdateRateOversampled;
+	auto freq = Polyhedrus::PlatformSpecific::PerformanceFrequency();
+	auto start = Polyhedrus::PlatformSpecific::PerformanceCounter();
+
+	for (int i = 0; i < buffers; i++)
+	{
+		for (int j = 0; j < modUpdateRateOversampled; j+=2)
+		{
+			rright[j] = deci.Process(lleft[j], lleft[j + 1]);
+			rright[j + 1] = rright[j];
+		}
+	}
+
+	auto end = Polyhedrus::PlatformSpecific::PerformanceCounter();
+	auto totalTimeUs = (end - start) / (freq / 1000);
+
+	std::cout << seconds << "," << totalTimeUs << endl;
+}
 
 int main()
 {
 	Init();
 
-	/*RunPerft1(1, 20);
-	RunPerft1(20, 2);*/
+	/*
+	std::cout << "RunPerft1" << endl;
+	cout << "Voices,Seconds,TimeMillis" << endl;
+	while (true)
+	{
+		RunPerft1(1, 20);
+		RunPerft1(20, 2);
+	}
+	*/
 
 	/*
 	std::cout << "PerftCharacter" << endl;
@@ -170,10 +199,19 @@ int main()
 		PerftFilterHp(500);
 	*/
 
+	/*
 	std::cout << "PerfNoise" << endl;
 	cout << "Seconds,TimeMillis" << endl;
 	while (true)
 		PerftNoise(500);
+	*/
+
+	
+	std::cout << "PerftDecimator" << endl;
+	cout << "Seconds,TimeMillis" << endl;
+	while (true)
+	PerftDecimator(500);
+	
 
 	int exit;
 	std::cin >> exit;
