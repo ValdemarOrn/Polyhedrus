@@ -37,6 +37,8 @@ namespace CreateWavetables
 		        foreach (var bytes in data.Chunk(64 * 4))
 		        {
 			        var partials = AudioLib.BufferConverter.ToFloat(bytes.ToArray()).Select(x => (double)(x)).ToArray();
+			        var maxPart = partials.Max();
+			        partials = partials.Select(x => x / maxPart).Select(x => Math.Abs(x) < 0.013 ? 0.0 : x).ToArray();
 			        var wave1 = MakeWave(partials);
 			        output.AddRange(wave1);
 		        }
@@ -56,7 +58,7 @@ namespace CreateWavetables
 
                 for (int i = 0; i < wave.Length; i++)
                 {
-                    wave[i] += Math.Sin((n + 1) * (i / (double)wave.Length * 2 * Math.PI + Math.PI * 1.0)) * g;
+                    wave[i] += Math.Sin((n + 1) * (i / (double)wave.Length * 2 * Math.PI) + Math.PI) * g;
                 }
             }
 
