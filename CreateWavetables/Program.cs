@@ -21,47 +21,31 @@ namespace CreateWavetables
 		{
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 
-			//ReadKomplexerWaves();
-			ReadSq80Waves();
-            return;
-			var pulseWavetable = Pwm.CreateTable(2048, 64);
-
-			var converted = ConvertTable(pulseWavetable, ArduinoPartials.NoteToPartials);
-			converted.TableName = "Pwm";
-			converted.Normalize();
-			
-			converted.WriteCppFile(TableInfo.DataMode.Float, @"C:\Src\_Tree\Audio\Polyhedrus\CppSynth\Wavetables\Pwm.cpp");
+			var sourceDir = @"E:\Sound\Samples\Raw Waves\KOMPLEXER-Wavetables";
+			var destDir = @"e:\Wavetables";
+            ReadKomplexerWaves(sourceDir, destDir);
+			//ReadSq80Waves();
 		}
 
-        private static void ReadKomplexerWaves()
+        private static void ReadKomplexerWaves(string sourceDir, string destDir)
         {
-            var file = @"E:\KOMPLEXER-Wavetables\kROM0.wt";
-            var data = File.ReadAllBytes(file);
-			
-			int w = 0;
-			foreach (var bytes in data.Chunk(64 * 4).Skip(15))
-			{
-				var partials = AudioLib.BufferConverter.ToFloat(bytes.ToArray()).Select(x => (double)(x)).ToArray();
-				var wave1 = MakeWave(partials);
-				var pm = new PlotModel();
-				pm.AddLine(wave1);
-				pm.Show();
-			}
-		}
+	        foreach (var file in Directory.GetFiles(sourceDir, "*.wt", SearchOption.AllDirectories))
+	        {
+		        var outputFile = Path.GetFileNameWithoutExtension(file) + ".wav";
+		        var data = File.ReadAllBytes(file);
+		        var output = new List<double>();
+		        foreach (var bytes in data.Chunk(64 * 4))
+		        {
+			        var partials = AudioLib.BufferConverter.ToFloat(bytes.ToArray()).Select(x => (double)(x)).ToArray();
+			        var wave1 = MakeWave(partials);
+			        output.AddRange(wave1);
+		        }
 
-		private static void ReadSq80Waves()
-		{
-			var file = @"E:\WaveData\esq1wavlo.bin";
-			var data = File.ReadAllBytes(file);
-
-			var waves = AudioLib.BufferConverter.ToSbyte(data).Select(x => (double)x / 128.0).ToArray();
-			var pm = new PlotModel();
-			pm.AddLine(waves);
-			//pm.Show();
-			var stereo = new[] { waves, waves };
-			var dat = AudioLib.WaveFiles.WriteWaveFile(stereo, AudioLib.WaveFiles.WaveFormat.IEEEFloat32, 48000);
-			File.WriteAllBytes(@"e:\sample.wav", dat);
-		}
+		        var stereoData = new double[1][];
+		        stereoData[0] = output.ToArray();
+		        AudioLib.WaveFiles.WriteWaveFile(stereoData, AudioLib.WaveFiles.WaveFormat.PCM24Bit, 48000, Path.Combine(destDir, outputFile));
+	        }
+        }
 
         private static double[] MakeWave(double[] partials)
         {
@@ -76,6 +60,8 @@ namespace CreateWavetables
                 }
             }
 
+	        var max = wave.Max(x => Math.Abs(x));
+	        wave = wave.Select(x => x / max).ToArray();
             return wave;
         }
 
