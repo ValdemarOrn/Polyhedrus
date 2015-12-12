@@ -1,0 +1,21 @@
+
+wt.initialize = function(N, K) {
+    wavetableCountTextBox.value = "256";
+    wavetableSizeTextBox.value = "2048";
+    downloadLink.download = "FM1-8.wav";
+}
+
+wt.makeWave = function (k, N, K) {
+    var output = new Array(N);
+    var last = 0.0;
+    for (var i = 0; i < N; i++) {
+        var phase = i * (-1 / N) * 2 * Math.PI;
+        var value = Math.sin(phase - Math.sin(8 * phase) * k * 0.05);
+        last = value;
+        output[i] = value;
+    }
+
+    return output;
+}
+
+        

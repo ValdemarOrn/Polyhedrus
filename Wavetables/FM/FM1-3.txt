@@ -2,15 +2,15 @@
 wt.initialize = function(N, K) {
     wavetableCountTextBox.value = "256";
     wavetableSizeTextBox.value = "2048";
-    downloadLink.download = "FM1.wav";
+    downloadLink.download = "FM1-3.wav";
 }
 
 wt.makeWave = function (k, N, K) {
     var output = new Array(N);
     var last = 0.0;
     for (var i = 0; i < N; i++) {
-        var phase = i / N * 2 * Math.PI;
-        var value = Math.sin(phase + k * 0.01 * last);
+        var phase = i * (-1 / N) * 2 * Math.PI;
+        var value = Math.sin(phase - Math.sin(3 * phase) * k * 0.075);
         last = value;
         output[i] = value;
     }
