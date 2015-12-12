@@ -1,0 +1,72 @@
+
+wt.initialize = function(N, K) {
+
+	wavetableCountTextBox.value = "64";
+  wavetableSizeTextBox.value = "2048";
+  downloadLink.download = "Additive-1-Hard.wav";
+    
+	// random
+  var x = 2;
+	var a = 22695477;
+	var c = 1;
+  
+  var getRand = function() {
+    var axc = a * x + c;
+    //x = axc % m;
+    x = axc % 0xFFFFFFFF;
+    return x / 4294967295.0;
+  
+  };
+
+	tones = [];
+  
+  for (var k = 0; k < K; k++) {
+  	tones.push([]);
+    
+  	for (var u = 0; u < 8; u++) {
+    	var tone = 1 + getRand() * (k * 2 + 32);
+    	tones[k].push({tone: Math.round(tone), vol: getRand() / tone  });
+    }
+  }
+  
+  var summer = function(arr) {
+  	var result = 0.0;
+    for (var i = 0; i < arr.length; i++)
+    	//result += arr[i].vol * arr[i].tone * arr[i].tone;
+      result = arr[i].tone > result ? arr[i].tone : result;;
+      
+      
+    return result;
+  }
+  
+
+  tones.sort(function(a, b) {
+  
+  	return summer(a) - summer(b);
+  	
+  
+  });
+  
+}
+
+wt.makeWave = function (k, N, K) {
+    var output = new Array(N);
+        
+    for (var i = 0; i < N; i++) {
+        var phase = i / N * 2 * Math.PI;
+        var value = 0.0;
+        var totalVol = 0.0;
+        
+        for	(var u = 0; u < tones[k].length; u++) {
+        	var vol = tones[k][u].vol;
+          totalVol += vol;
+        	value += Math.sin(phase * tones[k][u].tone) * vol;
+        }
+          
+        output[i] = Math.tanh(3 * value / totalVol);
+    }
+
+    return output;
+}
+
+        
