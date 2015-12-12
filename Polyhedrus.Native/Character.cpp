@@ -33,14 +33,17 @@ namespace Polyhedrus
 
 	Character::~Character()
 	{
-		delete buffer;
-		//_aligned_free(buffer);
+		//delete buffer;
+		Sse::AlignedFree(buffer);
+		buffer = 0;
+		
 	}
 
 	void Character::Initialize(int samplerate, int bufferSize, int modulationUpdateRate)
 	{
-		buffer = new float[bufferSize]();
+		//buffer = new float[bufferSize]();
 		//buffer = (float*)_aligned_malloc(bufferSize * sizeof(float), 16);
+		buffer = Sse::AlignedMalloc<float>(bufferSize);
 		
 		bqBottom.SetSamplerate(samplerate);
 		bqTop.SetSamplerate(samplerate);
@@ -117,8 +120,10 @@ namespace Polyhedrus
 			for (int i = 0; i < len; i++)
 				buffer[i] = buffer[i] * clip;
 
-			Sse::Min(buffer, buffer, 1.0f, len);
-			Sse::Max(buffer, buffer, -1.0f, len);
+			// I don't understand why, but when optimizing, this code randomly crashed if "buffer" wasn't aligned properly! very odd.
+			// not sure if the alignment is the fix, or if it just masked the underlying problem, though...
+			Sse::Min(buffer, 1.0f, len);
+			Sse::Max(buffer, -1.0f, len);
 		}
 
 		bqBottom.Process(buffer, buffer, len);

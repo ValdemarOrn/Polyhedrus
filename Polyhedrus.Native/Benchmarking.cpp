@@ -185,12 +185,12 @@ int main()
 	}
 	*/
 
-	/*
+	
 	std::cout << "PerftCharacter" << endl;
 	cout << "Seconds,TimeMillis" << endl;
 	while(true)
 		PerftCharacter(500);
-	*/
+	
 
 	/*
 	std::cout << "PerftFilterHp" << endl;
@@ -206,12 +206,12 @@ int main()
 		PerftNoise(500);
 	*/
 
-	
+	/*
 	std::cout << "PerftDecimator" << endl;
 	cout << "Seconds,TimeMillis" << endl;
 	while (true)
 	PerftDecimator(500);
-	
+	*/
 
 	int exit;
 	std::cin >> exit;
