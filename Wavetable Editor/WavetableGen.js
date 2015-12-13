@@ -4,21 +4,38 @@ var wavetable = new Array(wavetableCount);
 
 var wt = {};
 
+var scriptLoaded = false;
+var useEditor = true;
+
 function compileScript() {
-    //var text = document.getElementById('scriptTextarea').value;
-    var text = wt.codeEditor.getValue();
-    eval(text);
+    
+    // override editor with custom myscript.js
+    if (!scriptLoaded) {
+        if (typeof (wt.initialize) !== 'undefined') {
+            scriptLoaded = true;
+            useEditor = false;
+            wt.codeEditor.setValue("Using Myscript.js");
+            return;
+        }
+    }
+
+    if (useEditor) {
+        scriptLoaded = true;
+        var text = wt.codeEditor.getValue();
+        eval(text);
+    }
 }
 
 function recompute() {
 
     try {
+        compileScript();
         wt.errorEditor.setValue("");
         wavetableCount = parseInt(wavetableCountTextBox.value);
         wavetable = new Array(wavetableCount);
         N = parseInt(wavetableSizeTextBox.value);
 
-        compileScript();
+        
         if (wt.initialize !== null)
             wt.initialize(N, wavetableCount);
 
@@ -104,7 +121,9 @@ function downloadWave() {
 
 window.addEventListener('load', function () {
 
-    wt.codeEditor = CodeMirror.fromTextArea(scriptTextarea, { lineNumbers: true, mode: "javascript", indentUnit: 2, smartIndent: false, tabSize: 2 });
+    if (typeof(scriptTextarea) !== 'undefined')
+        wt.codeEditor = CodeMirror.fromTextArea(scriptTextarea, { lineNumbers: true, mode: "javascript", indentUnit: 2, smartIndent: false, tabSize: 2 });
+
     wt.errorEditor = CodeMirror.fromTextArea(scriptErrorTextarea, { lineNumbers: true, mode: "javascript", indentUnit: 2, smartIndent: false, tabSize: 2, readOnly: true });
     wt.codeEditor.setSize("100%", "100%");
     wt.errorEditor.setSize("100%", "100%");
@@ -130,10 +149,6 @@ window.addEventListener('load', function () {
             window.WtOsc.increment = increment;
         });
 
-        /*link.addEventListener('mouseup', function () {
-            if (ev.currentTarget.innerHTML == 'Off')
-                window.WtOsc.activeNote = null;
-        });*/
     }
 
 });

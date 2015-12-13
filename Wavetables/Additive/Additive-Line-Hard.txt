@@ -1,40 +1,43 @@
-
 wt.initialize = function(N, K) {
 
-	wavetableCountTextBox.value = "64";
-  wavetableSizeTextBox.value = "2048";
-  downloadLink.download = "Additive-Line-Hard.wav";
+    wavetableCountTextBox.value = "128";
+    wavetableSizeTextBox.value = "2048";
+    downloadLink.download = "Additive-Line-Hard.wav";
 
-	tones = [];
-  
-  for (var k = 0; k < K; k++) {
-  	tones.push([]);
-    
-  	for (var u = 1; u <= (k + 1); u++) {
-    	tones[k].push({tone: u, vol: 1 - (u - 1) / (k + 1) });
+    tones = [];
+
+    for (var k = 0; k < K; k++) {
+        tones.push([]);
+        var divisor = 1 / (k + 1);
+
+        for (var i = 0; i < K; i++) {
+            var val = 1 - i * divisor;
+            if (val < 0) val = 0;
+            tones[k][i] = val;
+        }
     }
-  }
-  
 }
 
 wt.makeWave = function (k, N, K) {
-    var output = new Array(N);
-        
-    for (var i = 0; i < N; i++) {
-        var phase = i / N * 2 * Math.PI;
-        var value = 0.0;
-        var totalVol = 0.0;
-        
-        for	(var u = 0; u < tones[k].length; u++) {
-        	var vol = tones[k][u].vol;
-          totalVol += vol;
-        	value += Math.sin(phase * tones[k][u].tone) * vol;
-        }
-          
-        output[i] = Math.tanh(3* value / totalVol);
-    }
+	var output = new Array(N);
+	var partials = tones[k];
+	for (var i = 0; i < N; i++) {
+	    output[i] = 0.0;
+	}
 
-    return output;
+    for (var p = 0; p < partials.length; p++) {
+		var vol = partials[p];
+	  
+	  for (var i = 0; i < N; i++) {
+		  var phase = i / N * 2 * Math.PI;
+		  var value = Math.sin(phase * (p + 1)) * vol;
+		  output[i] += value;
+	  }
+	}
+
+	Utils.normalize(output);
+	Utils.gain(output, 3);
+  Utils.tanh(output);
+  
+	return output;
 }
-
-        

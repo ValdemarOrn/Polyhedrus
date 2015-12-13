@@ -28,6 +28,26 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Performance1.psess = Performance1.psess
 	EndProjectSection
 EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Wavetable Editor", "Wavetable Editor\", "{C3A8B3CC-B5E4-4045-83ED-03360FE48075}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_30634"
+		Debug.AspNetCompiler.PhysicalPath = "Wavetable Editor\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_30634\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_30634"
+		Release.AspNetCompiler.PhysicalPath = "Wavetable Editor\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_30634\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "30634"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true
@@ -118,6 +138,14 @@ Global
 		{9B922B0B-5595-4E05-8270-F63FAAA6C299}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9B922B0B-5595-4E05-8270-F63FAAA6C299}.Release|x86.ActiveCfg = Release|Any CPU
 		{9B922B0B-5595-4E05-8270-F63FAAA6C299}.Release|x86.Build.0 = Release|Any CPU
+		{C3A8B3CC-B5E4-4045-83ED-03360FE48075}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3A8B3CC-B5E4-4045-83ED-03360FE48075}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3A8B3CC-B5E4-4045-83ED-03360FE48075}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C3A8B3CC-B5E4-4045-83ED-03360FE48075}.Debug|x86.Build.0 = Debug|Any CPU
+		{C3A8B3CC-B5E4-4045-83ED-03360FE48075}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3A8B3CC-B5E4-4045-83ED-03360FE48075}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{C3A8B3CC-B5E4-4045-83ED-03360FE48075}.Release|x86.ActiveCfg = Debug|Any CPU
+		{C3A8B3CC-B5E4-4045-83ED-03360FE48075}.Release|x86.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
