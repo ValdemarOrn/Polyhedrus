@@ -184,7 +184,7 @@ namespace Polyhedrus
 
 		modMap = std::map<int, ParameterInfo>();
 
-		modMap[(int)EnvParameters::Attack] = ParameterInfo((int)EnvParameters::Attack, "Attack", nullptr, 0.1, 0, 1,
+		modMap[(int)EnvParameters::Attack] = ParameterInfo((int)EnvParameters::Attack, "Attack", nullptr, 0.01, 0, 1,
 			ParameterFormatters::FormatEnvTime);
 		modMap[(int)EnvParameters::Hold] = ParameterInfo((int)EnvParameters::Hold, "Hold", nullptr, 0, 0, 1,
 			ParameterFormatters::FormatEnvTime);

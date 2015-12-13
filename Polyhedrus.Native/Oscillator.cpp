@@ -99,7 +99,7 @@ namespace Polyhedrus
 		std::vector<float> floatOut;
 		std::shared_ptr<Wavetable> wt = wavetable;
 
-		float waveIndex = (Shape + ShapeMod) * wavetable->Count;
+		float waveIndex = (Shape + ShapeMod) * (wavetable->Count - 1);
 		bool useNextWave = (waveIndex < wavetable->Count - 1);
 		float mix = waveIndex - (int)waveIndex;
 		int index1 = (int)waveIndex;
@@ -140,7 +140,7 @@ namespace Polyhedrus
 
 	void Oscillator::Update()
 	{
-		float waveIndex = (Shape + ShapeMod) * wavetable->Count;
+		float waveIndex = (Shape + ShapeMod) * (wavetable->Count - 1);
 		float basePitch = (Keytrack ? Note : 60) + 12.0f * Octave + Semi + 0.01f * Cent;
 
 		if (currentPitch < basePitch)
@@ -156,7 +156,7 @@ namespace Polyhedrus
 				currentPitch = basePitch;
 		}
 
-		float pitch = currentPitch + 24.0f * PitchMod;
+		float pitch = currentPitch + 12.0f * PitchMod;
 		pitch = AudioLib::Utils::Limit(pitch, 0.0f, 127.999f);
 		int partialIndex = wavetable->WavetableIndex[(int)pitch];
 		waveMix = waveIndex - (int)waveIndex;

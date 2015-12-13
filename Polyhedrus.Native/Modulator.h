@@ -55,7 +55,8 @@ namespace Polyhedrus
 		float StepsMod;
 
 		float Output;
-		float EnvOutput;
+		float OutputUnipolar;
+		float OutputEnv;
 
 	private:
 		Envelope env;

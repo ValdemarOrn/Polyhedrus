@@ -37,7 +37,8 @@ namespace Polyhedrus
 
 		samplerate = 48000;
 		Output = 0.0f;
-		EnvOutput = 0.0f;
+		OutputUnipolar = 0.0f;
+		OutputEnv = 0.0f;
 		prevLfoSample = 0.0f;
 		slewTotal = 0.0f;
 
@@ -130,8 +131,9 @@ namespace Polyhedrus
 	{
 		if (!IsEnabled)
 		{
-			EnvOutput = 0.0f;
+			OutputEnv = 0.0f;
 			Output = 0.0f;
+			OutputUnipolar = 0.0f;
 			return 0.0f;
 		}
 
@@ -150,12 +152,17 @@ namespace Polyhedrus
 				sample = prevLfoSample - totalSlew;
 		}
 
-		float envOut = env.Process(samples);
 		prevIterator = iterator;
 		iterator += increment * samples;
-		EnvOutput = envOut;
-		float quantizedSample = std::ceil(sample * stepCount) / stepCount;
-		Output = envOut * quantizedSample;
+
+		float envOut = env.Process(samples);
+		OutputEnv = envOut;
+
+		float quantizedSample = std::ceil(envOut * sample * stepCount) / stepCount;
+		Output = quantizedSample;
+
+		float quantizedSample2 = std::ceil(envOut * (1 + sample) * 0.5f * stepCount) / stepCount;
+		OutputUnipolar = quantizedSample2;
 
 		prevLfoSample = sample;
 		return Output;

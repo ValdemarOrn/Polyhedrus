@@ -54,7 +54,7 @@
         <ToggleButton Style="{StaticResource CircleToggleButton}" Grid.Row="2" Grid.Column="0" ui:OscAddress.Address="/*/Keytrack" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" DefaultValue="0" ui:OscAddress.Address="/*/Slop" />
         <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" ui:OscAddress.Address="/*/Phase" />
-        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="3" ui:OscAddress.Address="/*/Shape" />
+        <components:LightKnob HorizontalAlignment="Center" Grid.Row="2" Grid.Column="3" Steps="2000" ui:OscAddress.Address="/*/Shape" />
 
         <components:MenuSelector Style="{StaticResource MenuSelectorStyle}" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" 
                                  Width="187" Margin="6,10,3,10" ui:OscAddress.Address="/*/Waveform" ItemsSource="{Binding WaveformList}">

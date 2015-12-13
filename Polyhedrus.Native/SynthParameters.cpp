@@ -15,7 +15,22 @@ namespace Polyhedrus
 		double value = currentPreset.Values[idx];
 		std::string text;
 
-		if (module == Module::Delay && parameter == (int)DelayParameters::DelayL)
+		if (module == Module::Osc1 && parameter == (int)OscParameters::Shape)
+		{
+			auto wt = Voices[0].osc1.GetWavetable();
+			text = wt ? ParameterFormatters::FormatDecimal3((wt->Count - 1) * value) : "";
+		}
+		else if (module == Module::Osc2 && parameter == (int)OscParameters::Shape)
+		{
+			auto wt = Voices[0].osc2.GetWavetable();
+			text = wt ? ParameterFormatters::FormatDecimal3((wt->Count - 1) * value) : "";
+		}
+		else if (module == Module::Osc3 && parameter == (int)OscParameters::Shape)
+		{
+			auto wt = Voices[0].osc3.GetWavetable();
+			text = wt ? ParameterFormatters::FormatDecimal3((wt->Count - 1) * value) : "";
+		}
+		else if (module == Module::Delay && parameter == (int)DelayParameters::DelayL)
 			text = this->Delay.GetDelayLString();
 		else if (module == Module::Delay && parameter == (int)DelayParameters::DelayR)
 			text = this->Delay.GetDelayRString();

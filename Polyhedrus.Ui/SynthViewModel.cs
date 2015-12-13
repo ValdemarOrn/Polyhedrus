@@ -21,7 +21,7 @@ namespace Polyhedrus.Ui
 		private readonly Dictionary<int, DependencyObject> controls;
 		private readonly Dictionary<string, List<string>> presetBanks;
 		private readonly Dictionary<int, string> waveforms;
-
+		private readonly object updateLock = new object();
 		private Module? activeModule;
 		private int? activeParameter;
 		private UIElement currentControl;
@@ -597,10 +597,13 @@ namespace Polyhedrus.Ui
 			var key = Parameters.Pack(module, parameter);
             formattedParameters[key] = formattedParameter;
 
-			if (module == activeModule && parameter == activeParameter)
+			lock (updateLock)
 			{
-				UpdateAnnouncer(); // update announcer for active control
-				return;
+				if (module == activeModule && parameter == activeParameter)
+				{
+					UpdateAnnouncer(); // update announcer for active control
+					return;
+				}
 			}
 
 			var control = controls.GetValueOrDefault(key);
@@ -733,21 +736,24 @@ namespace Polyhedrus.Ui
 
 		private void SetActiveControl(UIElement uiElement, bool isActive)
 		{
-			if (isActive)
+			lock (updateLock)
 			{
-				currentControl = uiElement;
-				var address = OscAddress.GetAddress(uiElement);
-				var tuple = Parameters.ParseAddress(address);
-				SetActiveParameter(tuple.Item1, tuple.Item2);
+				if (isActive)
+				{
+					currentControl = uiElement;
+					var address = OscAddress.GetAddress(uiElement);
+					var tuple = Parameters.ParseAddress(address);
+					SetActiveParameter(tuple.Item1, tuple.Item2);
 
-				RequestVisual(tuple.Item1, tuple.Item2);
-				RequestParameter(tuple.Item1, tuple.Item2);
-			}
-			else if (currentControl.Equals(uiElement))
-			{
-				currentControl = null;
-				ClearActiveParameter();
-				VisualGeometry = null;
+					RequestVisual(tuple.Item1, tuple.Item2);
+					RequestParameter(tuple.Item1, tuple.Item2);
+				}
+				else if (currentControl.Equals(uiElement))
+				{
+					currentControl = null;
+					ClearActiveParameter();
+					VisualGeometry = null;
+				}
 			}
 		}
 

@@ -258,12 +258,12 @@ namespace Polyhedrus
 		modMatrix.ModSourceValues[(int)ModSource::Mod1] = mod1.Output;
 		modMatrix.ModSourceValues[(int)ModSource::Mod2] = mod2.Output;
 		modMatrix.ModSourceValues[(int)ModSource::Mod3] = mod3.Output;
-		modMatrix.ModSourceValues[(int)ModSource::Mod1Unipolar] = 1.0f + 0.5f * mod1.Output;
-		modMatrix.ModSourceValues[(int)ModSource::Mod2Unipolar] = 1.0f + 0.5f * mod2.Output;
-		modMatrix.ModSourceValues[(int)ModSource::Mod3Unipolar] = 1.0f + 0.5f * mod3.Output;
-		modMatrix.ModSourceValues[(int)ModSource::Mod1Env] = mod1.EnvOutput;
-		modMatrix.ModSourceValues[(int)ModSource::Mod2Env] = mod2.EnvOutput;
-		modMatrix.ModSourceValues[(int)ModSource::Mod3Env] = mod3.EnvOutput;
+		modMatrix.ModSourceValues[(int)ModSource::Mod1Unipolar] = mod1.OutputUnipolar;
+		modMatrix.ModSourceValues[(int)ModSource::Mod2Unipolar] = mod2.OutputUnipolar;
+		modMatrix.ModSourceValues[(int)ModSource::Mod3Unipolar] = mod3.OutputUnipolar;
+		modMatrix.ModSourceValues[(int)ModSource::Mod1Env] = mod1.OutputEnv;
+		modMatrix.ModSourceValues[(int)ModSource::Mod2Env] = mod2.OutputEnv;
+		modMatrix.ModSourceValues[(int)ModSource::Mod3Env] = mod3.OutputEnv;
 		modMatrix.ModSourceValues[(int)ModSource::SlopGen1] = slopGen1.Output;
 		modMatrix.ModSourceValues[(int)ModSource::SlopGen2] = slopGen2.Output;
 		modMatrix.ModSourceValues[(int)ModSource::SlopGen3] = slopGen3.Output;
@@ -277,17 +277,17 @@ namespace Polyhedrus
 		modMatrix.ModSourceValues[(int)ModSource::Macro8] = macroParameters[7];
 		modMatrix.Process();
 
-		osc1.PitchMod = modMatrix.ModDestinationValues[(int)ModDest::Osc1Pitch];
+		osc1.PitchMod = modMatrix.ModDestinationValues[(int)ModDest::Osc1Pitch] * 3.0f;
 		osc1.ShapeMod = modMatrix.ModDestinationValues[(int)ModDest::Osc1Shape];
 		mixer.Osc1PanMod = modMatrix.ModDestinationValues[(int)ModDest::Osc1Pan];
 		mixer.Osc1VolumeMod = modMatrix.ModDestinationValues[(int)ModDest::Osc1Volume];
 
-		osc2.PitchMod = modMatrix.ModDestinationValues[(int)ModDest::Osc2Pitch];
+		osc2.PitchMod = modMatrix.ModDestinationValues[(int)ModDest::Osc2Pitch] * 3.0f;
 		osc2.ShapeMod = modMatrix.ModDestinationValues[(int)ModDest::Osc2Shape];
 		mixer.Osc2PanMod = modMatrix.ModDestinationValues[(int)ModDest::Osc2Pan];
 		mixer.Osc2VolumeMod = modMatrix.ModDestinationValues[(int)ModDest::Osc2Volume];
 
-		osc3.PitchMod = modMatrix.ModDestinationValues[(int)ModDest::Osc3Pitch];
+		osc3.PitchMod = modMatrix.ModDestinationValues[(int)ModDest::Osc3Pitch] * 3.0f;
 		osc3.ShapeMod = modMatrix.ModDestinationValues[(int)ModDest::Osc3Shape];
 		mixer.Osc3PanMod = modMatrix.ModDestinationValues[(int)ModDest::Osc3Pan];
 		mixer.Osc3VolumeMod = modMatrix.ModDestinationValues[(int)ModDest::Osc3Volume];
@@ -302,11 +302,11 @@ namespace Polyhedrus
 		mixer.FilterHpOutMod = modMatrix.ModDestinationValues[(int)ModDest::MixerFilterHpOut];
 		mixer.FilterMainOutMod = modMatrix.ModDestinationValues[(int)ModDest::MixerFilterMainOut];
 
-		hpFilterL.CutoffMod = modMatrix.ModDestinationValues[(int)ModDest::FilterHpCutoff];
-		hpFilterR.CutoffMod = modMatrix.ModDestinationValues[(int)ModDest::FilterHpCutoff];
+		hpFilterL.CutoffMod = modMatrix.ModDestinationValues[(int)ModDest::FilterHpCutoff] * 9.5f;
+		hpFilterR.CutoffMod = modMatrix.ModDestinationValues[(int)ModDest::FilterHpCutoff] * 9.5f;
 
-		mainFilterL.SetCutoffMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainCutoff]);
-		mainFilterR.SetCutoffMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainCutoff]);
+		mainFilterL.SetCutoffMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainCutoff] * 10.3f) ;
+		mainFilterR.SetCutoffMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainCutoff] * 10.3f);
 		mainFilterL.SetDriveMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainDrive]);
 		mainFilterR.SetDriveMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainDrive]);
 		mainFilterL.SetResonanceMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainResonance]);

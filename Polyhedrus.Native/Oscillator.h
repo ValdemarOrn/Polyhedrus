@@ -50,6 +50,7 @@ namespace Polyhedrus
 		void Reset();
 		void Process(int count);
 		float* GetOutput();
+		inline std::shared_ptr<Wavetable> GetWavetable() { return wavetable; }
 		std::vector<uint8_t> GetVisual();
 	private:
 		void Update();
