@@ -160,9 +160,9 @@ namespace Polyhedrus
 	void Voice::SetFilterHpParameter(Module module, FilterHpParameters parameter, double value)
 	{
 		if (parameter == FilterHpParameters::Env)
-			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterHpEnv].Amount = (float)(10 * value);
+			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterHpEnv].Amount = (float)value;
 		else if (parameter == FilterHpParameters::Keytrack)
-			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterHpKeytrack].Amount = (float)value;
+			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterHpKeytrack].Amount = (float)value / 9.5f;
 		else
 		{
 			hpFilterL.SetParameter(parameter, value);
@@ -173,9 +173,9 @@ namespace Polyhedrus
 	void Voice::SetFilterMainParameter(Module module, FilterMainParameters parameter, double value)
 	{
 		if (parameter == FilterMainParameters::Env)
-			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterMainEnv].Amount = (float)(10 * value);
+			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterMainEnv].Amount = (float)value;
 		else if (parameter == FilterMainParameters::Keytrack)
-			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterMainKeytrack].Amount = (float)value;
+			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterMainKeytrack].Amount = (float)value / 10.3f;
 		else
 		{
 			mainFilterL.SetParameter(parameter, value);

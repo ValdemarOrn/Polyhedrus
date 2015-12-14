@@ -31,6 +31,7 @@
     <ClInclude Include="AudioLib\SlopGenerator.h" />
     <ClInclude Include="AudioLib\Sse.h" />
     <ClInclude Include="AudioLib\SvfFilter.h" />
+    <ClInclude Include="AudioLib\SvfZeroFilter.h" />
     <ClInclude Include="AudioLib\TempoSync.h" />
     <ClInclude Include="AudioLib\Utils.h" />
     <ClInclude Include="AudioLib\ValueTables.h" />

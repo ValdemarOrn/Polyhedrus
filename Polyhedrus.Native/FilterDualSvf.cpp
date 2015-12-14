@@ -34,7 +34,7 @@ namespace Polyhedrus
 		buffer = new float[bufferSize]();
 		this->modulationUpdateRate = modulationUpdateRate;
 		this->samplerate = samplerate;
-		fsinv = 1.0f / (Oversample * samplerate);
+		fsinv = 1.0f / (2 * samplerate);
 		cvToFreq.Initialize((float)samplerate);
 		svf1.Fs = (float)(samplerate * 2); // internal oversample by 2x
 		svf2.Fs = (float)(samplerate * 2);
@@ -98,7 +98,7 @@ namespace Polyhedrus
 
 		totalResonance = Resonance + ResonanceMod;
 		totalResonance = AudioLib::Utils::Limit(totalResonance, 0.0f, 1.0f);
-		totalResonance = ((float)(1 - AudioLib::ValueTables::Get((1 - totalResonance), AudioLib::ValueTables::Response2Oct))) * 0.98f;
+		totalResonance = ((float)(1 - AudioLib::ValueTables::Get((1 - totalResonance), AudioLib::ValueTables::Response2Oct))) * 1.0f;
 
 		float voltage = Cutoff + CutoffMod;
 		voltage = AudioLib::Utils::Limit(voltage, 0.0f, 10.3f);

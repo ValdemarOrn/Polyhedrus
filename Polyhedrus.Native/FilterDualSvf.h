@@ -10,8 +10,6 @@ namespace Polyhedrus
 	class FilterDualSvf
 	{
 	public:
-		const int Oversample = 4;
-
 		float Drive;
 		float Cutoff;
 		float Resonance;

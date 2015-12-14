@@ -16,3 +16,8 @@ Add granular synthesis
 Parameter smoothing (is it necesary? why is the update rate so bad?)
 Replace HP Filter with ZDF State variable version
 Fix uneven resonance in ZDF 4 pole -- it behaves badly in non-oversampled mode, WHY!?
+
+# Bugs for later
+
+Make sure you can't crash the plugin by sending bogus OSC parameters
+Warn user if loading preset with missing wavetable.
