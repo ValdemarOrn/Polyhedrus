@@ -1,7 +1,7 @@
 #ifndef POLYHEDRUS_FILTER_HP
 #define POLYHEDRUS_FILTER_HP
 
-#include "AudioLib/SvfFilter.h"
+#include "AudioLib/SvfZeroFilter.h"
 #include "Parameters.h"
 #include "CvFreq.h"
 
@@ -20,7 +20,7 @@ namespace Polyhedrus
 		float* buffer;
 		int samplerate;
 		int modulationUpdateRate;
-		AudioLib::SvfFilter svf;
+		AudioLib::SvfZeroFilter svf;
 		CvFreq cvToFreq;
 
 	public:

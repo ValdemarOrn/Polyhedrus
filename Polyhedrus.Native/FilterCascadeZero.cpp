@@ -71,13 +71,13 @@ namespace Polyhedrus
 			
 		// 4 cascaded low pass stages
 		value = lp1.Process(value);
-		value = AudioLib::Utils::Cubic6Nonlin(value);
+		value = AudioLib::Utils::CubicNonlin(value);
 		value = lp2.Process(value);
-		value = AudioLib::Utils::Cubic6Nonlin(value);
+		value = AudioLib::Utils::CubicNonlin(value);
 		value = lp3.Process(value);
-		value = AudioLib::Utils::Cubic6Nonlin(value);
+		value = AudioLib::Utils::CubicNonlin(value);
 		value = lp4.Process(value);
-		value = AudioLib::Utils::Cubic6Nonlin(value);
+		value = AudioLib::Utils::CubicNonlin(value);
 	}
 
 	void FilterCascadeZero::Update()

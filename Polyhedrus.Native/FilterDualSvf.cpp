@@ -96,13 +96,13 @@ namespace Polyhedrus
 		gainInv = gain < 1.0 ? std::sqrt(1.0f / gain) : 1.0f;
 		gainInv *= 1.3f; // gain fudge;
 
-		totalResonance = Resonance + ResonanceMod;
-		totalResonance = AudioLib::Utils::Limit(totalResonance, 0.0f, 1.0f);
-		totalResonance = ((float)(1 - AudioLib::ValueTables::Get((1 - totalResonance), AudioLib::ValueTables::Response2Oct))) * 1.0f;
-
 		float voltage = Cutoff + CutoffMod;
 		voltage = AudioLib::Utils::Limit(voltage, 0.0f, 10.3f);
 		float fc = cvToFreq.GetFreqWarped(voltage);
+
+		totalResonance = Resonance + ResonanceMod;
+		totalResonance = AudioLib::Utils::Limit(totalResonance, 0.0f, 1.0f);
+		totalResonance = ((float)(1 - AudioLib::ValueTables::Get((1 - totalResonance), AudioLib::ValueTables::Response2Oct))) * 1.0f;
 
 		svf1.Fc = fc;
 		svf2.Fc = fc;

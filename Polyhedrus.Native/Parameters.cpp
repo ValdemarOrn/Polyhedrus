@@ -129,7 +129,7 @@ namespace Polyhedrus
 
 		modMap = std::map<int, ParameterInfo>();
 
-		modMap[(int)FilterHpParameters::Cutoff] = ParameterInfo((int)FilterHpParameters::Cutoff, "Cutoff", nullptr, 0, 0, 9.5, 
+		modMap[(int)FilterHpParameters::Cutoff] = ParameterInfo((int)FilterHpParameters::Cutoff, "Cutoff", nullptr, 0, 0, 10.0, 
 			ParameterFormatters::FormatFilterCutoff);
 		modMap[(int)FilterHpParameters::Resonance] = ParameterInfo((int)FilterHpParameters::Resonance, "Resonance", nullptr, 0, 0, 1, 
 			ParameterFormatters::FormatPercent);

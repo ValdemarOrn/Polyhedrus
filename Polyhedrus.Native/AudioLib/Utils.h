@@ -132,23 +132,23 @@ namespace AudioLib
 			return tanhTable[i];
 		}
 
-		static inline float QuickNonlin(float x)
+		static inline float CubicNonlin(float x)
 		{
-			float sign = (float)(-1.0 + 2 * (x >= 0));
+			// Eq1: x - a * x^3
+			// derivative is 
+			// Eq2: 1 - 3a * x^2
+			// saturation at +-1.5
+			// solving for Eq1 = 1, Eq2 = 0, we get
+			// = 0.5 / (3*(1.5)^2-(1.5)^3)
+			// == 0.148148148148148
 
-			x = x * sign;
-			if (x > 2)
-				return sign;
-			
-			float part = 1.0f - x * 0.5f;
-			return (1 - part * part) * sign;
-		}
+			const float a = 0.148148148148148f;
+			int s1 = x > -1.5f;
+			int s2 = x > 1.5f;
 
-		static inline float Cubic6Nonlin(float x)
-		{
-			return (std::abs(x) > 1.4142135623) 
-				? (x < 0.0 ? -0.9428090416f : 0.9428090416f)
-				: (x - (x*x*x) / 6);
+			float y = x - a * x*x*x;
+			float vals[3] = { -1.0f, y, 1.0f };
+			return vals[s1 + s2];
 		};
 
 		static inline void GainAndSum(float* source, float* dest, float gain, int len)

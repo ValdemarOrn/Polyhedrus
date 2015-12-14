@@ -24,8 +24,7 @@ namespace Polyhedrus
 
 		this->modulationUpdateRate = modulationUpdateRate;
 		this->samplerate = samplerate;
-		svf.Fs = (float)(samplerate * 2); // internal oversample by 2x
-		svf.Nonlinear = false;
+		svf.Fs = (float)(samplerate); // internal oversample by 2x
 		Update();
 	}
 
@@ -51,7 +50,7 @@ namespace Polyhedrus
 		}
 
 		Update();
-		svf.ProcessLinearHp2x(input, buffer, len);
+		svf.ProcessHp(input, buffer, len);
 	}
 
 	std::vector<uint8_t> FilterHp::GetVisual(FilterHpParameters parameter, int* baseLevel)
@@ -161,10 +160,10 @@ namespace Polyhedrus
 	{
 		float totalResonance = Resonance + ResonanceMod;
 		totalResonance = AudioLib::Utils::Limit(totalResonance, 0.0f, 1.0f);
-		totalResonance = ((float)(1 - AudioLib::ValueTables::Get((1 - totalResonance), AudioLib::ValueTables::Response2Oct))) * 0.95f;
+		totalResonance = ((float)(1 - AudioLib::ValueTables::Get((1 - totalResonance), AudioLib::ValueTables::Response2Oct))) * 0.999f;
 
 		float voltage = Cutoff + CutoffMod;
-		voltage = AudioLib::Utils::Limit(voltage, 0.0f, 9.5f);
+		voltage = AudioLib::Utils::Limit(voltage, 0.0f, 10.0f);
 		float fc = cvToFreq.GetFreqWarped(voltage);
 
 		svf.Fc = fc;

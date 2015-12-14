@@ -24,6 +24,7 @@ namespace AudioLib
 		float g;
 		float s1, s2;
 		float R;
+		float divisor;
 
 	public:
 
@@ -37,6 +38,7 @@ namespace AudioLib
 			R = 1.0f;
 			s1 = 0.0f;
 			s2 = 0.0f;
+			divisor = 1.0f;
 					
 			Lp = 0.0f;
 			Bp = 0.0f;
@@ -49,55 +51,73 @@ namespace AudioLib
 			g = (float)(fcRel * M_PI);
 
 			R = 1 - Resonance;
+			divisor = 1.0f / (1 + 2 * R * g + g * g);
 		}
 
 		inline void SetFc(float fcRel)
 		{
-			Fc = fcRel;
+			Fc = fcRel * 2; // OK, I've no idea why I need that x2 factor, but without it, the resonance freq. is just an octave too low!!
 			g = (float)(fcRel * M_PI);
 		}
 
-		inline void ProcessLinear(float x)
+		inline void Process(float x)
 		{
 			//Hp = (x - 2 * R * s1 - g * s1 - s2) / (1 + 2 * R * g + g * g);
-			Integrator1();
-			Integrator2();
-		}
+			Hp = (x - 2 * R * s1 - g * s1 - s2) * divisor;
+			
+			// Integrator 1
 
-	private:
-		
-		inline void Integrator1()
-		{
-			float y = Bp;
-			float x = Hp;
+			// store temp
 			float z = s1;
-
 			// compute input to z
-			float u = y + g * x;
-
+			s1 = Bp + g * Hp;
 			// Compute new output
-			y = z + g * x;
-
-			// assign to variables
-			s1 = u;
-			Bp = y;
+			Bp = z + g * Hp;
+			
+			// Integrator 2
+			
+			// store temp
+			z = s2;
+			// compute input to z
+			s2 = Lp + g * Bp;
+			// Compute new output
+			Lp = z + g * Bp;
 		}
 
-		inline void Integrator2()
+		inline void ProcessHp(float* input, float* output, int len)
 		{
-			float y = Lp;
-			float x = Bp;
-			float z = s2;
+			register float hp = Hp;
+			register float lp = Lp;
+			register float bp = Bp;
+			register float ss1 = s1;
+			register float ss2 = s2;
+			register float r = R;
+			register float gg = g;
+			register float divi = divisor;
+			register float z;
 
-			// compute input to z
-			float u = y + g * x;
+			for (int i = 0; i < len; i++)
+			{
+				hp = (input[i] - 2 * r * ss1 - gg * ss1 - ss2) * divi;
 
-			// Compute new output
-			y = z + g * x;
+				// Integrator 1
+				z = ss1;
+				ss1 = bp + gg * hp;
+				bp = z + gg * hp;
 
-			// assign to variables
-			s2 = u;
-			Lp = y;
+				// Integrator 2
+				z = ss2;
+				ss2 = lp + gg * bp;
+				lp = z + gg * bp;
+
+				output[i] = hp;
+			}
+			
+			Hp = hp;
+			Lp = lp;
+			Bp = bp;
+			s1 = ss1;
+			s2 = ss2;
 		}
 	};
 }
