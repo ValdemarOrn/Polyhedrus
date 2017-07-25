@@ -185,6 +185,9 @@
     <ClInclude Include="AudioLib\SvfZeroFilter.h">
       <Filter>Source Files\AudioLib</Filter>
     </ClInclude>
+    <ClInclude Include="AudioLib\WhiteNoise.h">
+      <Filter>Source Files\AudioLib</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Synth.cpp">

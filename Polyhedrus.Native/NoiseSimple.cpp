@@ -31,10 +31,9 @@ namespace Polyhedrus
 		bufferL = new float[bufferSize]();
 		bufferR = new float[bufferSize]();
 
-		random.SetSeed(voiceIndex * 1000);
+		random.Cycle(voiceIndex * 10);
 		randBuf = new float[2 * bufferSize]();
 		
-
 		output[0] = bufferL;
 		output[1] = bufferR;
 	}
@@ -46,12 +45,14 @@ namespace Polyhedrus
 		float volPink = (1.0f - volWhite - volBrown) * 3.0f;
 		volBrown *= 0.15f;
 		// the 0.15 and 3.0 scalars are just tuned by ear.
+
+		random.Sample(randBuf, 2 * len);
 		
 		for (int i = 0; i < len; i++)
 		{
-			float randL = 2.0f * random.NextFloat() - 1.0f;
-			float randR = 2.0f * random.NextFloat() - 1.0f;
-			
+			float randL = randBuf[2 * i];
+			float randR = randBuf[2 * i + 1];
+
 			brownL += randL;
 			brownR += randR;
 			

@@ -26,8 +26,11 @@ Thumbs.db
 test-results/
 *.lib
 *.sbr
+*.ipch
+*.vspx
 obj/
 intermediate*/
+.vs*/
 [Rr]elease*/
 _ReSharper*/
 packages*/

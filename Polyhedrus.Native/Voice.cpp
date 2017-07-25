@@ -1,5 +1,6 @@
 #include "Voice.h"
 #include "AudioLib/Utils.h"
+#include "AudioLib/Sse.h"
 
 using namespace AudioLib;
 
@@ -186,6 +187,8 @@ namespace Polyhedrus
 
 	void Voice::Process(int totalBufferSize)
 	{
+		Sse::PreventDernormals();
+
 		int i = 0;
 		int bufferSize = modulationUpdateRate;
 		float fmScaler = (float)M_PI;

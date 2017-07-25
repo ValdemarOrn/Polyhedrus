@@ -2,7 +2,7 @@
 #define POLYHEDRUS_NOISE_SIMPLE
 
 #include "AudioLib/OnePoleFilters.h"
-#include "AudioLib/LcgRandom.h"
+#include "AudioLib/WhiteNoise.h"
 
 namespace Polyhedrus
 {
@@ -20,7 +20,7 @@ namespace Polyhedrus
 		float Type;
 		//float TypeMod;
 	private:
-		AudioLib::LcgRandom random;
+		AudioLib::WhiteNoise random;
 		AudioLib::Lp1 lpL;
 		AudioLib::Lp1 lpR;
 		AudioLib::Hp1 hpL;

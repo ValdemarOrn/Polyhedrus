@@ -70,6 +70,8 @@ void RunPerft1(int voiceCount, int seconds)
 	auto totalTimeUs = (end - start) / (freq / 1000);
 
 	std::cout << voiceCount << "," << seconds << "," << totalTimeUs << endl;
+
+	delete synth;
 }
 
 void PerftCharacter(int seconds)
@@ -175,7 +177,7 @@ int main()
 {
 	Init();
 
-	/*
+	
 	std::cout << "RunPerft1" << endl;
 	cout << "Voices,Seconds,TimeMillis" << endl;
 	while (true)
@@ -183,14 +185,14 @@ int main()
 		RunPerft1(1, 20);
 		RunPerft1(20, 2);
 	}
-	*/
-
 	
+
+	/*
 	std::cout << "PerftCharacter" << endl;
 	cout << "Seconds,TimeMillis" << endl;
 	while(true)
 		PerftCharacter(500);
-	
+	*/
 
 	/*
 	std::cout << "PerftFilterHp" << endl;

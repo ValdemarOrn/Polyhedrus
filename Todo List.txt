@@ -2,20 +2,37 @@
 
 Show graphics for all modules
 Graphics repr. decoupled from actual module
-Hi Quality button not connected
+Make sure internal processing is always at 96Khz or more (remove hi quality button)
 Need to connect more mod destinations
 Chorus
 
-# New Features
+# Rework and features
 
-Add FM synthesis section
+Add 4th oscillator
+Add second filter
+Add at least one more modulator
+Make LFO and Envelope output of modulators available as sources
+Add Osc Envelopes
+Individual Glide modifier per oscillator
+Tracking and base Frequency per oscillator
+Add FM synthesis section - new tab where the mixer is.
+1>1 1>2 1>3 1>4
+    2>2 2>3 2>4
+        3>3 3>4
+            4>4
+
+Make the AM
+Add a properly, actually, zero delay filter with root finding.
+Generalize the oscillator block to allow more types of oscs
 Add granular synthesis
+Add supersaw oscillator
+Make the editor one-instance only
+improve UDP communication so that new plugin instances notify the editor of their existence
 
 # DSP Improvements
 
 Parameter smoothing (is it necesary? why is the update rate so bad?)
 Replace HP Filter with ZDF State variable version
-Fix uneven resonance in ZDF 4 pole -- it behaves badly in non-oversampled mode, WHY!?
 
 # Bugs for later
 

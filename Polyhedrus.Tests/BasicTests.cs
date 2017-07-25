@@ -2,17 +2,13 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OxyPlot;
 using LowProfile.Visuals;
-using System.IO;
 using System.Linq;
-using LowProfile.Core.Extensions;
-using OxyPlot.Series;
 using Polyhedrus.Plugin;
-using System.Collections.Generic;
 
 namespace Polyhedrus.Tests
 {
     [TestClass]
-    public class UnitTest1
+    public class BasicTests
     {
         [TestMethod]
         public void TestMethod1()
