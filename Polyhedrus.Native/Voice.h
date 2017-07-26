@@ -46,8 +46,8 @@ namespace Polyhedrus
 		Character characterR;
 		FilterHp hpFilterL;
 		FilterHp hpFilterR;
-		shared_ptr<FilterMainXX> mainFilterL;
-		shared_ptr<FilterMainXX> mainFilterR;
+		shared_ptr<FilterMain> mainFilterL;
+		shared_ptr<FilterMain> mainFilterR;
 		shared_ptr<FilterDualSvf> mainFilterSvfL;
 		shared_ptr<FilterDualSvf> mainFilterSvfR;
 		shared_ptr<FilterTrueZero> mainFilterTrueZeroL;

@@ -8,7 +8,7 @@
 
 namespace Polyhedrus
 {
-	class FilterDualSvf : public FilterMainXX
+	class FilterDualSvf : public FilterMain
 	{
 	private:
 		float* buffer;

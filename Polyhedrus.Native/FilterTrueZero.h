@@ -6,7 +6,7 @@
 
 namespace Polyhedrus
 {
-	class FilterTrueZero : public FilterMainXX
+	class FilterTrueZero : public FilterMain
 	{
 	private:
 		static const int CVtoAlphaSize = 10500;
