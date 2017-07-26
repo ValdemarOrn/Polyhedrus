@@ -32,6 +32,11 @@ namespace Polyhedrus
 		delete[] buffer;
 	}
 
+	FilterMainType FilterDualSvf::GetType() const
+	{
+		return FilterMainType::DualSvf;
+	}
+
 	void FilterDualSvf::Initialize(int samplerate, int bufferSize, int modulationUpdateRate)
 	{
 		buffer = new float[bufferSize]();

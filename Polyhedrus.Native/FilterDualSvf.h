@@ -30,6 +30,7 @@ namespace Polyhedrus
 		FilterDualSvf();
 		~FilterDualSvf() override;
 
+		FilterMainType GetType() const override;
 		void Initialize(int samplerate, int bufferSize, int modulationUpdateRate) override;
 		void SetParameter(FilterMainParameters parameter, double value) override;
 		void Process(float* input, int len) override;

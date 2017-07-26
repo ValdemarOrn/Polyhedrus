@@ -48,6 +48,11 @@ namespace Polyhedrus
 		delete[] buffer;
 	}
 
+	FilterMainType FilterTrueZero::GetType() const
+	{
+		return FilterMainType::TrueZero;
+	}
+
 	void FilterTrueZero::Initialize(int samplerate, int bufferSize, int modulationUpdateRate)
 	{
 		ComputeCVtoAlpha(samplerate);
@@ -119,7 +124,8 @@ namespace Polyhedrus
 			return output;
 		};
 		
-		auto vv = AudioLib::Biquad::GetLowpassMagnitude(Cutoff, Resonance);
+		auto cutoff = CvToFreq.GetFreqWarped(AudioLib::Utils::Limit((float)Cutoff, 0.0f, 10.3f));
+		auto vv = AudioLib::Biquad::GetLowpassMagnitude(cutoff, Resonance);
 		return transform(vv);
 	}
 

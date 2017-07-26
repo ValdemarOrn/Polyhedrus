@@ -28,6 +28,7 @@ namespace Polyhedrus
 	public:
 		virtual ~FilterMain() { }
 
+		virtual FilterMainType GetType() const = 0;
 		virtual void Initialize(int samplerate, int bufferSize, int modulationUpdateRate) = 0;
 		virtual void SetParameter(FilterMainParameters parameter, double value) = 0;
 		virtual void Process(float* input, int len) = 0;
