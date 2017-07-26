@@ -188,6 +188,9 @@
     <ClInclude Include="AudioLib\WhiteNoise.h">
       <Filter>Source Files\AudioLib</Filter>
     </ClInclude>
+    <ClInclude Include="FilterTrueZero.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Synth.cpp">
@@ -311,6 +314,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Benchmarking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FilterTrueZero.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

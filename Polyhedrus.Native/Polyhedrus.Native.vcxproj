@@ -53,6 +53,7 @@
     <ClInclude Include="FilterHp.h" />
     <ClInclude Include="FilterInternalMode.h" />
     <ClInclude Include="FilterMain.h" />
+    <ClInclude Include="FilterTrueZero.h" />
     <ClInclude Include="Modulator.h" />
     <ClInclude Include="MixerSettings.h" />
     <ClInclude Include="ModMatrix.h" />
@@ -98,6 +99,7 @@
     <ClCompile Include="FilterDualSvf.cpp" />
     <ClCompile Include="FilterHp.cpp" />
     <ClCompile Include="FilterMain.cpp" />
+    <ClCompile Include="FilterTrueZero.cpp" />
     <ClCompile Include="Modulator.cpp" />
     <ClCompile Include="ModMatrix.cpp" />
     <ClCompile Include="NoiseSimple.cpp" />

@@ -24,6 +24,7 @@ namespace Polyhedrus
 		cascadeFilter.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		cascadeZeroFilter.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		svfFilter.Initialize(samplerate, bufferSize, modulationUpdateRate);
+		trueZeroFilter.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		hp.SetFc(10.0f / 24000.0f);
 	}
 
@@ -36,18 +37,21 @@ namespace Polyhedrus
 			cascadeFilter.Cutoff = (float)value;
 			cascadeZeroFilter.Cutoff = (float)value;
 			svfFilter.Cutoff = (float)value;
+			trueZeroFilter.Cutoff = (float)value;
 			break;
 		case FilterMainParameters::Drive:
 			drive = (float)value;
 			cascadeFilter.Drive = (float)value;
 			cascadeZeroFilter.Drive = (float)value;
 			svfFilter.Drive = (float)value;
+			trueZeroFilter.Drive = (float)value;
 			break;
 		case FilterMainParameters::Resonance:
 			resonance = (float)value;
 			cascadeFilter.Resonance = (float)value;
 			cascadeZeroFilter.Resonance = (float)value;
 			svfFilter.Resonance = (float)value;
+			trueZeroFilter.Resonance = (float)value;
 			break;
 		case FilterMainParameters::Mode:
 			cascadeFilter.SetMode((InternalFilterMode)Parameters::FloorToInt(value * ((int)InternalFilterMode::Count - 0.00001)));
@@ -74,12 +78,16 @@ namespace Polyhedrus
 			}
 		}
 
+		
+
 		if (type == 0)
-			svfFilter.Process(input, len);
+			trueZeroFilter.Process(input, len);
 		else if (type == 1)
+			svfFilter.Process(input, len);
+		/*
 			cascadeZeroFilter.Process(input, len);
 		else //if (type == 2)
-			cascadeFilter.Process(input, len);			
+			cascadeFilter.Process(input, len);	*/		
 	}
 
 	float* FilterMain::GetOutput()
@@ -88,12 +96,12 @@ namespace Polyhedrus
 			return bypassBuffer;
 
 		if (type == 0)
-			return svfFilter.GetOutput();
+			return trueZeroFilter.GetOutput();
 		else if (type == 1)
-			return cascadeZeroFilter.GetOutput();
-		else// if (type == 2)
+			return svfFilter.GetOutput();
+		/*else// if (type == 2)
 			return cascadeFilter.GetOutput();
-
+		*/
 		return 0;
 	}
 
@@ -117,7 +125,7 @@ namespace Polyhedrus
 			return output;
 		};
 
-		if (type == 0)
+		if (type == 1)
 		{
 			auto vv = svfFilter.GetMagnitudeResponse();
 			return transform(vv);

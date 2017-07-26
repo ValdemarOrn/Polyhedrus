@@ -14,14 +14,15 @@ Add at least one more modulator
 Make LFO and Envelope output of modulators available as sources
 Add Osc Envelopes
 Individual Glide modifier per oscillator
-Tracking and base Frequency per oscillator
+Tracking and base Frequency per oscillator - remove existing key Track button
 Add FM synthesis section - new tab where the mixer is.
 1>1 1>2 1>3 1>4
     2>2 2>3 2>4
         3>3 3>4
             4>4
 
-Make the AM
+Make the AM options separate feeds into the mixer
+re-think mixing between stages (character/HP/LP filter) - would be good to get output straight from each stage
 Add a properly, actually, zero delay filter with root finding.
 Generalize the oscillator block to allow more types of oscs
 Add granular synthesis

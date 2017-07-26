@@ -3,6 +3,7 @@
 
 #include "FilterCascade.h"
 #include "FilterCascadeZero.h"
+#include "FilterTrueZero.h"
 #include "FilterDualSvf.h"
 #include "Parameters.h"
 #include "FilterInternalMode.h"
@@ -16,6 +17,7 @@ namespace Polyhedrus
 		int samplerate;
 		int modulationUpdateRate;
 		FilterCascade cascadeFilter;
+		FilterTrueZero trueZeroFilter;
 		FilterCascadeZero cascadeZeroFilter;
 		FilterDualSvf svfFilter;
 		AudioLib::Hp1 hp;
@@ -42,6 +44,7 @@ namespace Polyhedrus
 			cascadeFilter.CutoffMod = modAmount;
 			cascadeZeroFilter.CutoffMod = modAmount;
 			svfFilter.CutoffMod = modAmount;
+			trueZeroFilter.CutoffMod = modAmount;
 		}
 
 		inline void SetDriveMod(float modAmount)
@@ -49,6 +52,7 @@ namespace Polyhedrus
 			cascadeFilter.DriveMod = modAmount;
 			cascadeZeroFilter.DriveMod = modAmount;
 			svfFilter.DriveMod = modAmount;
+			trueZeroFilter.DriveMod = modAmount;
 		}
 
 		inline void SetResonanceMod(float modAmount)
@@ -56,6 +60,7 @@ namespace Polyhedrus
 			cascadeFilter.ResonanceMod = modAmount;
 			cascadeZeroFilter.ResonanceMod = modAmount;
 			svfFilter.ResonanceMod = modAmount;
+			trueZeroFilter.ResonanceMod = modAmount;
 		}
 	};
 }

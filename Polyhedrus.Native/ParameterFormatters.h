@@ -151,6 +151,20 @@ namespace Polyhedrus
 				return std::string("Down Up");
 			case ArpPattern::DownUp2:
 				return std::string("Down Up Repeat");
+			} 
+
+			return std::string("???");
+		}
+
+		static inline std::string FormatFilterType(double value)
+		{
+			int type = Parameters::FloorToInt(value);
+			switch (type)
+			{
+			case 0:
+				return std::string("TrueZero");
+			case 1:
+				return std::string("State-Variable VA");
 			}
 
 			return std::string("???");
