@@ -1,11 +1,13 @@
 #ifndef POLYHEDRUS_VOICE
 #define POLYHEDRUS_VOICE
 
+#include "FilterMain.h"
+#include "FilterDualSvf.h"
+#include "FilterTrueZero.h"
 #include "NoiseSimple.h"
 #include "Parameters.h"
 #include "Oscillator.h"
 #include "FilterHp.h"
-#include "FilterMain.h"
 #include "Vca.h"
 #include "Envelope.h"
 #include "ModMatrix.h"
@@ -44,8 +46,13 @@ namespace Polyhedrus
 		Character characterR;
 		FilterHp hpFilterL;
 		FilterHp hpFilterR;
-		FilterMain mainFilterL;
-		FilterMain mainFilterR;
+		shared_ptr<FilterMainXX> mainFilterL;
+		shared_ptr<FilterMainXX> mainFilterR;
+		shared_ptr<FilterDualSvf> mainFilterSvfL;
+		shared_ptr<FilterDualSvf> mainFilterSvfR;
+		shared_ptr<FilterTrueZero> mainFilterTrueZeroL;
+		shared_ptr<FilterTrueZero> mainFilterTrueZeroR;
+
 		Drive driveL;
 		Drive driveR;
 

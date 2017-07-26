@@ -3,6 +3,7 @@
 #include "AudioLib/ValueTables.h"
 #include "AudioLib/Utils.h"
 #include "AudioLib/MathDefs.h"
+#include "AudioLib/Biquad.h"
 
 namespace Polyhedrus
 {
@@ -23,6 +24,14 @@ namespace Polyhedrus
 
 	FilterTrueZero::FilterTrueZero()
 	{
+		gain = 0;
+		gainInv = 0;
+		totalResonance = 0;
+		fsinv = 0;
+		samplerate = 48000;
+		bufferSize = 64;
+		modulationUpdateRate = 8;
+
 		Drive = 0.0;
 		Cutoff = 1.0;
 		Resonance = 0.0;
@@ -53,6 +62,25 @@ namespace Polyhedrus
 		Update();
 	}
 
+	void FilterTrueZero::SetParameter(FilterMainParameters parameter, double value)
+	{
+		switch (parameter)
+		{
+		case FilterMainParameters::Cutoff:
+			Cutoff = (float)value;
+			break;
+		case FilterMainParameters::Drive:
+			Drive = (float)value;
+			break;
+		case FilterMainParameters::Resonance:
+			Resonance = (float)value;
+			break;
+		case FilterMainParameters::Mode:
+			// todo
+			break;
+		}
+	}
+
 	void FilterTrueZero::Process(float* input, int len)
 	{
 		Update();
@@ -64,6 +92,67 @@ namespace Polyhedrus
 			float value = stage4Output * gainInv;
 			buffer[i] = value;
 		}
+	}
+
+	float* FilterTrueZero::GetOutput()
+	{
+		return buffer;
+	}
+
+	std::vector<uint8_t> FilterTrueZero::GetVisual()
+	{
+		auto transform = [](vector<float> input) -> vector<uint8_t>
+		{
+			vector<uint8_t> output;
+			float min = -60;
+			float max = 80;
+			for (size_t i = 0; i < input.size(); i++)
+			{
+				float db = (float)AudioLib::Utils::Gain2DB(input[i]);
+				if (db < min) db = min;
+				if (db > max) db = max;
+
+				int val = (int)((db - min) * 1.8f);
+				output.push_back(val);
+			}
+
+			return output;
+		};
+		
+		auto vv = AudioLib::Biquad::GetLowpassMagnitude(Cutoff, Resonance);
+		return transform(vv);
+	}
+
+	std::vector<uint8_t> FilterTrueZero::GetDriveVisual()
+	{
+		std::vector<uint8_t> output;
+		std::vector<float> floatOutput;
+		float gain = (0.2f + 1.8f * Drive * Drive);
+		float min = 9999.0f;
+		float max = -9999.0f;
+
+		for (size_t i = 0; i < 256; i++)
+		{
+			float value = (float)((-1 + 2 * i / 255.0) * gain);
+			value = std::tanh(value);
+			if (value < min) min = value;
+			if (value > max) max = value;
+			floatOutput.push_back(value);
+		}
+
+		float scaler = 1.0f / (max - min) * 255.99f;
+
+		for (size_t i = 0; i < floatOutput.size(); i++)
+		{
+			output.push_back((uint8_t)((floatOutput[i] - min) * scaler));
+		}
+
+		return output;
+	}
+
+	std::string FilterTrueZero::GetModeString()
+	{
+		return SPrint("%.2f", Mode);
 	}
 
 	__inline_always void FilterTrueZero::ProcessSample(float x)

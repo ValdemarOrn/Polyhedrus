@@ -2,23 +2,14 @@
 #define POLYHEDRUS_FILTER_DUAL_SVF
 
 #include <vector>
+#include "FilterMain.h"
 #include "AudioLib/SvfFilter.h"
 #include "CvFreq.h"
 
 namespace Polyhedrus
 {
-	class FilterDualSvf
+	class FilterDualSvf : public FilterMainXX
 	{
-	public:
-		float Drive;
-		float Cutoff;
-		float Resonance;
-		float CutoffMod;
-		float ResonanceMod;
-		float DriveMod;
-		float Mode;
-		float ModeMod;
-
 	private:
 		float* buffer;
 		float gain;
@@ -37,12 +28,18 @@ namespace Polyhedrus
 
 	public:
 		FilterDualSvf();
-		~FilterDualSvf();
+		~FilterDualSvf() override;
 
-		void Initialize(int samplerate, int bufferSize, int modulationUpdateRate);
-		void Process(float* input, int len);
-		inline float* GetOutput() { return buffer; }
-		std::vector<float> GetMagnitudeResponse();
+		void Initialize(int samplerate, int bufferSize, int modulationUpdateRate) override;
+		void SetParameter(FilterMainParameters parameter, double value) override;
+		void Process(float* input, int len) override;
+		float* GetOutput() override;
+
+		std::vector<uint8_t> GetVisual() override;
+		std::vector<uint8_t> GetDriveVisual() override;
+		std::string GetModeString() override;
+
+		std::vector<float> GetMagnitudeResponse() const;
 
 	private:
 		void Update();

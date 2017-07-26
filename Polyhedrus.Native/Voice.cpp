@@ -9,24 +9,31 @@ namespace Polyhedrus
 	Voice::Voice()
 	{
 		VoiceNumber = 0;
-		signalMixL = 0;
-		signalMixR = 0;
-		outputL = 0;
-		outputR = 0;
-		osc1Buffer = 0;
-		osc2Buffer = 0;
-		osc3Buffer = 0;
+		signalMixL = nullptr;
+		signalMixR = nullptr;
+		outputL = nullptr;
+		outputR = nullptr;
+		osc1Buffer = nullptr;
+		osc2Buffer = nullptr;
+		osc3Buffer = nullptr;
+
+		mainFilterSvfL = make_shared<FilterDualSvf>();
+		mainFilterSvfR = make_shared<FilterDualSvf>();
+		mainFilterTrueZeroL = make_shared<FilterTrueZero>();
+		mainFilterTrueZeroR = make_shared<FilterTrueZero>();
+		mainFilterL = mainFilterTrueZeroL;
+		mainFilterR = mainFilterTrueZeroR;
 	}
 
 	Voice::~Voice()
 	{
-		delete signalMixL;
-		delete signalMixR;
-		delete outputL;
-		delete outputR;
-		delete osc1Buffer;
-		delete osc2Buffer;
-		delete osc3Buffer;
+		delete[] signalMixL;
+		delete[] signalMixR;
+		delete[] outputL;
+		delete[] outputR;
+		delete[] osc1Buffer;
+		delete[] osc2Buffer;
+		delete[] osc3Buffer;
 	}
 
 	void Voice::Initialize(int samplerate, int modulationUpdateRate, int bufferSize, int voiceNumber, shared_ptr<WavetableManager> wavetableManager)
@@ -65,8 +72,12 @@ namespace Polyhedrus
 		characterR.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		hpFilterL.Initialize(samplerate, bufferSize, modulationUpdateRate);
 		hpFilterR.Initialize(samplerate, bufferSize, modulationUpdateRate);
-		mainFilterL.Initialize(samplerate, bufferSize, modulationUpdateRate);
-		mainFilterR.Initialize(samplerate, bufferSize, modulationUpdateRate);
+
+		mainFilterSvfL->Initialize(samplerate, bufferSize, modulationUpdateRate);
+		mainFilterSvfR->Initialize(samplerate, bufferSize, modulationUpdateRate);
+		mainFilterTrueZeroL->Initialize(samplerate, bufferSize, modulationUpdateRate);
+		mainFilterTrueZeroR->Initialize(samplerate, bufferSize, modulationUpdateRate);
+		
 		driveL.Initialize(samplerate, bufferSize);
 		driveR.Initialize(samplerate, bufferSize);
 
@@ -226,8 +237,8 @@ namespace Polyhedrus
 			hpFilterR.Process(signalMixR, bufferSize);
 
 			MixSignals(bufferSize, RoutingStage::MainFilter);
-			mainFilterL.Process(signalMixL, bufferSize);
-			mainFilterR.Process(signalMixR, bufferSize);
+			mainFilterL->Process(signalMixL, bufferSize);
+			mainFilterR->Process(signalMixR, bufferSize);
 
 			MixSignals(bufferSize, RoutingStage::Drive);
 			driveL.Process(signalMixL, bufferSize);
@@ -308,12 +319,12 @@ namespace Polyhedrus
 		hpFilterL.CutoffMod = modMatrix.ModDestinationValues[(int)ModDest::FilterHpCutoff] * 9.5f;
 		hpFilterR.CutoffMod = modMatrix.ModDestinationValues[(int)ModDest::FilterHpCutoff] * 9.5f;
 
-		mainFilterL.SetCutoffMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainCutoff] * 10.3f) ;
-		mainFilterR.SetCutoffMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainCutoff] * 10.3f);
-		mainFilterL.SetDriveMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainDrive]);
-		mainFilterR.SetDriveMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainDrive]);
-		mainFilterL.SetResonanceMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainResonance]);
-		mainFilterR.SetResonanceMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainResonance]);
+		mainFilterL->SetCutoffMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainCutoff] * 10.3f) ;
+		mainFilterR->SetCutoffMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainCutoff] * 10.3f);
+		mainFilterL->SetDriveMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainDrive]);
+		mainFilterR->SetDriveMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainDrive]);
+		mainFilterL->SetResonanceMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainResonance]);
+		mainFilterR->SetResonanceMod(modMatrix.ModDestinationValues[(int)ModDest::FilterMainResonance]);
 
 		// set env modulation
 
@@ -353,8 +364,8 @@ namespace Polyhedrus
 		}
 		else if (stage == RoutingStage::Drive)
 		{
-			Utils::GainAndSum(mainFilterL.GetOutput(), signalMixL, mixer.FilterMainOutTotal, bufferSize);
-			Utils::GainAndSum(mainFilterR.GetOutput(), signalMixR, mixer.FilterMainOutTotal, bufferSize);
+			Utils::GainAndSum(mainFilterL->GetOutput(), signalMixL, mixer.FilterMainOutTotal, bufferSize);
+			Utils::GainAndSum(mainFilterR->GetOutput(), signalMixR, mixer.FilterMainOutTotal, bufferSize);
 		}
 		else if (stage == RoutingStage::Direct)
 		{

@@ -461,12 +461,12 @@ namespace Polyhedrus
 			}
 			else if (parameter == (int)FilterMainParameters::Cutoff || parameter == (int)FilterMainParameters::Resonance || parameter == (int)FilterMainParameters::Mode)
 			{
-				vis = Voices[0].mainFilterL.GetVisual();
+				vis = Voices[0].mainFilterL->GetVisual();
 			}
 			else if (parameter == (int)FilterMainParameters::Drive)
 			{
 				baseLevel = 128;
-				vis = Voices[0].mainFilterL.GetDriveVisual();
+				vis = Voices[0].mainFilterL->GetDriveVisual();
 			}
 		}
 

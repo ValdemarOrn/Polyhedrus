@@ -7,6 +7,9 @@ namespace Polyhedrus
 {
 	FilterDualSvf::FilterDualSvf()
 	{
+		fsinv = 0;
+		samplerate = 48000;
+		modulationUpdateRate = 8;
 		Drive = 0;
 		Cutoff = 0;
 		Resonance = 0;
@@ -26,7 +29,7 @@ namespace Polyhedrus
 
 	FilterDualSvf::~FilterDualSvf()
 	{
-		delete buffer;
+		delete[] buffer;
 	}
 
 	void FilterDualSvf::Initialize(int samplerate, int bufferSize, int modulationUpdateRate)
@@ -43,6 +46,25 @@ namespace Polyhedrus
 
 		Cutoff = 1;
 		Update();
+	}
+
+	void FilterDualSvf::SetParameter(FilterMainParameters parameter, double value)
+	{
+		switch (parameter)
+		{
+		case FilterMainParameters::Cutoff:
+			Cutoff = (float)value;
+			break;
+		case FilterMainParameters::Drive:
+			Drive = (float)value;
+			break;
+		case FilterMainParameters::Resonance:
+			Resonance = (float)value;
+			break;
+		case FilterMainParameters::Mode:
+			Mode = (float)value;
+			break;
+		}
 	}
 
 	void FilterDualSvf::Process(float* input, int len)
@@ -67,7 +89,77 @@ namespace Polyhedrus
 		}
 	}
 
-	std::vector<float> FilterDualSvf::GetMagnitudeResponse()
+	float* FilterDualSvf::GetOutput()
+	{
+		return buffer;
+	}
+
+	std::vector<uint8_t> FilterDualSvf::GetVisual()
+	{
+		auto transform = [](vector<float> input) -> vector<uint8_t>
+		{
+			vector<uint8_t> output;
+			float min = -60;
+			float max = 80;
+			for (size_t i = 0; i < input.size(); i++)
+			{
+				float db = (float)AudioLib::Utils::Gain2DB(input[i]);
+				if (db < min) db = min;
+				if (db > max) db = max;
+
+				int val = (int)((db - min) * 1.8f);
+				output.push_back(val);
+			}
+
+			return output;
+		};
+		
+		auto vv = GetMagnitudeResponse();
+		return transform(vv);
+	}
+
+	std::vector<uint8_t> FilterDualSvf::GetDriveVisual()
+	{
+		vector<uint8_t> output;
+		vector<float> floatOutput;
+		float gain = (0.2f + 1.8f * Drive * Drive);
+		float min = 9999.0f;
+		float max = -9999.0f;
+
+		for (size_t i = 0; i < 256; i++)
+		{
+			float value = (float)((-1 + 2 * i / 255.0) * gain);
+			value = tanh(value);
+			if (value < min) min = value;
+			if (value > max) max = value;
+			floatOutput.push_back(value);
+		}
+
+		float scaler = 1.0f / (max - min) * 255.99f;
+
+		for (size_t i = 0; i < floatOutput.size(); i++)
+		{
+			output.push_back((uint8_t)((floatOutput[i] - min) * scaler));
+		}
+
+		return output;
+	}
+
+	std::string FilterDualSvf::GetModeString()
+	{
+		float mode = Mode * 2;
+		if (mode <= 1)
+		{
+			return SPrint("%02.0f", (1 - mode) * 100) + "% LP - " + SPrint("%02.0f", mode * 100) + "% BP";
+		}
+		else
+		{
+			mode = mode - 1;
+			return SPrint("%02.0f", (1 - mode) * 100) + "% BP - " + SPrint("%02.0f", mode * 100) + "% HP";
+		}
+	}
+
+	std::vector<float> FilterDualSvf::GetMagnitudeResponse() const
 	{
 		float lpv = volLp;
 		float bpv = volBp;

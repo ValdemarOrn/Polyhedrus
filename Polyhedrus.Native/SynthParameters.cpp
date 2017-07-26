@@ -40,7 +40,7 @@ namespace Polyhedrus
 		}
 		else if (module == Module::FilterMain && parameter == (int)FilterMainParameters::Mode)
 		{
-			text = this->Voices[0].mainFilterL.GetModeString();
+			text = this->Voices[0].mainFilterL->GetModeString();
 		}
 		else
 		{

@@ -132,8 +132,8 @@ namespace Polyhedrus
 			hpFilterR.IsEnabled = isEn;
 			break;
 		case ModuleSwitchParameters::FilterMainOn:
-			mainFilterL.IsEnabled = isEn;
-			mainFilterR.IsEnabled = isEn;
+			mainFilterL->IsEnabled = isEn;
+			mainFilterR->IsEnabled = isEn;
 			break;
 		case ModuleSwitchParameters::DriveOn:
 			driveL.IsEnabled = isEn;
@@ -176,10 +176,26 @@ namespace Polyhedrus
 			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterMainEnv].Amount = (float)value;
 		else if (parameter == FilterMainParameters::Keytrack)
 			modMatrix.FixedRoutes[ModMatrix::FixedRouteFilterMainKeytrack].Amount = (float)value / 10.3f;
+		else if (parameter == FilterMainParameters::Type)
+		{
+			auto type = (FilterMainType)Parameters::FloorToInt(value);
+			if (type == FilterMainType::TrueZero)
+			{
+				mainFilterL = mainFilterTrueZeroL;
+				mainFilterR = mainFilterTrueZeroR;
+			}
+			else if (type == FilterMainType::DualSvf)
+			{
+				mainFilterL = mainFilterSvfL;
+				mainFilterR = mainFilterSvfR;
+			}
+		}
 		else
 		{
-			mainFilterL.SetParameter(parameter, value);
-			mainFilterR.SetParameter(parameter, value);
+			mainFilterTrueZeroL->SetParameter(parameter, value);
+			mainFilterTrueZeroR->SetParameter(parameter, value);
+			mainFilterSvfL->SetParameter(parameter, value);
+			mainFilterSvfR->SetParameter(parameter, value);
 		}
 	}
 

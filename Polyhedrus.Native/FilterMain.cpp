@@ -3,7 +3,7 @@
 #include "AudioLib/Biquad.h"
 
 namespace Polyhedrus
-{
+{/*
 	FilterMain::FilterMain()
 	{
 		type = FilterMainType::TrueZero;
@@ -83,11 +83,7 @@ namespace Polyhedrus
 		if (type == FilterMainType::TrueZero)
 			trueZeroFilter.Process(input, len);
 		else if (type == FilterMainType::DualSvf)
-			svfFilter.Process(input, len);
-		/*
-			cascadeZeroFilter.Process(input, len);
-		else //if (type == 2)
-			cascadeFilter.Process(input, len);	*/		
+			svfFilter.Process(input, len);	
 	}
 
 	float* FilterMain::GetOutput()
@@ -99,9 +95,6 @@ namespace Polyhedrus
 			return trueZeroFilter.GetOutput();
 		else if (type == FilterMainType::DualSvf)
 			return svfFilter.GetOutput();
-		/*else// if (type == 2)
-			return cascadeFilter.GetOutput();
-		*/
 		return 0;
 	}
 
@@ -163,5 +156,5 @@ namespace Polyhedrus
 
 		return output;
 	}
-
+	*/
 }

@@ -2,11 +2,11 @@
 #include <cmath>
 #include "CvFreq.h"
 #include "AudioLib/OnePoleFilters.h"
+#include "FilterMain.h"
 
 namespace Polyhedrus
 {
-
-	class FilterTrueZero
+	class FilterTrueZero : public FilterMainXX
 	{
 	private:
 		static const int CVtoAlphaSize = 10500;
@@ -20,17 +20,9 @@ namespace Polyhedrus
 			float freq = (float)(440.0 * std::pow(2, (cv * 12 - 69.0 + 12) / 12));
 			return freq;
 		}
-
-	public:
-		float Drive;
-		float Cutoff;
-		float Resonance;
-		float CutoffMod;
-		float ResonanceMod;
-		float DriveMod;
-		CvFreq CvToFreq;
-
+		
 	private:
+		CvFreq CvToFreq;
 		float* buffer;
 		float gain;
 		float gainInv;
@@ -50,12 +42,17 @@ namespace Polyhedrus
 
 	public:
 		FilterTrueZero();
-		~FilterTrueZero();
+		~FilterTrueZero() override;
 
-		void Initialize(int samplerate, int bufferSize, int modulationUpdateRate);
-		void Process(float* input, int len);
-		inline float* GetOutput() { return buffer; }
+		void Initialize(int samplerate, int bufferSize, int modulationUpdateRate) override;
+		void SetParameter(FilterMainParameters parameter, double value) override;
+		void Process(float* input, int len) override;
+		inline float* GetOutput() override;
 		
+		std::vector<uint8_t> GetVisual() override;
+		std::vector<uint8_t> GetDriveVisual() override;
+		std::string GetModeString() override;
+
 	private:
 		void ProcessSample(float input);
 		void Update();
