@@ -8,8 +8,8 @@ Chorus
 
 # Rework and features
 
+Polymorphic oscillators
 Add 4th oscillator
-Add second filter
 Add at least one more modulator
 Make LFO and Envelope output of modulators available as sources
 Add Osc Envelopes
@@ -39,3 +39,7 @@ Replace HP Filter with ZDF State variable version
 
 Make sure you can't crash the plugin by sending bogus OSC parameters
 Warn user if loading preset with missing wavetable.
+
+# Unfinushed features
+
+Filter mode for TrueZero filter

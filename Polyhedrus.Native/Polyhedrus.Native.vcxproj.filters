@@ -232,9 +232,6 @@
     <ClCompile Include="FilterCascade.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FilterMain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AudioLib\Biquad.cpp">
       <Filter>Source Files\AudioLib</Filter>
     </ClCompile>

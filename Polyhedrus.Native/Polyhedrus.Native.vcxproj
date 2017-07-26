@@ -98,7 +98,6 @@
     <ClCompile Include="FilterCascadeZero.cpp" />
     <ClCompile Include="FilterDualSvf.cpp" />
     <ClCompile Include="FilterHp.cpp" />
-    <ClCompile Include="FilterMain.cpp" />
     <ClCompile Include="FilterTrueZero.cpp" />
     <ClCompile Include="Modulator.cpp" />
     <ClCompile Include="ModMatrix.cpp" />
