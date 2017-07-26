@@ -11,6 +11,12 @@
 
 namespace Polyhedrus
 {
+	enum class FilterMainType
+	{
+		TrueZero = 0,
+		DualSvf = 1,
+	};
+
 	class FilterMain
 	{
 	private:
@@ -22,7 +28,7 @@ namespace Polyhedrus
 		FilterDualSvf svfFilter;
 		AudioLib::Hp1 hp;
 		float* bypassBuffer;
-		int type;
+		FilterMainType type;
 
 	public:
 		bool IsEnabled;
@@ -38,6 +44,26 @@ namespace Polyhedrus
 		float* GetOutput();
 		std::vector<uint8_t> GetVisual();
 		std::vector<uint8_t> GetDriveVisual();
+		inline std::string GetModeString()
+		{
+			if (type == FilterMainType::DualSvf)
+			{
+				float mode = svfFilter.Mode * 2;
+				if (mode <= 1)
+				{
+					return SPrint("%02.0f", (1 - mode) * 100) + "% LP - " + SPrint("%02.0f", mode * 100) + "% BP";
+				}
+				else
+				{
+					mode = mode - 1;
+					return SPrint("%02.0f", (1 - mode) * 100) + "% BP - " + SPrint("%02.0f", mode * 100) + "% HP";
+				}
+			}
+			else
+			{
+				return std::string("000");
+			}
+		}
 
 		inline void SetCutoffMod(float modAmount)
 		{

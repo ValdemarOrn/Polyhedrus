@@ -31,11 +31,21 @@ namespace Polyhedrus
 			text = wt ? ParameterFormatters::FormatDecimal3((wt->Count - 1) * value) : "";
 		}
 		else if (module == Module::Delay && parameter == (int)DelayParameters::DelayL)
+		{
 			text = this->Delay.GetDelayLString();
+		}
 		else if (module == Module::Delay && parameter == (int)DelayParameters::DelayR)
+		{
 			text = this->Delay.GetDelayRString();
+		}
+		else if (module == Module::FilterMain && parameter == (int)FilterMainParameters::Mode)
+		{
+			text = this->Voices[0].mainFilterL.GetModeString();
+		}
 		else
+		{
 			text = FormatParameter(module, parameter, value);
+		}
 
 		formattedParameters[idx] = text;
 		OscMessage oscMsg("/Control/ParameterData");

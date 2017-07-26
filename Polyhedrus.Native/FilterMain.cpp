@@ -6,7 +6,7 @@ namespace Polyhedrus
 {
 	FilterMain::FilterMain()
 	{
-		type = 0;
+		type = FilterMainType::TrueZero;
 		bypassBuffer = 0;
 		IsEnabled = true;
 	}
@@ -58,7 +58,7 @@ namespace Polyhedrus
 			svfFilter.Mode = (float)value;
 			break;
 		case FilterMainParameters::Type:
-			type = Parameters::FloorToInt(value);
+			type = (FilterMainType)Parameters::FloorToInt(value);
 			break;
 		}
 	}
@@ -80,9 +80,9 @@ namespace Polyhedrus
 
 		
 
-		if (type == 0)
+		if (type == FilterMainType::TrueZero)
 			trueZeroFilter.Process(input, len);
-		else if (type == 1)
+		else if (type == FilterMainType::DualSvf)
 			svfFilter.Process(input, len);
 		/*
 			cascadeZeroFilter.Process(input, len);
@@ -95,9 +95,9 @@ namespace Polyhedrus
 		if (!IsEnabled)
 			return bypassBuffer;
 
-		if (type == 0)
+		if (type == FilterMainType::TrueZero)
 			return trueZeroFilter.GetOutput();
-		else if (type == 1)
+		else if (type == FilterMainType::DualSvf)
 			return svfFilter.GetOutput();
 		/*else// if (type == 2)
 			return cascadeFilter.GetOutput();
@@ -125,7 +125,7 @@ namespace Polyhedrus
 			return output;
 		};
 
-		if (type == 1)
+		if (type == FilterMainType::DualSvf)
 		{
 			auto vv = svfFilter.GetMagnitudeResponse();
 			return transform(vv);
