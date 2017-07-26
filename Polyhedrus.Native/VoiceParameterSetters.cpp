@@ -4,7 +4,7 @@ namespace Polyhedrus
 {
 	void Voice::SetOscParameter(Module module, OscParameters parameter, double value)
 	{
-		auto update = [=](Oscillator* osc)
+		auto update = [=](shared_ptr<OscillatorBase> osc)
 		{
 			switch (parameter)
 			{
@@ -30,7 +30,11 @@ namespace Polyhedrus
 				osc->Linear = (float)(value * 10);
 				break;
 			case OscParameters::Waveform:
-				osc->SetWavetable(wavetableManager->LoadWavetable(Parameters::FloorToInt(value)));
+				if (osc->GetType() == OscillatorType::Wavetable)
+				{
+					shared_ptr<OscillatorWt> wtOsc = dynamic_pointer_cast<OscillatorWt>(osc);
+					wtOsc->SetWavetable(wavetableManager->LoadWavetable(Parameters::FloorToInt(value)));
+				}
 				break;
 			}
 		};
@@ -46,7 +50,7 @@ namespace Polyhedrus
 			else if (parameter == OscParameters::Slop)
 				modMatrix.FixedRoutes[ModMatrix::FixedRouteSlop1].Amount = (float)(value * 0.01666);
 			else
-				update(&osc1);
+				update(osc1);
 		}
 		else if (module == Module::Osc2)
 		{
@@ -59,7 +63,7 @@ namespace Polyhedrus
 			else if (parameter == OscParameters::Slop)
 				modMatrix.FixedRoutes[ModMatrix::FixedRouteSlop2].Amount = (float)(value * 0.00833);
 			else
-				update(&osc2);
+				update(osc2);
 		}
 		else if (module == Module::Osc3)
 		{
@@ -72,7 +76,7 @@ namespace Polyhedrus
 			else if (parameter == OscParameters::Slop)
 				modMatrix.FixedRoutes[ModMatrix::FixedRouteSlop3].Amount = (float)(value * 0.00833);
 			else
-				update(&osc3);
+				update(osc3);
 		}
 	}
 
@@ -237,9 +241,9 @@ namespace Polyhedrus
 			modMatrix.FixedRoutes[ModMatrix::FixedRouteOscAllUnisonSpread].Amount = (float)value;
 			break;
 		case VoiceParameters::Glide:
-			osc1.SetGlide((float)value);
-			osc2.SetGlide((float)value);
-			osc3.SetGlide((float)value);
+			osc1->SetGlide((float)value);
+			osc2->SetGlide((float)value);
+			osc3->SetGlide((float)value);
 			characterL.SetGlide((float)value);
 			characterR.SetGlide((float)value);
 			break;

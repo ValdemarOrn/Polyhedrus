@@ -28,9 +28,9 @@ namespace Polyhedrus
 		gainInv = 0;
 		totalResonance = 0;
 		fsinv = 0;
-		samplerate = 48000;
-		bufferSize = 64;
-		modulationUpdateRate = 8;
+		samplerate = 0;
+		bufferSize = 0;
+		modulationUpdateRate = 0;
 
 		Drive = 0.0;
 		Cutoff = 1.0;

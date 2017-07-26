@@ -59,7 +59,8 @@
     <ClInclude Include="ModMatrix.h" />
     <ClInclude Include="ModSourceDest.h" />
     <ClInclude Include="NoiseSimple.h" />
-    <ClInclude Include="Oscillator.h" />
+    <ClInclude Include="OscillatorWt.h" />
+    <ClInclude Include="OscillatorBase.h" />
     <ClInclude Include="Osc\OscMessage.h" />
     <ClInclude Include="Osc\UdpTranceiver.h" />
     <ClInclude Include="ParameterFormatters.h" />
@@ -102,7 +103,7 @@
     <ClCompile Include="Modulator.cpp" />
     <ClCompile Include="ModMatrix.cpp" />
     <ClCompile Include="NoiseSimple.cpp" />
-    <ClCompile Include="Oscillator.cpp" />
+    <ClCompile Include="OscillatorWt.cpp" />
     <ClCompile Include="Osc\OscMessage.cpp" />
     <ClCompile Include="Osc\UdpTranceiver.cpp" />
     <ClCompile Include="Parameters.cpp" />

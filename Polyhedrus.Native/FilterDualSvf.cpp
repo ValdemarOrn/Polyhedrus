@@ -8,8 +8,8 @@ namespace Polyhedrus
 	FilterDualSvf::FilterDualSvf()
 	{
 		fsinv = 0;
-		samplerate = 48000;
-		modulationUpdateRate = 8;
+		samplerate = 0;
+		modulationUpdateRate = 0;
 		Drive = 0;
 		Cutoff = 0;
 		Resonance = 0;

@@ -17,6 +17,13 @@ namespace Polyhedrus
 		osc2Buffer = nullptr;
 		osc3Buffer = nullptr;
 
+		osc1Wt = make_shared<OscillatorWt>();
+		osc2Wt = make_shared<OscillatorWt>();
+		osc3Wt = make_shared<OscillatorWt>();
+		osc1 = osc1Wt;
+		osc2 = osc2Wt;
+		osc3 = osc3Wt;
+
 		mainFilterSvfL = make_shared<FilterDualSvf>();
 		mainFilterSvfR = make_shared<FilterDualSvf>();
 		mainFilterTrueZeroL = make_shared<FilterTrueZero>();
@@ -63,9 +70,10 @@ namespace Polyhedrus
 		slopGen2.Fc = 0.5;
 		slopGen3.Fc = 0.5;
 
-		osc1.Initialize(samplerate, bufferSize, modulationUpdateRate);
-		osc2.Initialize(samplerate, bufferSize, modulationUpdateRate);
-		osc3.Initialize(samplerate, bufferSize, modulationUpdateRate);
+		osc1Wt->Initialize(samplerate, bufferSize, modulationUpdateRate);
+		osc2Wt->Initialize(samplerate, bufferSize, modulationUpdateRate);
+		osc3Wt->Initialize(samplerate, bufferSize, modulationUpdateRate);
+
 		noise.Initialize(samplerate, bufferSize, voiceNumber);
 
 		characterL.Initialize(samplerate, bufferSize, modulationUpdateRate);
@@ -138,9 +146,9 @@ namespace Polyhedrus
 		if (Gate)
 		{
 			this->velocity = velocity;
-			osc1.Reset();
-			osc2.Reset();
-			osc3.Reset();
+			osc1->Reset();
+			osc2->Reset();
+			osc3->Reset();
 			mod1.Reset();
 			mod2.Reset();
 			mod3.Reset();
@@ -162,9 +170,9 @@ namespace Polyhedrus
 	void Voice::SetNote(int note)
 	{
 		this->Note = note;
-		osc1.Note = note;
-		osc2.Note = note;
-		osc3.Note = note;
+		osc1->Note = note;
+		osc2->Note = note;
+		osc3->Note = note;
 		characterL.Note = note;
 		characterR.Note = note;
 		modMatrix.ModSourceValues[(int)ModSource::KeyTrack] = (float)((note - 60) / 12.0);
@@ -210,19 +218,19 @@ namespace Polyhedrus
 			mixer.ComputeOscVols();
 
 			if (IsEnabled(ModuleSwitchParameters::Osc1On))
-				osc1.Process(bufferSize);
+				osc1->Process(bufferSize);
 			if (IsEnabled(ModuleSwitchParameters::Osc2On))
 			{
-				Utils::ZeroBuffer(osc2.FmBuffer, bufferSize);
-				Utils::GainAndSum(osc1.GetOutput(), osc2.FmBuffer, mixer.Fm12Total * fmScaler, bufferSize);
-				osc2.Process(bufferSize);
+				Utils::ZeroBuffer(osc2->FmBuffer, bufferSize);
+				Utils::GainAndSum(osc1->GetOutput(), osc2->FmBuffer, mixer.Fm12Total * fmScaler, bufferSize);
+				osc2->Process(bufferSize);
 			}
 			if (IsEnabled(ModuleSwitchParameters::Osc3On))
 			{
-				Utils::ZeroBuffer(osc3.FmBuffer, bufferSize);
-				Utils::GainAndSum(osc1.GetOutput(), osc3.FmBuffer, mixer.Fm13Total * fmScaler, bufferSize);
-				Utils::GainAndSum(osc2.GetOutput(), osc3.FmBuffer, mixer.Fm23Total * fmScaler, bufferSize);
-				osc3.Process(bufferSize);
+				Utils::ZeroBuffer(osc3->FmBuffer, bufferSize);
+				Utils::GainAndSum(osc1->GetOutput(), osc3->FmBuffer, mixer.Fm13Total * fmScaler, bufferSize);
+				Utils::GainAndSum(osc2->GetOutput(), osc3->FmBuffer, mixer.Fm23Total * fmScaler, bufferSize);
+				osc3->Process(bufferSize);
 			}
 
 			noise.Process(bufferSize);
@@ -291,18 +299,18 @@ namespace Polyhedrus
 		modMatrix.ModSourceValues[(int)ModSource::Macro8] = macroParameters[7];
 		modMatrix.Process();
 
-		osc1.PitchMod = modMatrix.ModDestinationValues[(int)ModDest::Osc1Pitch] * 3.0f;
-		osc1.ShapeMod = modMatrix.ModDestinationValues[(int)ModDest::Osc1Shape];
+		osc1->PitchMod = modMatrix.ModDestinationValues[(int)ModDest::Osc1Pitch] * 3.0f;
+		osc1->ShapeMod = modMatrix.ModDestinationValues[(int)ModDest::Osc1Shape];
 		mixer.Osc1PanMod = modMatrix.ModDestinationValues[(int)ModDest::Osc1Pan];
 		mixer.Osc1VolumeMod = modMatrix.ModDestinationValues[(int)ModDest::Osc1Volume];
 
-		osc2.PitchMod = modMatrix.ModDestinationValues[(int)ModDest::Osc2Pitch] * 3.0f;
-		osc2.ShapeMod = modMatrix.ModDestinationValues[(int)ModDest::Osc2Shape];
+		osc2->PitchMod = modMatrix.ModDestinationValues[(int)ModDest::Osc2Pitch] * 3.0f;
+		osc2->ShapeMod = modMatrix.ModDestinationValues[(int)ModDest::Osc2Shape];
 		mixer.Osc2PanMod = modMatrix.ModDestinationValues[(int)ModDest::Osc2Pan];
 		mixer.Osc2VolumeMod = modMatrix.ModDestinationValues[(int)ModDest::Osc2Volume];
 
-		osc3.PitchMod = modMatrix.ModDestinationValues[(int)ModDest::Osc3Pitch] * 3.0f;
-		osc3.ShapeMod = modMatrix.ModDestinationValues[(int)ModDest::Osc3Shape];
+		osc3->PitchMod = modMatrix.ModDestinationValues[(int)ModDest::Osc3Pitch] * 3.0f;
+		osc3->ShapeMod = modMatrix.ModDestinationValues[(int)ModDest::Osc3Shape];
 		mixer.Osc3PanMod = modMatrix.ModDestinationValues[(int)ModDest::Osc3Pan];
 		mixer.Osc3VolumeMod = modMatrix.ModDestinationValues[(int)ModDest::Osc3Volume];
 
@@ -335,9 +343,9 @@ namespace Polyhedrus
 
 	void Voice::ProcessAm(int bufferSize)
 	{
-		float* osc1Out = osc1.GetOutput();
-		float* osc2Out = osc2.GetOutput();
-		float* osc3Out = osc3.GetOutput();
+		float* osc1Out = osc1->GetOutput();
+		float* osc2Out = osc2->GetOutput();
+		float* osc3Out = osc3->GetOutput();
 
 		for (int i = 0; i < bufferSize; i++)
 		{

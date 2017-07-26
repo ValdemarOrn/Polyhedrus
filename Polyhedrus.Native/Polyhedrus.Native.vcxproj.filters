@@ -26,9 +26,6 @@
     <ClInclude Include="Default.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Oscillator.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="Synth.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -191,6 +188,12 @@
     <ClInclude Include="FilterTrueZero.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="OscillatorBase.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OscillatorWt.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Synth.cpp">
@@ -203,9 +206,6 @@
       <Filter>Source Files\AudioLib</Filter>
     </ClCompile>
     <ClCompile Include="Voice.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Oscillator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Exports.cpp">
@@ -314,6 +314,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FilterTrueZero.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OscillatorWt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

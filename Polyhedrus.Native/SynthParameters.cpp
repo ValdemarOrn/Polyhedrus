@@ -17,18 +17,15 @@ namespace Polyhedrus
 
 		if (module == Module::Osc1 && parameter == (int)OscParameters::Shape)
 		{
-			auto wt = Voices[0].osc1.GetWavetable();
-			text = wt ? ParameterFormatters::FormatDecimal3((wt->Count - 1) * value) : "";
+			text = Voices[0].osc1->GetShapeString();
 		}
 		else if (module == Module::Osc2 && parameter == (int)OscParameters::Shape)
 		{
-			auto wt = Voices[0].osc2.GetWavetable();
-			text = wt ? ParameterFormatters::FormatDecimal3((wt->Count - 1) * value) : "";
+			text = Voices[0].osc2->GetShapeString();
 		}
 		else if (module == Module::Osc3 && parameter == (int)OscParameters::Shape)
 		{
-			auto wt = Voices[0].osc3.GetWavetable();
-			text = wt ? ParameterFormatters::FormatDecimal3((wt->Count - 1) * value) : "";
+			text = Voices[0].osc3->GetShapeString();
 		}
 		else if (module == Module::Delay && parameter == (int)DelayParameters::DelayL)
 		{

@@ -1,34 +1,56 @@
-#include "Oscillator.h"
+#include "OscillatorWt.h"
 #include "AudioLib/Utils.h"
 #include <iostream>
+#include "ParameterFormatters.h"
 
 namespace Polyhedrus
 {
-	Oscillator::Oscillator()
+	OscillatorWt::OscillatorWt()
 	{
-		buffer = 0;
-		FmBuffer = 0;
 		Keytrack = true;
-		Linear = 0;
-		LinearMod = 0;
 		Note = 60;
 		Octave = 0;
 		Semi = 0;
 		Cent = 0;
-		PitchMod = 0;
-		iterator = 0;
+		Linear = 0;
+
 		Phase = 1.0;
 		Shape = 0.0;
+
+		PitchMod = 0;
+		LinearMod = 0;
 		ShapeMod = 0;
+
+		SelfFm = 0;
+		FmBuffer = 0;
+		
+		buffer = 0;
+		samplerate = 0;
+		modulationUpdateRate = 0;
+		increment = 0;
+		iterator = 0;
+		tableSize = 0;
+		iteratorScaler = 0;
+		waveMix = 0;
+		waveA = nullptr;
+		waveB = nullptr;
+
+		glideRate = 1000;
+		currentPitch = 0;
 	}
 
-	Oscillator::~Oscillator()
+	OscillatorWt::~OscillatorWt()
 	{
-		delete buffer;
-		delete FmBuffer;
+		delete[] buffer;
+		delete[] FmBuffer;
 	}
 
-	void Oscillator::Initialize(int samplerate, int bufferSize, int modulationUpdateRate)
+	OscillatorType OscillatorWt::GetType() const
+	{
+		return OscillatorType::Wavetable;
+	}
+
+	void OscillatorWt::Initialize(int samplerate, int bufferSize, int modulationUpdateRate)
 	{
 		this->buffer = new float[bufferSize]();
 		this->FmBuffer = new float[bufferSize]();
@@ -36,13 +58,7 @@ namespace Polyhedrus
 		this->samplerate = samplerate;
 	}
 
-	void Oscillator::SetWavetable(std::shared_ptr<Wavetable> wavetable)
-	{
-		this->wavetable = wavetable;
-		Update();
-	}
-
-	void Oscillator::SetGlide(float value)
+	void OscillatorWt::SetGlide(float value)
 	{
 		if (value < 0.0001)
 		{
@@ -58,13 +74,13 @@ namespace Polyhedrus
 		glideRate = notesPerSample;
 	}
 
-	void Oscillator::Reset()
+	void OscillatorWt::Reset()
 	{
 		if (Phase < 0.999) // Phase = 1.0 := Free phase
 			iterator = (int)(UINT32_MAX * Phase);
 	}
 
-	void Oscillator::Process(int count)
+	void OscillatorWt::Process(int count)
 	{
 		Update();
 
@@ -88,12 +104,12 @@ namespace Polyhedrus
 		}
 	}
 
-	float* Oscillator::GetOutput()
+	float* OscillatorWt::GetOutput() const
 	{
 		return buffer;
 	}
 
-	std::vector<uint8_t> Oscillator::GetVisual()
+	std::vector<uint8_t> OscillatorWt::GetVisual() const
 	{
 		std::vector<uint8_t> output;
 		std::vector<float> floatOut;
@@ -138,7 +154,26 @@ namespace Polyhedrus
 		return output;
 	}
 
-	void Oscillator::Update()
+	std::string OscillatorWt::GetShapeString() const
+	{
+		auto wt = GetWavetable();
+		auto text = wt ? ParameterFormatters::FormatDecimal3((wt->Count - 1) * Shape) : "";
+		return text;
+	}
+
+
+	void OscillatorWt::SetWavetable(std::shared_ptr<Wavetable> wavetable)
+	{
+		this->wavetable = wavetable;
+		Update();
+	}
+	
+	std::shared_ptr<Wavetable> OscillatorWt::GetWavetable() const
+	{
+		return wavetable;
+	}
+
+	void OscillatorWt::Update()
 	{
 		float waveIndex = (Shape + ShapeMod) * (wavetable->Count - 1);
 		float basePitch = (Keytrack ? Note : 60) + 12.0f * Octave + Semi + 0.01f * Cent;

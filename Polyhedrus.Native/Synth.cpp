@@ -412,17 +412,17 @@ namespace Polyhedrus
 		}
 		else if (module == Module::Osc1 && parameter == (int)OscParameters::Shape)
 		{
-			vis = Voices[0].osc1.GetVisual();
+			vis = Voices[0].osc1->GetVisual();
 			baseLevel = 128;
 		}
 		else if (module == Module::Osc2 && parameter == (int)OscParameters::Shape)
 		{
-			vis = Voices[0].osc2.GetVisual();
+			vis = Voices[0].osc2->GetVisual();
 			baseLevel = 128;
 		}
 		else if (module == Module::Osc3 && parameter == (int)OscParameters::Shape)
 		{
-			vis = Voices[0].osc3.GetVisual();
+			vis = Voices[0].osc3->GetVisual();
 			baseLevel = 128;
 		}
 		else if (module == Module::Character)

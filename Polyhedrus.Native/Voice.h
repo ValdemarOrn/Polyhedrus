@@ -6,7 +6,7 @@
 #include "FilterTrueZero.h"
 #include "NoiseSimple.h"
 #include "Parameters.h"
-#include "Oscillator.h"
+#include "OscillatorWt.h"
 #include "FilterHp.h"
 #include "Vca.h"
 #include "Envelope.h"
@@ -37,15 +37,21 @@ namespace Polyhedrus
 		AudioLib::SlopGenerator slopGen1;
 		AudioLib::SlopGenerator slopGen2;
 		AudioLib::SlopGenerator slopGen3;
-		Oscillator osc1;
-		Oscillator osc2;
-		Oscillator osc3;
 		NoiseSimple noise;
+
+		shared_ptr<OscillatorBase> osc1;
+		shared_ptr<OscillatorBase> osc2;
+		shared_ptr<OscillatorBase> osc3;
+		
+		shared_ptr<OscillatorWt> osc1Wt;
+		shared_ptr<OscillatorWt> osc2Wt;
+		shared_ptr<OscillatorWt> osc3Wt;
 
 		Character characterL;
 		Character characterR;
 		FilterHp hpFilterL;
 		FilterHp hpFilterR;
+
 		shared_ptr<FilterMain> mainFilterL;
 		shared_ptr<FilterMain> mainFilterR;
 		shared_ptr<FilterDualSvf> mainFilterSvfL;
