@@ -299,17 +299,17 @@ namespace Polyhedrus
 		modMatrix.ModSourceValues[(int)ModSource::Macro8] = macroParameters[7];
 		modMatrix.Process();
 
-		osc1->PitchMod = modMatrix.ModDestinationValues[(int)ModDest::Osc1Pitch] * 3.0f;
+		osc1->PitchMod = modMatrix.ModDestinationValues[(int)ModDest::Osc1Pitch] * 2.0f;
 		osc1->ShapeMod = modMatrix.ModDestinationValues[(int)ModDest::Osc1Shape];
 		mixer.Osc1PanMod = modMatrix.ModDestinationValues[(int)ModDest::Osc1Pan];
 		mixer.Osc1VolumeMod = modMatrix.ModDestinationValues[(int)ModDest::Osc1Volume];
 
-		osc2->PitchMod = modMatrix.ModDestinationValues[(int)ModDest::Osc2Pitch] * 3.0f;
+		osc2->PitchMod = modMatrix.ModDestinationValues[(int)ModDest::Osc2Pitch] * 2.0f;
 		osc2->ShapeMod = modMatrix.ModDestinationValues[(int)ModDest::Osc2Shape];
 		mixer.Osc2PanMod = modMatrix.ModDestinationValues[(int)ModDest::Osc2Pan];
 		mixer.Osc2VolumeMod = modMatrix.ModDestinationValues[(int)ModDest::Osc2Volume];
 
-		osc3->PitchMod = modMatrix.ModDestinationValues[(int)ModDest::Osc3Pitch] * 3.0f;
+		osc3->PitchMod = modMatrix.ModDestinationValues[(int)ModDest::Osc3Pitch] * 2.0f;
 		osc3->ShapeMod = modMatrix.ModDestinationValues[(int)ModDest::Osc3Shape];
 		mixer.Osc3PanMod = modMatrix.ModDestinationValues[(int)ModDest::Osc3Pan];
 		mixer.Osc3VolumeMod = modMatrix.ModDestinationValues[(int)ModDest::Osc3Volume];

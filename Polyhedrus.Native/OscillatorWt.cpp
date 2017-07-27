@@ -12,8 +12,11 @@ namespace Polyhedrus
 		Octave = 0;
 		Semi = 0;
 		Cent = 0;
+		BaseHz = 440;
 		Linear = 0;
 
+		Glide = 0;
+		GlideFactor = 1;
 		Phase = 1.0;
 		Shape = 0.0;
 
@@ -58,9 +61,9 @@ namespace Polyhedrus
 		this->samplerate = samplerate;
 	}
 
-	void OscillatorWt::SetGlide(float value)
+	void OscillatorWt::UpdateGlide()
 	{
-		if (value < 0.0001)
+		if (Glide < 0.0001)
 		{
 			glideRate = 10000;
 			return;
@@ -69,7 +72,7 @@ namespace Polyhedrus
 		// formula: 2 ^ (-8*x) / (2^(-7))
 		// goes from 32 oct/second to 0.5 oct/second
 		float divisor = (float)std::pow(2, -7);
-		float octavesPerSecond = (float)std::pow(2, -8 * value) / divisor;
+		float octavesPerSecond = (float)std::pow(2, -8 * Glide) / divisor * GlideFactor;
 		float notesPerSample = (float)(octavesPerSecond * 12.0 / samplerate);
 		glideRate = notesPerSample;
 	}
@@ -176,7 +179,8 @@ namespace Polyhedrus
 	void OscillatorWt::Update()
 	{
 		float waveIndex = (Shape + ShapeMod) * (wavetable->Count - 1);
-		float basePitch = (Keytrack ? Note : 60) + 12.0f * Octave + Semi + 0.01f * Cent;
+		float noteDelta = Note - BaseNote;
+		float basePitch = (BaseNote + noteDelta * Keytrack) + 12.0f * Octave + Semi + 0.01f * Cent;
 
 		if (currentPitch < basePitch)
 		{
@@ -193,18 +197,23 @@ namespace Polyhedrus
 
 		float pitch = currentPitch + 12.0f * PitchMod;
 		pitch = AudioLib::Utils::Limit(pitch, 0.0f, 127.999f);
-		int partialIndex = wavetable->WavetableIndex[(int)pitch];
-		waveMix = waveIndex - (int)waveIndex;
+		float freq = AudioLib::Utils::Note2FreqT(pitch) + (Linear + LinearMod);
+		float samplesPerCycle = samplerate / freq;
+		increment = (uint32_t)((1.0f / samplesPerCycle) * UINT32_MAX);
 
+		// determine wavetable to use based on pitch
+		if (freq < 0) 
+			freq = -freq;
+		float pitchWithLinear = AudioLib::Utils::Freq2NoteT(freq);
+		if (pitchWithLinear < 0) pitchWithLinear = 0;
+		int intPitch = (int)pitchWithLinear;
+		if (intPitch > 127) intPitch = 127;
+		int partialIndex = wavetable->WavetableIndex[intPitch];
+		waveMix = waveIndex - (int)waveIndex;
 		bool useNextWave = (waveIndex < wavetable->Count - 1);
 		waveA = wavetable->GetTable((int)waveIndex, partialIndex);
 		waveB = wavetable->GetTable((int)waveIndex + useNextWave, partialIndex);
-
 		tableSize = wavetable->WavetableSize[partialIndex];
 		iteratorScaler = (float)((1.0 / (double)UINT32_MAX) * tableSize);
-
-		float freq = AudioLib::Utils::Note2Freq(pitch) + (Linear + LinearMod);
-		float samplesPerCycle = samplerate / freq;
-		increment = (uint32_t)((1.0f / samplesPerCycle) * UINT32_MAX);
 	}
 }

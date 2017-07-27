@@ -20,8 +20,12 @@ namespace Polyhedrus
 		modMap[(int)OscParameters::Cent] = ParameterInfo((int)OscParameters::Cent, "Cent", nullptr, 0, -50, 50, 
 			ParameterFormatters::FormatIntFloor);
 		modMap[(int)OscParameters::Keytrack] = ParameterInfo((int)OscParameters::Keytrack, "Keytrack", nullptr, 1, 0, 1, 
-			ParameterFormatters::FormatOnOff);
-		modMap[(int)OscParameters::Linear] = ParameterInfo((int)OscParameters::Linear, "Linear", nullptr, 0, -1, 1, 
+			ParameterFormatters::FormatDecimal2);
+		modMap[(int)OscParameters::GlideFactor] = ParameterInfo((int)OscParameters::GlideFactor, "GlideFactor", nullptr, 0.5, 0, 1,
+			ParameterFormatters::FormatDecimal2);
+		modMap[(int)OscParameters::Linear] = ParameterInfo((int)OscParameters::Linear, "Linear", nullptr, 0, -1, 1,
+			ParameterFormatters::FormatDecimal2);
+		modMap[(int)OscParameters::BaseHz] = ParameterInfo((int)OscParameters::BaseHz, "BaseHz", nullptr, 0.33, 0, 1,
 			ParameterFormatters::FormatDecimal2);
 		modMap[(int)OscParameters::Octave] = ParameterInfo((int)OscParameters::Octave, "Octave", nullptr, 0, -3, 3, 
 			ParameterFormatters::FormatIntFloor);

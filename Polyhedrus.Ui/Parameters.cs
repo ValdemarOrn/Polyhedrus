@@ -49,13 +49,15 @@ namespace Polyhedrus.Ui
 		Pan = 5,
 		Volume = 6,
 
-		Keytrack = 7,
-		Slop = 8,
-		Phase = 9,
-		Shape = 10,
+		BaseHz = 7,
+		Keytrack = 8,
+		GlideFactor = 9,
+		Slop = 10,
+		Phase = 11,
+		Shape = 12,
 
-		Waveform = 11,
-		Routing = 12
+		Waveform = 13,
+		Routing = 14
 	}
 
 	enum MixerParameters

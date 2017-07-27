@@ -93,6 +93,7 @@ namespace Polyhedrus
 		void SendVoiceStates();
 		void SetParameterInner(Module module, int parameter, double value);
 		std::string FormatParameter(Module module, int parameter, double value);
+		std::string GetParameterText(Module module, int parameter, double value);
 		void SendBackParameter(Module module, int parameter);
 		void SetGlobalVoiceParameter(VoiceParameters parameter, double value);
 		void SetGlobalModuleSwitchParameter(ModuleSwitchParameters parameter, double value);

@@ -24,10 +24,17 @@ namespace Polyhedrus
 				osc->Shape = (float)value;
 				break;
 			case OscParameters::Keytrack:
-				osc->Keytrack = value >= 0.5;
+				osc->Keytrack = value;
+				break;
+			case OscParameters::GlideFactor:
+				osc->GlideFactor = std::pow(10, (2 * value)) / 10;
+				osc->UpdateGlide();
+				break;
+			case OscParameters::BaseHz:
+				osc->SetBaseHz(value);
 				break;
 			case OscParameters::Linear:
-				osc->Linear = (float)(value * 10);
+				osc->Linear = (float)(value * 1000);
 				break;
 			case OscParameters::Waveform:
 				if (osc->GetType() == OscillatorType::Wavetable)
@@ -241,9 +248,12 @@ namespace Polyhedrus
 			modMatrix.FixedRoutes[ModMatrix::FixedRouteOscAllUnisonSpread].Amount = (float)value;
 			break;
 		case VoiceParameters::Glide:
-			osc1->SetGlide((float)value);
-			osc2->SetGlide((float)value);
-			osc3->SetGlide((float)value);
+			osc1->Glide = (float)value;
+			osc2->Glide = (float)value;
+			osc3->Glide = (float)value;
+			osc1->UpdateGlide();
+			osc2->UpdateGlide();
+			osc3->UpdateGlide();
 			characterL.SetGlide((float)value);
 			characterR.SetGlide((float)value);
 			break;

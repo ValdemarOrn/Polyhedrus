@@ -225,7 +225,7 @@ copy $(TargetDir)$(TargetFileName) $(SolutionDir)Polyhedrus.Tests\bin\$(Configur
       <FloatingPointModel>Fast</FloatingPointModel>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <AdditionalOptions>/Qvec-report:2 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Qvec-report:2 /MP %(AdditionalOptions)</AdditionalOptions>
       <AssemblerOutput>AssemblyCode</AssemblerOutput>
     </ClCompile>
     <Link>

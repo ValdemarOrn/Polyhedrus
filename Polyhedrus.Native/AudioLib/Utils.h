@@ -22,6 +22,19 @@ namespace AudioLib
 		static void Initialize();
 		static float Note2Freq(float note);
 
+		static inline float Note2FreqT(float note, float A4Tuning = 440.0f)
+		{
+			return (float)(A4Tuning * std::powf(2, (note - 69) / 12.0));
+		}
+
+		static inline float Freq2NoteT(float hz, float A4Tuning = 440.0f)
+		{
+			if (hz <= 0.0001)
+				return -195.8288651168893;
+
+			return std::log2f(hz / A4Tuning) * 12 + 69;
+		}
+
 		static inline float FastSin(float x)
 		{
 			int idx = ((int)(x * tableScaler) + 100 * TableSize) % TableSize;

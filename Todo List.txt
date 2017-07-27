@@ -8,7 +8,7 @@ Chorus
 
 # Rework and features
 
-Polymorphic oscillators
+Add supersaw oscillator
 Add 4th oscillator
 Add at least one more modulator
 Make LFO and Envelope output of modulators available as sources
@@ -22,11 +22,11 @@ Add FM synthesis section - new tab where the mixer is.
             4>4
 
 Make the AM options separate feeds into the mixer
+Change the AM to RM (ringmod, bipolar, not unipolar)
 re-think mixing between stages (character/HP/LP filter) - would be good to get output straight from each stage
 Add a properly, actually, zero delay filter with root finding.
 Generalize the oscillator block to allow more types of oscs
 Add granular synthesis
-Add supersaw oscillator
 Make the editor one-instance only
 improve UDP communication so that new plugin instances notify the editor of their existence
 

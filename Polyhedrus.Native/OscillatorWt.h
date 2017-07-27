@@ -30,7 +30,7 @@ namespace Polyhedrus
 
 		OscillatorType GetType() const override;
 		void Initialize(int samplerate, int bufferSize, int modulationUpdateRate) override;
-		void SetGlide(float value) override;
+		void UpdateGlide() override;
 		void Reset() override;
 		void Process(int count) override;
 		float* GetOutput() const override;
