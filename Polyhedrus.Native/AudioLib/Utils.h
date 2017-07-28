@@ -22,17 +22,32 @@ namespace AudioLib
 		static void Initialize();
 		static float Note2Freq(float note);
 
+		static inline float fastabs(float f)
+		{
+			int i = ((*(int*)&f) & 0x7fffffff); return (*(float*)&i);
+		}
+
+		static inline float fastneg(float f)
+		{
+			int i = ((*(int*)&f) ^ 0x80000000); return (*(float*)&i);
+		}
+
+		static inline int fastsgn(float f)
+		{
+			return 1 + (((*(int*)&f) >> 31) << 1);
+		}
+
 		static inline float Note2FreqT(float note, float A4Tuning = 440.0f)
 		{
-			return (float)(A4Tuning * std::powf(2, (note - 69) / 12.0));
+			return (float)(A4Tuning * std::powf(2.0f, (note - 69.0f) / 12.0f));
 		}
 
 		static inline float Freq2NoteT(float hz, float A4Tuning = 440.0f)
 		{
-			if (hz <= 0.0001)
-				return -195.8288651168893;
+			if (hz <= 0.0001f)
+				return -195.8288651168893f;
 
-			return std::log2f(hz / A4Tuning) * 12 + 69;
+			return std::log2f(hz / A4Tuning) * 12.0f + 69.0f;
 		}
 
 		static inline float FastSin(float x)
@@ -126,9 +141,9 @@ namespace AudioLib
 
 		static inline float TanhPoly(float x)
 		{
-			float sign = (float)(-1.0 + 2 * (x >= 0));
+			int sign = fastsgn(x);
 
-			x = x * sign;
+			x = fastabs(x);
 			float xSquare = x * x;
 			float xCube = xSquare * x;
 			float result = 1.0f - 1.0f / (1.0f + x + xSquare + xCube);

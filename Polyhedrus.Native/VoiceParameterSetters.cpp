@@ -24,10 +24,10 @@ namespace Polyhedrus
 				osc->Shape = (float)value;
 				break;
 			case OscParameters::Keytrack:
-				osc->Keytrack = value;
+				osc->Keytrack = (float)value;
 				break;
 			case OscParameters::GlideFactor:
-				osc->GlideFactor = std::pow(10, (2 * value)) / 10;
+				osc->GlideFactor = std::powf(10.0f, (float)(2.0 * value)) / 10.0f;
 				osc->UpdateGlide();
 				break;
 			case OscParameters::BaseHz:

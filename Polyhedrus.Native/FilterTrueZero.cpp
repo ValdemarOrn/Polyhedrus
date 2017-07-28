@@ -7,7 +7,7 @@
 
 namespace Polyhedrus
 {
-	const float M_PI_INV = 1.0 / M_PI;
+	const float M_PI_INV = (float)(1.0 / M_PI);
 	double iterFilter = 0.0; // just for record keeping during debugging
 
 	float FilterTrueZero::CVtoAlpha[CVtoAlphaSize];
@@ -161,7 +161,7 @@ namespace Polyhedrus
 		return SPrint("%.2f", Mode);
 	}
 
-	__inline_always void FilterTrueZero::ProcessSample(float x)
+	void FilterTrueZero::ProcessSample(float x)
 	{
 		float fb = stage4Output;
 		int iters = 0;
@@ -191,15 +191,15 @@ namespace Polyhedrus
 				float newDiff = newFb - fb;
 				if (newDiff * diff > 0) // check if newDiff and the old diff have the same sign, i.e. if the feedback is oscillating. we don't want that, it slows down convergence
 				{
-					convergenceRate = convergenceRate * 0.9;
-					if (convergenceRate < 0.005)
-						convergenceRate = 0.005;
+					convergenceRate = convergenceRate * 0.9f;
+					if (convergenceRate < 0.005f)
+						convergenceRate = 0.005f;
 				}
 				else
 				{
-					convergenceRate = convergenceRate * 1.1;
-					if (convergenceRate > 0.8)
-						convergenceRate = 0.8;
+					convergenceRate = convergenceRate * 1.1f;
+					if (convergenceRate > 0.8f)
+						convergenceRate = 0.8f;
 				}
 
 				diff = newDiff;
@@ -244,11 +244,11 @@ namespace Polyhedrus
 		voltage = AudioLib::Utils::Limit(voltage, 0.0f, 10.3f);
 		float fc = CvToFreq.GetFreqWarped(voltage);
 
-		float omega_c = fc * 2 * M_PI;
+		float omega_c = (float)(fc * 2.0 * M_PI);
 		
 		//float omega_warped = 2 / T * tan(omega_c * T / 2);
-		float omega_warped = 2 * samplerate * atan(omega_c * fsinv * 0.5); // re-write of line above
-		float fc_warped = omega_warped * 0.5 * M_PI_INV;
+		float omega_warped = 2.0f * samplerate * atan(omega_c * fsinv * 0.5f); // re-write of line above
+		float fc_warped = omega_warped * 0.5f * M_PI_INV;
 		float fac = fc_warped * fsinv;
 		stage1.SetFc(fac);
 		stage2.SetFc(fac);

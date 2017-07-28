@@ -80,13 +80,13 @@ void PerftCharacter(int seconds)
 
 	Character character;
 	character.Initialize(samplerateOversampled, bufferSize, modUpdateRateOversampled);
-	character.Bottom = 0.5;
-	character.Top = 0.5;
-	character.Clip = 0.2;
-	character.Decimate = 0.2;
+	character.Bottom = 0.5f;
+	character.Top = 0.5f;
+	character.Clip = 0.2f;
+	character.Decimate = 0.2f;
 	character.IsEnabled = true;
 	character.Note = 60;
-	character.Reduce = 0.5;
+	character.Reduce = 0.5f;
 
 	int buffers = (seconds * samplerate) / modUpdateRateOversampled; 
 	auto freq = Polyhedrus::PlatformSpecific::PerformanceFrequency();
@@ -109,9 +109,9 @@ void PerftFilterHp(int seconds)
 
 	FilterHp filter;
 	filter.Initialize(samplerateOversampled, bufferSize, modUpdateRateOversampled);
-	filter.Cutoff = 0.2;
+	filter.Cutoff = 0.2f;
 	filter.IsEnabled = true;
-	filter.Resonance = 0.1;
+	filter.Resonance = 0.1f;
 
 	int buffers = (seconds * samplerate) / modUpdateRateOversampled;
 	auto freq = Polyhedrus::PlatformSpecific::PerformanceFrequency();

@@ -19,7 +19,7 @@ namespace Polyhedrus.Plugin
 		private readonly PolyhedrusNative controller;
 		//private CloudSeedView view;
 		//private System.Windows.Window window;
-		private volatile bool isDisposing;
+		//private volatile bool isDisposing;
 
 		public double Samplerate;
 		public DeviceInfo DeviceInfo { get { return devInfo; } }
