@@ -92,6 +92,9 @@ namespace AudioLib
 
 		float sqrtGain = 0.0;
 		float alpha = 0.0;
+		
+		// HIGH CHANCE THAT THE GAIN IS BOGGERED!!
+		// Look at AudioLib C# implementation of this class for corrections, see A and sqrtA
 
 		if (Type == FilterType::LowShelf || Type == FilterType::HighShelf)
 		{

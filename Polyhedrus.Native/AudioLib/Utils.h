@@ -24,7 +24,8 @@ namespace AudioLib
 
 		static inline float fastabs(float f)
 		{
-			int i = ((*(int*)&f) & 0x7fffffff); return (*(float*)&i);
+			//int i = ((*(int*)&f) & 0x7fffffff); return (*(float*)&i);
+			return std::fabsf(f); // yup it's faster
 		}
 
 		static inline float fastneg(float f)
@@ -139,15 +140,14 @@ namespace AudioLib
 			return below * input + notBelow * max;
 		}
 
-		static inline float TanhPoly(float x)
+		static inline float TanhPoly(float xOrig)
 		{
-			int sign = fastsgn(x);
+			float x = std::fabsf(xOrig);
 
-			x = fastabs(x);
 			float xSquare = x * x;
 			float xCube = xSquare * x;
 			float result = 1.0f - 1.0f / (1.0f + x + xSquare + xCube);
-			return result * sign;
+			return std::copysignf(result, xOrig);
 		}
 
 		static inline float TanhLookup(float x)

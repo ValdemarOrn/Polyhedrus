@@ -70,6 +70,12 @@ namespace AudioLib
 			for (int i = 0; i < len; i++)
 				buffer[i] = NextFloat();
 		}
+
+		inline void GetFloatsBipolar(float* buffer, int len)
+		{
+			for (int i = 0; i < len; i++)
+				buffer[i] = NextFloat() * 2 - 1;
+		}
 	};
 }
 

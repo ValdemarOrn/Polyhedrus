@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "Default.h"
 #include "FilterTrueZero.h"
 #include "AudioLib/ValueTables.h"
@@ -41,6 +43,8 @@ namespace Polyhedrus
 		buffer = 0;
 		stage4Output = 0;
 		convergenceRate = 0.5;
+		outputDiff = 0.0;
+		cntr = 0;
 	}
 
 	FilterTrueZero::~FilterTrueZero()
@@ -163,7 +167,11 @@ namespace Polyhedrus
 
 	void FilterTrueZero::ProcessSample(float x)
 	{
-		float fb = stage4Output;
+		//cntr++;
+
+		// we add the outputDiff to initialize the feedback for this round, as we can assume the filter is more likely to continue
+		// going in the same direction as it was before, this helps convergence
+		float fb = stage4Output + 0.99 * outputDiff;
 		int iters = 0;
 		float diff = 1;
 
@@ -181,7 +189,7 @@ namespace Polyhedrus
 			val = stage4.ProcessNoUpdate(val);
 
 			float newFb = val;
-			if (abs(newFb - fb) < 0.000001 && diff < 0.000001)
+			if (abs(newFb - fb) < 0.000001)
 			{
 				fb = newFb;
 				break;
@@ -191,15 +199,14 @@ namespace Polyhedrus
 				float newDiff = newFb - fb;
 				if (newDiff * diff > 0) // check if newDiff and the old diff have the same sign, i.e. if the feedback is oscillating. we don't want that, it slows down convergence
 				{
-					convergenceRate = convergenceRate * 0.9f;
-					if (convergenceRate < 0.005f)
-						convergenceRate = 0.005f;
+					if (convergenceRate > 0.0001f)
+						convergenceRate = convergenceRate * 0.9f;
 				}
 				else
 				{
 					convergenceRate = convergenceRate * 1.1f;
-					if (convergenceRate > 0.8f)
-						convergenceRate = 0.8f;
+					if (convergenceRate > 0.5f)
+						convergenceRate = 0.5f;
 				}
 
 				diff = newDiff;
@@ -214,7 +221,7 @@ namespace Polyhedrus
 			}
 		} 
 
-		iterFilter = iterFilter * 0.999 + iters * 0.001;
+		//iterFilter = iterFilter * 0.999 + iters * 0.001;
 
 		float val = x - fb * 5 * totalResonance;
 		val = AudioLib::Utils::TanhPoly(val);
@@ -224,7 +231,14 @@ namespace Polyhedrus
 		val = stage2.Process(val);
 		val = stage3.Process(val);
 		val = stage4.Process(val);
+		outputDiff = val - stage4Output;
 		stage4Output = val;
+
+		/*if (cntr > 48000)
+		{
+			std::cout << x << "," << fb << "," << stage4Output << "," << iters << "," << iterFilter << std::endl;
+			cntr = 0;
+		}*/
 	}
 
 	void FilterTrueZero::Update()

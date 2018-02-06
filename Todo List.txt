@@ -8,6 +8,22 @@ Chorus
 
 # Rework and features
 
+For Wavetable osc:
+- Add Stepping/Mixing for wave transition within table
+- Add a Scan speed
+- Scan mode: Repeat, Rewind, One Shot
+- Granular osc should have same option
+
+make oscillator interface support stereo.
+For FM, use L+R signal as modulator.
+Add osc envelopes for each osc
+Special oscs should have a second panel for advanced settings
+Add an additive osc type with features:
+- 16 partials
+- waveshape (for each partial - this should be done additively as well, i.e. a saw wave simple adds partials at 2x, 3x, 4x... as well. Limit the number of overtones to 16)
+- Bit Depth
+- Waveshaper (shapes final, combined wave)
+- Waveshaper amount
 Add supersaw oscillator
 Add 4th oscillator
 Add at least one more modulator

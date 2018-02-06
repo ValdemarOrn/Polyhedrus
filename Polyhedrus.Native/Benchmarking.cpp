@@ -149,6 +149,24 @@ void PerftNoise(int seconds)
 	std::cout << seconds << "," << totalTimeUs << endl;
 }
 
+void PerftRandom(int bufcount)
+{
+	AudioLib::LcgRandom rand;
+	float buffer[4096 * 16];
+	auto freq = Polyhedrus::PlatformSpecific::PerformanceFrequency();
+	auto start = Polyhedrus::PlatformSpecific::PerformanceCounter();
+
+	for (int i = 0; i < bufcount; i++)
+	{
+		rand.GetFloats(buffer, 4096 * 16);
+	}
+
+	auto end = Polyhedrus::PlatformSpecific::PerformanceCounter();
+	auto totalTimeUs = (end - start) / (freq / 1000);
+
+	std::cout << totalTimeUs << endl;
+}
+
 void PerftDecimator(int seconds)
 {
 	FillWithNoise(lleft);
@@ -173,11 +191,55 @@ void PerftDecimator(int seconds)
 	std::cout << seconds << "," << totalTimeUs << endl;
 }
 
+void PerftFilter(int seconds)
+{
+	FillWithNoise(lleft);
+
+	FillWithNoise(lleft);
+	FilterTrueZero filterx;
+	filterx.Initialize(samplerateOversampled, bufferSize, modUpdateRateOversampled);
+	filterx.SetParameter(FilterMainParameters::Cutoff, 5.0);
+	filterx.SetParameter(FilterMainParameters::Drive, 1.0);
+
+	int buffers = (seconds * samplerate) / modUpdateRateOversampled;
+	auto freq = Polyhedrus::PlatformSpecific::PerformanceFrequency();
+	auto start = Polyhedrus::PlatformSpecific::PerformanceCounter();
+
+	for (int i = 0; i < buffers; i++)
+	{
+		filterx.Process(lleft, modUpdateRateOversampled);
+	}
+
+	auto end = Polyhedrus::PlatformSpecific::PerformanceCounter();
+	auto totalTimeUs = (end - start) / (freq / 1000);
+
+	std::cout << seconds << "," << totalTimeUs << endl;
+}
+
+void FilterBenchmark()
+{
+	cout << "PerftFilter" << endl;
+	cout << "Sample,Feedback,Output,Iterations" << endl;
+
+	FilterTrueZero filterx;
+	filterx.Initialize(48000, 64, 8);
+	filterx.SetParameter(FilterMainParameters::Cutoff, 5.0);
+	filterx.SetParameter(FilterMainParameters::Drive, 1.0);
+	AudioLib::LcgRandom rand;
+	float buffer[64];
+
+	while (true)
+	{
+		rand.GetFloatsBipolar(buffer, 64);
+		filterx.Process(buffer, 64);
+	}
+}
+
 int main()
 {
 	Init();
-
 	
+	/*
 	std::cout << "RunPerft1" << endl;
 	cout << "Voices,Seconds,TimeMillis" << endl;
 	while (true)
@@ -185,7 +247,14 @@ int main()
 		RunPerft1(1, 20);
 		RunPerft1(20, 2);
 	}
-	
+	*/
+
+	/*
+	std::cout << "PerftNoise" << endl;
+	cout << "TimeMillis" << endl;
+	while(true)
+	PerftRandom(500);
+	*/
 
 	/*
 	std::cout << "PerftCharacter" << endl;
@@ -213,6 +282,16 @@ int main()
 	cout << "Seconds,TimeMillis" << endl;
 	while (true)
 	PerftDecimator(500);
+	*/
+
+	
+	std::cout << "PErftFilter" << endl;
+	cout << "Seconds,TimeMillis" << endl;
+	while (true)
+	PerftFilter(60);
+	
+	/*
+	FilterBenchmark();
 	*/
 
 	int exit;

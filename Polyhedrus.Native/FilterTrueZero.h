@@ -34,6 +34,8 @@ namespace Polyhedrus
 		AudioLib::Lp1 stage4;
 		float stage4Output;
 		float convergenceRate;
+		float outputDiff;
+		int cntr;
 
 		float fsinv;
 		int samplerate;
